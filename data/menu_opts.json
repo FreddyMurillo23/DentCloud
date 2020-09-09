@@ -1,0 +1,20 @@
+{
+    "nombreApp" : "DentCloud",
+    "rutas" : [
+        {
+            "ruta"  :   "",
+            "icon"  :   "",
+            "texto" :   ""
+        },
+        {
+            "ruta"  :   "",
+            "icon"  :   "",
+            "texto" :   ""
+        },
+        {
+            "ruta"  :   "",
+            "icon"  :   "",
+            "texto" :   ""
+        }
+    ]
+}
