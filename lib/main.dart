@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:muro_dentcloud/palette.dart';
-import 'package:muro_dentcloud/src/pages/home_page.dart';
+import 'package:muro_dentcloud/src/pages/signin.dart';
 import 'package:muro_dentcloud/src/routes/routes.dart';
 
 void main() => runApp(MyApp());
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       routes: getApplicationRoutes(),
       onGenerateRoute: (RouteSettings settings) {
         print('Ruta Llamada: ${settings.name}');
-        return MaterialPageRoute(builder: (BuildContext context) => HomePage());
+        return MaterialPageRoute(builder: (BuildContext context) => SignIn());
       },
     );
   }

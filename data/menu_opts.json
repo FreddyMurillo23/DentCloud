@@ -20,6 +20,11 @@
             "ruta"  :   "perfil",
             "icon"  :   "person",
             "texto" :   "Perfil"
+        },
+        {
+            "ruta"  :   "registrarse",
+            "icon"  :   "person",
+            "texto" :   "Registrarse"
         }
     ]
 }
