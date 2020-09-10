@@ -2,19 +2,24 @@
     "nombreApp" : "DentCloud",
     "rutas" : [
         {
-            "ruta"  :   "",
-            "icon"  :   "",
-            "texto" :   ""
+            "ruta"  :   "home",
+            "icon"  :   "home",
+            "texto" :   "Inicio"
         },
         {
-            "ruta"  :   "",
-            "icon"  :   "",
-            "texto" :   ""
+            "ruta"  :   "gps",
+            "icon"  :   "location_on",
+            "texto" :   "GPS"
         },
         {
-            "ruta"  :   "",
-            "icon"  :   "",
-            "texto" :   ""
+            "ruta"  :   "agenda",
+            "icon"  :   "bookOpenPageVariant",
+            "texto" :   "Agenda"
+        },
+        {
+            "ruta"  :   "perfil",
+            "icon"  :   "person",
+            "texto" :   "Perfil"
         }
     ]
 }

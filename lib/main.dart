@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:muro_dentcloud/palette.dart';
-import 'package:muro_dentcloud/src/pages/startup_page.dart';
 import 'package:muro_dentcloud/src/pages/home_page.dart';
+import 'package:muro_dentcloud/src/routes/routes.dart';
 
 void main() => runApp(MyApp());
 
@@ -17,7 +17,13 @@ class MyApp extends StatelessWidget {
         textTheme: Theme.of(context).textTheme.apply(bodyColor: kTextColor),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: StartUpPage(),
+      // home: StartUpPage(),
+      initialRoute: '/',
+      routes: getApplicationRoutes(),
+      onGenerateRoute: (RouteSettings settings) {
+        print('Ruta Llamada: ${settings.name}');
+        return MaterialPageRoute(builder: (BuildContext context) => HomePage());
+      },
     );
   }
 }
