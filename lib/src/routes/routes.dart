@@ -8,10 +8,10 @@ import 'package:muro_dentcloud/src/pages/signup.dart';
 Map<String, WidgetBuilder> getApplicationRoutes() {
   return <String, WidgetBuilder>{
     '/': (BuildContext context) => SignIn(),
-    'home': (BuildContext context) => CardPage(),
+    'home': (BuildContext context) => HomePage(),
     'gps': (BuildContext context) => ListaPage(),
-    'agenda': (BuildContext context) => HomePage(),
+    'agenda': (BuildContext context) => CardPage(),
     'perfil': (BuildContext context) => HomePage(),
-    'registrarse' : (BuildContext context) => Signup(),
+    'registrarse': (BuildContext context) => Signup(),
   };
 }
