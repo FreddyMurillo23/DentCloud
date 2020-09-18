@@ -4,22 +4,5 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:muro_dentcloud/src/services/conf.dart';
 
-class UsuarioCtrl{
-  static Future<bool> insertUser() async {
-    http.Response response = await http.post(
-      GlobalVars.apiUrl + "",
-      headers: <String, String>{
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode(<String, String>{
-        'nombre': null,
-        },
-      ),
-    ); 
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      return false;
-    } 
-  }
-}
+String user = "post_user_data.php?user_email=idarkmer@gmail.com&password=12345&user_dni=1315349371&user_names=Roddy Andrés&user_last_names=Andrade Molina&birthdate=1998-04-07&cellphone=098411659&sex=M&user_type=D&doctor_profession=Odontologo";
+

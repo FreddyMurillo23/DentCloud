@@ -7,11 +7,13 @@ import 'package:muro_dentcloud/src/utils/icono_string_util.dart';
 import 'package:muro_dentcloud/src/widgets/circle_button.dart';
 import 'package:muro_dentcloud/src/widgets/create_post_container.dart';
 import 'package:muro_dentcloud/src/providers/menu_providers.dart';
+import 'package:muro_dentcloud/src/widgets/drawer_appbar.dart';
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: NavDrawer(),
       body: 
       CustomScrollView(
           slivers: [
