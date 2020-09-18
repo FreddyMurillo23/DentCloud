@@ -15,13 +15,6 @@ class HomePage extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            // leading: IconButton(
-            //     icon: Icon(Icons.ac_unit,
-            //     color: Colors.black
-            //     ),
-            //     onPressed: () {
-            //       NavDrawer();
-            //     }),
             brightness: Brightness.light,
             backgroundColor: Colors.white,
             title: Text(
