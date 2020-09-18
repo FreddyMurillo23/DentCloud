@@ -5,7 +5,10 @@ import 'package:muro_dentcloud/src/routes/routes.dart';
 
 void main() => runApp(MyApp());
 
+const PrimaryColor = const Color(0xFFFFFFFF);
+
 class MyApp extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
