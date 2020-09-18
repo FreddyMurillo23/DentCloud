@@ -3,6 +3,8 @@ import 'package:flutter/rendering.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:muro_dentcloud/palette.dart';
 import 'package:muro_dentcloud/src/pages/home_page.dart';
+import 'package:muro_dentcloud/src/providers/menu_providers.dart';
+import 'package:muro_dentcloud/src/utils/icono_string_util.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
 import 'card_page.dart';
 import 'listview_page.dart';
@@ -64,4 +66,46 @@ class _StartUpPageState extends State<StartUpPage> {
       ),
     );
   }
+}
+
+
+
+
+Widget _bottonNavigator() {
+  return FutureBuilder(
+    future: menuProvider.cargarData(),
+    initialData: [],
+    builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+      print('builder');
+      print(snapshot.data);
+
+      return ListView(
+        children: _items(snapshot.data, context),
+      );
+    },
+  );
+
+}
+
+
+
+
+List<Widget> _items(List<dynamic> data, BuildContext context) {
+  final List<Widget> opciones = [];
+
+  data.forEach((opt) {
+    final widgetTemp = ListTile(
+      title: Text(opt['texto']),
+      leading: getIcon(opt['icon']),
+      trailing: Icon(
+        Icons.keyboard_arrow_right,
+        color: Colors.blue,
+      ),
+      onTap: () {
+        Navigator.pushNamed(context, opt['ruta']);
+      },
+    );
+    opciones..add(widgetTemp)..add(Divider());
+  });
+  return opciones;
 }
