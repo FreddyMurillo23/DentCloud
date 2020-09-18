@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'DentCloud_APP',
       theme: ThemeData(
+        primaryIconTheme: IconThemeData(color: Colors.grey),
         primarySwatch: Colors.blue,
         scaffoldBackgroundColor: Palette.scaffold,
         textTheme: Theme.of(context).textTheme.apply(bodyColor: kTextColor),
