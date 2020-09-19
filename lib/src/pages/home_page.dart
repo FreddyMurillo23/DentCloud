@@ -41,6 +41,9 @@ class HomePage extends StatelessWidget {
               )
             ],
           ),
+
+
+
           SliverToBoxAdapter(
             child: CreatePostContainer(currentUser: "Freddy"),
           )
@@ -48,4 +51,5 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
+
 }
