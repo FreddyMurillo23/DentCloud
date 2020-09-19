@@ -28,12 +28,12 @@ class Publicacion {
     this.archivo,
     this.negocio,
   });
-  //* /1 Para connvertir a double y .cast<int>() para lista de items
+  //? /1 Para connvertir a double y .cast<int>() para lista de items
   Publicacion.fromJsonMap(Map<String, dynamic> json) {
-    usuario      = json['USUARIO'];
-    descripcion  = json['DESCRIPCION'];
-    archivo      = json['ARCHIVO'];
-    fecha        = json['FECHA'];
-    negocio      = json['NEGOCIO'];
+    usuario      = json['usuario'];
+    descripcion  = json['descripcion'];
+    archivo      = json['archivo'];
+    fecha        = json['fecha'];
+    negocio      = json['negocio'];
   }
 }
