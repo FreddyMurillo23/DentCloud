@@ -18,13 +18,13 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.input),
-            title: Text('Perfil'),
-            onTap: () => {},
+            title: Text('Dashboard'),
+            onTap: () => {Navigator.of(context).pushReplacementNamed('home')},
           ),
           ListTile(
             leading: Icon(Icons.verified_user),
             title: Text('Agenda'),
-            onTap: () => {},
+            onTap: () => {Navigator.of(context).pushReplacementNamed('agenda2')},
           ),
           ListTile(
             leading: Icon(Icons.settings),

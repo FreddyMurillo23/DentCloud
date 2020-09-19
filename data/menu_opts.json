@@ -25,6 +25,11 @@
             "ruta"  :   "registrarse",
             "icon"  :   "person",
             "texto" :   "Registrarse"
+        },
+        {
+            "ruta"  :   "agenda2",
+            "icon"  :   "bookOpenPageVariant",
+            "texto" :   "Agenda2"
         }
     ]
 }

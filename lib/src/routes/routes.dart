@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:muro_dentcloud/src/pages/agend.dart';
 import 'package:muro_dentcloud/src/pages/card_page.dart';
 import 'package:muro_dentcloud/src/pages/home_page.dart';
 import 'package:muro_dentcloud/src/pages/listview_page.dart';
@@ -14,5 +15,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'agenda'       : (BuildContext context) => CardPage(),
     'perfil'       : (BuildContext context) => HomePage(),
     'registrarse'  : (BuildContext context) => Signup(),
+    'agenda2'       : (BuildContext context) => Agenda(),
   };
 }
