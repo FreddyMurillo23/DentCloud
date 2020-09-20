@@ -39,7 +39,6 @@ dependencies:
   intl: ^0.16.1
   shared_preferences: ^0.5.10
   flutter_calendar_carousel: ^1.4.12
-  http: ^0.12.2
 
 dev_dependencies:
   flutter_test:
