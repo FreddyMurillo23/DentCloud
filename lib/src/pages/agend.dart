@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:muro_dentcloud/src/widgets/drawer_appbar.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
-//Ejemplos de Feriados
-final Map<DateTime, List> _holidays = {
-  DateTime(2019, 1, 1): ['New Year\'s Day'],
-  DateTime(2019, 1, 6): ['Epiphany'],
-  DateTime(2019, 2, 14): ['Valentine\'s Day'],
-  DateTime(2019, 4, 21): ['Easter Sunday'],
-  DateTime(2020, 9, 22): ['Easter Monday'],
-};
 
 class Agenda extends StatefulWidget {
   @override
@@ -17,35 +11,60 @@ class Agenda extends StatefulWidget {
 }
 
 class _AgendaState extends State<Agenda> {
-  CalendarController _calendarController;
-  Map<DateTime, List> _events;
+  CalendarController _controller;
+  Map<DateTime, List<dynamic>> _events;
+  List<dynamic> _selectedEvents;
+  TextEditingController _eventController;
+  SharedPreferences prefs;
 
   @override
   void initState() {
     super.initState();
-    _calendarController = CalendarController();
-    final _selectedDay = DateTime.now();
+    _controller = CalendarController();
+    _eventController = TextEditingController();
+    _events = {};
+    _selectedEvents = [];
+    initPrefs();
+  }
+  
+  initPrefs() async {
+    prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _events = Map<DateTime, List<dynamic>>.from(decodeMap(json.decode(prefs.getString
+    ("events") ?? "{}")));
+    });
+  }
 
-    _events = {
-      
-    };
+  Map<String, dynamic> encodeMap(Map<DateTime, dynamic> map){
+    Map<String, dynamic> newMap = {};
+    map.forEach((key, value) {
+      newMap[key.toString()] = map[key];
+    });
+    return newMap;
+  }
+
+  Map<DateTime, dynamic> decodeMap(Map<String, dynamic> map){
+    Map<DateTime, dynamic> newMap = {};
+    map.forEach((key, value) {
+      newMap[DateTime.parse(key)] = map[key];
+    });
+    return newMap;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: NavDrawer(),
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text('Demo Freddo'),
+      ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-
             TableCalendar(
               events: _events,
-              holidays: _holidays,
-              
-              initialCalendarFormat: CalendarFormat.week,
+              initialCalendarFormat: CalendarFormat.month,
               calendarStyle: CalendarStyle(
                   todayColor: Colors.orange,
                   selectedColor: Theme.of(context).primaryColor,
@@ -64,10 +83,13 @@ class _AgendaState extends State<Agenda> {
               ),
               startingDayOfWeek: StartingDayOfWeek.monday,
               onDaySelected: (date, events) {
-                print(date.toIso8601String());
-              },
 
-              //Estilos
+                setState(() {
+                  _selectedEvents = events;
+                });
+                print(date.toIso8601String());
+
+              },
               builders: CalendarBuilders(
                 selectedDayBuilder: (context, date, events) => Container(
                     margin: const EdgeInsets.all(4.0),
@@ -83,19 +105,104 @@ class _AgendaState extends State<Agenda> {
                     margin: const EdgeInsets.all(4.0),
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                        color: Colors.black38,
+                        color: Colors.orange,
                         borderRadius: BorderRadius.circular(10.0)),
                     child: Text(
                       date.day.toString(),
                       style: TextStyle(color: Colors.white),
                     )),
               ),
-
-              calendarController: _calendarController,
-            )
+              calendarController: _controller,
+            ),
+            ..._selectedEvents.map((event) => ListTile(
+              title: Text(event),
+              
+            )),
+            
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+          showDialog(
+
+            context: context,
+            builder: (context) => AlertDialog(
+              title: Text("Chamo"),
+              content: TextField(
+                controller: _eventController,
+              ),
+              actions: <Widget>[
+
+          FlatButton(
+            child: Text("Save"),
+            onPressed: (){
+              if(_eventController.text.isEmpty) return;
+
+              setState(() {
+                if(_events[_controller.selectedDay] != null) {
+                _events[_controller.selectedDay].add(
+                  _eventController.text
+                );
+                print(_eventController);
+              } else{
+                _events[_controller.selectedDay] = 
+                [_eventController.text];
+                print(_eventController.text);
+              }
+              prefs.setString("events", json.encode(encodeMap(_events)));
+              _eventController.clear();
+              Navigator.pop(context);
+              });  
+            },
+          ),
+
+          FlatButton(
+            onPressed: (){Navigator.pop(context);}, 
+            child: Text("Cancel")           
+            )
+
+        ],
+            ),
+
+            );
+          },
+        child: Icon(Icons.add),
+      ),
     );
   }
+
+
+/*
+  _showAddDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: TextField(
+          controller: _eventController,
+        ),
+        actions: <Widget>[
+          FlatButton(
+            child: Text("Save"),
+            onPressed: (){
+              if(_eventController.text.isEmpty) return;
+
+              setState(() {
+                if(_events[_controller.selectedDay] != null) {
+                _events[_controller.selectedDay].add(
+                  _eventController.text
+                );
+              } else{
+                _events[_controller.selectedDay] = 
+                [_eventController.text];
+              }
+              _eventController.clear();
+              Navigator.pop(context);
+              });  
+            },
+          )
+        ],
+      ),
+    );
+  }*/
 }

@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:muro_dentcloud/palette.dart';
 import 'package:muro_dentcloud/src/pages/signin.dart';
 import 'package:muro_dentcloud/src/routes/routes.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
-void main() => runApp(MyApp());
+void main() => initializeDateFormatting().then((_) => runApp(MyApp()));
 
 const PrimaryColor = const Color(0xFFFFFFFF);
 

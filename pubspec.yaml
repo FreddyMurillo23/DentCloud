@@ -34,11 +34,10 @@ dependencies:
   provider: ^4.3.2
   datetime_picker_formfield: ^1.0.0
   table_calendar: ^2.2.3
-<<<<<<< HEAD
-  flutter_calendar_carousel: ^1.4.12
-=======
+  flutter_clean_calendar: ^1.0.2
   http: ^0.12.2
->>>>>>> 886cbe1536d1df7c8a386d1feab7ef18ac39c8f2
+  intl: ^0.16.1
+  shared_preferences: ^0.5.10
 
 dev_dependencies:
   flutter_test:
