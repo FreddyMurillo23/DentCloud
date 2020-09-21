@@ -59,9 +59,9 @@ class CardWidgetPublicaciones extends StatelessWidget {
                             ),
                             InputChip(
                                 avatar: CircleAvatar(
-                                    backgroundColor: Colors.black, child: Text('AB')),
-                                label: Text('Aaron Burr'),
-                                backgroundColor: Colors.grey[400],
+                                    backgroundColor: Colors.black, child: Text('B')),
+                                label: Text('BioDent'),
+                                backgroundColor: Colors.transparent,
                                 onPressed: () {
                                   print('I am the one thing in life.');
                                 }),
