@@ -127,8 +127,11 @@ class _CardPageState extends State<CardPage> {
 // ? Condiciona la respuesta http para que los datos que se traigan tengan animacion y luego agrega 10 mas
   void respuestaHTTP() {
     _isLoading = false;
-    _scrollController.animateTo(_scrollController.position.pixels + 100,
-        curve: Curves.fastOutSlowIn, duration: Duration(milliseconds: 250));
+    _scrollController.animateTo(
+      _scrollController.position.pixels + 100,
+      curve: Curves.fastOutSlowIn,
+      duration: Duration(milliseconds: 250)
+    );
     _agregar10();
   }
 
