@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:muro_dentcloud/src/providers/publicaciones_provider.dart';
+import 'package:muro_dentcloud/src/widgets/cards.dart';
 import 'package:provider/provider.dart';
 
 class CardPage extends StatefulWidget {
@@ -12,15 +13,17 @@ class CardPage extends StatefulWidget {
 }
 
 class _CardPageState extends State<CardPage> {
+  final publicacionesProvider = new PublicacionesProvider();
+
   ScrollController _scrollController = new ScrollController();
-  List<int> _listaNumeros = new List();
+  List<int> _publicaciones = new List();
   int _ultimoItem = 0;
   bool _isLoading = false;
   @override
   void initState() {
     super.initState();
-    _agregar10();
-
+    _agregar10(); //? Esta aqui para inicializar los primeros datos que aparezcan en la pantalla y cada que se llama ejecuta 10 mas
+//? Metodo oyente, que toma los datos del Scroll controler para saber si llego al final de la pagina.
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
@@ -33,10 +36,12 @@ class _CardPageState extends State<CardPage> {
   @override
   void dispose() {
     super.dispose();
-    _scrollController.dispose();
+    _scrollController
+        .dispose(); //? Destruye el scroll controler para cuando se salga de la pagina
   }
 
   Widget build(BuildContext context) {
+    final _screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text('DENT CLOUD'),
@@ -53,168 +58,67 @@ class _CardPageState extends State<CardPage> {
         ],
       ),
       body: Stack(
-        children: <Widget>[_cards(), _crearLoading()],
+        children: <Widget>[_cards(_screenSize), _crearLoading()],
       ),
     );
   }
 
-  Widget _cards() {
-    final publicacionesProvider = new PublicacionesProvider();
-    publicacionesProvider.getPublicaciones();
-
-    return ListView.builder(
-      controller: _scrollController,
-      itemCount: _listaNumeros.length,
-      itemBuilder: (BuildContext context, int index) {
-        final imagen = _listaNumeros[index];
-        return _cardComplete(imagen);
-        // FadeInImage(
-        //   image: NetworkImage('https://picsum.photos/500/300/?image=$imagen'),
-        //   placeholder: AssetImage('assets/jar-loading.gif'),
-        // );
+  //? Llama a dibujar las cartas y recibe los datos desde el provider
+  Widget _cards(_screenSize) {
+    //*Llama a el metodo get publicaciones que devuelve una lista donde se ecuentran todos los datos
+    return FutureBuilder(
+      future: publicacionesProvider.getPublicaciones(),
+      builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
+        if (snapshot.hasData) {
+          return RefreshIndicator(
+            onRefresh: obtenerPagina1,
+            child: ListView.builder(
+              controller: _scrollController,
+              itemCount: snapshot.data.length,
+              itemBuilder: (BuildContext context, int index) {
+                // print(publicacionesProvider.getPublicaciones());
+                print(snapshot.data.length);
+                return CardWidgetPublicaciones(publicaciones: snapshot.data,id: index);
+              },
+            ),
+          );
+        } else {
+          return Container(
+            height: _screenSize.height*4,
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
       },
     );
+
+    //
   }
 
-  Widget _cardComplete(int imagen) {
-    return Container(
-      child: Column(
-        children: <Widget>[
-          _cardTipo2(imagen),
-          SizedBox(height: 30.0),
-        ],
-      ),
-    );
+  Future<Null> obtenerPagina1() async {
+    final duration = new Duration(seconds: 1);
+    new Timer(duration, () {
+      _publicaciones.clear();
+      _ultimoItem++;
+      _agregar10();
+    });
+    return Future.delayed(duration);
   }
 
-  Widget _cardTipo2(int imagen) {
-    final card = Container(
-      // clipBehavior: Clip.antiAlias,
-      child: Column(
-        children: <Widget>[
-          Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  color: Colors.white,
-                  boxShadow: <BoxShadow>[
-                    BoxShadow(
-                        color: Colors.grey[400],
-                        blurRadius: 10.0,
-                        spreadRadius: 2.0,
-                        offset: Offset(2.0, 10.0))
-                  ]),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10.0),
-                child: Stack(
-                  alignment: Alignment(-0.95, 0.99),
-                  children: <Widget>[
-                    FadeInImage(
-                      image: NetworkImage(
-                          'https://picsum.photos/450/450/?image=$imagen'),
-                      placeholder: AssetImage('assets/jar-loading.gif'),
-                      fadeInDuration: Duration(milliseconds: 200),
-                      height: 450.0,
-                      fit: BoxFit.cover,
-                    ),
-                    InputChip(
-                        avatar: CircleAvatar(
-                            backgroundColor: Colors.black, child: Text('AB')),
-                        label: Text('Aaron Burr'),
-                        backgroundColor: Colors.grey[400],
-                        onPressed: () {
-                          print('I am the one thing in life.');
-                        }),
-                  ],
-                ),
-              )),
-          Divider(
-            height: 20,
-            thickness: 0,
-            color: Colors.transparent,
-          ),
-          ListTile(
-            leading: Icon(Icons.photo_album, color: Colors.blue),
-            title: Text('Soy el titulo de esta tarjeta'),
-            subtitle: Text(
-                'Aquí estamos con la descripción de la tajera que quiero que ustedes vean para tener una idea de lo que quiero mostrarles'),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              FlatButton(
-                child: Row(
-                  children: [
-                    Icon(
-                      MdiIcons.thumbUpOutline,
-                      color: Colors.blue[400],
-                      size: 20.00,
-                    ),
-                    Text(' Me Gusta'),
-                  ],
-                ),
-                onPressed: () {},
-              ),
-              FlatButton(
-                child: Row(
-                  children: [
-                    Icon(
-                      MdiIcons.commentOutline,
-                      color: Colors.blue[500],
-                      size: 20.00,
-                    ),
-                    Text(' Comentar'),
-                  ],
-                ),
-                onPressed: () {},
-              ),
-              FlatButton(
-                child: Row(
-                  children: [
-                    Icon(
-                      MdiIcons.shareOutline,
-                      color: Colors.blue[300],
-                      size: 30.00,
-                    ),
-                    Text('Compartir'),
-                  ],
-                ),
-                onPressed: () {},
-              )
-            ],
-          ),
-        ],
-      ),
-    );
-
-    return Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30.0),
-          color: Colors.white,
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-                color: Colors.grey[500],
-                blurRadius: 10.0,
-                spreadRadius: 2.0,
-                offset: Offset(2.0, 10.0))
-          ]),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(30.0),
-        child: Column(children: <Widget>[
-          card,
-        ]),
-      ),
-    );
-  }
-
+//? trae la lista de los datos y controla el setSate principal para el redibujado
   void _agregar10() {
     for (var i = 1; i < 10; i++) {
       _ultimoItem++;
-      if(_ultimoItem==97) _ultimoItem++;
-      _listaNumeros.add(_ultimoItem);
+      if (_ultimoItem == 97) _ultimoItem++;
+      if (_ultimoItem == 207) _ultimoItem++;
+      if (_ultimoItem == 105) _ultimoItem++;
+      _publicaciones.add(_ultimoItem);
     }
     setState(() {});
   }
 
+// ? Trae los datos y redibuja.
   Future fetchData() async {
     _isLoading = true;
     setState(() {});
@@ -222,6 +126,7 @@ class _CardPageState extends State<CardPage> {
     return new Timer(duration, respuestaHTTP);
   }
 
+// ? Condiciona la respuesta http para que los datos que se traigan tengan animacion y luego agrega 10 mas
   void respuestaHTTP() {
     _isLoading = false;
     _scrollController.animateTo(_scrollController.position.pixels + 100,
@@ -229,6 +134,8 @@ class _CardPageState extends State<CardPage> {
     _agregar10();
   }
 
+//? Si esta cargando nueva data hace la animacion de el circularProgrest indicator
+//? Si no solo imprime un container vacio.
   Widget _crearLoading() {
     if (_isLoading) {
       return Column(
