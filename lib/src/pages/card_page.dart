@@ -13,8 +13,10 @@ class CardPage extends StatefulWidget {
 }
 
 class _CardPageState extends State<CardPage> {
+  final publicacionesProvider = new PublicacionesProvider();
+
   ScrollController _scrollController = new ScrollController();
-  List<int> _listaNumeros = new List();
+  List<int> _publicaciones = new List();
   int _ultimoItem = 0;
   bool _isLoading = false;
   @override
@@ -39,6 +41,7 @@ class _CardPageState extends State<CardPage> {
   }
 
   Widget build(BuildContext context) {
+    final _screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text('DENT CLOUD'),
@@ -55,49 +58,48 @@ class _CardPageState extends State<CardPage> {
         ],
       ),
       body: Stack(
-        children: <Widget>[_cards(), _crearLoading()],
+        children: <Widget>[_cards(_screenSize), _crearLoading()],
       ),
     );
   }
 
   //? Llama a dibujar las cartas y recibe los datos desde el provider
-  Widget _cards() {
-    //*Inicializacion de la clase del provider
-    final publicacionesProvider = new PublicacionesProvider();
+  Widget _cards(_screenSize) {
     //*Llama a el metodo get publicaciones que devuelve una lista donde se ecuentran todos los datos
-    publicacionesProvider.getPublicaciones();
-
-    return RefreshIndicator(
-      onRefresh: obtenerPagina1,
-      child: ListView.builder(
-        controller: _scrollController,
-        itemCount: _listaNumeros.length,
-        itemBuilder: (BuildContext context, int index) {
-          final imagen = _listaNumeros[index];
-          return _cardComplete(imagen);
-        },
-      ),
+    return FutureBuilder(
+      future: publicacionesProvider.getPublicaciones(),
+      builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
+        if (snapshot.hasData) {
+          return RefreshIndicator(
+            onRefresh: obtenerPagina1,
+            child: ListView.builder(
+              controller: _scrollController,
+              itemCount: snapshot.data.length,
+              itemBuilder: (BuildContext context, int index) {
+                // print(publicacionesProvider.getPublicaciones());
+                print(snapshot.data.length);
+                return CardWidgetPublicaciones(publicaciones: snapshot.data,id: index);
+              },
+            ),
+          );
+        } else {
+          return Container(
+            height: _screenSize.height*4,
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+      },
     );
-  }
 
-//*Solo existe para crear un espacion entre las cartas.
-  Widget _cardComplete(int imagen) {
-    return Container(
-      child: Column(
-        children: <Widget>[
-          CardWidgetPublicaciones(
-            imagen: imagen,
-          ),
-          SizedBox(height: 30.0),
-        ],
-      ),
-    );
+    //
   }
 
   Future<Null> obtenerPagina1() async {
     final duration = new Duration(seconds: 1);
     new Timer(duration, () {
-      _listaNumeros.clear();
+      _publicaciones.clear();
       _ultimoItem++;
       _agregar10();
     });
@@ -111,7 +113,7 @@ class _CardPageState extends State<CardPage> {
       if (_ultimoItem == 97) _ultimoItem++;
       if (_ultimoItem == 207) _ultimoItem++;
       if (_ultimoItem == 105) _ultimoItem++;
-      _listaNumeros.add(_ultimoItem);
+      _publicaciones.add(_ultimoItem);
     }
     setState(() {});
   }
@@ -127,11 +129,8 @@ class _CardPageState extends State<CardPage> {
 // ? Condiciona la respuesta http para que los datos que se traigan tengan animacion y luego agrega 10 mas
   void respuestaHTTP() {
     _isLoading = false;
-    _scrollController.animateTo(
-      _scrollController.position.pixels + 100,
-      curve: Curves.fastOutSlowIn,
-      duration: Duration(milliseconds: 250)
-    );
+    _scrollController.animateTo(_scrollController.position.pixels + 100,
+        curve: Curves.fastOutSlowIn, duration: Duration(milliseconds: 250));
     _agregar10();
   }
 
