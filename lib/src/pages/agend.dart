@@ -15,7 +15,6 @@ class _AgendaState extends State<Agenda> {
   CalendarController _controller;
   Map<DateTime, List<dynamic>> _events;
   List<dynamic> _selectedEvents;
-  EventosCtrl a;
 
   @override
   void initState() {

@@ -17,14 +17,9 @@ class EventosCtrl {
     List<dynamic> items = new List();
     items.add(resp.body);
     final decodedData = json.decode(resp.body);
-<<<<<<< HEAD
-    final eventos = new Eventos.fromJsonList(decodedData['cita_acceptada']);
-    print(eventos);
-=======
     // print(decodedData);
     final eventos = new Eventos.fromJsonList(decodedData['cita_acceptada']);
     print(eventos.items[0].paciente);
->>>>>>> 4b4cb3f548bf20cf3fbbed89e92e5e59bfe0b4cd
     return eventos.items;
   }
 }
