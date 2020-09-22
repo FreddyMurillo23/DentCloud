@@ -15,6 +15,12 @@ class EventModel{
     this.fecha
   });
 
+  EventModel.fromJsonMap(Map<String, dynamic> json) {
+    servicio;
+    fecha;
+    descripcion;
+    paciente;
+  }
   factory EventModel.fromJson(Map<String, dynamic> json) {
     return EventModel(
       paciente: json['paciente'],
