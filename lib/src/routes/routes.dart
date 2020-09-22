@@ -17,6 +17,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'perfil'       : (BuildContext context) => HomePage(),
     'registrarse'  : (BuildContext context) => Signup(),
     'agenda2'      : (BuildContext context) => Agenda(),
-    /*'addagenda'      : (BuildContext context) => AddEventPage(),*/
+    'addagenda'      : (BuildContext context) => AddEventPage(),
   };
 }

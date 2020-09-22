@@ -1,5 +1,5 @@
-/*import 'package:flutter/material.dart';
-import 'package:muro_dentcloud/src/models/apointements_model.dart';
+import 'package:flutter/material.dart';
+import 'package:muro_dentcloud/src/models/apointments_model.dart';
 
 class AddEventPage extends StatefulWidget {
   final EventModel note;
@@ -22,8 +22,8 @@ class _AddEventPageState extends State<AddEventPage> {
   @override
   void initState() {
     super.initState();
-    _title = TextEditingController(text: widget.note != null ? widget.note.title : "");
-    _description = TextEditingController(text:  widget.note != null ? widget.note.description : "");
+    _title = TextEditingController(text: widget.note != null ? widget.note.servicio : "");
+    _description = TextEditingController(text:  widget.note != null ? widget.note.descripcion : "");
     _eventDate = DateTime.now();
     processing = false;
   }
@@ -140,4 +140,4 @@ class _AddEventPageState extends State<AddEventPage> {
     _description.dispose();
     super.dispose();
   }
-}*/
+}
