@@ -3,6 +3,7 @@ import 'package:muro_dentcloud/src/pages/agend.dart';
 import 'package:muro_dentcloud/src/pages/card_page.dart';
 import 'package:muro_dentcloud/src/pages/home_page.dart';
 import 'package:muro_dentcloud/src/pages/listview_page.dart';
+import 'package:muro_dentcloud/src/pages/prueba.dart';
 import 'package:muro_dentcloud/src/pages/signin.dart';
 import 'package:muro_dentcloud/src/pages/signup.dart';
 import 'package:muro_dentcloud/src/pages/startup_page.dart';
@@ -17,6 +18,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'perfil'       : (BuildContext context) => HomePage(),
     'registrarse'  : (BuildContext context) => Signup(),
     'agenda2'      : (BuildContext context) => Agenda(),
-    'addagenda'      : (BuildContext context) => AddEventPage(),
+    'addagenda'    : (BuildContext context) => AddEventPage(),
   };
 }
