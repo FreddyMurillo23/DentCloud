@@ -13,8 +13,8 @@ class EventosCtrl{
     final resp = await http.get(url);
      
     final decodedData = json.decode(resp.body);
-    final eventos = new Eventos.fromJsonList(decodedData['CITA_ACCEPTADA']);
-
+    final eventos = new Eventos.fromJsonList(decodedData['cita_acceptada']);
+    print(eventos);
     return eventos.items;
   }
 }
