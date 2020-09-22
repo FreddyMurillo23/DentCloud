@@ -1,10 +1,19 @@
-class EventModel{
+
+
+
+
+class EventModel{ 
   String servicio;
   String fecha;
   String descripcion;
   String paciente;
 
-  EventModel({this.servicio, this.descripcion, this.paciente, this.fecha});
+  EventModel({
+    this.servicio,
+    this.descripcion,
+    this.paciente,
+    this.fecha
+  });
 
   factory EventModel.fromJson(Map<String, dynamic> json) {
     return EventModel(
