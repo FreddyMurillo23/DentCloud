@@ -4,7 +4,6 @@ import 'package:table_calendar/table_calendar.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class Agenda extends StatefulWidget {
   @override
   _AgendaState createState() => _AgendaState();
@@ -14,41 +13,13 @@ class _AgendaState extends State<Agenda> {
   CalendarController _controller;
   Map<DateTime, List<dynamic>> _events;
   List<dynamic> _selectedEvents;
-  TextEditingController _eventController;
-  SharedPreferences prefs;
 
   @override
   void initState() {
     super.initState();
     _controller = CalendarController();
-    _eventController = TextEditingController();
     _events = {};
     _selectedEvents = [];
-    initPrefs();
-  }
-  
-  initPrefs() async {
-    prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _events = Map<DateTime, List<dynamic>>.from(decodeMap(json.decode(prefs.getString
-    ("events") ?? "{}")));
-    });
-  }
-
-  Map<String, dynamic> encodeMap(Map<DateTime, dynamic> map){
-    Map<String, dynamic> newMap = {};
-    map.forEach((key, value) {
-      newMap[key.toString()] = map[key];
-    });
-    return newMap;
-  }
-
-  Map<DateTime, dynamic> decodeMap(Map<String, dynamic> map){
-    Map<DateTime, dynamic> newMap = {};
-    map.forEach((key, value) {
-      newMap[DateTime.parse(key)] = map[key];
-    });
-    return newMap;
   }
 
   @override
@@ -56,16 +27,20 @@ class _AgendaState extends State<Agenda> {
     return Scaffold(
       drawer: NavDrawer(),
       appBar: AppBar(
-        title: Text('Demo Freddo'),
+        title: Text('Flutter Calendar'),
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             TableCalendar(
+
+              onHeaderTapped: (focusedDay) => print(focusedDay),
+
               events: _events,
               initialCalendarFormat: CalendarFormat.month,
               calendarStyle: CalendarStyle(
+                  canEventMarkersOverflow: true,
                   todayColor: Colors.orange,
                   selectedColor: Theme.of(context).primaryColor,
                   todayStyle: TextStyle(
@@ -83,12 +58,9 @@ class _AgendaState extends State<Agenda> {
               ),
               startingDayOfWeek: StartingDayOfWeek.monday,
               onDaySelected: (date, events) {
-
                 setState(() {
                   _selectedEvents = events;
                 });
-                print(date.toIso8601String());
-
               },
               builders: CalendarBuilders(
                 selectedDayBuilder: (context, date, events) => Container(
@@ -115,94 +87,23 @@ class _AgendaState extends State<Agenda> {
               calendarController: _controller,
             ),
             ..._selectedEvents.map((event) => ListTile(
-              title: Text(event),
-              
-            )),
-            
+                  title: Text(event.title),
+                  /*onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => EventDetailsPage(
+                                  event: event,
+                                )));
+                  },*/
+                )),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
-          showDialog(
-
-            context: context,
-            builder: (context) => AlertDialog(
-              title: Text("Chamo"),
-              content: TextField(
-                controller: _eventController,
-              ),
-              actions: <Widget>[
-
-          FlatButton(
-            child: Text("Save"),
-            onPressed: (){
-              if(_eventController.text.isEmpty) return;
-
-              setState(() {
-                if(_events[_controller.selectedDay] != null) {
-                _events[_controller.selectedDay].add(
-                  _eventController.text
-                );
-                print(_eventController);
-              } else{
-                _events[_controller.selectedDay] = 
-                [_eventController.text];
-                print(_eventController.text);
-              }
-              prefs.setString("events", json.encode(encodeMap(_events)));
-              _eventController.clear();
-              Navigator.pop(context);
-              });  
-            },
-          ),
-
-          FlatButton(
-            onPressed: (){Navigator.pop(context);}, 
-            child: Text("Cancel")           
-            )
-
-        ],
-            ),
-
-            );
-          },
         child: Icon(Icons.add),
+        onPressed: () => Navigator.pushNamed(context, 'addagenda'),
       ),
     );
   }
-
-
-/*
-  _showAddDialog() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        content: TextField(
-          controller: _eventController,
-        ),
-        actions: <Widget>[
-          FlatButton(
-            child: Text("Save"),
-            onPressed: (){
-              if(_eventController.text.isEmpty) return;
-
-              setState(() {
-                if(_events[_controller.selectedDay] != null) {
-                _events[_controller.selectedDay].add(
-                  _eventController.text
-                );
-              } else{
-                _events[_controller.selectedDay] = 
-                [_eventController.text];
-              }
-              _eventController.clear();
-              Navigator.pop(context);
-              });  
-            },
-          )
-        ],
-      ),
-    );
-  }*/
 }
