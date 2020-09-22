@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:muro_dentcloud/src/models/apointments_model.dart';
 
 class AddEventPage extends StatefulWidget {
-  final EventModel note;
+  final Evento note;
+  
 
   const AddEventPage({Key key, this.note}) : super(key: key);
 
