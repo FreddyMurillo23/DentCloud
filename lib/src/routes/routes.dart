@@ -10,9 +10,9 @@ import 'package:muro_dentcloud/src/widgets/add_event.dart';
 
 Map<String, WidgetBuilder> getApplicationRoutes() {
   return <String, WidgetBuilder>{
-    '/'            : (BuildContext context) => CardPage(),
+    '/'            : (BuildContext context) => HomePage(),
     'gps'          : (BuildContext context) => ListaPage(),
-    'home'         : (BuildContext context) => CardPage(),
+    'home'         : (BuildContext context) => HomePage(),
     'agenda'       : (BuildContext context) => CardPage(),
     'perfil'       : (BuildContext context) => HomePage(),
     'registrarse'  : (BuildContext context) => Signup(),
