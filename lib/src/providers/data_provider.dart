@@ -1,12 +1,14 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:muro_dentcloud/src/models/apointments_model.dart';
 import 'package:muro_dentcloud/src/models/publications_model.dart';
 
 class PublicacionesProvider {
   // String _apiKey = '';
   String _url = '54.197.83.249';
   // String _language = 'es-ES';
+  //! PROVIDER DE TODAS LAS PRUBLICACIONES
   //? Future que espera la respuesta del http para seguir con la ejecucion.
   Future<List<Publicacion>> getPublicaciones() async {
     final url = Uri.http(_url, 'PHP_REST_API/api/get/get_publications.php');
@@ -19,5 +21,25 @@ class PublicacionesProvider {
 
     return publicaciones.items;
   }
+
+
+  //!PROVIDER DE DATOS PARA LA AGENDA
+  Future<List<Evento>> eventosPorCorreo(emailDoctor) async {
+    String emailDoctor = "hvargas@utm.ec";
+    String url ='http://54.197.83.249/PHP_REST_API/api/get/get_accepted_appointmen_by_doctor.php?email_doctor=$emailDoctor';
+
+    final resp = await http.get(url);
+    print(resp);
+    List<dynamic> items = new List();
+    items.add(resp.body);
+    final decodedData = json.decode(resp.body);
+    // print(decodedData);
+    final eventos = new Eventos.fromJsonList(decodedData['cita_acceptada']);
+    print(eventos.items[0].paciente);
+    return eventos.items;
+  }
+
+
+
 } 
  

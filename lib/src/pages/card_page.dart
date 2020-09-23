@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:muro_dentcloud/src/controllers/apointments_ctrl.dart';
-import 'package:muro_dentcloud/src/providers/publicaciones_provider.dart';
+import 'package:muro_dentcloud/src/providers/data_provider.dart';
 import 'package:muro_dentcloud/src/widgets/cards.dart';
 import 'package:provider/provider.dart';
 
@@ -16,7 +15,6 @@ class CardPage extends StatefulWidget {
 
 class _CardPageState extends State<CardPage> {
   final publicacionesProvider = new PublicacionesProvider();
-  final ptm = new EventosCtrl();
   ScrollController _scrollController = new ScrollController();
   List<int> _publicaciones = new List();
   int _ultimoItem = 0;
@@ -81,7 +79,8 @@ class _CardPageState extends State<CardPage> {
                 // print(publicacionesProvider.getPublicaciones());
                 print(snapshot.data.length);
                 return CardWidgetPublicaciones(
-                    publicaciones: snapshot.data, id: index);
+                    publicaciones: snapshot.data, id: index
+                );
               },
             ),
           );
