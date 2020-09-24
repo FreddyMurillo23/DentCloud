@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:muro_dentcloud/src/models/apointments_model.dart';
+import 'package:muro_dentcloud/src/providers/data_provider.dart';
 import 'package:muro_dentcloud/src/widgets/drawer_appbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -18,9 +20,9 @@ class _AgendaState extends State<Agenda> {
   CalendarController _controller;
   Map<DateTime, List<dynamic>> _events;
   List<dynamic> _selectedEvents;
-  EventosCtrl eventosCtrl;
-  Eventos eventos;
-  final ptm = new EventosCtrl();
+  DataProvider eventosCtrl;
+  EventModel eventos;
+  final ptm = new DataProvider();
 
   final Stream<int> periodic = Stream.periodic(Duration(seconds: 1));
 
@@ -56,7 +58,12 @@ class _AgendaState extends State<Agenda> {
       appBar: AppBar(
         title: Text('Flutter Calendar'),
         actions: [
-          RaisedButton(onPressed: (){print(ptm.eventosPorCorreo());})
+          RaisedButton(
+            onPressed: (
+
+            ){
+              print(ptm.eventosPorCorreo('hvargas@utm.ec'));
+            })
         ],
       ),
 

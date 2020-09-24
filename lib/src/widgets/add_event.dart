@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:muro_dentcloud/src/models/apointments_model.dart';
-import 'package:muro_dentcloud/src/controllers/apointments_ctrl.dart';
+import 'package:muro_dentcloud/src/providers/data_provider.dart';
+// import 'package:muro_dentcloud/src/controllers/apointments_ctrl.dart';
 
 class AddEventPage extends StatefulWidget {
   final EventModel note;
@@ -20,7 +21,7 @@ class _AddEventPageState extends State<AddEventPage> {
   final _formKey = GlobalKey<FormState>();
   final _key = GlobalKey<ScaffoldState>();
   bool processing;
-  final ptm = new EventosCtrl();
+  final ptm = new DataProvider();
   
 
   @override
