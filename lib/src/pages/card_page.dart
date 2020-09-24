@@ -15,6 +15,7 @@ class CardPage extends StatefulWidget {
 }
 
 class _CardPageState extends State<CardPage> {
+
   final publicacionesProvider = new PublicacionesProvider();
   final ptm = new EventosCtrl();
   ScrollController _scrollController = new ScrollController();

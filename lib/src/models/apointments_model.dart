@@ -2,7 +2,7 @@ import 'dart:io';
 
 class Eventos {
   //? Lista de tipo publicacion donde se almacenaran los datos extraidos.
-  List<Evento> items = new List();
+  List<EventModel> items = new List();
 
   Eventos();
 
@@ -10,28 +10,28 @@ class Eventos {
     if (jsonList == null) return;
     
     for (var item in jsonList) {
-      final evento = new Evento.fromJsonMap(item);
+      final evento = new EventModel.fromJsonMap(item);
       items.add(evento);
     }
   }
 }
 
-class Evento{
+class EventModel{
   String paciente;
-  String fecha;
+  DateTime fecha;
   String servicio;
   String descripcion;
 
-  Evento({
+  EventModel({
     this.paciente,
     this.fecha,
     this.servicio,
     this.descripcion
   });
 
-  Evento.fromJsonMap(Map<String, dynamic> json){
+  EventModel.fromJsonMap(Map<String, dynamic> json){
     paciente        = json['paciente'];
-    fecha           = json['fecha'];
+    fecha           = DateTime.parse(json['fecha'].toString());
     servicio        = json['servicio'];
     descripcion     = json['descripcion'];
   }
@@ -46,7 +46,7 @@ class Evento{
 
   getFechaEvento(){
     if (fecha == null) {
-      return '';
+      return '0000-00-00 00-00-00';
     } else {
       return fecha;
     }

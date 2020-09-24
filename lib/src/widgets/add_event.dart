@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:muro_dentcloud/src/models/apointments_model.dart';
+import 'package:muro_dentcloud/src/controllers/apointments_ctrl.dart';
 
 class AddEventPage extends StatefulWidget {
-  final Evento note;
+  final EventModel note;
   
 
   const AddEventPage({Key key, this.note}) : super(key: key);
@@ -19,6 +20,8 @@ class _AddEventPageState extends State<AddEventPage> {
   final _formKey = GlobalKey<FormState>();
   final _key = GlobalKey<ScaffoldState>();
   bool processing;
+  final ptm = new EventosCtrl();
+  
 
   @override
   void initState() {
@@ -106,12 +109,9 @@ class _AddEventPageState extends State<AddEventPage> {
                                   "description": _description.text,
                                   "event_date": widget.note.eventDate
                                 });*/
-                              }else{/*
-                                await eventDBS.createItem(EventModel(
-                                  title: _title.text,
-                                  description: _description.text,
-                                  eventDate: DateTime.now()
-                                ));*/
+                              }else{
+                                ptm.registrarEventos("1317054888001", "hvargas@utm.ec", "kaka@utm.ec", _title.text, _description.text, _eventDate.toIso8601String());
+                                print(_eventDate.toString());
                               }
                               Navigator.pop(context);
                               setState(() {
