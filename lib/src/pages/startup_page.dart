@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:muro_dentcloud/palette.dart';
 import 'package:muro_dentcloud/src/pages/home_page.dart';
+import 'package:muro_dentcloud/src/pages/profile_page.dart';
 import 'package:muro_dentcloud/src/providers/menu_providers.dart';
 import 'package:muro_dentcloud/src/utils/icono_string_util.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
@@ -21,10 +22,10 @@ class _StartUpPageState extends State<StartUpPage> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static List<Widget> _widgetOptions = <Widget>[
+    CardPage(),
     HomePage(),
     ListaPage(),
-    CardPage(),
-    CardPage(),
+    ProfilePage(),
   ];
 
   void _onItemTapped(int index) {
