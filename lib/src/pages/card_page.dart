@@ -6,7 +6,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:muro_dentcloud/src/providers/data_provider.dart';
 import 'package:muro_dentcloud/src/widgets/cards.dart';
+import 'package:muro_dentcloud/src/widgets/circle_button.dart';
+import 'package:muro_dentcloud/src/widgets/create_post_container.dart';
+import 'package:muro_dentcloud/src/widgets/drawer_appbar.dart';
 import 'package:provider/provider.dart';
+
+import '../../palette.dart';
 
 class CardPage extends StatefulWidget {
   @override
@@ -43,23 +48,52 @@ class _CardPageState extends State<CardPage> {
   Widget build(BuildContext context) {
     final _screenSize = MediaQuery.of(context).size;
     return Scaffold(
+      drawer: NavDrawer(),
       appBar: AppBar(
-        title: Text('DENT CLOUD'),
-        centerTitle: true,
-        elevation: 0,
-        leading: IconButton(
-            icon: SvgPicture.asset("assets/icons/019-left-align-2.svg"),
-            onPressed: () {}),
-        actions: <Widget>[
-          IconButton(
-            icon: Image.asset("assets/images/011-paper-plane.png"),
-            onPressed: () {},
-          ),
-        ],
+        brightness: Brightness.light,
+              backgroundColor: Colors.white,
+              title: Text(
+                'DentCloud',
+                style: const TextStyle(
+                  color: Palette.textColor,
+                  fontSize: 28.0,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: -1.2,
+                ),
+              ),
+              centerTitle: false,
+              // floa ting: true,
+              actions: [
+                CircleButton(
+                  icon: Icons.search,
+                  iconsize: 30.0,
+                  onPressed: () => print('Search'),
+                ),
+                CircleButton(
+                  icon: MdiIcons.facebookMessenger,
+                  iconsize: 30.0,
+                  onPressed: () => print('Messenger'),
+                )
+              ],
       ),
-      body: Stack(
-        children: <Widget>[_cards(_screenSize), _crearLoading()],
-      ),
+      body:
+      Stack(
+            children: <Widget>[
+              _cards(_screenSize),
+              _crearLoading()],
+            )
+      // body: Container (
+      //   child: Column (
+      //     children: <Widget>[
+      //       // CreatePostContainer(currentUser: 'me vale verga xd ',),
+      //       Stack(
+      //       children: <Widget>[
+      //         _cards(_screenSize),
+      //         _crearLoading()],
+      //       )
+      //     ]
+      //   )
+      // ),
     );
   }
 
