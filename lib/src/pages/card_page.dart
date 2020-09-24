@@ -14,7 +14,7 @@ class CardPage extends StatefulWidget {
 }
 
 class _CardPageState extends State<CardPage> {
-  final publicacionesProvider = new PublicacionesProvider();
+  final publicacionesProvider = new DataProvider();
   ScrollController _scrollController = new ScrollController();
   List<int> _publicaciones = new List();
   int _ultimoItem = 0;
@@ -112,9 +112,6 @@ class _CardPageState extends State<CardPage> {
   void _agregar10() {
     for (var i = 1; i < 10; i++) {
       _ultimoItem++;
-      if (_ultimoItem == 97) _ultimoItem++;
-      if (_ultimoItem == 207) _ultimoItem++;
-      if (_ultimoItem == 105) _ultimoItem++;
       _publicaciones.add(_ultimoItem);
     }
     setState(() {});

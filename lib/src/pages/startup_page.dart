@@ -93,7 +93,7 @@ Widget _bottonNavigator() {
 List<Widget> _items(List<dynamic> data, BuildContext context) {
   final List<Widget> opciones = [];
 
-  data.forEach((opt) {
+  data?.forEach((opt) {
     final widgetTemp = ListTile(
       title: Text(opt['texto']),
       leading: getIcon(opt['icon']),

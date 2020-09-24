@@ -20,21 +20,6 @@
             "ruta"  :   "perfil",
             "icon"  :   "person",
             "texto" :   "Perfil"
-        },
-        {
-            "ruta"  :   "registrarse",
-            "icon"  :   "person",
-            "texto" :   "Registrarse"
-        },
-        {
-            "ruta"  :   "agenda2",
-            "icon"  :   "bookOpenPageVariant",
-            "texto" :   "Agenda2"
-        },
-        {
-            "ruta"  :   "addagenda",
-            "icon"  :   "person",
-            "texto" :   "AddAgenda"
         }
     ]
 }
