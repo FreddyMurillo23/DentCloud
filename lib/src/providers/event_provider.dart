@@ -1,0 +1,21 @@
+import 'package:flutter/cupertino.dart';
+import 'package:muro_dentcloud/src/controllers/apointment_ctrl.dart';
+import 'package:muro_dentcloud/src/models/event_model.dart';
+
+class EventosProvider with ChangeNotifier{
+  List<Eventos> eventos = List<Eventos>();
+
+  void listarEventos(String email){
+    EventosCtrl.listarEventos(email).then((value){
+      if(value!=null){
+        this.eventos = value;
+        print(value.hashCode);
+      } else{
+        this.eventos = List<Eventos>();
+        print(value.hashCode);
+        
+      }
+      notifyListeners();
+    });
+  }
+}

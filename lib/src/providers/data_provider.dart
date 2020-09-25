@@ -26,7 +26,7 @@ class DataProvider {
 
   //!PROVIDER DE DATOS PARA LA AGENDA
   Future<List<EventModel>> eventosPorCorreo(emailDoctor) async {
-    // String emailDoctor = "hvargas@utm.ec";
+    
     String url =
         'http://54.197.83.249/PHP_REST_API/api/get/get_accepted_appointmen_by_doctor.php?email_doctor=$emailDoctor';
 
@@ -37,12 +37,7 @@ class DataProvider {
     final decodedData = json.decode(resp.body);
     // print(decodedData);
     final eventos = new Eventos.fromJsonList(decodedData['cita_acceptada']);
-    print(eventos.items[0].fecha.year);
-    print(eventos.items[0].fecha.month);
-    print(eventos.items[0].fecha.day);
-    print(eventos.items[0].fecha.hour);
-    print(eventos.items[0].fecha.minute);
-    print(eventos.items[0].descripcion);
+    
     return eventos.items;
   }
 
