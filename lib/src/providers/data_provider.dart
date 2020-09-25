@@ -41,7 +41,7 @@ class DataProvider {
     return eventos.items;
   }
 
-  Future<List<Login>> loginUsuario(email, password) async {
+  Future<String> loginUsuario(email, password) async {
     String email = 'bb@utm.ec';
     String password = '123';
     String url =
@@ -50,22 +50,21 @@ class DataProvider {
     print(resp);
     List<dynamic> items = new List();
     items.add(resp.body);
-    final decodedData = json.decode(resp.body);
-    // print(decodedData);
-    final login = new Logins.fromJsonList(decodedData['message']);
-    print(login.items[0]);
-    return login.items;
+    Map <String, dynamic> decodedData = json.decode(resp.body);
+    // items.add(decodedData);
+    print(decodedData['message']);
+    return decodedData['message'];
   }
 
-
-  Future<bool> registrarEventos(String ruc, String email, String user, String name, String description, String date) async {
-    String url2 = "http://54.197.83.249/PHP_REST_API/api/post/post_medical_appointment.php?business_ruc=$ruc&user_email_doctor=$email&user_email_patient=$user&business_service_name=$name&commentary=$description&date_time=$date";
-    final resp = await http.get(url2); 
+  Future<bool> registrarEventos(String ruc, String email, String user,
+      String name, String description, String date) async {
+    String url2 =
+        "http://54.197.83.249/PHP_REST_API/api/post/post_medical_appointment.php?business_ruc=$ruc&user_email_doctor=$email&user_email_patient=$user&business_service_name=$name&commentary=$description&date_time=$date";
+    final resp = await http.get(url2);
     if (resp.statusCode == 200) {
       return true;
     } else {
       return false;
-    } 
+    }
   }
-
 }

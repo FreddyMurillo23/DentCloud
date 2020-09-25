@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:muro_dentcloud/src/widgets/circle_button.dart';
+import 'package:muro_dentcloud/src/widgets/drawer_appbar.dart';
 
 import 'dart:async';
+
+import '../../palette.dart';
 
 
 class ListaPage extends StatefulWidget {
@@ -44,8 +49,33 @@ class _ListaPageState extends State<ListaPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: NavDrawer(),
       appBar: AppBar(
-        title: Text('Listas'),
+        brightness: Brightness.light,
+              backgroundColor: Colors.white,
+              title: Text(
+                'DentCloud',
+                style: const TextStyle(
+                  color: Palette.textColor,
+                  fontSize: 28.0,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: -1.2,
+                ),
+              ),
+              centerTitle: false,
+              // floa ting: true,
+              actions: [
+                CircleButton(
+                  icon: Icons.search,
+                  iconsize: 30.0,
+                  onPressed: () => print('Search'),
+                ),
+                CircleButton(
+                  icon: MdiIcons.facebookMessenger,
+                  iconsize: 30.0,
+                  onPressed: () => print('Messenger'),
+                )
+              ],
       ),
       body: Stack(
         children: <Widget>[
