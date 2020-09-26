@@ -26,7 +26,6 @@ class DataProvider {
 
   //!PROVIDER DE DATOS PARA LA AGENDA
   Future<List<EventModel>> eventosPorCorreo(emailDoctor) async {
-    
     String url =
         'http://54.197.83.249/PHP_REST_API/api/get/get_accepted_appointmen_by_doctor.php?email_doctor=$emailDoctor';
 
@@ -37,23 +36,19 @@ class DataProvider {
     final decodedData = json.decode(resp.body);
     // print(decodedData);
     final eventos = new Eventos.fromJsonList(decodedData['cita_acceptada']);
-    
+
     return eventos.items;
   }
 
-  Future<String> loginUsuario(email, password) async {
-    String email = 'bb@utm.ec';
-    String password = '123';
+  Future<bool> loginUsuario(email, password) async {
     String url =
         'http://54.197.83.249/PHP_REST_API/api/get/get_select_by_login.php?user_email=$email&password=$password';
     final resp = await http.get(url);
-    print(resp);
-    List<dynamic> items = new List();
-    items.add(resp.body);
-    Map <String, dynamic> decodedData = json.decode(resp.body);
-    // items.add(decodedData);
-    print(decodedData['message']);
-    return decodedData['message'];
+    if (resp.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   Future<bool> registrarEventos(String ruc, String email, String user,

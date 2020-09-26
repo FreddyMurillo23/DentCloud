@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:muro_dentcloud/src/models/publications_model.dart';
+import 'package:muro_dentcloud/src/widgets/cards_stories.dart';
 import 'package:muro_dentcloud/src/widgets/circle_button.dart';
 import 'package:muro_dentcloud/src/widgets/create_post_container.dart';
 import 'package:muro_dentcloud/src/widgets/drawer_appbar.dart';
+import 'package:muro_dentcloud/src/widgets/horizontal_scroll_view.dart';
 
 import '../../palette.dart';
 
@@ -12,7 +14,7 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Publicacion publicacion = ModalRoute.of(context).settings.arguments;
+    // final Publicacion publicacion = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       drawer: NavDrawer(),
       body: CustomScrollView(
@@ -44,9 +46,21 @@ class ProfilePage extends StatelessWidget {
               )
             ],
           ),
-          SliverToBoxAdapter(
-            child: CreatePostContainer(currentUser: "Freddy"),
-          )
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 5.0),
+            sliver: SliverToBoxAdapter(
+              child: Rooms(),
+            ),
+          ),
+        //   SliverPadding(
+        //   padding: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
+        //   sliver: SliverToBoxAdapter(
+        //     child: Stories(
+        //       //currentUser: currentUser,
+        //       // stories: stories,
+        //     ),
+        //   ),
+        // ),
         ],
       ),
     );
