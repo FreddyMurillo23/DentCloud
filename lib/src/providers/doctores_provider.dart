@@ -19,3 +19,21 @@ class DoctoresProvider with ChangeNotifier{
     });
   }
 }
+
+class DoctoresProviderName with ChangeNotifier{
+  List<Doctores> doctoresName = List<Doctores>();
+
+  void listarDoctoresName(String name){
+    DoctorCtrl.listarPrueba(name).then((value){
+      if(value!=null){
+        this.doctoresName = value;
+        print(value.hashCode);
+      } else{
+        this.doctoresName = List<Doctores>();
+        print(value.hashCode);
+        
+      }
+      notifyListeners();
+    });
+  }
+}

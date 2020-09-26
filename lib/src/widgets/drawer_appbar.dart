@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 class NavDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    DoctoresProvider doctorProv = Provider.of<DoctoresProvider>(context);
+    DoctoresProvider docProv = Provider.of<DoctoresProvider>(context);
 
     return Drawer(
       child: ListView(
@@ -39,8 +39,8 @@ class NavDrawer extends StatelessWidget {
             leading: Icon(Icons.border_color),
             title: Text('Configuración del Perfil'),
             onTap: () => {
-              doctorProv.listarDoctores(),
-              Navigator.of(context).pushReplacementNamed('search')
+              docProv.listarDoctores(),
+              Navigator.of(context).pushReplacementNamed('addagenda')
               },
           ),
           ListTile(
