@@ -42,21 +42,21 @@ class _StartUpPageState extends State<StartUpPage> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            title: Text('Home'),
+            title: Text('Inicio'),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.location_on),
-            title: Text('Business'),
+            title: Text('GPS'),
           ),
           BottomNavigationBarItem(
             icon: Icon(
               MdiIcons.bookOpenPageVariant,
             ),
-            title: Text('Buscar'),
+            title: Text('Agenda'),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            title: Text('Imbox'),
+            title: Text('Perfil'),
           ),
         ],
         currentIndex: _selectedIndex,
