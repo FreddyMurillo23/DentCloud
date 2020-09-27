@@ -113,8 +113,7 @@ class CardWidgetPublicaciones extends StatelessWidget {
                   label: Text(publicaciones[id].getNegocioPublicacion()),
                   backgroundColor: Colors.transparent,
                   onPressed: () {
-                    Navigator.pushNamed(context, 'perfil',
-                        arguments: 'tu mama');
+                    Navigator.pushNamed(context, 'perfil',arguments: 'tu mama');
                   }),
             ],
           ),
