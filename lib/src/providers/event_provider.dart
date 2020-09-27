@@ -3,7 +3,7 @@ import 'package:muro_dentcloud/src/controllers/apointment_ctrl.dart';
 import 'package:muro_dentcloud/src/models/event_model.dart';
 
 class EventosProvider with ChangeNotifier{
-  List<Eventos> eventos = List<Eventos>();
+  List<EventosModelo> eventos = List<EventosModelo>();
 
   void listarEventos(String email){
     EventosCtrl.listarEventos(email).then((value){
@@ -11,7 +11,7 @@ class EventosProvider with ChangeNotifier{
         this.eventos = value;
         print(value.hashCode);
       } else{
-        this.eventos = List<Eventos>();
+        this.eventos = List<EventosModelo>();
         print(value.hashCode);
         
       }

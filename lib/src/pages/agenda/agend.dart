@@ -108,7 +108,8 @@ class _AgendaState extends State<Agenda> {
                     child: Text(
                       date.day.toString(),
                       style: TextStyle(color: Colors.white),
-                    )),
+                    )
+                    ),
                 todayDayBuilder: (context, date, events) => Container(
                     margin: const EdgeInsets.all(4.0),
                     alignment: Alignment.center,
