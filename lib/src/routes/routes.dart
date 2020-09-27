@@ -23,7 +23,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'agenda'       : (BuildContext context) => AddEvent(),
     'perfil'       : (BuildContext context) => ProfilePage(),
 
-    'agenda2'      : (BuildContext context) => Agenda2(),
-    'addagenda'    : (BuildContext context) => SeachAddEvent(),
+    'agenda2'      : (BuildContext context) => Agenda(),
+    'addagenda'    : (BuildContext context) => AddEvent(),
   };
 }
