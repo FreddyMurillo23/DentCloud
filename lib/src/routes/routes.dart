@@ -19,10 +19,10 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'gps'          : (BuildContext context) => ListaPage(),
     'home'         : (BuildContext context) => HomePage(),
 
-    'agenda'       : (BuildContext context) => AddEvent(),
+    'agenda'       : (BuildContext context) => SignIn(),
     'perfil'       : (BuildContext context) => HomePage(),
 
-    'agenda2'      : (BuildContext context) => Agenda2(),
-    'addagenda'    : (BuildContext context) => SeachAddEvent(),
+    'agenda2'      : (BuildContext context) => Agenda(),
+    'addagenda'    : (BuildContext context) => AddEvent(),
   };
 }

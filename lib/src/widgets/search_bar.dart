@@ -6,6 +6,13 @@ import 'package:muro_dentcloud/src/models/doctors_model.dart';
 class EventSearchDelegate extends SearchDelegate<Doctores>{
 
   @override
+  final String searchFieldLabel;
+  final List<Doctores> historial;
+
+  EventSearchDelegate(this.searchFieldLabel,this.historial);
+
+
+  @override
   List<Widget> buildActions(BuildContext context) {
     return[
       IconButton(
@@ -29,7 +36,7 @@ class EventSearchDelegate extends SearchDelegate<Doctores>{
     Widget buildResults(BuildContext context) {
 
       if(query.trim().length == 0) {
-        return Text('Query vacío');
+        return Center(child: Text('Busqueda Vacia'));
       }
 
       Future<List<Doctores>> futureDoctor;
@@ -50,7 +57,7 @@ class EventSearchDelegate extends SearchDelegate<Doctores>{
 
           if ( snapshot.hasError ) {
             print(snapshot.data);
-            return ListTile( title: Text(snapshot.hasError.toString()) );
+            return ListTile( title: Text('No hay nada con ese Termino') );
           }
           
           return Center(
@@ -68,7 +75,7 @@ class EventSearchDelegate extends SearchDelegate<Doctores>{
 
     @override
     Widget buildSuggestions(BuildContext context) {
-    return ListTile(title: Text("Suggestions"));
+    return _showDoctores(this.historial);
     
   }
 
@@ -79,7 +86,6 @@ class EventSearchDelegate extends SearchDelegate<Doctores>{
         final doctor = doctores[i];
 
         return ListTile(
-          //leading: (doctor.foto = null) ? Image.network(doctor.foto, width: 45,) : '',
           title: Text(doctor.doctor),
           onTap: (){
             this.close(context, doctor);
