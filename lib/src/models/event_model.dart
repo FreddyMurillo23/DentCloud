@@ -10,7 +10,7 @@ class EventosModelo{
     return EventosModelo(
       paciente: json['paciente'],
       fecha: DateTime.parse(json['fecha'].toString()),
-      servicio: json['servicio'],
+      servicio: json['nombre_servicio'],
       descripcion: json['descripcion']
     );
   }

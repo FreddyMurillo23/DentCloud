@@ -5,11 +5,21 @@ import 'package:muro_dentcloud/src/models/event_model.dart';
 
 class EventosCtrl{
 
-    static Future<List<EventosModelo>> listarEventos(String emailDoctor) async {
+  static Future<List<EventosModelo>> listarEventos(String emailDoctor) async {
     final response = await http.get("http://54.197.83.249/PHP_REST_API/api/get/get_accepted_appointmen_by_doctor.php?email_doctor=$emailDoctor");
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body).cast<String, dynamic>();
       return parsed['cita_acceptada'].map<EventosModelo>((json) => EventosModelo.fromJson(json)).toList();
+    }
+    print("object");
+    return null;
+  }
+
+  static Future<List<EventosModelo>> listarEventosPendientes(String emailDoctor) async {
+    final response = await http.get("http://54.197.83.249/PHP_REST_API/api/get/get_on_hold_appointment_by_doctor.php?email_doctor=$emailDoctor");
+    if (response.statusCode == 200) {
+      final parsed = json.decode(response.body).cast<String, dynamic>();
+      return parsed['cita_en_espera'].map<EventosModelo>((json) => EventosModelo.fromJson(json)).toList();
     }
     print("object");
     return null;

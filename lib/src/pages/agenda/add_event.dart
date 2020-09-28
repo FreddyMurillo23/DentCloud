@@ -96,20 +96,42 @@ class _AddEventState extends State<AddEvent> {
                             child: Column(                 
                               children: [
                                 //Correo Usuario
-                                TextField(
-                                  controller: controladorCorreoUser,
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    fillColor: Colors.blueGrey[600],
-                                    labelText: "Correo Electrónico",
-                                    labelStyle: TextStyle(
-                                      color: Colors.white,
+                                Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Flexible(
+                                      child: TextField(
+                                        controller: controladorCorreoUser,
+                                        decoration: InputDecoration(
+                                          filled: true,
+                                          fillColor: Colors.blueGrey[600],
+                                          labelText: "Correo Electrónico",
+                                          labelStyle: TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                          enabled: false,
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                                          )
+                                        ),
+                                      ),
                                     ),
-                                    enabled: false,
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                                    SizedBox(width: 10,),
+                                    Container(                                    
+                                      height: 60,
+                                      width: 60,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                                        image: DecorationImage(
+                                          image: NetworkImage("http://54.197.83.249/Contenido_ftp/Imagenes%20por%20defecto/Placeholder_male.png"),
+                                          fit: BoxFit.fill
+                                        ),
+                                        color: Colors.amber
+                                      ),
                                     )
-                                  ),
+                                  ],
                                 ),
                                 SizedBox(height: 15,),
                                 //Nombres Usuario
