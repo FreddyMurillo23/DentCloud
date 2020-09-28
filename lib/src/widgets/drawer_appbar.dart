@@ -17,8 +17,8 @@ class NavDrawer extends StatelessWidget {
               style: TextStyle(color: Colors.white, fontSize: 25),
             ),
             decoration: BoxDecoration(
-                color: Colors.green,
-                    ),
+              color: Colors.green,
+            ),
           ),
           ListTile(
             leading: Icon(Icons.input),
@@ -28,7 +28,8 @@ class NavDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.verified_user),
             title: Text('Agenda'),
-            onTap: () => {Navigator.of(context).pushReplacementNamed('agenda2')},
+            onTap: () =>
+                {Navigator.of(context).pushReplacementNamed('agenda2')},
           ),
           ListTile(
             leading: Icon(Icons.settings),
@@ -41,19 +42,26 @@ class NavDrawer extends StatelessWidget {
             onTap: () => {
               docProv.listarDoctores(),
               Navigator.of(context).pushReplacementNamed('home')
-              },
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.list),
+            title: Text('Lista Pacientes'),
+            onTap: () => {
+              docProv.listarDoctores(),
+              Navigator.of(context).pushReplacementNamed('patients')
+            },
           ),
           ListTile(
             leading: Icon(Icons.exit_to_app),
             title: Text('Cerrar Sesión'),
             onTap: () => {
-              
-              Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false)
-              },
+              Navigator.of(context)
+                  .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false)
+            },
           ),
         ],
       ),
-      
     );
   }
 }

@@ -5,6 +5,8 @@ import 'package:muro_dentcloud/src/providers/doctores_provider.dart';
 import 'package:muro_dentcloud/src/providers/event_provider.dart';
 import 'package:muro_dentcloud/src/routes/routes.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:muro_dentcloud/src/services/userData_service.dart';
+import 'package:muro_dentcloud/src/services/userPatients_service.dart';
 import 'package:provider/provider.dart';
 
 void main() => initializeDateFormatting().then((_) => runApp(MyApp()));
@@ -12,17 +14,20 @@ void main() => initializeDateFormatting().then((_) => runApp(MyApp()));
 const PrimaryColor = const Color(0xFFFFFFFF);
 
 class MyApp extends StatelessWidget {
-  
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<DoctoresProvider>(create: (context) => DoctoresProvider()),
-        ChangeNotifierProvider<DoctoresProviderName>(create: (context) => DoctoresProviderName()),
-        ChangeNotifierProvider<EventosProvider>(create: (context) => EventosProvider()),
+        ChangeNotifierProvider<DoctoresProvider>(
+            create: (context) => DoctoresProvider()),
+        ChangeNotifierProvider<DoctoresProviderName>(
+            create: (context) => DoctoresProviderName()),
+        ChangeNotifierProvider<EventosProvider>(
+            create: (context) => EventosProvider()),
+        ChangeNotifierProvider(create: (_) => new UserData()),
+        ChangeNotifierProvider(create: (_) => new UserPatient()),
       ],
-     
-          child: MaterialApp(
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'DentCloud_APP',
         theme: ThemeData(
