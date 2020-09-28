@@ -19,7 +19,7 @@ class StartUpPage extends StatefulWidget {
 
 class _StartUpPageState extends State<StartUpPage> {
   int _selectedIndex = 0;
-  
+
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static List<Widget> _widgetOptions = <Widget>[
@@ -70,9 +70,6 @@ class _StartUpPageState extends State<StartUpPage> {
   }
 }
 
-
-
-
 Widget _bottonNavigator() {
   return FutureBuilder(
     future: menuProvider.cargarData(),
@@ -86,11 +83,7 @@ Widget _bottonNavigator() {
       );
     },
   );
-
 }
-
-
-
 
 List<Widget> _items(List<dynamic> data, BuildContext context) {
   final List<Widget> opciones = [];
