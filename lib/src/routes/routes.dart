@@ -11,14 +11,14 @@ import 'package:muro_dentcloud/src/pages/patients_List.dart';
 import 'package:muro_dentcloud/src/pages/profile_page.dart';
 import 'package:muro_dentcloud/src/pages/prueba.dart';
 import 'package:muro_dentcloud/src/pages/agenda/prueba2.dart';
-import 'package:muro_dentcloud/src/pages/signin.dart';
-import 'package:muro_dentcloud/src/pages/signup.dart';
+import 'package:muro_dentcloud/src/pages/sesion/signin.dart';
+import 'package:muro_dentcloud/src/pages/sesion/signup.dart';
 import 'package:muro_dentcloud/src/pages/startup_page.dart';
 import 'package:muro_dentcloud/src/widgets/add_event2.dart';
 
 Map<String, WidgetBuilder> getApplicationRoutes() {
   return <String, WidgetBuilder>{
-    '/': (BuildContext context) => HomePage(),
+    '/': (BuildContext context) => ProfilePage(),
     'startuppage': (BuildContext context) => StartUpPage(),
     'gps': (BuildContext context) => ListaPage(),
     'home': (BuildContext context) => HomePage(),
