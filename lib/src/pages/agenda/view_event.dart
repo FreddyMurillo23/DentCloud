@@ -4,21 +4,19 @@ import 'package:intl/intl.dart';
 import 'package:muro_dentcloud/src/controllers/apointment_ctrl.dart';
 import 'package:muro_dentcloud/src/models/doctors_model.dart';
 import 'package:muro_dentcloud/src/models/event_model.dart';
-import 'package:muro_dentcloud/src/widgets/drawer_appbar.dart';
 import 'package:muro_dentcloud/src/widgets/search_bar.dart';
 
-class AddEvent extends StatefulWidget {
+class ViewEvent extends StatefulWidget {
   final EventosModelo eventosModeloGlobal;
-  final bool identificador;
 
-  const AddEvent({Key key, this.eventosModeloGlobal, this.identificador}) : super(key: key);
+  const ViewEvent({Key key, this.eventosModeloGlobal}) : super(key: key);
 
   @override
-  _AddEventState createState() => _AddEventState();
+  _ViewEventState createState() => _ViewEventState();
   
 }
 
-class _AddEventState extends State<AddEvent> {
+class _ViewEventState extends State<ViewEvent> {
   final formkey = new GlobalKey<FormState>();
   String doctor, email, descripcion, servicio;
   DateTime fecha;
@@ -38,10 +36,9 @@ class _AddEventState extends State<AddEvent> {
   if(form.validate()){
     form.save();
     print("Form is valid");
-    EventosCtrl.registrarEventos("1317054888001", doctorSeleccionado.correo, "craytus@utm.edu.ec", servicio, descripcion, fecha).then((value){
+    EventosCtrl.registrarEventos("1317054888001", "hvargas@utm.ec", "kaka@utm.ec", servicio, descripcion, fecha).then((value){
       if(value){
         print("De ley chamo");
-        Navigator.pop(context);
       } else{
         print("No se pudo burro");
       }
@@ -54,9 +51,9 @@ class _AddEventState extends State<AddEvent> {
   @override
   void initState() {
     super.initState();
-    controladorCorreoUser.text = "kaka@utm.ec";
-    controladorNombreUser.text = "Freddo";
-    controladorApellidoUser.text = "Murrillo";
+    controladorCorreoUser.text = widget.eventosModeloGlobal.paciente;
+    controladorNombreUser.text = widget.eventosModeloGlobal.paciente;
+    controladorApellidoUser.text = widget.eventosModeloGlobal.paciente;
   }
 
   @override
@@ -71,7 +68,7 @@ class _AddEventState extends State<AddEvent> {
           mainAxisSize: MainAxisSize.max,       
           children: [
 
-            Text("Solicitud de Cita", style: TextStyle(color: Colors.black, fontSize: 35),),
+            Text("Cita", style: TextStyle(color: Colors.black, fontSize: 35),),
 
             Padding(
               padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
@@ -192,7 +189,7 @@ class _AddEventState extends State<AddEvent> {
                               labelText: "Doctor",
                               filled: true,
                               fillColor: Colors.white,
-                              enabled: true,
+                              enabled: false,
                               //hintText: doctorSeleccionado.doctor,
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -223,7 +220,7 @@ class _AddEventState extends State<AddEvent> {
                               labelText: "Doctor",
                               filled: true,
                               fillColor: Colors.white,
-                              enabled: true,
+                              enabled: false,
                               hintText: null,
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -257,11 +254,11 @@ class _AddEventState extends State<AddEvent> {
                         Expanded(
                           child: new TextFormField(
                             decoration: InputDecoration(   
-                              labelText: "Servicio",                         
+                              //labelText: "Servicio",                         
                               filled: true,
                               fillColor: Colors.white,
-                              enabled: true,
-                              hintText: null,
+                              enabled: false,
+                              hintText: widget.eventosModeloGlobal.servicio,
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.all(Radius.circular(20)),
                               ),
@@ -283,11 +280,11 @@ class _AddEventState extends State<AddEvent> {
                           child: new TextFormField(
                             maxLines: 3,
                             decoration: InputDecoration(   
-                              labelText: "Descripción",                         
+                              //labelText: "Descripción",                         
                               filled: true,
                               fillColor: Colors.white,
-                              enabled: true,
-                              hintText: null,
+                              enabled: false,
+                              hintText: widget.eventosModeloGlobal.descripcion,
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.all(Radius.circular(20)),
                               ),
@@ -310,7 +307,7 @@ class _AddEventState extends State<AddEvent> {
                             decoration: InputDecoration(
                               labelText: "Fecha",
                               filled: true,
-                              enabled: true,
+                              enabled: false,
                               fillColor: Colors.white,
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -352,13 +349,6 @@ class _AddEventState extends State<AddEvent> {
                             ),
                           ),
                           SizedBox(width: 10,),
-                          Expanded(
-                            child: RaisedButton(
-                              child: Text("Enviar Solicitud"),
-                              onPressed: (){validateFields();}
-                            ),
-                          )
-                          
                         ],
                       ),
                     ),

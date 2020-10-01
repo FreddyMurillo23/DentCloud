@@ -25,6 +25,7 @@ class EventSearchDelegate extends SearchDelegate<Doctores>{
 
     @override
     Widget buildLeading(BuildContext context) {
+      var doctor = new DoctorCtrl();
       return IconButton(
         icon: Icon(Icons.arrow_back),
         onPressed: () => this.close(context, null),
@@ -36,7 +37,7 @@ class EventSearchDelegate extends SearchDelegate<Doctores>{
     Widget buildResults(BuildContext context) {
 
       if(query.trim().length == 0) {
-        return Center(child: Text('Busqueda Vacia'));
+        return Center(child: Text(''));
       }
 
       Future<List<Doctores>> futureDoctor;
@@ -86,6 +87,7 @@ class EventSearchDelegate extends SearchDelegate<Doctores>{
         final doctor = doctores[i];
 
         return ListTile(
+          leading: Image.network("http://54.197.83.249/Contenido_ftp/Imagenes%20por%20defecto/Placeholder_male.png", width: 45,),
           title: Text(doctor.doctor),
           onTap: (){
             this.close(context, doctor);

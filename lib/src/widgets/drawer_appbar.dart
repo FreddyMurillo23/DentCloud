@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:muro_dentcloud/src/providers/doctores_provider.dart';
+import 'package:muro_dentcloud/src/providers/event_provider.dart';
 import 'package:provider/provider.dart';
 
 class NavDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DoctoresProvider docProv = Provider.of<DoctoresProvider>(context);
+    EventosProvider eventProv = Provider.of<EventosProvider>(context);
+    EventosHoldProvider eventHoldProv = Provider.of<EventosHoldProvider>(context);
 
     return Drawer(
       child: ListView(
@@ -29,7 +32,11 @@ class NavDrawer extends StatelessWidget {
             leading: Icon(Icons.verified_user),
             title: Text('Agenda'),
             onTap: () =>
-                {Navigator.of(context).pushReplacementNamed('agenda2')},
+                {
+                  eventHoldProv.listarEventosonHold('hvargas@utm.ec'),
+                  eventProv.listarEventosHold('hvargas@utm.ec'),
+                  Navigator.of(context).pushReplacementNamed('agenda2')
+                },
           ),
           ListTile(
             leading: Icon(Icons.settings),
@@ -48,7 +55,6 @@ class NavDrawer extends StatelessWidget {
             leading: Icon(Icons.list),
             title: Text('Lista Pacientes'),
             onTap: () => {
-              docProv.listarDoctores(),
               Navigator.of(context).pushReplacementNamed('patients')
             },
           ),
