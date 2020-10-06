@@ -13,15 +13,15 @@ class AwaitPage extends StatelessWidget {
     currentUserData.currentCorreo.then((email) {
       currentUserData.currentPassword.then((password) {
         if (email == 'empty' && password == 'empty') {
-          final duration = new Duration(seconds: 3);
+          final duration = new Duration(seconds: 2);
           new Timer(duration, () {
-            Navigator.pushNamed(context, 'signin');
+            Navigator.pushReplacementNamed(context, 'signin');
           });
           
         } else {
-          final duration = new Duration(seconds: 3);
+          final duration = new Duration(seconds: 2);
           new Timer(duration, () {
-            Navigator.pushNamed(context, 'startuppage');
+            Navigator.pushReplacementNamed(context, 'startuppage');
           });
           
 

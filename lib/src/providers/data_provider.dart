@@ -5,6 +5,7 @@ import 'package:muro_dentcloud/src/models/apointments_model.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/login_model.dart';
 import 'package:muro_dentcloud/src/models/publications_model.dart';
+import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
 
 class DataProvider {
   // String _apiKey = '';
@@ -41,7 +42,7 @@ class DataProvider {
     return eventos.items;
   }
 
-  Future<bool> loginUsuario(email, password) async {
+  Future<bool> loginUsuario(String email, String password) async {
     String url =
         'http://54.197.83.249/PHP_REST_API/api/get/get_select_by_login.php?user_email=$email&password=$password';
     final resp = await http.get(url);
@@ -52,6 +53,11 @@ class DataProvider {
       final decodedData = json.decode(resp2.body);
       CurrentUsuarios.fromJsonList(decodedData['usuario']);
       print(decodedData);
+      final currentUserData = new PreferenciasUsuario();
+      currentUserData.currentCorreo = email;
+      currentUserData.currentPassword = password;
+      print(currentUserData.currentCorreo);
+      print(currentUserData.currentPassword);
       return true;
     } else {
       return false;

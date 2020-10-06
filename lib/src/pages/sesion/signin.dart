@@ -29,9 +29,6 @@ class _SignInState extends State<SignIn> {
     } else {
       print('Form is invalid');
     }
-
-
-
 //Prueba Temporal
     if (_email.isNotEmpty && _password.isNotEmpty) {
       

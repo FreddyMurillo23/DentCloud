@@ -19,7 +19,7 @@ import 'package:muro_dentcloud/src/widgets/add_event2.dart';
 
 Map<String, WidgetBuilder> getApplicationRoutes() {
   return <String, WidgetBuilder>{
-    '/': (BuildContext context) => SignIn(),
+    '/': (BuildContext context) => AwaitPage(),
     'signin': (BuildContext context) => SignIn(),
     'startuppage': (BuildContext context) => StartUpPage(),
     'gps': (BuildContext context) => ListaPage(),
