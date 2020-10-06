@@ -32,6 +32,8 @@ class MyApp extends StatelessWidget {
             create: (context) => EventosProvider()),
         ChangeNotifierProvider(create: (_) => new UserData()),
         ChangeNotifierProvider(create: (_) => new UserPatient()),
+        ChangeNotifierProvider<EventosHoldProvider>(
+            create: (context) => EventosHoldProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

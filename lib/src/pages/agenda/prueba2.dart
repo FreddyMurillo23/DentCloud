@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:muro_dentcloud/src/controllers/apointment_ctrl.dart';
 import 'package:muro_dentcloud/src/models/event_model.dart';
+import 'package:muro_dentcloud/src/pages/agenda/add_event.dart';
+import 'package:muro_dentcloud/src/pages/agenda/view_event.dart';
+import 'package:muro_dentcloud/src/providers/event_provider.dart';
 import 'package:muro_dentcloud/src/widgets/drawer_appbar.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -17,7 +21,8 @@ class _Agenda3State extends State<Agenda3> {
   List<dynamic> _selectedEvents;
   List<EventosModelo> eventosModel;
   List<EventosModelo> eventosModel2;
-  bool prueba = false;
+  bool prueba = true;
+  
 
   @override
   void initState() {
@@ -47,9 +52,10 @@ class _Agenda3State extends State<Agenda3> {
     futureEvents = EventosCtrl.listarEventos("hvargas@utm.ec");
 
     return Scaffold(
+      backgroundColor: Colors.white,
       drawer: NavDrawer(),
       appBar: AppBar(
-        
+        backgroundColor: Colors.white,
       ),
       body: FutureBuilder<List<EventosModelo>>(
         future: futureEvents,
@@ -127,7 +133,10 @@ class _Agenda3State extends State<Agenda3> {
                 title: Text(e.servicio),
                 subtitle: Text(e.fecha.toString()),
                 onTap: () {
-                  
+                  Navigator.push(context, MaterialPageRoute(builder: (_) =>
+                  ViewEvent(eventosModeloGlobal: e)
+                  )
+                  );
                 },
               ),
             ),),
@@ -150,7 +159,9 @@ class _Agenda3State extends State<Agenda3> {
     }
     return FloatingActionButton(
       child: Icon(Icons.list),
-      onPressed: () => Navigator.pushNamed(context, 'eventosPendientes'),
+      onPressed: () {
+        Navigator.pushNamed(context, 'eventosPendientes');
+      } 
     );
   }
 }

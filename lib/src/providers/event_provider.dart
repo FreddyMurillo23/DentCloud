@@ -19,3 +19,21 @@ class EventosProvider with ChangeNotifier{
     });
   }
 }
+
+class EventosHoldProvider with ChangeNotifier{
+  List<EventosModelo> eventosHold = List<EventosModelo>();
+
+  void listarEventosonHold(String email){
+    EventosCtrl.listarEventosPendientes(email).then((value){
+      if(value!=null){
+        this.eventosHold = value;
+        print(value.hashCode);
+      } else{
+        this.eventosHold = List<EventosModelo>();
+        print(value.hashCode);
+        
+      }
+      notifyListeners();
+    });
+  }
+}

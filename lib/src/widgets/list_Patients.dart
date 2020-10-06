@@ -21,7 +21,7 @@ class ListaPacientes extends StatelessWidget {
             subtitle: Text(this.usuariosPacientes[index].correo),
             trailing: FlatButton(
               onPressed: () {
-                Navigator.pushNamed(context, 'pruebaUser');
+                
               },
               child: Text(
                 'Seguir',
@@ -29,7 +29,10 @@ class ListaPacientes extends StatelessWidget {
               ),
               color: Colors.deepPurpleAccent[200],
             ),
-            onTap: () {},
+            onTap: () {
+              //Freddo aqui va tu interfaz de usuario
+              //Navigator.pushNamed(context, 'pruebaUser');
+            },
           );
         });
   }
