@@ -30,29 +30,11 @@ class _SignInState extends State<SignIn> {
       print('Form is invalid');
     }
 
-    if (_email.isEmpty && _password.isEmpty) {
-      if (currentUserData.currentCorreo != 'empty' &&
-          currentUserData.currentPassword != 'empty') {
-        final login = new DataProvider();
-        login.loginUsuario(_email, _password).then((value) {
-          if (value) {
-            List<String> data = new List();
-            data..add(_email)..add(_password);
-            print(data);
-            Navigator.pushReplacementNamed(context, 'startuppage',
-                arguments: _email);
-          } else {
-            print("Error");
-            _showDialog();
-          }
-        });
-      }
-    }
+
 
 //Prueba Temporal
     if (_email.isNotEmpty && _password.isNotEmpty) {
-      if (currentUserData.currentCorreo == 'empty' &&
-          currentUserData.currentPassword == 'empty') {
+      
         final login = new DataProvider();
         login.loginUsuario(_email, _password).then((value) {
           if (value) {
@@ -63,21 +45,9 @@ class _SignInState extends State<SignIn> {
             _showDialog();
           }
         });
-      }
-      // final login = new DataProvider();
-      // login.loginUsuario(_email, _password).then((value) {
-      //   if (value) {
-      //     Navigator.pushReplacementNamed(context, 'startuppage',
-      //         arguments: _email);
-      //   } else {
-      //     print("Error");
-      //     _showDialog();
-      //   }
-      // });
-    }
+      
 
-    print(_email);
-    print(_password);
+    }
   }
 
 //Alerta
