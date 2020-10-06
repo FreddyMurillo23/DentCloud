@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:muro_dentcloud/src/models/apointments_model.dart';
+import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/login_model.dart';
 import 'package:muro_dentcloud/src/models/publications_model.dart';
 
@@ -45,6 +46,12 @@ class DataProvider {
         'http://54.197.83.249/PHP_REST_API/api/get/get_select_by_login.php?user_email=$email&password=$password';
     final resp = await http.get(url);
     if (resp.statusCode == 200) {
+      String url2 =
+          'http://54.197.83.249/PHP_REST_API/api/get/get_user_data_principal.php?user_email=$email';
+      final resp2 = await http.get(url2);
+      final decodedData = json.decode(resp2.body);
+      CurrentUsuarios.fromJsonList(decodedData['usuario']);
+      print(decodedData);
       return true;
     } else {
       return false;

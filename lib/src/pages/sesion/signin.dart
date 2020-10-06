@@ -3,7 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:muro_dentcloud/src/models/login_model.dart';
 import 'package:muro_dentcloud/src/providers/data_provider.dart';
+import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
 import 'package:muro_dentcloud/src/widgets/logo_login.dart';
+// import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -15,6 +17,7 @@ class _SignInState extends State<SignIn> {
 
   String _email;
   String _password;
+  final currentUserData = new PreferenciasUsuario();
 
 //Validación
   void validaterField() {
@@ -27,25 +30,55 @@ class _SignInState extends State<SignIn> {
       print('Form is invalid');
     }
 
+    if (_email.isEmpty && _password.isEmpty) {
+      if (currentUserData.currentCorreo != 'empty' &&
+          currentUserData.currentPassword != 'empty') {
+        final login = new DataProvider();
+        login.loginUsuario(_email, _password).then((value) {
+          if (value) {
+            List<String> data = new List();
+            data..add(_email)..add(_password);
+            print(data);
+            Navigator.pushReplacementNamed(context, 'startuppage',
+                arguments: _email);
+          } else {
+            print("Error");
+            _showDialog();
+          }
+        });
+      }
+    }
+
 //Prueba Temporal
     if (_email.isNotEmpty && _password.isNotEmpty) {
-
-      final login = new DataProvider();
-      login.loginUsuario(_email, _password).then((value){
-        if (value) {
-        Navigator.pushReplacementNamed(context, 'startuppage',arguments: _email);
-      } else {
-        print("Error");
-        _showDialog();
+      if (currentUserData.currentCorreo == 'empty' &&
+          currentUserData.currentPassword == 'empty') {
+        final login = new DataProvider();
+        login.loginUsuario(_email, _password).then((value) {
+          if (value) {
+            Navigator.pushReplacementNamed(context, 'startuppage',
+                arguments: _email);
+          } else {
+            print("Error");
+            _showDialog();
+          }
+        });
       }
-      });
-      
+      // final login = new DataProvider();
+      // login.loginUsuario(_email, _password).then((value) {
+      //   if (value) {
+      //     Navigator.pushReplacementNamed(context, 'startuppage',
+      //         arguments: _email);
+      //   } else {
+      //     print("Error");
+      //     _showDialog();
+      //   }
+      // });
     }
 
     print(_email);
     print(_password);
   }
-
 
 //Alerta
   void _showDialog() {
