@@ -24,6 +24,7 @@ class _ViewEventState extends State<ViewEvent> {
   TextEditingController controladorCorreoUser = TextEditingController();
   TextEditingController controladorNombreUser = TextEditingController();
   TextEditingController controladorApellidoUser = TextEditingController();
+  TextEditingController controladorFecha = TextEditingController();
   bool document = true;
   final format = DateFormat("yyyy-MM-dd");
 
@@ -54,6 +55,7 @@ class _ViewEventState extends State<ViewEvent> {
     controladorCorreoUser.text = widget.eventosModeloGlobal.paciente;
     controladorNombreUser.text = widget.eventosModeloGlobal.paciente;
     controladorApellidoUser.text = widget.eventosModeloGlobal.paciente;
+    
   }
 
   @override
@@ -194,17 +196,6 @@ class _ViewEventState extends State<ViewEvent> {
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.all(Radius.circular(20)),
                               ),
-                              suffixIcon: GestureDetector(
-                                onTap: ()async{
-                                final seleccionDoctor = await showSearch(context: context, delegate: EventSearchDelegate('Buscar Doctores', historial));
-                                setState(() {
-                                  doctorSeleccionado = seleccionDoctor;
-                                  controlador.text = doctorSeleccionado.doctor;
-                                  if(seleccionDoctor !=null) {this.historial.insert(0, seleccionDoctor);}                        
-                                });
-                              },
-                                child: Icon(Icons.search),
-                              )
                             ),
                             validator: (value) => value.isEmpty ? 'Este campo no puede estar vacio' : null,
                             onSaved: (value) => doctor = value,
@@ -221,7 +212,7 @@ class _ViewEventState extends State<ViewEvent> {
                               filled: true,
                               fillColor: Colors.white,
                               enabled: false,
-                              hintText: null,
+                              hintText: widget.eventosModeloGlobal.fecha.toString(),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.all(Radius.circular(20)),
                               ),
@@ -303,32 +294,17 @@ class _ViewEventState extends State<ViewEvent> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Expanded(
-                          child: DateTimeField(
+                          child: TextFormField(
                             decoration: InputDecoration(
-                              labelText: "Fecha",
+                              //labelText: "Fecha",
                               filled: true,
                               enabled: false,
+                              hintText: widget.eventosModeloGlobal.fecha.toString(),
                               fillColor: Colors.white,
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.all(Radius.circular(20)),
                               ),
-                              prefixIcon: Icon(Icons.date_range)
                             ),
-                            format: format,
-                            onShowPicker: (context, currentValue) {
-                              return showDatePicker(
-                                  context: context,
-                                  firstDate: DateTime(1900),
-                                  initialDate: currentValue ?? DateTime.now(),
-                                  lastDate: DateTime(2100));
-                            },
-                            validator: (DateTime dateTime){
-                              if(dateTime == null) {
-                                return "Este campo no puede estar vacio";
-                              }
-                              return null;
-                            },
-                            onSaved: (DateTime dateTime) => fecha = dateTime,
                           ),
                         )
 

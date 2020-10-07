@@ -18,7 +18,7 @@ class _Agenda3State extends State<Agenda3> {
   List<dynamic> _selectedEvents;
   List<EventosModelo> eventosModel;
   List<EventosModelo> eventosModel2;
-  bool prueba = true;
+  bool prueba = false;
   
 
   @override
@@ -130,6 +130,7 @@ class _Agenda3State extends State<Agenda3> {
                 title: Text(e.servicio),
                 subtitle: Text(e.fecha.toString()),
                 onTap: () {
+                  print(e.fecha.toString());
                   Navigator.push(context, MaterialPageRoute(builder: (_) =>
                   ViewEvent(eventosModeloGlobal: e)
                   )

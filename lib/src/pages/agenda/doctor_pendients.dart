@@ -73,12 +73,16 @@ class _DoctorEventsPendientsState extends State<DoctorEventsPendients> {
                           spacing: 5,
                           children: [
                             RaisedButton(
-                              onPressed: (){}, 
+                              onPressed: (){
+
+                              }, 
                               color: Colors.greenAccent[400],
                               child: Text("Gestionar"),
                             ),
                             RaisedButton(
-                              onPressed: (){},
+                              onPressed: (){
+                                
+                              },
                               color: Colors.purple[900],
                               child: Text("Aceptar"),
                             )
