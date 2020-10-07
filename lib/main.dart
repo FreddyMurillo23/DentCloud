@@ -3,13 +3,19 @@ import 'package:muro_dentcloud/palette.dart';
 import 'package:muro_dentcloud/src/pages/sesion/signin.dart';
 import 'package:muro_dentcloud/src/providers/doctores_provider.dart';
 import 'package:muro_dentcloud/src/providers/event_provider.dart';
+import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
 import 'package:muro_dentcloud/src/routes/routes.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:muro_dentcloud/src/services/userData_service.dart';
 import 'package:muro_dentcloud/src/services/userPatients_service.dart';
 import 'package:provider/provider.dart';
 
-void main() => initializeDateFormatting().then((_) => runApp(MyApp()));
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+    final prefs = new PreferenciasUsuario();
+    await prefs.initPrefs();
+  initializeDateFormatting().then((_) => runApp(MyApp()));
+} 
 
 const PrimaryColor = const Color(0xFFFFFFFF);
 

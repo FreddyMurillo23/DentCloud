@@ -13,7 +13,10 @@ class Palette {
   static const Color scaffold = Color(0xFFF0F2F5);
   static const Color textColor = Color(0xFF1777F2);
   static const LinearGradient createRoomGradient =
-      LinearGradient(colors: [Color(0xFF496AE1), Color(0xFF4BCB1F)]);
+      LinearGradient(colors: [
+        Color(0xFF496AE1),
+        Color(0xFF4BCB1F),
+        Color(0xFF1777F2)]);
 
   static const Color online = Color(0xFF4BCB1F);
 
