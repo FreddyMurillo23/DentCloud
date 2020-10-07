@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
-import 'package:muro_dentcloud/src/models/login_model.dart';
 import 'package:muro_dentcloud/src/providers/data_provider.dart';
 import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
 import 'package:muro_dentcloud/src/widgets/logo_login.dart';

@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:muro_dentcloud/src/models/publications_model.dart';
-
-import '../../palette.dart';
 import 'circle_button.dart';
 // import 'package:flutter/material.dart';
 

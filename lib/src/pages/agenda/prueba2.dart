@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:muro_dentcloud/src/controllers/apointment_ctrl.dart';
 import 'package:muro_dentcloud/src/models/event_model.dart';
-import 'package:muro_dentcloud/src/pages/agenda/add_event.dart';
 import 'package:muro_dentcloud/src/pages/agenda/view_event.dart';
-import 'package:muro_dentcloud/src/providers/event_provider.dart';
 import 'package:muro_dentcloud/src/widgets/drawer_appbar.dart';
-import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'dart:async';
-import 'dart:convert';
+
 
 class Agenda3 extends StatefulWidget {
   @override

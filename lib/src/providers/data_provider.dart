@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:muro_dentcloud/src/models/apointments_model.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
-import 'package:muro_dentcloud/src/models/login_model.dart';
 import 'package:muro_dentcloud/src/models/publications_model.dart';
 import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
 

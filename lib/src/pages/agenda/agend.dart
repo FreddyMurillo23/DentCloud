@@ -6,7 +6,7 @@ import 'package:muro_dentcloud/src/widgets/drawer_appbar.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'dart:async';
-import 'dart:convert';
+
 
 // import 'dart:convert';
 // import 'package:shared_preferences/shared_preferences.dart';
@@ -41,15 +41,6 @@ class _AgendaState extends State<Agenda> {
     
   }
 
-  Map<DateTime, List<dynamic>> _groupEvents(List<EventModel> events){  
-    Map<DateTime, List<dynamic>> data = {};
-    events.forEach((event) { 
-      DateTime date = DateTime(event.fecha.year, event.fecha.month, event.fecha.day
-      , 12);
-      if(data[date] == null) data[date] = [];
-      data[date].add(event);
-    });
-  }
   
 
 

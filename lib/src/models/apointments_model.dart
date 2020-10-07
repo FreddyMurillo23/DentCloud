@@ -1,4 +1,4 @@
-import 'dart:io';
+
 
 class Eventos {
   //? Lista de tipo publicacion donde se almacenaran los datos extraidos.
