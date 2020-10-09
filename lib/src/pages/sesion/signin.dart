@@ -54,7 +54,7 @@ class _SignInState extends State<SignIn> {
           return AlertDialog(
             title: new Text("Datos Erroneos Onichan"),
             content: new Image(
-              image: AssetImage("assets/images/fondo2.png"),
+              image: AssetImage("assets/fondo2.png"),
               width: 150,
               height: 200,
             ),
@@ -78,7 +78,7 @@ class _SignInState extends State<SignIn> {
       body: new Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-              image: AssetImage("assets/images/fondo1.png"), fit: BoxFit.cover),
+              image: AssetImage("assets/fondo.jpg"),fit: BoxFit.cover),
         ),
         child: new Center(
           child: new Container(
@@ -158,7 +158,7 @@ class _SignInState extends State<SignIn> {
                   new RaisedButton(
                     child: Text("Iniciar Sesión"),
                     onPressed: validaterField,
-                    color: Colors.blueAccent,
+                    color: Colors.lightBlue,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(18),
                     ),
@@ -175,7 +175,7 @@ class _SignInState extends State<SignIn> {
                       Navigator.of(context).pushNamedAndRemoveUntil(
                           'registrarse', (Route<dynamic> route) => false)
                     },
-                    color: Colors.blueAccent,
+                    color: Colors.lightBlue,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(18),
                     ),

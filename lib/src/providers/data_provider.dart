@@ -51,16 +51,25 @@ class DataProvider {
       final resp2 = await http.get(url2);
       final decodedData = json.decode(resp2.body);
       CurrentUsuarios.fromJsonList(decodedData['usuario']);
-      print(decodedData);
+      // print(decodedData);
       final currentUserData = new PreferenciasUsuario();
       currentUserData.currentCorreo = email;
       currentUserData.currentPassword = password;
-      print(currentUserData.currentCorreo);
-      print(currentUserData.currentPassword);
       return true;
     } else {
       return false;
     }
+  }
+
+  Future<bool> userData(String email) async {
+    String url2 =
+        'http://54.197.83.249/PHP_REST_API/api/get/get_user_data_principal.php?user_email=$email';
+    final resp2 = await http.get(url2);
+    final decodedData = json.decode(resp2.body);
+    CurrentUsuarios.fromJsonList(decodedData['usuario']);
+    // print(decodedData);
+    // print(decodedData['usuario']);
+    return true;
   }
 
   Future<bool> registrarEventos(String ruc, String email, String user,
