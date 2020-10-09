@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:muro_dentcloud/src/controllers/apointment_ctrl.dart';
 import 'package:muro_dentcloud/src/models/doctors_model.dart';
 import 'package:muro_dentcloud/src/models/event_model.dart';
-import 'package:muro_dentcloud/src/widgets/drawer_appbar.dart';
+
 import 'package:muro_dentcloud/src/widgets/search_bar.dart';
 
 class AddEvent extends StatefulWidget {

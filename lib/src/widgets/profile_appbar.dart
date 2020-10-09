@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:muro_dentcloud/src/models/publications_model.dart';
-
-import '../../palette.dart';
 import 'circle_button.dart';
 // import 'package:flutter/material.dart';
 
@@ -40,13 +37,14 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
             child: Stack(
           fit: StackFit.expand,
           children: [
-            FadeInImage(
-              image: NetworkImage(
-                  'https://www.webdesignerdepot.com/cdn-origin/uploads/2013/06/featured48.jpg'),
-              // image: NetworkImage('https://images.vexels.com/media/users/3/772/preview2/75138e91581bc09618e7080f19a576aa-abstract-wavy-background-vector.jpg'),
-              placeholder: AssetImage('assets/loading.gif'),
-              fit: BoxFit.fill,
-            ),
+            Image(image: AssetImage('assets/fondo.jpg'),fit: BoxFit.cover,),
+            // FadeInImage(
+            //   image: NetworkImage(
+            //       'https://www.webdesignerdepot.com/cdn-origin/uploads/2013/06/featured48.jpg'),
+            //   // image: NetworkImage('https://images.vexels.com/media/users/3/772/preview2/75138e91581bc09618e7080f19a576aa-abstract-wavy-background-vector.jpg'),
+            //   placeholder: AssetImage('assets/loading.gif'),
+            //   fit: BoxFit.fill,
+            // ),
             Table(
               // border: TableBorder.all(),
               children: [
