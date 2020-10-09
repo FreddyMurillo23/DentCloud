@@ -20,6 +20,16 @@
             "ruta"  :   "perfil",
             "icon"  :   "person",
             "texto" :   "Perfil"
+        },
+        {
+            "ruta"  :   "search",
+            "icon"  :   "person",
+            "texto" :   "Search"
+        },
+        {
+            "ruta"  :   "eventosPendientes",
+            "icon"  :   "person",
+            "texto" :   "eventosPendientes"
         }
     ]
 }

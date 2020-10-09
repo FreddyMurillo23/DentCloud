@@ -1,126 +1,189 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:muro_dentcloud/palette.dart';
+import 'dart:async';
 
-class CardPage extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:muro_dentcloud/src/providers/data_provider.dart';
+import 'package:muro_dentcloud/src/widgets/cards.dart';
+import 'package:muro_dentcloud/src/widgets/circle_button.dart';
+import 'package:muro_dentcloud/src/widgets/drawer_appbar.dart';
+
+
+import '../../palette.dart';
+
+class CardPage extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('DENT CLOUD'),
-        centerTitle: true,
-        elevation: 0,
-        leading: IconButton(
-            icon: SvgPicture.asset("assets/icons/019-left-align-2.svg"),
-            onPressed: () {}),
-        actions: <Widget>[
-          IconButton(
-            icon: Image.asset("assets/images/011-paper-plane.png"),
-            onPressed: () {},
-          ),
-        ],
-      ),
-      body: ListView(
-        padding: EdgeInsets.all(10.0),
-        children: <Widget>[
-          _cardTipo1(),
-          SizedBox(height: 30.0),
-          _cardTipo2(),
-          SizedBox(height: 30.0),
-          _cardTipo1(),
-          SizedBox(height: 30.0),
-          _cardTipo2(),
-          SizedBox(height: 30.0),
-          _cardTipo1(),
-          SizedBox(height: 30.0),
-          _cardTipo2(),
-          SizedBox(height: 30.0),
-          _cardTipo1(),
-          SizedBox(height: 30.0),
-          _cardTipo2(),
-          SizedBox(height: 30.0),
-          _cardTipo1(),
-          SizedBox(height: 30.0),
-          _cardTipo2(),
-          SizedBox(height: 30.0),
-        ],
-      ),
-    );
+  _CardPageState createState() => _CardPageState();
+}
+
+class _CardPageState extends State<CardPage> {
+  final publicacionesProvider = new DataProvider();
+  ScrollController _scrollController = new ScrollController();
+  List<int> _publicaciones = new List();
+  int _ultimoItem = 0;
+  bool _isLoading = false;
+  @override
+  void initState() {
+    super.initState();
+    _agregar10(); //? Esta aqui para inicializar los primeros datos que aparezcan en la pantalla y cada que se llama ejecuta 10 mas
+//? Metodo oyente, que toma los datos del Scroll controler para saber si llego al final de la pagina.
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        // _agregar10();
+        fetchData();
+      }
+    });
   }
 
-  Widget _cardTipo1() {
-    return Card(
-      elevation: 10.0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-      child: Column(
-        children: <Widget>[
-          ListTile(
-            leading: Icon(Icons.photo_album, color: Colors.blue),
-            title: Text('Soy el titulo de esta tarjeta'),
-            subtitle: Text(
-                'Aquí estamos con la descripción de la tajera que quiero que ustedes vean para tener una idea de lo que quiero mostrarles'),
+  @override
+  void dispose() {
+    super.dispose();
+    _scrollController
+        .dispose(); //? Destruye el scroll controler para cuando se salga de la pagina
+  }
+
+  Widget build(BuildContext context) {
+    final _screenSize = MediaQuery.of(context).size;
+    return Scaffold(
+      drawer: NavDrawer(),
+      appBar: AppBar(
+        brightness: Brightness.light,
+        backgroundColor: Colors.white,
+        title: Image(image: AssetImage('assets/title.png') ,fit: BoxFit.fill,),
+        // Text(
+        //   'DentCloud',
+        //   style: const TextStyle(
+        //     color: Palette.textColor,
+        //     fontSize: 28.0,
+        //     fontWeight: FontWeight.bold,
+        //     letterSpacing: -1.2,
+        //   ),
+        // ),
+        centerTitle: false,
+        // floa ting: true,
+        actions: [
+          CircleButton(
+            icon: Icons.search,
+            iconsize: 30.0,
+            onPressed: () => print('Search'),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              FlatButton(
-                child: Text('Me Gusta'),
-                onPressed: () {},
-              ),
-              FlatButton(
-                child: Text('Comentar'),
-                onPressed: () {},
-              ),
-              FlatButton(
-                child: Text('Compartir'),
-                onPressed: () {},
-              )
-            ],
+          CircleButton(
+            icon: MdiIcons.facebookMessenger,
+            iconsize: 30.0,
+            onPressed: () => print('Messenger'),
           )
         ],
       ),
+      body:
+      Stack(
+            children: <Widget>[
+              _cards(_screenSize),
+              _crearLoading()],
+            )
+      // body: Container (
+      //   child: Column (
+      //     children: <Widget>[
+      //       // CreatePostContainer(currentUser: 'me vale verga xd ',),
+      //       Stack(
+      //       children: <Widget>[
+      //         _cards(_screenSize),
+      //         _crearLoading()],
+      //       )
+      //     ]
+      //   )
+      // ),
     );
   }
 
-  Widget _cardTipo2() {
-    final card = Container(
-      // clipBehavior: Clip.antiAlias,
-      child: Column(
+  //? Llama a dibujar las cartas y recibe los datos desde el provider
+  Widget _cards(_screenSize) {
+    //*Llama a el metodo get publicaciones que devuelve una lista donde se ecuentran todos los datos
+    return FutureBuilder(
+      future: publicacionesProvider.getPublicaciones(),
+      builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
+        if (snapshot.hasData) {
+          return RefreshIndicator(
+            onRefresh: obtenerPagina1,
+            child: ListView.builder(
+              controller: _scrollController,
+              itemCount: snapshot.data.length,
+              itemBuilder: (BuildContext context, int index) {
+                // print(publicacionesProvider.getPublicaciones());
+                print(snapshot.data.length);
+                return CardWidgetPublicaciones(
+                    publicaciones: snapshot.data, id: index
+                );
+              },
+            ),
+          );
+        } else {
+          return Container(
+            height: _screenSize.height * 4,
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+      },
+    );
+
+    //
+  }
+
+  Future<Null> obtenerPagina1() async {
+    final duration = new Duration(seconds: 1);
+    new Timer(duration, () {
+      _publicaciones.clear();
+      _ultimoItem++;
+      _agregar10();
+    });
+    return Future.delayed(duration);
+  }
+
+//? trae la lista de los datos y controla el setSate principal para el redibujado
+  void _agregar10() {
+    for (var i = 1; i < 10; i++) {
+      _ultimoItem++;
+      _publicaciones.add(_ultimoItem);
+    }
+    setState(() {});
+  }
+
+// ? Trae los datos y redibuja.
+  Future fetchData() async {
+    _isLoading = true;
+    setState(() {});
+    final duration = new Duration(seconds: 1);
+    return new Timer(duration, respuestaHTTP);
+  }
+
+// ? Condiciona la respuesta http para que los datos que se traigan tengan animacion y luego agrega 10 mas
+  void respuestaHTTP() {
+    _isLoading = false;
+    _scrollController.animateTo(_scrollController.position.pixels + 100,
+        curve: Curves.fastOutSlowIn, duration: Duration(milliseconds: 250));
+    _agregar10();
+  }
+
+//? Si esta cargando nueva data hace la animacion de el circularProgrest indicator
+//? Si no solo imprime un container vacio.
+  Widget _crearLoading() {
+    if (_isLoading) {
+      return Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          FadeInImage(
-            image: NetworkImage(
-                'https://static.photocdn.pt/images/articles/2017_1/iStock-545347988.jpg'),
-            placeholder: AssetImage('assets/jar-loading.gif'),
-            fadeInDuration: Duration(milliseconds: 200),
-            height: 300.0,
-            fit: BoxFit.cover,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircularProgressIndicator(),
+            ],
           ),
-
-          // Image(
-          //   image: NetworkImage('https://static.photocdn.pt/images/articles/2017_1/iStock-545347988.jpg'),
-          // ),
-          Container(
-              padding: EdgeInsets.all(10.0),
-              child: Text('No tengo idea de que poner'))
+          SizedBox(height: 15.0)
         ],
-      ),
-    );
-
-    return Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30.0),
-          color: Colors.white,
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-                color: Colors.black26,
-                blurRadius: 10.0,
-                spreadRadius: 2.0,
-                offset: Offset(2.0, 10.0))
-          ]),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(30.0),
-        child: card,
-      ),
-    );
+      );
+    } else {
+      return Container();
+    }
   }
 }
