@@ -21,7 +21,7 @@ class _Agenda3State extends State<Agenda3> {
   List<dynamic> _selectedEvents;
   List<EventosModelo> eventosModel;
   List<EventosModelo> eventosModel2;
-  bool prueba = false;
+  bool prueba = true;
   
 
   @override
@@ -128,18 +128,35 @@ class _Agenda3State extends State<Agenda3> {
 
             if(_selectedEvents != null)
             ..._selectedEvents.map((e) => SingleChildScrollView(
-                          child: ListTile(
-                
-                title: Text(e.servicio),
-                subtitle: Text(e.fecha.toString()),
-                onTap: () {
-                  print(e.fecha.toString());
-                  Navigator.push(context, MaterialPageRoute(builder: (_) =>
-                  ViewEvent(eventosModeloGlobal: e)
-                  )
-                  );
-                },
-              ),
+               child: Row(
+                 children: [
+                   Container(
+                     width: 50,
+                     height: 50,
+                     decoration: BoxDecoration(
+                       image: DecorationImage(
+                         image: NetworkImage("http://54.197.83.249/Contenido_ftp/Imagenes%20por%20defecto/Placeholder_male.png"),
+                         fit: BoxFit.fill
+                       )
+                     ),
+                   ),
+                   SizedBox(width: 10,),
+                   Flexible(
+                    child: ListTile(              
+                      title: Text(e.servicio),
+                      subtitle: Text(e.fecha.toString()),
+                      onTap: () {
+                        print(e.fecha.toString());
+                        Navigator.push(context, MaterialPageRoute(builder: (_) =>
+                        ViewEvent(eventosModeloGlobal: e)
+                        )
+                        );
+                      },
+                    ),
+                   ),
+                   FlatButton(onPressed: (){}, child: Icon(Icons.more_vert))
+                 ],
+               ),
             ),),
             
             ]
