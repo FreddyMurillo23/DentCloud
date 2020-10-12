@@ -17,13 +17,13 @@ class CircleButton extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.all(6.0),
       decoration: BoxDecoration(
-        color: Colors.grey[200],
+        color: Colors.lightBlue[50],
         shape: BoxShape.circle,
       ),
       child: IconButton(
           icon: Icon(icon),
           iconSize: iconsize,
-          color: Colors.black,
+          color: Colors.blue[600],
           onPressed: onPressed),
     );
   }

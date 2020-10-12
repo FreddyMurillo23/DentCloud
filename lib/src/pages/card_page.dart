@@ -7,9 +7,6 @@ import 'package:muro_dentcloud/src/widgets/cards.dart';
 import 'package:muro_dentcloud/src/widgets/circle_button.dart';
 import 'package:muro_dentcloud/src/widgets/drawer_appbar.dart';
 
-
-import '../../palette.dart';
-
 class CardPage extends StatefulWidget {
   @override
   _CardPageState createState() => _CardPageState();

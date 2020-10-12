@@ -1,5 +1,3 @@
-
-
 class Publicaciones {
   //? Lista de tipo publicacion donde se almacenaran los datos extraidos.
   List<Publicacion> items = new List();
@@ -18,13 +16,19 @@ class Publicaciones {
 
 class Publicacion {
   String usuario;
+  String correoUsuario;
   String descripcion;
   String archivo;
-  String fecha;
+  DateTime fecha;
+  String idPublicacion;
   String negocio;
+  String negocioRuc;
   String inicialnegocio;
   String inicialusuario;
   String fotoperfilusuario;
+  int likes;
+  List<Etiquetas> etiquetas = new List();
+  List<Comentarios> comentarios = new List();
 
   Publicacion({
     this.usuario,
@@ -39,25 +43,26 @@ class Publicacion {
   //? /1 Para connvertir a double y .cast<int>() para lista de items
   //? fromJsonMap extrae los datos del json y los envia a las variables de la clase y los convierte en un mapa de datos.
   Publicacion.fromJsonMap(Map<String, dynamic> json) {
-    usuario             = json['usuario'];
-    descripcion         = json['descripcion'];
-    archivo             = json['archivo'];
-    fecha               = json['fecha'];
-    negocio             = json['negocio'];
-    inicialusuario      = json['inicial_usuario'];
-    inicialnegocio      = json['inicial_negocio'];
-    fotoperfilusuario   = json['foto_perfil'];
+    usuario = json['usuario'];
+    descripcion = json['descripcion'];
+    archivo = json['archivo'];
+    fecha = DateTime.parse(json['fecha'].toString());
+    negocio = json['negocio'];
+    inicialusuario = json['inicial_usuario'];
+    inicialnegocio = json['inicial_negocio'];
+    fotoperfilusuario = json['foto_perfil'];
+    print(fecha.month);
   }
 
-  getImagenPublicacion() {
+  get imagenPublicacion {
     if (archivo == null) {
-      return 'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png';
+      return 'empty';
     } else {
       return archivo;
     }
   }
 
-  getUsuarioPublicacion() {
+  get usuarioPublicacion {
     if (usuario == null) {
       return 'NO USER DATA';
     } else {
@@ -65,7 +70,7 @@ class Publicacion {
     }
   }
 
-  getDescripcionPublicacion() {
+  get descripcionPublicacion {
     if (descripcion == null) {
       return ' ';
     } else {
@@ -73,7 +78,7 @@ class Publicacion {
     }
   }
 
-  getFechaPublicacion() {
+  get timeAgo {
     if (fecha == null) {
       return '0000-00-00 00:00:00';
     } else {
@@ -81,7 +86,7 @@ class Publicacion {
     }
   }
 
-  getNegocioPublicacion() {
+  get negocioPublicacion {
     if (negocio == null) {
       return '404';
     } else {
@@ -89,7 +94,7 @@ class Publicacion {
     }
   }
 
-  getInicialNegocioPublicacion() {
+  get inicialNegocioPublicacion {
     if (inicialnegocio == null) {
       return '404';
     } else {
@@ -97,7 +102,7 @@ class Publicacion {
     }
   }
 
-  getInicialUsuarioPublicacion() {
+  get inicialUsuarioPublicacion {
     if (inicialusuario == null) {
       return '404';
     } else {
@@ -105,7 +110,7 @@ class Publicacion {
     }
   }
 
-  getFotoPerfilUsuarioPublicacion() {
+  get fotoPerfilUsuarioPublicacion {
     if (fotoperfilusuario == null) {
       return '404';
     } else {
@@ -113,3 +118,7 @@ class Publicacion {
     }
   }
 }
+
+class Comentarios {}
+
+class Etiquetas {}

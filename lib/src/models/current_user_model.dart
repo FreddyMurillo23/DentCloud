@@ -8,19 +8,15 @@ class CurrentUsuarios {
     if (jsonList == null) return;
     //? Por cada item que recibe los va enviando al metodo que extrae los datos del json y retorna el mapa luego los agrega a una lista de items de tipo publicacion.
     for (var item in jsonList) {
-      // int count = jsonList.length;
-      // print(count);
       final usuario = new CurrentUsuario.fromJsonMap(item);
-      // print(item);
       items.add(usuario);
-      // print(usuario);
-      // for (var public in items[0].publicaciones) {
-      //   print(public);
-      //   // print(items[0].publicaciones[i]['id_publicacion']);
-      // }
-      // print(items[0].apellidos);
     }
-    print(items[0].publicaciones[1].idPublicacion);
+    // print(items[0]);
+    // print(items.length);
+    // print(items[0].apellidos);
+  }
+  get itemsList {
+    return items;
   }
 }
 
@@ -49,6 +45,10 @@ class CurrentUsuario {
     this.sexo,
     this.tipoUsuario,
     this.fotoPerfil,
+    this.publicaciones,
+    this.negociosAsistidos,
+    this.serviciosRecientes,
+    this.usuariosSeguidos,
   });
   CurrentUsuario.fromJsonMap(Map<String, dynamic> json) {
     correo = json['correo'];
@@ -60,16 +60,138 @@ class CurrentUsuario {
     sexo = json['sexo'];
     tipoUsuario = json['tipo_usuario'];
     fotoPerfil = json['foto_perfil'];
-    if (json == null) return;
-    //? Por cada item que recibe los va enviando al metodo que extrae los datos del json y retorna el mapa luego los agrega a una lista de items de tipo publicacion.
-    for (var item in json['publicaciones']) {
-      final pub = new UserPublicacion.fromJsonMap(item);
-      // print(item);
-      // print(pub.idPublicacion);
-      publicaciones.add(pub);
-      // print(json['publicaciones']);
+
+    if (json['publicaciones'].length != 0) {
+      for (var item in json['publicaciones']) {
+        final pub = new UserPublicacion.fromJsonMap(item);
+        // print(pub.idPublicacion);
+        // print(json['publicaciones'].length);
+        publicaciones.add(pub);
+      }
     }
-    // publicaciones.add(value)
+    if (json['negocios_asistidos'].length != 0) {
+      for (var item in json['negocios_asistidos']) {
+        final neg = new NegociosAsistido.fromJsonMap(item);
+        negociosAsistidos.add(neg);
+      }
+    }
+    if (json['servicios_recientes'].length != 0) {
+      for (var item in json['servicios_recientes']) {
+        final sa = new ServiciosReciente.fromJsonMap(item);
+        serviciosRecientes.add(sa);
+      }
+    }
+    if (json['usuarios_seguidos'].length != 0) {
+      for (var item in json['usuarios_seguidos']) {
+        final us = new UsuariosSeguido.fromJsonMap(item);
+        usuariosSeguidos.add(us);
+      }
+    }
+
+    //? Por cada item que recibe los va enviando al metodo que extrae los datos del json y retorna el mapa luego los agrega a una lista de items de tipo publicacion.
+  }
+  get currentcorreo {
+    if (correo == null) {
+      return '404';
+    } else {
+      return correo;
+    }
+  }
+
+  get currentcedula {
+    if (cedula == null) {
+      return '404';
+    } else {
+      return cedula;
+    }
+  }
+
+  get currentnombres {
+    if (nombres == null) {
+      return '404';
+    } else {
+      return nombres;
+    }
+  }
+
+  get currentapellidos {
+    if (apellidos == null) {
+      return '404';
+    } else {
+      return apellidos;
+    }
+  }
+
+  get currentfechaNacimiento {
+    if (fechaNacimiento == null) {
+      return '404';
+    } else {
+      return fechaNacimiento;
+    }
+  }
+
+  get currentcelular {
+    if (celular == null) {
+      return '404';
+    } else {
+      return celular;
+    }
+  }
+
+  get currentsexo {
+    if (sexo == null) {
+      return '404';
+    } else {
+      return sexo;
+    }
+  }
+
+  get currenttipoUsuario {
+    if (tipoUsuario == null) {
+      return '404';
+    } else {
+      return tipoUsuario;
+    }
+  }
+
+  get currentfotoPerfil {
+    if (fotoPerfil == null) {
+      return '404';
+    } else {
+      return fotoPerfil;
+    }
+  }
+
+  get currentPublicaciones {
+    if (publicaciones.length == 0) {
+      return '404';
+    } else {
+      return publicaciones;
+    }
+  }
+
+  get currentServiciosRecientes {
+    if (serviciosRecientes.length == 0) {
+      return '404';
+    } else {
+      return serviciosRecientes;
+    }
+  }
+
+  get currentNegociosAsistidos {
+    if (negociosAsistidos.length == 0) {
+      return '404';
+    } else {
+      return negociosAsistidos;
+    }
+  }
+
+  get currentUsuariosSeguidos {
+    if (usuariosSeguidos.length == 0) {
+      return '404';
+    } else {
+      return usuariosSeguidos;
+    }
   }
 }
 
@@ -91,14 +213,11 @@ class NegociosAsistido {
   NegociosAsistido({
     this.negocio,
   });
-}
 
-class Publicacione {
-  String idPublicacion;
-
-  Publicacione({
-    this.idPublicacion,
-  });
+  NegociosAsistido.fromJsonMap(Map<String, dynamic> json) {
+    negocio = json['negocio'];
+    // print(json);
+  }
 }
 
 class ServiciosReciente {
@@ -107,6 +226,10 @@ class ServiciosReciente {
   ServiciosReciente({
     this.idServicio,
   });
+  ServiciosReciente.fromJsonMap(Map<String, dynamic> json) {
+    idServicio = json['id_servicio'];
+    // print(json);
+  }
 }
 
 class UsuariosSeguido {
@@ -115,4 +238,8 @@ class UsuariosSeguido {
   UsuariosSeguido({
     this.idSiguiendo,
   });
+  UsuariosSeguido.fromJsonMap(Map<String, dynamic> json) {
+    idSiguiendo = json['id_siguiendo'];
+    // print(json);
+  }
 }
