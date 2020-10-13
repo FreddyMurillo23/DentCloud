@@ -23,13 +23,13 @@ class AwaitPage extends StatelessWidget {
           new Timer(duration, () {
             final login = new DataProvider();
             login.userData(email).then((value) {
-              if (value) {
-                
+              if (value.isNotEmpty) {
+                Navigator.pushReplacementNamed(context, 'startuppage',arguments: value[0]);
               } else {
                 print("Error");
               }
             });
-            Navigator.pushReplacementNamed(context, 'startuppage');
+            
           });
         }
       });

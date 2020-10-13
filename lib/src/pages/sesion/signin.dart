@@ -34,8 +34,13 @@ class _SignInState extends State<SignIn> {
         final login = new DataProvider();
         login.loginUsuario(_email, _password).then((value) {
           if (value) {
-            Navigator.pushReplacementNamed(context, 'startuppage',
-                arguments: _email);
+            login.userData(_email).then((value) {
+              if (value.isNotEmpty) {
+                Navigator.pushReplacementNamed(context, 'startuppage',arguments: value[0]);
+              } else {
+                print("Error");
+              }
+            });
           } else {
             print("Error");
             _showDialog();

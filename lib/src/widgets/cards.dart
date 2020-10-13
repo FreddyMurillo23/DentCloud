@@ -54,11 +54,15 @@ class CardWidgetPublicaciones extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 5),
                             child: Text(
-                                '${publicaciones[id].descripcionPublicacion} * 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'),
+                              '${publicaciones[id].descripcionPublicacion} ',
+                              style: TextStyle(color: Colors.grey[700]),
+                            ),
                           ),
                           SizedBox(
-                            height: 2,
-                          )
+                            height: 10,
+                          ),
+                          comentariosYMeGustas(),
+
                           // publicaciones[id].getImagenPublicacion() != null
                           // ? const SizedBox.shrink()
                           // : const SizedBox(height: 6.0,)
@@ -99,7 +103,7 @@ class CardWidgetPublicaciones extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      'Timee  ·',
+                      '${publicaciones[id].timeAgo}',
                       style: TextStyle(color: Colors.grey[600], fontSize: 12.0),
                     ),
                     Icon(
@@ -128,7 +132,6 @@ class CardWidgetPublicaciones extends StatelessWidget {
       return Container(
         alignment: Alignment(-0.9, -1),
         child: InputChip(
-            
             avatar: CircleAvatar(
                 backgroundColor: Colors.black,
                 child: Text(publicaciones[id].inicialNegocioPublicacion)),
@@ -170,17 +173,7 @@ class CardWidgetPublicaciones extends StatelessWidget {
                         arguments: 'detalles de la publicacion');
                   },
                 ),
-                InputChip(
-                    avatar: CircleAvatar(
-                        backgroundColor: Colors.black,
-                        child:
-                            Text(publicaciones[id].inicialNegocioPublicacion)),
-                    label: Text(publicaciones[id].negocioPublicacion),
-                    backgroundColor: Colors.transparent,
-                    onPressed: () {
-                      Navigator.pushNamed(context, 'perfil',
-                          arguments: 'tu mama');
-                    }),
+                etiquetasList(context, _screenSize),
               ],
             ),
           ));
@@ -231,6 +224,94 @@ class CardWidgetPublicaciones extends StatelessWidget {
           onPressed: () {},
         )
       ],
+    );
+  }
+
+  Widget comentariosYMeGustas() {
+    return Container(
+      // height: 30,
+      color: Colors.white,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        child: Column(
+          children: [
+            Divider(
+              height: 3,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text('${publicaciones[id].comentariosCount}   ·'),
+                SizedBox(
+                  width: 10,
+                ),
+                Text('${publicaciones[id].likesCount}'),
+              ],
+            ),
+            Divider(
+              height: 5,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget etiquetasList(BuildContext context, Size _screenSize) {
+    return Container(
+      height: _screenSize.height * 0.06,
+      width: _screenSize.width,
+      child: ListView.builder(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 5,
+        ),
+        scrollDirection: Axis.horizontal,
+        itemCount: 1 + publicaciones[id].etiquetas.length,
+        itemBuilder: (BuildContext context, int index) {
+          if (index == 0) {
+            return Row(
+              children: [
+                InputChip(
+                    avatar: CircleAvatar(
+                        backgroundColor: Colors.white,
+                        child:
+                            Text(publicaciones[id].inicialNegocioPublicacion, style: TextStyle(color: Colors.black),)),
+                    label: Text(publicaciones[id].negocioPublicacion,style: TextStyle(color: Colors.white),),
+                    backgroundColor: Colors.lightBlue,
+                    onPressed: () {
+                      Navigator.pushNamed(context, 'perfil',
+                          arguments: publicaciones[id].negocioRuc);
+                    }),
+                SizedBox(
+                  width: 6,
+                ),
+              ],
+            );
+          } else {
+            final data = publicaciones[id].etiquetas[index - 1];
+            return Row(
+              children: [
+                Container(
+                  width: _screenSize.width*0.38,
+                  child: InputChip(
+                      avatar: CircleAvatar(
+                          backgroundColor: Colors.black,
+                          child: Text(data.inicialUsuario,style: TextStyle(fontSize: 12),)),
+                      label: Text(data.nombreUsuarioEtiquetado),
+                      backgroundColor: Colors.transparent,
+                      onPressed: () {
+                        Navigator.pushNamed(context, 'perfil', arguments: data.correoEtiquetado);
+                      }),
+                ),
+                SizedBox(
+                  width: 0,
+                ),
+              ],
+            );
+          }
+        },
+      ),
     );
   }
 }

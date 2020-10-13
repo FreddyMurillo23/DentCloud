@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:muro_dentcloud/src/models/current_user_model.dart';
+import 'package:muro_dentcloud/src/services/userData_service.dart';
 import 'circle_button.dart';
 // import 'package:flutter/material.dart';
 
-class ProfileAppBar extends StatefulWidget {
-  ProfileAppBar({Key key}) : super(key: key);
+class ProfileAppBar extends StatelessWidget {
+  final CurrentUsuario userinfo;
+  ProfileAppBar({Key key, @required this.userinfo}) : super(key: key);
 
-  @override
-  _ProfileAppBarState createState() => _ProfileAppBarState();
-}
-
-class _ProfileAppBarState extends State<ProfileAppBar> {
   @override
   Widget build(BuildContext context) {
     // final Publicacion publicacion = ModalRoute.of(context).settings.arguments;
@@ -37,7 +35,10 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
             child: Stack(
           fit: StackFit.expand,
           children: [
-            Image(image: AssetImage('assets/fondo.jpg'),fit: BoxFit.cover,),
+            Image(
+              image: AssetImage('assets/fondo.jpg'),
+              fit: BoxFit.cover,
+            ),
             // FadeInImage(
             //   image: NetworkImage(
             //       'https://www.webdesignerdepot.com/cdn-origin/uploads/2013/06/featured48.jpg'),
@@ -88,8 +89,7 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
           ),
           child: ClipRRect(
             child: FadeInImage(
-              image: NetworkImage(
-                  'https://images8.alphacoders.com/897/thumb-1920-897232.jpg'),
+              image: NetworkImage(userinfo.fotoPerfil),
               placeholder: AssetImage('assets/loading.gif'),
               fit: BoxFit.cover,
             ),

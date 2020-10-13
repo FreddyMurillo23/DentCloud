@@ -17,12 +17,7 @@ class Rooms extends StatelessWidget {
   Widget build(BuildContext context) {
     final _screenSize = MediaQuery.of(context).size;
     // final bool isDesktop = Responsive.isDesktop(context);
-    return // margin: EdgeInsets.symmetric(horizontal: isDesktop ? 5.0 : 0.0),
-        // elevation: isDesktop ? 1.0 : 0.0,
-        // shape: isDesktop
-        // ? RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
-        // : null,
-        Container(
+    return Container(
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30.0),
           color: Colors.white,

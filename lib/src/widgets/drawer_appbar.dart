@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/providers/doctores_provider.dart';
 import 'package:muro_dentcloud/src/providers/event_provider.dart';
 import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
@@ -63,8 +64,10 @@ class NavDrawer extends StatelessWidget {
             title: Text('Cerrar Sesión'),
             onTap: () {
               currentUserData.resetCurrentUserData;
+              CurrentUsuarios.clearItems();
               Navigator.of(context).pushNamedAndRemoveUntil(
-                  '/', (Route<dynamic> route) => false);
+                  '/', (Route<dynamic> route) => false
+              );
             },
           ),
         ],

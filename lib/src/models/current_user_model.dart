@@ -18,6 +18,10 @@ class CurrentUsuarios {
   get itemsList {
     return items;
   }
+
+  CurrentUsuarios.clearItems() {
+    items.clear();
+  }
 }
 
 class CurrentUsuario {

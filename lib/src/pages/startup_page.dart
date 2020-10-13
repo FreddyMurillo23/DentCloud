@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:muro_dentcloud/palette.dart';
+import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/pages/home_page.dart';
 import 'package:muro_dentcloud/src/pages/profile_page.dart';
 import 'package:muro_dentcloud/src/providers/menu_providers.dart';
@@ -22,12 +23,6 @@ class _StartUpPageState extends State<StartUpPage> {
 
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static List<Widget> _widgetOptions = <Widget>[
-    CardPage(),
-    HomePage(),
-    ListaPage(),
-    ProfilePage(),
-  ];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -37,6 +32,16 @@ class _StartUpPageState extends State<StartUpPage> {
 
   @override
   Widget build(BuildContext context) {
+    CurrentUsuario userinfo = ModalRoute.of(context).settings.arguments;
+    final List<Widget> _widgetOptions = <Widget>[
+      CardPage(),
+      HomePage(),
+      ListaPage(),
+      ProfilePage(
+        currentuser: userinfo,
+      ),
+    ];
+    print(userinfo);
     return Scaffold(
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
