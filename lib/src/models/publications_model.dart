@@ -1,4 +1,17 @@
-import 'package:flutter/material.dart';
+
+
+class PublicacionesByUser {
+  List<Publicacion> items = new List();
+  PublicacionesByUser.fromJsonList(List<dynamic>jsonList){
+    if (jsonList == null) return;
+    //? Por cada item que recibe los va enviando al metodo que extrae los datos del json y retorna el mapa luego los agrega a una lista de items de tipo publicacion.
+    for (var item in jsonList) {
+      final publicacion = new Publicacion.fromJsonMap(item);
+      items.add(publicacion);
+      // print(publicacion.comentarios.length);
+    }
+  }
+}
 
 class Publicaciones {
   //? Lista de tipo publicacion donde se almacenaran los datos extraidos.

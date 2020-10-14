@@ -14,22 +14,29 @@ class AwaitPage extends StatelessWidget {
     currentUserData.currentCorreo.then((email) {
       currentUserData.currentPassword.then((password) {
         if (email == 'empty' && password == 'empty') {
-          final duration = new Duration(seconds: 2);
+          final duration = new Duration(seconds: 1);
           new Timer(duration, () {
             Navigator.pushReplacementNamed(context, 'signin');
           });
         } else {
-          final duration = new Duration(seconds: 2);
+          final duration = new Duration(seconds: 1);
           new Timer(duration, () {
             final login = new DataProvider();
+
             login.userData(email).then((value) {
+              // login
+              //     .getPublicacionesByUser(value[0].publicaciones)
+              //     .then((value2) {
+              //   // print(value[0].publicaciones);
+              //   print(value2);
+              // });
               if (value.isNotEmpty) {
-                Navigator.pushReplacementNamed(context, 'startuppage',arguments: value[0]);
+                Navigator.pushReplacementNamed(context, 'startuppage',
+                    arguments: value[0]);
               } else {
                 print("Error");
               }
             });
-            
           });
         }
       });
@@ -41,12 +48,16 @@ class AwaitPage extends StatelessWidget {
         width: _screenSize.width * 1,
         child: Column(
           children: [
-            SizedBox(height: _screenSize.height*0.15,),
+            SizedBox(
+              height: _screenSize.height * 0.15,
+            ),
             Image(
               fit: BoxFit.contain,
               image: AssetImage('assets/DentCloud.png'),
             ),
-            SizedBox(height: _screenSize.height*0.05,),
+            SizedBox(
+              height: _screenSize.height * 0.05,
+            ),
             CircularProgressIndicator()
           ],
         ),

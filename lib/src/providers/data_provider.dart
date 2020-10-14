@@ -21,8 +21,29 @@ class DataProvider {
     final publicaciones =
         new Publicaciones.fromJsonList(decodedData['publicaciones']);
     // print(publicaciones.items[0].usuario);
-
+    // print(publicaciones.items);
     return publicaciones.items;
+  }
+
+  Future<List<Publicacion>> getPublicacionesByUser(
+      List<UserPublicacion> id) async {
+    List<Publicacion> public = new List();
+    for (var pub in id) {
+      // print(pub);
+      // print(pub.idPublicacion);
+      String url =
+          'http://54.197.83.249/PHP_REST_API/api/get/get_publications_by_id.php?id_publication=${pub.idPublicacion}';
+      final resp = await http.get(url);
+      // print(resp);
+      //? decodificacion de la data json.decode
+      final decodedData = json.decode(resp.body);
+      final publicaciones =
+          new PublicacionesByUser.fromJsonList(decodedData['publicaciones']);
+      public..add(publicaciones.items[0]);
+      // print(publicaciones.items[0]);
+    }
+    // print(public);
+    return public;
   }
 
   //!PROVIDER DE DATOS PARA LA AGENDA

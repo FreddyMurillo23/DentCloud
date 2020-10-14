@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:muro_dentcloud/src/models/publications_model.dart';
+import 'package:muro_dentcloud/src/providers/data_provider.dart';
 import 'package:muro_dentcloud/src/widgets/circle_button.dart';
 import 'package:muro_dentcloud/src/widgets/profile_appbar.dart';
 import 'package:muro_dentcloud/src/widgets/profile_avatar.dart';
@@ -8,12 +9,16 @@ import 'package:muro_dentcloud/src/widgets/profile_avatar.dart';
 class CardWidgetPublicaciones extends StatelessWidget {
   final int id;
   final List<Publicacion> publicaciones;
-  const CardWidgetPublicaciones(
-      {Key key, @required this.publicaciones, @required this.id})
-      : super(key: key);
+
+  const CardWidgetPublicaciones({
+    Key key,
+    @required this.publicaciones,
+    @required this.id,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final userDataProfile = new DataProvider();
     final _screenSize = MediaQuery.of(context).size;
     return Container(
       child: Column(
@@ -36,7 +41,7 @@ class CardWidgetPublicaciones extends StatelessWidget {
               child: Container(
                 child: Column(
                   children: <Widget>[
-                    publicacionCard(context, _screenSize),
+                    publicacionCard(context, _screenSize, userDataProfile),
                     Divider(
                       height: 10,
                       thickness: 0,
@@ -127,7 +132,8 @@ class CardWidgetPublicaciones extends StatelessWidget {
     );
   }
 
-  Widget publicacionCard(BuildContext context, _screenSize) {
+  Widget publicacionCard(
+      BuildContext context, Size _screenSize, userDataProfile) {
     if (publicaciones[id].imagenPublicacion == 'empty') {
       return Container(
         alignment: Alignment(-0.9, -1),
@@ -138,7 +144,11 @@ class CardWidgetPublicaciones extends StatelessWidget {
             label: Text(publicaciones[id].negocioPublicacion),
             backgroundColor: Colors.transparent,
             onPressed: () {
-              Navigator.pushNamed(context, 'perfil', arguments: 'tu mama');
+              userDataProfile
+                  .getPublicacionesByUser(publicaciones[id].negocioRuc)
+                  .then((value) {
+                Navigator.pushNamed(context, 'perfil', arguments: value);
+              });
             }),
       );
     } else {
@@ -169,11 +179,14 @@ class CardWidgetPublicaciones extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                   onTap: () {
-                    Navigator.pushNamed(context, 'perfil',
-                        arguments: 'detalles de la publicacion');
+                    userDataProfile
+                        .getPublicacionesByUser(publicaciones[id].correoUsuario)
+                        .then((value) {
+                      Navigator.pushNamed(context, 'perfil', arguments: value);
+                    });
                   },
                 ),
-                etiquetasList(context, _screenSize),
+                etiquetasList(context, _screenSize,userDataProfile),
               ],
             ),
           ));
@@ -258,7 +271,8 @@ class CardWidgetPublicaciones extends StatelessWidget {
     );
   }
 
-  Widget etiquetasList(BuildContext context, Size _screenSize) {
+  Widget etiquetasList(
+      BuildContext context, Size _screenSize, userDataProfile) {
     return Container(
       height: _screenSize.height * 0.06,
       width: _screenSize.width,
@@ -275,13 +289,22 @@ class CardWidgetPublicaciones extends StatelessWidget {
                 InputChip(
                     avatar: CircleAvatar(
                         backgroundColor: Colors.white,
-                        child:
-                            Text(publicaciones[id].inicialNegocioPublicacion, style: TextStyle(color: Colors.black),)),
-                    label: Text(publicaciones[id].negocioPublicacion,style: TextStyle(color: Colors.white),),
+                        child: Text(
+                          publicaciones[id].inicialNegocioPublicacion,
+                          style: TextStyle(color: Colors.black),
+                        )),
+                    label: Text(
+                      publicaciones[id].negocioPublicacion,
+                      style: TextStyle(color: Colors.white),
+                    ),
                     backgroundColor: Colors.lightBlue,
                     onPressed: () {
-                      Navigator.pushNamed(context, 'perfil',
-                          arguments: publicaciones[id].negocioRuc);
+                      userDataProfile
+                          .getPublicacionesByUser(publicaciones[id].negocioRuc)
+                          .then((value) {
+                        Navigator.pushNamed(context, 'perfil',
+                            arguments: value);
+                      });
                     }),
                 SizedBox(
                   width: 6,
@@ -293,15 +316,24 @@ class CardWidgetPublicaciones extends StatelessWidget {
             return Row(
               children: [
                 Container(
-                  width: _screenSize.width*0.38,
+                  width: _screenSize.width * 0.38,
                   child: InputChip(
                       avatar: CircleAvatar(
                           backgroundColor: Colors.black,
-                          child: Text(data.inicialUsuario,style: TextStyle(fontSize: 12),)),
+                          child: Text(
+                            data.inicialUsuario,
+                            style: TextStyle(fontSize: 12),
+                          )),
                       label: Text(data.nombreUsuarioEtiquetado),
                       backgroundColor: Colors.transparent,
                       onPressed: () {
-                        Navigator.pushNamed(context, 'perfil', arguments: data.correoEtiquetado);
+                        userDataProfile
+                            .getPublicacionesByUser(
+                                publicaciones[id].correoUsuario)
+                            .then((value) {
+                          Navigator.pushNamed(context, 'perfil',
+                              arguments: value);
+                        });
                       }),
                 ),
                 SizedBox(
