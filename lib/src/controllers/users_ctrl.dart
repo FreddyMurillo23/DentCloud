@@ -1,5 +1,15 @@
-//Peticiones de Usuarios
+import 'dart:async'; 
+import 'dart:convert'; 
+import 'package:http/http.dart' as http;
 
-
-String user = "post_user_data.php?user_email=idarkmer@gmail.com&password=12345&user_dni=1315349371&user_names=Roddy Andrés&user_last_names=Andrade Molina&birthdate=1998-04-07&cellphone=098411659&sex=M&user_type=D&doctor_profession=Odontologo";
+class UserCtrl{
+  static Future<bool> registrarUsuarios(String userEmail, String password, String userDNI, String userName, String userLastName, DateTime birthday, String userCellphone, String sex, String userType, String userProfesion, String userProvince, String userCity) async{
+    final response = await http.get("http://54.197.83.249/PHP_REST_API/api/post/post_user_data.php?user_email=$userEmail&password=$password&user_dni=$userDNI&user_names=$userName&user_last_names=$userLastName&birthdate=$birthday&cellphone=$userCellphone&sex=$sex&user_type=$userType&doctor_profession=$userProfesion");
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+}
 
