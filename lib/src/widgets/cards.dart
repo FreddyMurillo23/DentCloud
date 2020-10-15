@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:muro_dentcloud/src/models/publications_model.dart';
+import 'package:muro_dentcloud/src/providers/data_provider.dart';
 import 'package:muro_dentcloud/src/widgets/circle_button.dart';
 import 'package:muro_dentcloud/src/widgets/profile_appbar.dart';
 import 'package:muro_dentcloud/src/widgets/profile_avatar.dart';
@@ -8,12 +9,16 @@ import 'package:muro_dentcloud/src/widgets/profile_avatar.dart';
 class CardWidgetPublicaciones extends StatelessWidget {
   final int id;
   final List<Publicacion> publicaciones;
-  const CardWidgetPublicaciones(
-      {Key key, @required this.publicaciones, @required this.id})
-      : super(key: key);
+
+  const CardWidgetPublicaciones({
+    Key key,
+    @required this.publicaciones,
+    @required this.id,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final userDataProfile = new DataProvider();
     final _screenSize = MediaQuery.of(context).size;
     return Container(
       child: Column(
@@ -36,7 +41,7 @@ class CardWidgetPublicaciones extends StatelessWidget {
               child: Container(
                 child: Column(
                   children: <Widget>[
-                    publicacionCard(context, _screenSize),
+                    publicacionCard(context, _screenSize, userDataProfile),
                     Divider(
                       height: 10,
                       thickness: 0,
@@ -54,11 +59,15 @@ class CardWidgetPublicaciones extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 5),
                             child: Text(
-                                '${publicaciones[id].descripcionPublicacion} * 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'),
+                              '${publicaciones[id].descripcionPublicacion} ',
+                              style: TextStyle(color: Colors.grey[700]),
+                            ),
                           ),
                           SizedBox(
-                            height: 2,
-                          )
+                            height: 10,
+                          ),
+                          comentariosYMeGustas(),
+
                           // publicaciones[id].getImagenPublicacion() != null
                           // ? const SizedBox.shrink()
                           // : const SizedBox(height: 6.0,)
@@ -99,7 +108,7 @@ class CardWidgetPublicaciones extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      'Timee  ·',
+                      '${publicaciones[id].timeAgo}',
                       style: TextStyle(color: Colors.grey[600], fontSize: 12.0),
                     ),
                     Icon(
@@ -123,19 +132,23 @@ class CardWidgetPublicaciones extends StatelessWidget {
     );
   }
 
-  Widget publicacionCard(BuildContext context, _screenSize) {
+  Widget publicacionCard(
+      BuildContext context, Size _screenSize, userDataProfile) {
     if (publicaciones[id].imagenPublicacion == 'empty') {
       return Container(
         alignment: Alignment(-0.9, -1),
         child: InputChip(
-            
             avatar: CircleAvatar(
                 backgroundColor: Colors.black,
                 child: Text(publicaciones[id].inicialNegocioPublicacion)),
             label: Text(publicaciones[id].negocioPublicacion),
             backgroundColor: Colors.transparent,
             onPressed: () {
-              Navigator.pushNamed(context, 'perfil', arguments: 'tu mama');
+              userDataProfile
+                  .getPublicacionesByUser(publicaciones[id].negocioRuc)
+                  .then((value) {
+                Navigator.pushNamed(context, 'perfil', arguments: value);
+              });
             }),
       );
     } else {
@@ -166,21 +179,14 @@ class CardWidgetPublicaciones extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                   onTap: () {
-                    Navigator.pushNamed(context, 'perfil',
-                        arguments: 'detalles de la publicacion');
+                    userDataProfile
+                        .getPublicacionesByUser(publicaciones[id].correoUsuario)
+                        .then((value) {
+                      Navigator.pushNamed(context, 'perfil', arguments: value);
+                    });
                   },
                 ),
-                InputChip(
-                    avatar: CircleAvatar(
-                        backgroundColor: Colors.black,
-                        child:
-                            Text(publicaciones[id].inicialNegocioPublicacion)),
-                    label: Text(publicaciones[id].negocioPublicacion),
-                    backgroundColor: Colors.transparent,
-                    onPressed: () {
-                      Navigator.pushNamed(context, 'perfil',
-                          arguments: 'tu mama');
-                    }),
+                etiquetasList(context, _screenSize,userDataProfile),
               ],
             ),
           ));
@@ -231,6 +237,113 @@ class CardWidgetPublicaciones extends StatelessWidget {
           onPressed: () {},
         )
       ],
+    );
+  }
+
+  Widget comentariosYMeGustas() {
+    return Container(
+      // height: 30,
+      color: Colors.white,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        child: Column(
+          children: [
+            Divider(
+              height: 3,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text('${publicaciones[id].comentariosCount}   ·'),
+                SizedBox(
+                  width: 10,
+                ),
+                Text('${publicaciones[id].likesCount}'),
+              ],
+            ),
+            Divider(
+              height: 5,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget etiquetasList(
+      BuildContext context, Size _screenSize, userDataProfile) {
+    return Container(
+      height: _screenSize.height * 0.06,
+      width: _screenSize.width,
+      child: ListView.builder(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 5,
+        ),
+        scrollDirection: Axis.horizontal,
+        itemCount: 1 + publicaciones[id].etiquetas.length,
+        itemBuilder: (BuildContext context, int index) {
+          if (index == 0) {
+            return Row(
+              children: [
+                InputChip(
+                    avatar: CircleAvatar(
+                        backgroundColor: Colors.white,
+                        child: Text(
+                          publicaciones[id].inicialNegocioPublicacion,
+                          style: TextStyle(color: Colors.black),
+                        )),
+                    label: Text(
+                      publicaciones[id].negocioPublicacion,
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    backgroundColor: Colors.lightBlue,
+                    onPressed: () {
+                      userDataProfile
+                          .getPublicacionesByUser(publicaciones[id].negocioRuc)
+                          .then((value) {
+                        Navigator.pushNamed(context, 'perfil',
+                            arguments: value);
+                      });
+                    }),
+                SizedBox(
+                  width: 6,
+                ),
+              ],
+            );
+          } else {
+            final data = publicaciones[id].etiquetas[index - 1];
+            return Row(
+              children: [
+                Container(
+                  width: _screenSize.width * 0.38,
+                  child: InputChip(
+                      avatar: CircleAvatar(
+                          backgroundColor: Colors.black,
+                          child: Text(
+                            data.inicialUsuario,
+                            style: TextStyle(fontSize: 12),
+                          )),
+                      label: Text(data.nombreUsuarioEtiquetado),
+                      backgroundColor: Colors.transparent,
+                      onPressed: () {
+                        userDataProfile
+                            .getPublicacionesByUser(
+                                publicaciones[id].correoUsuario)
+                            .then((value) {
+                          Navigator.pushNamed(context, 'perfil',
+                              arguments: value);
+                        });
+                      }),
+                ),
+                SizedBox(
+                  width: 0,
+                ),
+              ],
+            );
+          }
+        },
+      ),
     );
   }
 }

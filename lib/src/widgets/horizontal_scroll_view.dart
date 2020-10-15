@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:muro_dentcloud/src/models/current_user_model.dart';
+import 'package:muro_dentcloud/src/providers/data_provider.dart';
 // import 'package:flutter_facebook_responsive_ui/config/palette.dart';
 // import 'package:flutter_facebook_responsive_ui/models/models.dart';
 // import 'package:flutter_facebook_responsive_ui/widgets/widgets.dart';
@@ -6,23 +8,17 @@ import 'package:flutter/material.dart';
 import '../../palette.dart';
 
 class Rooms extends StatelessWidget {
-  // final List<User> onlineUsers;
-
+  final CurrentUsuario userinfo;
   const Rooms({
     Key key,
-    // @required this.onlineUsers,
+    @required this.userinfo,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final _screenSize = MediaQuery.of(context).size;
     // final bool isDesktop = Responsive.isDesktop(context);
-    return // margin: EdgeInsets.symmetric(horizontal: isDesktop ? 5.0 : 0.0),
-        // elevation: isDesktop ? 1.0 : 0.0,
-        // shape: isDesktop
-        // ? RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
-        // : null,
-        Container(
+    return Container(
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30.0),
           color: Colors.white,
@@ -44,59 +40,78 @@ class Rooms extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
-            Container(
-              height: _screenSize.height * 0.1,
-              color: Colors.white,
-              child: ListView.builder(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 10.0,
-                  horizontal: 4.0,
-                ),
-                scrollDirection: Axis.horizontal,
-                // itemCount: 1 + onlineUsers.length,
-                itemCount: 20,
-                itemBuilder: (BuildContext context, int index) {
-                  if (index == 0) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                      child: _CreateRoomButton(),
-                    );
-                  }
-                  // final User user = onlineUsers[index - 1];
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: GestureDetector(
-                      child: Container(
-                        height: _screenSize.height * 0.01,
-                        width: _screenSize.width * 0.165,
-                        decoration: BoxDecoration(
-                          border:
-                              Border.all(width: 5, color: Colors.blueAccent),
-                          borderRadius: BorderRadius.circular(100.0),
-                          color: Colors.white,
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(100.0),
-                          child: FadeInImage(
-                            // radius: _screenSize.width*0.1,
-                            image: NetworkImage(
-                                'https://assets.umod.org/images/icons/plugin/5d3c47cfdd068.png'), //!Aqui va un dato
-                            placeholder: AssetImage('assets/loading.gif'),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      onTap: () {
-                        print('Hola Mundo');
-                      },
-                    ),
-                  );
-                },
-              ),
-            ),
+            listadoNegocios(_screenSize),
           ],
         ),
       ),
+    );
+  }
+
+  Widget listadoNegocios(Size _screenSize) {
+    final negociosProvider = new DataProvider();
+    return FutureBuilder(
+      future: negociosProvider.getPublicaciones(),
+      builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
+        if (snapshot.hasData) {
+          return Container(
+            height: _screenSize.height * 0.1,
+            color: Colors.white,
+            child: ListView.builder(
+              padding: const EdgeInsets.symmetric(
+                vertical: 10.0,
+                horizontal: 4.0,
+              ),
+              scrollDirection: Axis.horizontal,
+              // itemCount: 1 + onlineUsers.length,
+              itemCount: 1 + userinfo.negociosAsistidos.length,
+              itemBuilder: (BuildContext context, int index) {
+                // print(userinfo.negociosAsistidos.length);
+                if (index == 0) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                    child: _CreateRoomButton(),
+                  );
+                }
+                // final User user = onlineUsers[index - 1];
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: GestureDetector(
+                    child: Container(
+                      height: _screenSize.height * 0.01,
+                      width: _screenSize.width * 0.165,
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 5, color: Colors.blueAccent),
+                        borderRadius: BorderRadius.circular(100.0),
+                        color: Colors.white,
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(100.0),
+                        child: FadeInImage(
+                          // radius: _screenSize.width*0.1,
+                          image: NetworkImage(
+                              'https://assets.umod.org/images/icons/plugin/5d3c47cfdd068.png'), //!Aqui va un dato
+                          placeholder: AssetImage('assets/loading.gif'),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    onTap: () {
+                      print('Hola Mundo');
+                    },
+                  ),
+                );
+              },
+            ),
+          );
+        } else {
+          return Container(
+            height: _screenSize.height * 4,
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+      },
     );
   }
 }
