@@ -182,11 +182,11 @@ class CardWidgetPublicaciones extends StatelessWidget {
                     userDataProfile
                         .getPublicacionesByUser(publicaciones[id].correoUsuario)
                         .then((value) {
-                      Navigator.pushNamed(context, 'perfil', arguments: value);
+                      // Navigator.pushNamed(context, 'perfil', arguments: value);
                     });
                   },
                 ),
-                etiquetasList(context, _screenSize,userDataProfile),
+                etiquetasList(context, _screenSize, userDataProfile),
               ],
             ),
           ));
@@ -302,6 +302,8 @@ class CardWidgetPublicaciones extends StatelessWidget {
                       userDataProfile
                           .getPublicacionesByUser(publicaciones[id].negocioRuc)
                           .then((value) {
+                        print(publicaciones[id].negocioRuc);
+
                         Navigator.pushNamed(context, 'perfil',
                             arguments: value);
                       });

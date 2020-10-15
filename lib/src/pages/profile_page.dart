@@ -28,7 +28,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) { 
     final _screenSize = MediaQuery.of(context).size;
     CurrentUsuario userinfo = ModalRoute.of(context).settings.arguments;
-    print(userinfo.publicaciones);
+    // print(userinfo.publicaciones);
     return Scaffold(
       drawer: NavDrawer(),
       body: FutureBuilder(
