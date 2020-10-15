@@ -18,7 +18,7 @@ class _Agenda3State extends State<Agenda3> {
   List<dynamic> _selectedEvents;
   List<EventosModelo> eventosModel;
   List<EventosModelo> eventosModel2;
-  bool prueba = true;
+  bool prueba = false;
   
 
   @override
@@ -68,96 +68,122 @@ class _Agenda3State extends State<Agenda3> {
             print(snapshot.hasError.toString());
           }
 
-           return Column(
-            children: <Widget>[TableCalendar(
-              events: _events,
-              initialCalendarFormat: CalendarFormat.month,
-              calendarStyle: CalendarStyle(
-                canEventMarkersOverflow: true,
-                todayColor: Colors.blueGrey[500],
-                selectedColor: Colors.red
-              ),
-              headerStyle: HeaderStyle(
-                formatButtonVisible: false,
-                centerHeaderTitle: true,
-              ),
-              startingDayOfWeek: StartingDayOfWeek.monday,
-              onDaySelected: (day, events) {
-                
-                setState(() {
-                  if(events.isNotEmpty){
-                   _selectedEvents = events;
-                   print("Si hay eventos en este día");               
+           return SingleChildScrollView(
+              child: Column(
+               children: <Widget>[TableCalendar(
+                 events: _events,
+                 initialCalendarFormat: CalendarFormat.month,
+                 calendarStyle: CalendarStyle(
+                   canEventMarkersOverflow: true,
+                   todayColor: Colors.blueGrey[500],
+                   selectedColor: Colors.red
+                 ),
+                 headerStyle: HeaderStyle(
+                   formatButtonVisible: false,
+                   centerHeaderTitle: true,
+                 ),
+                 startingDayOfWeek: StartingDayOfWeek.monday,
+                 onDaySelected: (day, events) {
                    
-                  } else{
-                    print("No hay eventos en este día");
-                    _selectedEvents.clear();
-                  }                     
-                });
-              },
-              builders: CalendarBuilders(
-                selectedDayBuilder: (context, date, events) => Container(
-                  margin: const EdgeInsets.all(4.0),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: Colors.blueGrey[500]
-                  ),
-                  child: Text(
-                    date.day.toString(),
-                    style: TextStyle(color: Colors.black),
-                  ),
-                ),
-                todayDayBuilder: (context, date, events) => Container(
-                  margin: const EdgeInsets.all(4.0),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: Colors.red
-                  ),
-                  child: Text(
-                    date.day.toString(),
-                    style: TextStyle(color: Colors.black),
-                  ),
-                ),
-              ),
-              calendarController: _controller,
-            ),
-            Divider(),
-
-            if(_selectedEvents != null)
-            ..._selectedEvents.map((e) => SingleChildScrollView(
-               child: Row(
-                 children: [
-                   Container(
-                     width: 50,
-                     height: 50,
+                   setState(() {
+                     if(events.isNotEmpty){
+                      _selectedEvents = events;
+                      print("Si hay eventos en este día");               
+                      
+                     } else{
+                       print("No hay eventos en este día");
+                       _selectedEvents.clear();
+                     }                     
+                   });
+                 },
+                 builders: CalendarBuilders(
+                   selectedDayBuilder: (context, date, events) => Container(
+                     margin: const EdgeInsets.all(4.0),
+                     alignment: Alignment.center,
                      decoration: BoxDecoration(
-                       image: DecorationImage(
-                         image: NetworkImage("http://54.197.83.249/Contenido_ftp/Imagenes%20por%20defecto/Placeholder_male.png"),
-                         fit: BoxFit.fill
-                       )
+                       color: Colors.blueGrey[500]
+                     ),
+                     child: Text(
+                       date.day.toString(),
+                       style: TextStyle(color: Colors.black),
                      ),
                    ),
-                   SizedBox(width: 10,),
-                   Flexible(
-                    child: ListTile(              
-                      title: Text(e.servicio),
-                      subtitle: Text(e.fecha.toString()),
-                      onTap: () {
-                        print(e.fecha.toString());
-                        Navigator.push(context, MaterialPageRoute(builder: (_) =>
-                        ViewEvent(eventosModeloGlobal: e)
-                        )
-                        );
-                      },
-                    ),
+                   todayDayBuilder: (context, date, events) => Container(
+                     margin: const EdgeInsets.all(4.0),
+                     alignment: Alignment.center,
+                     decoration: BoxDecoration(
+                       color: Colors.red
+                     ),
+                     child: Text(
+                       date.day.toString(),
+                       style: TextStyle(color: Colors.black),
+                     ),
                    ),
-                   FlatButton(onPressed: (){}, child: Icon(Icons.more_vert))
-                 ],
+                   markersBuilder: (context, date, events, holidays) {
+                     final children = <Widget>[];
+
+                     if (events.isNotEmpty) {
+                       children.add(
+                         Positioned(
+                           right: 1,
+                           bottom: 1,
+                           child: _buildEventsMarker(date, events),
+                         ),
+                       );
+                     }
+                     return children;
+                   },
+                 ),
+                 calendarController: _controller,
                ),
-            ),),
-            
-            ]
-             );
+
+               if(_selectedEvents != null)
+               ..._selectedEvents.map((e) => Container(
+                 color: Colors.amber,
+                 child: Column(
+                   children: [
+                    Row(
+                      children: [
+                        Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: NetworkImage("http://54.197.83.249/Contenido_ftp/Imagenes%20por%20defecto/Placeholder_male.png"),
+                                fit: BoxFit.fill
+                              )
+                            ),
+                          ),
+                        SizedBox(width: 10,),
+                        Flexible(
+                        child: ListTile(              
+                          title: Text(e.servicio),
+                          subtitle: Text(e.fecha.toString()),
+                          onTap: () {
+                            print(e.fecha.toString());
+                            Navigator.push(context, MaterialPageRoute(builder: (_) =>
+                            ViewEvent(eventosModeloGlobal: e)
+                            )
+                            );
+                          },
+                        ),
+                        ),
+                        FlatButton(
+                          onPressed: (){
+                            print(_selectedEvents.runtimeType);
+                          }, 
+                          child: Icon(Icons.more_vert),
+                        )
+                      ],
+                    )
+                   ],
+                 ),
+               ),
+               )
+               
+               ]
+                ),
+           );
 
         },
       ),
@@ -179,5 +205,29 @@ class _Agenda3State extends State<Agenda3> {
       } 
     );
   }
+
+  Widget _buildEventsMarker(DateTime date, List events) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: _controller.isSelected(date)
+            ? Colors.brown[500]
+            : _controller.isToday(date) ? Colors.brown[300] : Colors.blue[400],
+      ),
+      width: 16.0,
+      height: 16.0,
+      child: Center(
+        child: Text(
+          '${events.length}',
+          style: TextStyle().copyWith(
+            color: Colors.white,
+            fontSize: 12.0,
+          ),
+        ),
+      ),
+    );
+  }
+  
 }
 

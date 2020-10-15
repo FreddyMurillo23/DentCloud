@@ -9,12 +9,14 @@ import 'package:muro_dentcloud/src/pages/profile_page.dart';
 import 'package:muro_dentcloud/src/pages/agenda/prueba2.dart';
 import 'package:muro_dentcloud/src/pages/sesion/await.dart';
 import 'package:muro_dentcloud/src/pages/sesion/signin.dart';
+import 'package:muro_dentcloud/src/pages/sesion/signup.dart';
 import 'package:muro_dentcloud/src/pages/startup_page.dart';
 
 Map<String, WidgetBuilder> getApplicationRoutes() {
   return <String, WidgetBuilder>{
     '/': (BuildContext context) => AwaitPage(),
     'signin': (BuildContext context) => SignIn(),
+    'signup': (BuildContext context) => Signup(),
     'startuppage': (BuildContext context) => StartUpPage(),
     'gps': (BuildContext context) => ListaPage(),
     'home': (BuildContext context) => HomePage(),
