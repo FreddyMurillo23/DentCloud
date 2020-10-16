@@ -17,6 +17,7 @@ class _SignInState extends State<SignIn> {
   String _email;
   String _password;
   final currentUserData = new PreferenciasUsuario();
+  bool _obscureText;
 
 //Validación
   void validaterField() {
@@ -73,6 +74,13 @@ class _SignInState extends State<SignIn> {
             ],
           );
         });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    this._obscureText = false;
   }
 
   @override
@@ -135,7 +143,7 @@ class _SignInState extends State<SignIn> {
 
                   //TextField Password
                   new TextFormField(
-                    obscureText: true,
+                    obscureText: !this._obscureText,
                     keyboardType: TextInputType.visiblePassword,
                     decoration: InputDecoration(
                         labelText: "Contraseña",
@@ -148,7 +156,20 @@ class _SignInState extends State<SignIn> {
                             borderSide: BorderSide(color: Colors.black)),
                         prefixIcon: Icon(Icons.vpn_key),
                         filled: true,
-                        fillColor: Colors.white),
+                        fillColor: Colors.white,
+                        suffixIcon: IconButton(
+                            icon: Icon(
+                              this._obscureText
+                              ? Icons.visibility
+                              : Icons.visibility_off
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                this._obscureText = !this._obscureText;
+                              });
+                            },
+                          )
+                        ),
                     validator: (value) => value.isEmpty
                         ? 'La contraseña no puede estar vacía'
                         : null,

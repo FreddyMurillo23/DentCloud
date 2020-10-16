@@ -14,13 +14,14 @@ class Signup extends StatefulWidget {
 class _SignupState extends State<Signup> {
   final format = DateFormat("yyyy-MM-dd");
   final formkey = new GlobalKey<FormState>();
-  String _nombres, _apellidos, _email, _dni, _contrasenia, _celular, _sexo, _provinciaResidencia, _ciudadResidencia, _codigo, _usertype,
+  String _nombres, _apellidos, _email, _dni, _contrasenia, _contraseniaTemp ,_celular, _sexo, _provinciaResidencia, _ciudadResidencia, _codigo, _usertype,
   _profesion;
   DateTime _fecha;
   String _sexoEnum;
-  bool estado, _obscureText = true;
+  bool estado, _obscureText;
   int codigo;
   
+//Validar Campos
   void validaterField() {
     final form = formkey.currentState;
 
@@ -49,20 +50,12 @@ class _SignupState extends State<Signup> {
       }
       });
 
-      print(this._nombres);
-      print(this._apellidos);
-      print(this._email);
-      print(this._celular);
-      print(this._dni);
-      print(this._profesion);
-      print(this._usertype);
-      print(this._contrasenia);
-      print(this._sexoEnum);
     }  else {
       print('Form is invalid');
     }   
   }
 
+//Validar Correo
   bool validateEmail(String value) {
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
@@ -70,11 +63,37 @@ class _SignupState extends State<Signup> {
     return (!regex.hasMatch(value)) ? false : true;
   }
 
+//Validar Contraseña
+  bool validatePass(String value, String value2){
+    if(value == value2){
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+//Validar Nombre
+  bool validateName(String value) {
+    Pattern pattern = r'(^[a-zA-Z ]*$)';
+    RegExp regExp = new RegExp(pattern);
+    return (!regExp.hasMatch(value)) ? false : true;
+  }
+
+//Validar DNI y Numero Celular
+  bool validateNumber(String value) {
+    if(value.length < 10) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     this.estado = false;
+    this._obscureText = false;
   }
 
   @override
@@ -129,6 +148,8 @@ class _SignupState extends State<Signup> {
                         ),
                         validator: (value) => value.isEmpty
                             ? 'Este campo no puede estar vacío'
+                            : !validateName(value)
+                            ? 'Ingrese un nombre válido'
                             : null,
                         onSaved: (value) => this._nombres = value,
                       ),
@@ -156,6 +177,8 @@ class _SignupState extends State<Signup> {
                         ),
                         validator: (value) => value.isEmpty
                             ? 'Este campo no puede estar vacío'
+                            : !validateName(value)
+                            ? 'Ingrese un nombre válido'
                             : null,
                         onSaved: (value) => this._apellidos = value,
                       ),
@@ -186,7 +209,7 @@ class _SignupState extends State<Signup> {
                         if(dateTime == null) {
                           return "Este campo no puede estar vacio";
                         } if((DateTime.now().year - dateTime.year) < 15) {
-                          return "Eres menor chamo";
+                          return "La edad mínima es de 15 años";
                         }
                         return null;
                       },
@@ -217,6 +240,8 @@ class _SignupState extends State<Signup> {
                         ),
                         validator: (value) => value.isEmpty
                             ? 'Este campo no puede estar vacío'
+                            : !validateNumber(value)
+                            ? 'Ingrese un DNI correcto'
                             : null,
                         onSaved: (value) => this._dni = value,
                       ),
@@ -245,6 +270,8 @@ class _SignupState extends State<Signup> {
                         ),
                         validator: (value) => value.isEmpty
                             ? 'Este campo no puede estar vacío'
+                            : !validateNumber(value)
+                            ? 'Ingrese un número correcto'
                             : null,
                         onSaved: (value) => this._celular = value,
                       ),  
@@ -279,10 +306,10 @@ class _SignupState extends State<Signup> {
 
                     SizedBox(height: 10,),
 
-                    //Textfield contraseña  
+                    //Textfield Contraseña  
                     new TextFormField(
                         autofocus: false,
-                        obscureText: true,
+                        obscureText: !this._obscureText,
                         keyboardType: TextInputType.visiblePassword,
                         decoration: InputDecoration(        
                           labelText: "Contraseña",
@@ -297,7 +324,22 @@ class _SignupState extends State<Signup> {
                           prefixIcon: Icon(Icons.lock),
                           filled: true,
                           fillColor: Colors.white,
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              this._obscureText
+                              ? Icons.visibility
+                              : Icons.visibility_off
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                this._obscureText = !this._obscureText;
+                              });
+                            },
+                          )
                         ),
+                        onChanged: (value) => this._contrasenia = value,
+                        onFieldSubmitted: (value) => this._contrasenia = value,
+
                         validator: (value) => value.isEmpty
                             ? 'Este campo no puede estar vacío'
                             : null,
@@ -306,10 +348,10 @@ class _SignupState extends State<Signup> {
 
                     SizedBox(height: 10,),
 
-                    //Textfield confirmar contraseña  
+                    //Textfield Confirmar Contraseña  
                     new TextFormField(
                         autofocus: false,
-                        obscureText: true,
+                        obscureText: !this._obscureText,
                         keyboardType: TextInputType.visiblePassword,
                         decoration: InputDecoration(        
                           labelText: "Confirmar Contraseña",
@@ -327,6 +369,8 @@ class _SignupState extends State<Signup> {
                         ),
                         validator: (value) => value.isEmpty
                             ? 'Este campo no puede estar vacío'
+                            : !validatePass(value, this._contrasenia)
+                            ? 'Contraseñas no coinciden'
                             : null,
                       ),
 
