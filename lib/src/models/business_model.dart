@@ -8,6 +8,7 @@ class Business {
     //? Por cada item que recibe los va enviando al metodo que extrae los datos del json y retorna el mapa luego los agrega a una lista de items de tipo publicacion.
     for (var item in jsonList) {
       final negocio = new NegocioData.fromJsonMap(item);
+      print(negocio);
       items.add(negocio);
     }
     // print(items[0]);
@@ -27,9 +28,9 @@ class NegocioData {
   String provincia;
   String canton;
   String ubicacion;
-  List<dynamic> servicios;
-  List<Personal> personal;
-  List<PublicacionesNegocio> publicacionesNegocio;
+  List<dynamic> servicios = new List();
+  List<Personal> personal = new List();
+  List<PublicacionesNegocio> publicacionesNegocio = new List();
 
   NegocioData({
     this.inicialNegocio,
@@ -45,102 +46,111 @@ class NegocioData {
   });
 
   NegocioData.fromJsonMap(Map<String, dynamic> json) {
-    inicialNegocio = json ['inicial_negocio'];
-    ruc = json ['ruc'];
-    negocio = json ['negocio'];
-    telefono = json ['telefono'];
-    provincia = json ['provincia'];
-    canton = json ['canton'];
-    ubicacion = json ['ubicacion'];
-    if(json['servicios'].length !=0){
-      for(var item in json['servicios']){
+    inicialNegocio = json['inicial_negocio'];
+    ruc = json['ruc'];
+    negocio = json['negocio'];
+    telefono = json['telefono'];
+    provincia = json['provincia'];
+    canton = json['canton'];
+    ubicacion = json['ubicacion'];
+    if (json['servicios'].length != 0) {
+      for (var item in json['servicios']) {
         final serv = new ServiciosNegocio.fromJsonMap(item);
         servicios.add(serv);
       }
-    }    
-    if(json['personal'].length !=0){
-      for(var item in json['personal']){
+    }
+    if (json['personal'].length != 0) {
+      for (var item in json['personal']) {
         final per = new Personal.fromJsonMap(item);
         personal.add(per);
       }
     }
-    if(json['publicaciones_negocio'].length !=0){
-      for(var item in json['publicaciones_negocio']){
+    if (json['publicaciones_negocio'].length != 0) {
+      for (var item in json['publicaciones_negocio']) {
         final pub = new PublicacionesNegocio.fromJsonMap(item);
         publicacionesNegocio.add(pub);
       }
     }
   }
-get openInicialNegocio{
-  if(inicialNegocio ==null){
-    return'';
-  }else{
-    return inicialNegocio;
+  get openInicialNegocio {
+    if (inicialNegocio == null) {
+      return '';
+    } else {
+      return inicialNegocio;
+    }
   }
-}
-get openRuc{
-  if(ruc ==null){
-    return'';
-  }else{
-    return ruc;
+
+  get openRuc {
+    if (ruc == null) {
+      return '';
+    } else {
+      return ruc;
+    }
   }
-}
-get openNegocio{
-  if(negocio ==null){
-    return'';
-  }else{
-    return negocio;
+
+  get openNegocio {
+    if (negocio == null) {
+      return '';
+    } else {
+      return negocio;
+    }
   }
-}
-get openTelefono{
-  if(telefono ==null){
-    return'';
-  }else{
-    return telefono;
+
+  get openTelefono {
+    if (telefono == null) {
+      return '';
+    } else {
+      return telefono;
+    }
   }
-}
-get openProvincia{
-  if(provincia ==null){
-    return'';
-  }else{
-    return provincia;
+
+  get openProvincia {
+    if (provincia == null) {
+      return '';
+    } else {
+      return provincia;
+    }
   }
-}
-get openCanton{
-  if(canton ==null){
-    return'';
-  }else{
-    return canton;
+
+  get openCanton {
+    if (canton == null) {
+      return '';
+    } else {
+      return canton;
+    }
   }
-}
-get openUbicacion{
-  if(ubicacion ==null){
-    return'';
-  }else{
-    return ubicacion;
+
+  get openUbicacion {
+    if (ubicacion == null) {
+      return '';
+    } else {
+      return ubicacion;
+    }
   }
-}
-get openServicios{
-  if(servicios ==null){
-    return'';
-  }else{
-    return servicios;
+
+  get openServicios {
+    if (servicios == null) {
+      return '';
+    } else {
+      return servicios;
+    }
   }
-}
-get openPersonal{
-  if(personal ==null){
-    return'';
-  }else{
-    return personal;
+
+  get openPersonal {
+    if (personal == null) {
+      return '';
+    } else {
+      return personal;
+    }
   }
-}
-get openPublicacionesNegocio{
-  if(publicacionesNegocio ==null){
-    return'';
-  }else{
-    return publicacionesNegocio;
+
+  get openPublicacionesNegocio {
+    if (publicacionesNegocio == null) {
+      return '';
+    } else {
+      return publicacionesNegocio;
+    }
   }
-}
 }
 
 class Personal {

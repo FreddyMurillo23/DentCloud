@@ -49,8 +49,8 @@ class NavDrawer extends StatelessWidget {
             leading: Icon(Icons.border_color),
             title: Text('Configuración del Perfil'),
             onTap: () => {
-              docProv.listarDoctores(),
-              Navigator.of(context).pushReplacementNamed('home')
+              // docProv.listarDoctores(),
+              Navigator.pushReplacementNamed(context, 'serviciosNegocios'),
             },
           ),
           ListTile(

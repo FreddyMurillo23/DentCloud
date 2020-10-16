@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:muro_dentcloud/src/models/business_Services_models.dart';
+import 'package:muro_dentcloud/src/models/business_model.dart';
 
 class BusinessServicesWg extends StatelessWidget {
-  final List<NegocioDato> businessSe;
+  final List<NegocioData> businessSe;
 
   const BusinessServicesWg(this.businessSe);
 
@@ -13,7 +14,7 @@ class BusinessServicesWg extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           return ListTile(
             leading: Icon(Icons.account_circle),
-            title: Text(this.businessSe[0].servicios[index].servicio),
+            title: Text(this.businessSe[0].servicios[index].idServicio),
             subtitle: Text(this.businessSe[0].servicios[index].idServicio),
             trailing: FlatButton(
               onPressed: () {

@@ -4,33 +4,19 @@
 
 import 'dart:convert';
 
-ServicesBusiness servicesBusinessFromJson(String str) =>
-    ServicesBusiness.fromJson(json.decode(str));
-
-String servicesBusinessToJson(ServicesBusiness data) =>
-    json.encode(data.toJson());
+import 'package:muro_dentcloud/src/models/business_model.dart';
 
 class ServicesBusiness {
-  ServicesBusiness({
-    this.jsontype,
-    this.negocioDatos,
-  });
-
   String jsontype;
-  List<NegocioDato> negocioDatos;
+  List<NegocioDato> negocioDatos  = new List();
 
-  factory ServicesBusiness.fromJson(Map<String, dynamic> json) =>
-      ServicesBusiness(
-        jsontype: json["jsontype"],
-        negocioDatos: List<NegocioDato>.from(
-            json["negocio_datos"].map((x) => NegocioDato.fromJson(x))),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "jsontype": jsontype,
-        "negocio_datos":
-            List<dynamic>.from(negocioDatos.map((x) => x.toJson())),
-      };
+  ServicesBusiness.fromJsonList(List<dynamic> jsonList) {
+    if (jsonList == null) return;
+    for (var item in jsonList) {
+      final bdata = new NegocioDato.fromJson(item);
+      negocioDatos.add(bdata);
+    }
+  }
 }
 
 class NegocioDato {

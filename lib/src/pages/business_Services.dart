@@ -6,13 +6,20 @@ import 'package:provider/provider.dart';
 class BusinessServicePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final businessSer = Provider.of<BusinessServices>(context);
+    // final businessSer = Provider.of<BusinessServices>(context);
+    final businessSer = BusinessServices();
 
-    return Container(
-      child: FutureBuilder(
+    return Scaffold(
+      body: FutureBuilder(
         future: businessSer.getBusinessServices('1304924424001'),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          return BusinessServicesWg(snapshot.data);
+           print(snapshot);
+          if (snapshot.hasData) {
+            return BusinessServicesWg(snapshot.data);
+          } else {
+            return CircularProgressIndicator();
+          }
+         
         },
       ),
     );
