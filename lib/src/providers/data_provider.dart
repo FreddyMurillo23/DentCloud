@@ -46,6 +46,9 @@ class DataProvider {
     return public;
   }
 
+  
+
+
   //!PROVIDER DE DATOS PARA LA AGENDA
   Future<List<EventModel>> eventosPorCorreo(emailDoctor) async {
     String url =
@@ -85,6 +88,17 @@ class DataProvider {
   Future<List<CurrentUsuario>> userData(String email) async {
     String url2 =
         'http://54.197.83.249/PHP_REST_API/api/get/get_user_data_principal.php?user_email=$email';
+    final resp2 = await http.get(url2);
+    final decodedData = json.decode(resp2.body);
+    final data = CurrentUsuarios.fromJsonList(decodedData['usuario']);
+    // print(decodedData);
+    // print(decodedData['usuario']);
+    return data.items;
+  }
+
+  Future<List<CurrentUsuario>> businessData(String ruc) async {
+    String url2 =
+        'http://54.197.83.249/PHP_REST_API/api/get/get_business_data_by_ruc.php?business_ruc=$ruc';
     final resp2 = await http.get(url2);
     final decodedData = json.decode(resp2.body);
     final data = CurrentUsuarios.fromJsonList(decodedData['usuario']);

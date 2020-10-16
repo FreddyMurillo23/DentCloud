@@ -8,6 +8,7 @@ import 'package:muro_dentcloud/src/pages/profile_page.dart';
 import 'package:muro_dentcloud/src/providers/menu_providers.dart';
 import 'package:muro_dentcloud/src/utils/icono_string_util.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
+import 'agenda/prueba2.dart';
 import 'card_page.dart';
 import 'listview_page.dart';
 
@@ -36,7 +37,7 @@ class _StartUpPageState extends State<StartUpPage> {
     final List<Widget> _widgetOptions = <Widget>[
       CardPage(),
       HomePage(),
-      ListaPage(),
+      Agenda3(),
       ProfilePage(
         currentuser: userinfo,
       ),
