@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:muro_dentcloud/src/controllers/users_ctrl.dart';
 import 'package:muro_dentcloud/src/widgets/date_time.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:intl/intl.dart';
@@ -18,6 +19,7 @@ class _SignupState extends State<Signup> {
   DateTime _fecha;
   String _sexoEnum;
   bool estado, _obscureText = true;
+  int codigo;
   
   void validaterField() {
     final form = formkey.currentState;
@@ -38,6 +40,23 @@ class _SignupState extends State<Signup> {
         this._sexoEnum = 'F';
       }
 
+      UserCtrl.registrarUsuarios(_email, _contrasenia, _dni, _nombres, _apellidos, _fecha, _celular, _sexo, _usertype, _profesion, _provinciaResidencia, _ciudadResidencia).then((value){
+        if(value){
+          print("De ley chamo");
+          Navigator.pop(context);
+        } else{
+          print("No se pudo burro");
+      }
+      });
+
+      print(this._nombres);
+      print(this._apellidos);
+      print(this._email);
+      print(this._celular);
+      print(this._dni);
+      print(this._profesion);
+      print(this._usertype);
+      print(this._contrasenia);
       print(this._sexoEnum);
     }  else {
       print('Form is invalid');
@@ -93,6 +112,7 @@ class _SignupState extends State<Signup> {
                     new TextFormField(
                         autofocus: false,
                         keyboardType: TextInputType.text,
+                        textCapitalization: TextCapitalization.words,
                         decoration: InputDecoration(        
                           labelText: "Nombres",
                           border: OutlineInputBorder(
@@ -119,6 +139,7 @@ class _SignupState extends State<Signup> {
                     new TextFormField(
                         autofocus: false, 
                         keyboardType: TextInputType.text,
+                        textCapitalization: TextCapitalization.words,
                         decoration: InputDecoration(        
                           labelText: "Apellidos",
                           border: OutlineInputBorder(
@@ -251,7 +272,7 @@ class _SignupState extends State<Signup> {
                         validator: (value) => value.isEmpty
                             ? 'Este campo no puede estar vacío'
                             : !validateEmail(value)
-                            ? 'Ingrese un corre valido'
+                            ? 'Ingrese un correo valido'
                             : null,
                         onSaved: (value) => this._email = value,
                       ),
@@ -353,6 +374,7 @@ class _SignupState extends State<Signup> {
                     new TextFormField(
                         autofocus: false,
                         keyboardType: TextInputType.emailAddress,
+                        textCapitalization: TextCapitalization.words,
                         decoration: InputDecoration(        
                           labelText: "Provincia de Residencia",
                           border: OutlineInputBorder(
@@ -379,6 +401,7 @@ class _SignupState extends State<Signup> {
                     new TextFormField(
                         autofocus: false,
                         keyboardType: TextInputType.emailAddress,
+                        textCapitalization: TextCapitalization.words,
                         decoration: InputDecoration(        
                           labelText: "Ciudad de Residencia",
                           border: OutlineInputBorder(
@@ -401,9 +424,11 @@ class _SignupState extends State<Signup> {
 
                       SizedBox(height: 10,),
 
+                    //TextField Profesion
                     new TextFormField(
                         autofocus: false,
                         keyboardType: TextInputType.text,
+                        textCapitalization: TextCapitalization.words,
                         decoration: InputDecoration(        
                           labelText: "Profesion",
                           border: OutlineInputBorder(
@@ -440,8 +465,9 @@ class _SignupState extends State<Signup> {
                             activeText: 'Medico',
                             inactiveText: 'Paciente',
                             inactiveColor: Colors.red,
+                            activeColor: Colors.green,
                             activeTextColor: Colors.black,
-                            inactiveTextColor: Colors.blue[50],
+                            inactiveTextColor: Colors.black,
                             value: estado,
                             onToggle: (val) {
                               print(val);
@@ -469,7 +495,7 @@ class _SignupState extends State<Signup> {
                                 keyboardType: TextInputType.number,
                                 textAlign: TextAlign.center,
                                 decoration: InputDecoration(        
-                                hintText: 'Codigo',  
+                                hintText: 'Codigo = 1234',  
                                   border: OutlineInputBorder(
                                     borderSide: BorderSide(color: Colors.black),
                                   ),
@@ -482,6 +508,8 @@ class _SignupState extends State<Signup> {
                                 ),
                                 validator: (value) => value.isEmpty
                                     ? 'Este campo no puede estar vacío'
+                                    : value != "1234"
+                                    ? 'Código Incorrecto'
                                     : null,
                                 onSaved: (value) => this._codigo = value,
                               ),
@@ -496,13 +524,21 @@ class _SignupState extends State<Signup> {
                     new RaisedButton(
                         child: Text("Registrar"),
                         onPressed: validaterField,
+                        color: Colors.lightBlue,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18),
+                        ),
                         ),
 
                       SizedBox(height: 5,),
 
                     new RaisedButton(
                         child: Text("Cancelar"),
-                        onPressed: () => {Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false)}
+                        onPressed: () => {Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false)},
+                        color: Colors.lightBlue,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18),
+                        ),         
                         )
                     ],
 
