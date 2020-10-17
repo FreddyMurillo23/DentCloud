@@ -15,7 +15,7 @@ import 'package:muro_dentcloud/src/pages/startup_page.dart';
 
 Map<String, WidgetBuilder> getApplicationRoutes() {
   return <String, WidgetBuilder>{
-    '/': (BuildContext context) => AwaitPage(),
+    '/': (BuildContext context) => SignIn(),
     'signin': (BuildContext context) => SignIn(),
     'signup': (BuildContext context) => Signup(),
     'startuppage': (BuildContext context) => StartUpPage(),

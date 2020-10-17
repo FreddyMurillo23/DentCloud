@@ -17,7 +17,7 @@ class _SignInState extends State<SignIn> {
   String _email;
   String _password;
   final currentUserData = new PreferenciasUsuario();
-  bool _obscureText;
+  bool _obscureText = false;
 
 //Validación
   void validaterField() {

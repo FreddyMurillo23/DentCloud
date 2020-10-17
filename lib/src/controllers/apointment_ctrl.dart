@@ -27,7 +27,7 @@ class EventosCtrl{
   }
 
   static Future<bool> registrarEventos(String ruc, String emailDoc, String emailUser, String service, String descripcion, DateTime fecha) async{
-    final response = await http.get("http://54.197.83.249/PHP_REST_API/api/post/post_medical_appointment.php?business_ruc=$ruc&user_email_doctor=$emailDoc&user_email_patient=$emailUser&business_service=$service&commentary=$descripcion&date_time=$fecha");
+    final response = await http.post("http://54.197.83.249/PHP_REST_API/api/post/post_medical_appointment.php?business_ruc=$ruc&user_email_doctor=$emailDoc&user_email_patient=$emailUser&business_service=$service&commentary=$descripcion&date_time=$fecha");
     if (response.statusCode == 200) {
       return true;
     } else {
