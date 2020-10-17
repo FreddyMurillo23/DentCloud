@@ -58,6 +58,22 @@ class PreferenciasUsuario {
 
   //! Tipo de perfil RUC o CORREO
   set profileType(String type) {
-    print(identical('1256984541', '1304924424'));
+    _prefs.setString('profileType', type);
+  }
+
+  get profileTypeRuc async {
+    if (_prefs.getString('profileType') == 'Ruc') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  get profileTypeCorreo async {
+    if (_prefs.getString('profileType') == 'Correo') {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
