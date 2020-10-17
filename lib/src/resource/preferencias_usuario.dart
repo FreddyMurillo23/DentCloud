@@ -16,27 +16,23 @@ class PreferenciasUsuario {
     this._prefs = await SharedPreferences.getInstance();
   }
 
-
-
   //! Datos del correo actual en la app
   get currentCorreo async {
     return _prefs.getString('currentCorreo') ?? 'empty';
   }
+
   set currentCorreo(String value) {
     _prefs.setString('currentCorreo', value);
   }
-
-
 
 //! Contrasena actual en la app
   get currentPassword async {
     return _prefs.getString('currentPassword') ?? 'empty';
   }
+
   set currentPassword(String value) {
     _prefs.setString('currentPassword', value);
   }
-
-
 
 //! Borra los datos del usuario de la app para volver a cargar en login
   get resetCurrentUserData async {
@@ -51,15 +47,17 @@ class PreferenciasUsuario {
     });
   }
 
-
-  
   //! Actual perfil que corre en la app
   set currentProfile(String value) {
     _prefs.setString('currentProfile', value);
   }
+
   get currentProfile async {
-    return _prefs.getString('currentProfile')?? 'empty';
+    return _prefs.getString('currentProfile') ?? 'empty';
   }
 
-
+  //! Tipo de perfil RUC o CORREO
+  set profileType(String type) {
+    print(identical('1256984541', '1304924424'));
+  }
 }
