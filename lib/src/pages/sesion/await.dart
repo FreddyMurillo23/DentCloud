@@ -24,6 +24,7 @@ class AwaitPage extends StatelessWidget {
             final login = new DataProvider();
 
             login.userData(email).then((value) {
+              
               // login
               //     .getPublicacionesByUser(value[0].publicaciones)
               //     .then((value2) {
