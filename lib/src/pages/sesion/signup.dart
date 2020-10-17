@@ -41,20 +41,7 @@ class _SignupState extends State<Signup> {
         this._sexoEnum = 'F';
       }
 
-      print(_email);
-      print(_contrasenia);
-      print(_dni);
-      print(_nombres);
-      print(_apellidos);
-      print(_fecha.toIso8601String());
-      print(_celular);
-      print(_celular);
-      print(_usertype);
-      print(_profesion);
-      print(_provinciaResidencia);
-      print(_ciudadResidencia);
-
-      UserCtrl.registrarUsuarios(_email, _contrasenia, _dni, _nombres, _apellidos, _fecha, _celular, _celular, _usertype, _profesion, _provinciaResidencia, _ciudadResidencia).then((value){
+      UserCtrl.registrarUsuarios(_email, _contrasenia, _dni, _nombres, _apellidos, _fecha, _celular,  _sexoEnum, _usertype, _profesion, _provinciaResidencia, _ciudadResidencia).then((value){
         if(value){
           print("De ley chamo");
           Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
