@@ -10,8 +10,7 @@ class NavDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     DoctoresProvider docProv = Provider.of<DoctoresProvider>(context);
     EventosProvider eventProv = Provider.of<EventosProvider>(context);
-    EventosHoldProvider eventHoldProv =
-        Provider.of<EventosHoldProvider>(context);
+    EventosHoldProvider eventHoldProv = Provider.of<EventosHoldProvider>(context);
     final currentUserData = new PreferenciasUsuario();
     return Drawer(
       child: ListView(
@@ -35,8 +34,8 @@ class NavDrawer extends StatelessWidget {
             leading: Icon(Icons.verified_user),
             title: Text('Agenda'),
             onTap: () => {
-              eventHoldProv.listarEventosonHold('hvargas@utm.ec'),
-              eventProv.listarEventosHold('hvargas@utm.ec'),
+              eventHoldProv.listarEventosonHold('hvargc'),
+              eventProv.listarEventosHold('hvarg.ec'),
               Navigator.of(context).pushReplacementNamed('agenda2')
             },
           ),
