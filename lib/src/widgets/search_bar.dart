@@ -48,11 +48,8 @@ class EventSearchDelegate extends SearchDelegate<Doctores>{
         future: futureDoctor,
         builder: (BuildContext context, AsyncSnapshot snapshot) { 
 
-          /*if ( !snapshot.hasData ) {
-            return ListTile( title: Text('No hay Elementos') );
-          }*/
-
           if ( snapshot.hasData ) {
+            print(snapshot.data.toString());
             return _showDoctores( snapshot.data );
           }
 

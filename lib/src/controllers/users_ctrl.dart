@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 class UserCtrl{
   static Future<bool> registrarUsuarios(String userEmail, String password, String userDNI, String userName, String userLastName, DateTime birthday, String userCellphone, String sex, String userType, String userProfesion, String userProvince, String userCity) async{
     final response = await http.post("http://54.197.83.249/PHP_REST_API/api/post/post_user_data.php?user_email=$userEmail&password=$password&user_dni=$userDNI&user_names=$userName&user_last_names=$userLastName&birthdate=$birthday&cellphone=$userCellphone&sex=$sex&user_type=$userType&doctor_profession=$userProfesion&province_resident=$userProvince&city_resident=$userCity");
-    //final response2 = await http.post("http://54.197.83.249/PHP_REST_API/api/post/post_user_data.php?user_email=bebesisa@gmail.com&password=12345&user_dni=2115347001&user_names=Hey Hye&user_last_names=Ganasasa&birthdate=1998-04-07&cellphone=098411659&sex=M&user_type=P&doctor_profession=Odontologo&province_resident=Manabi&city_resident=Porto");
     if (response.statusCode == 200) {
       print("si");
       return true;

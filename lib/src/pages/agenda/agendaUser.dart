@@ -7,23 +7,22 @@ import 'package:table_calendar/table_calendar.dart';
 import 'dart:async';
 
 
-class Agenda3 extends StatefulWidget {
+class AgendaUser extends StatefulWidget {
   @override
-  _Agenda3State createState() => _Agenda3State();
+  _AgendaUserState createState() => _AgendaUserState();
 }
 
-class _Agenda3State extends State<Agenda3> {
+class _AgendaUserState extends State<AgendaUser> {
   CalendarController _controller;
   Map<DateTime, List<dynamic>> _events;
   List<dynamic> _selectedEvents;
   List<EventosModelo> eventosModel;
-  List<EventosModelo> eventosModel2;
+  List<EventosModeloUsuario> eventosModeUsuario;
   bool prueba = false;
   
 
   @override
-  void initState() {
-    
+  void initState() { 
     super.initState();
     _events = {};
     _selectedEvents = [];
@@ -43,6 +42,25 @@ class _Agenda3State extends State<Agenda3> {
     return data;
   }
 
+  Map<DateTime, List<dynamic>> _eventsGetUser(List<EventosModeloUsuario> events){
+    Map<DateTime, List<dynamic>> data = {};
+    events.forEach((event) { 
+      DateTime date = DateTime(event.fecha.year, event.fecha.month, event.fecha.day
+      , event.fecha.hour, event.fecha.minute);
+      if(data[date] == null) data[date] = [];
+      data[date].add(event);
+    });
+    return data;
+  }
+
+  Map<DateTime, List<dynamic>> _eventsGeneral(List<EventosModeloUsuario> eventsUser, List<EventosModelo> events){
+    if(prueba == false) {
+      return _eventsGet(events);
+    } else {
+      return _eventsGetUser(eventsUser);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Future<List<EventosModelo>> futureEvents;
@@ -58,9 +76,8 @@ class _Agenda3State extends State<Agenda3> {
         future: futureEvents,
         builder: (context, snapshot) {
           if(snapshot.hasData){
-            eventosModel = snapshot.data;
-            if(eventosModel.isNotEmpty){
-              _events = _eventsGet(eventosModel);
+            if(snapshot.data.isNotEmpty){
+              _events = _eventsGet(snapshot.data);
             }
           }
 
@@ -71,6 +88,7 @@ class _Agenda3State extends State<Agenda3> {
            return SingleChildScrollView(
               child: Column(
                children: <Widget>[TableCalendar(
+                 availableGestures: AvailableGestures.none,
                  events: _events,
                  initialCalendarFormat: CalendarFormat.month,
                  calendarStyle: CalendarStyle(
@@ -101,7 +119,8 @@ class _Agenda3State extends State<Agenda3> {
                      margin: const EdgeInsets.all(4.0),
                      alignment: Alignment.center,
                      decoration: BoxDecoration(
-                       color: Colors.blueGrey[500]
+                       color: Colors.blueGrey[500],
+                       borderRadius: BorderRadius.circular(10)
                      ),
                      child: Text(
                        date.day.toString(),
@@ -112,7 +131,8 @@ class _Agenda3State extends State<Agenda3> {
                      margin: const EdgeInsets.all(4.0),
                      alignment: Alignment.center,
                      decoration: BoxDecoration(
-                       color: Colors.red
+                       color: Colors.red,
+                       borderRadius: BorderRadius.circular(10)
                      ),
                      child: Text(
                        date.day.toString(),
@@ -137,50 +157,60 @@ class _Agenda3State extends State<Agenda3> {
                  calendarController: _controller,
                ),
 
-               if(_selectedEvents != null)
-               ..._selectedEvents.map((e) => Container(
-                 color: Colors.amber,
+               Container(
                  child: Column(
                    children: [
-                    Row(
-                      children: [
-                        Container(
-                            width: 50,
-                            height: 50,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: NetworkImage("http://54.197.83.249/Contenido_ftp/Imagenes%20por%20defecto/Placeholder_male.png"),
-                                fit: BoxFit.fill
-                              )
-                            ),
+                     if(_selectedEvents != null)
+                      ..._selectedEvents.map((e) => Container(       
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.green[100],
+                          border: Border.all(
+                            color: Colors.black,
                           ),
-                        SizedBox(width: 10,),
-                        Flexible(
-                        child: ListTile(              
-                          title: Text(e.servicio),
-                          subtitle: Text(e.fecha.toString()),
-                          onTap: () {
-                            print(e.fecha.toString());
-                            Navigator.push(context, MaterialPageRoute(builder: (_) =>
-                            ViewEvent(eventosModeloGlobal: e)
+                        ),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                SizedBox(width: 5,),
+                                Container(
+                                    width: 50,
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: NetworkImage("http://54.197.83.249/Contenido_ftp/Imagenes%20por%20defecto/Placeholder_male.png"),
+                                        fit: BoxFit.fill
+                                      ),
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                SizedBox(width: 10,),
+                                Flexible(
+                                child: ListTile(              
+                                  title: Text(e.servicio),
+                                  subtitle: Text(e.fecha.toString()),
+                                  onTap: () {
+                                    print(e.fecha.toString());
+                                    Navigator.push(context, MaterialPageRoute(builder: (_) =>
+                                    ViewEvent(eventosModeloGlobal: e)
+                                    )
+                                    );
+                                  },
+                                ),
+                                ),       
+                              ],
                             )
-                            );
-                          },
+                          ],
                         ),
-                        ),
-                        FlatButton(
-                          onPressed: (){
-                            print(_selectedEvents.runtimeType);
-                          }, 
-                          child: Icon(Icons.more_vert),
-                        )
-                      ],
-                    )
+                      ),
+                      )
                    ],
                  ),
                ),
-               )
-               
                ]
                 ),
            );
@@ -230,4 +260,3 @@ class _Agenda3State extends State<Agenda3> {
   }
   
 }
-

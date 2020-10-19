@@ -2,10 +2,14 @@ import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:muro_dentcloud/src/controllers/apointment_ctrl.dart';
+import 'package:muro_dentcloud/src/models/business_Services_models.dart';
 import 'package:muro_dentcloud/src/models/doctors_model.dart';
 import 'package:muro_dentcloud/src/models/event_model.dart';
+import 'package:muro_dentcloud/src/models/services_model.dart';
+import 'package:muro_dentcloud/src/providers/services_provider.dart';
 
 import 'package:muro_dentcloud/src/widgets/search_bar.dart';
+import 'package:provider/provider.dart';
 
 class AddEvent extends StatefulWidget {
   final EventosModelo eventosModeloGlobal;
@@ -22,10 +26,14 @@ class _AddEventState extends State<AddEvent> {
   final formkey = new GlobalKey<FormState>();
   String doctor, email, descripcion, servicio;
   DateTime fecha;
+  ServicioProvider servicioProvider;
+  Servicios _selectedItem;
   TextEditingController controlador = TextEditingController();
   TextEditingController controladorCorreoUser = TextEditingController();
   TextEditingController controladorNombreUser = TextEditingController();
   TextEditingController controladorApellidoUser = TextEditingController();
+  Map dropDownItemsMap;
+  List<DropdownMenuItem> listServicio = List<DropdownMenuItem>();
   bool document = true;
   final format = DateFormat("yyyy-MM-dd");
 
@@ -34,6 +42,8 @@ class _AddEventState extends State<AddEvent> {
 
   void validateFields(){
     final form = formkey.currentState;
+    print(fecha);
+    print(servicio);
 
   if(form.validate()){
     form.save();
@@ -47,8 +57,49 @@ class _AddEventState extends State<AddEvent> {
       }
     });
   } else{
+    _showDialog();
     print('Form is invalid');
   }
+  }
+
+  bool validateDoctor(Doctores doctores) {
+    if (doctores != null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  List<DropdownMenuItem> getSelectOptions(List<Servicios> servicios){
+    dropDownItemsMap = new Map();
+    listServicio.clear();
+    servicios.forEach((servicios) { 
+      int index = servicios.servicioid;
+      dropDownItemsMap[index] = servicios;
+      listServicio.add(new DropdownMenuItem(
+        child: Text(servicios.descripcion),
+        value: servicios.servicioid,
+      ));
+    });
+    return listServicio;
+  }
+
+  //Alerta
+  void _showDialog() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: new Text("Faltan Datos"),
+            actions: <Widget>[
+              new FlatButton(
+                  onPressed: () => {
+                        Navigator.of(context).pop()
+                      },
+                  child: new Text("Aceptar"))
+            ],
+          );
+        });
   }
   
   @override
@@ -61,12 +112,15 @@ class _AddEventState extends State<AddEvent> {
 
   @override
   Widget build(BuildContext context) {
+    servicioProvider = Provider.of<ServicioProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
         child: Column(   
+          
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,       
           children: [
@@ -188,21 +242,24 @@ class _AddEventState extends State<AddEvent> {
                         Expanded(
                           child: new TextFormField(
                             controller: controlador,
+                            focusNode: FocusNode(),
+                            readOnly: true,
+                            enableInteractiveSelection: false,
                             decoration: InputDecoration(
                               labelText: "Doctor",
                               filled: true,
                               fillColor: Colors.white,
-                              enabled: true,
-                              //hintText: doctorSeleccionado.doctor,
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.all(Radius.circular(20)),
                               ),
                               suffixIcon: GestureDetector(
                                 onTap: ()async{
+                                _selectedItem = null;
                                 final seleccionDoctor = await showSearch(context: context, delegate: EventSearchDelegate('Buscar Doctores', historial));
                                 setState(() {
                                   doctorSeleccionado = seleccionDoctor;
                                   controlador.text = doctorSeleccionado.doctor;
+                                  servicioProvider.listarServicios(doctorSeleccionado.cedula+"001");
                                   if(seleccionDoctor !=null) {this.historial.insert(0, seleccionDoctor);}                        
                                 });
                               },
@@ -218,12 +275,14 @@ class _AddEventState extends State<AddEvent> {
                         if(doctorSeleccionado == null)
                         Expanded(
                           child: new TextFormField(
+                            focusNode: FocusNode(),
+                            readOnly: true,
+                            enableInteractiveSelection: false,
                             initialValue: null,
                             decoration: InputDecoration(
                               labelText: "Doctor",
                               filled: true,
                               fillColor: Colors.white,
-                              enabled: true,
                               hintText: null,
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -255,19 +314,35 @@ class _AddEventState extends State<AddEvent> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Expanded(
-                          child: new TextFormField(
-                            decoration: InputDecoration(   
-                              labelText: "Servicio",                         
-                              filled: true,
-                              fillColor: Colors.white,
-                              enabled: true,
-                              hintText: null,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(20)),
-                              ),
+                          child: Selector<ServicioProvider, List<Servicios>>(
+                            selector: (context, model) => model.servicios,
+                            builder: (context, servicios, child) => Column(
+                              children: <Widget>[
+                                Container(
+                                  padding: EdgeInsets.fromLTRB(15, 0, 10, 0),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.all(Radius.circular(20))
+                                  ),
+                                  child: DropdownButtonHideUnderline(
+                                    child: DropdownButton(
+                                      isExpanded: true,
+                                      items: getSelectOptions(servicios), 
+                                      onChanged: (selected) {
+                                        this._selectedItem = dropDownItemsMap[selected];
+                                        print(_selectedItem.servicioid);
+                                        setState(() {
+                                          this._selectedItem = dropDownItemsMap[selected];
+                                        });
+                                      },
+                                      hint: new Text(
+                                        _selectedItem != null ? _selectedItem.descripcion: "Servicios",
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
                             ),
-                            validator: (value) => value.isEmpty ? 'Este campo no puede estar vacio' : null,
-                            onSaved: (value) => servicio = value,
                           ),
                         ),
                       ],
@@ -318,12 +393,22 @@ class _AddEventState extends State<AddEvent> {
                               prefixIcon: Icon(Icons.date_range)
                             ),
                             format: format,
-                            onShowPicker: (context, currentValue) {
-                              return showDatePicker(
+                            onShowPicker: (context, currentValue) async{
+                              final date = await showDatePicker(
                                   context: context,
-                                  firstDate: DateTime(1900),
+                                  firstDate: DateTime.now(),
                                   initialDate: currentValue ?? DateTime.now(),
-                                  lastDate: DateTime(2100));
+                                  lastDate: DateTime(2100)
+                              );
+                              final time = await showTimePicker(
+                                context: context,
+                                initialTime:
+                                    TimeOfDay.fromDateTime(currentValue ?? DateTime.now()),
+                              );
+                              print(time);
+                              DateTime prueba = DateTimeField.combine(date, time);
+                              print(prueba);
+                              return prueba;
                             },
                             validator: (DateTime dateTime){
                               if(dateTime == null) {
@@ -331,10 +416,13 @@ class _AddEventState extends State<AddEvent> {
                               }
                               return null;
                             },
+                            onChanged: (value) {
+                              print(value);
+                              print("object");
+                            },
                             onSaved: (DateTime dateTime) => fecha = dateTime,
                           ),
-                        )
-
+                        ),
                       ],
                     ),
                     SizedBox(height: 15,),        

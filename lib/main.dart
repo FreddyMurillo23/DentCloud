@@ -3,6 +3,7 @@ import 'package:muro_dentcloud/palette.dart';
 import 'package:muro_dentcloud/src/pages/sesion/signin.dart';
 import 'package:muro_dentcloud/src/providers/doctores_provider.dart';
 import 'package:muro_dentcloud/src/providers/event_provider.dart';
+import 'package:muro_dentcloud/src/providers/services_provider.dart';
 import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
 import 'package:muro_dentcloud/src/routes/routes.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -26,6 +27,8 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<DoctoresProvider>(
             create: (context) => DoctoresProvider()),
+        ChangeNotifierProvider<ServicioProvider>(
+            create: (context) => ServicioProvider()),
         ChangeNotifierProvider<DoctoresProviderName>(
             create: (context) => DoctoresProviderName()),
         ChangeNotifierProvider<EventosProvider>(
