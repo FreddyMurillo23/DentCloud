@@ -20,10 +20,10 @@ class _ProfilePageState extends State<ProfilePage> {
   bool businessProfile = false;
   bool currentProfile = false;
   bool externalUserProfile = false;
-  ScrollController _scrollController = new ScrollController();
-  List<int> _publicaciones = new List();
-  int _ultimoItem = 0;
-  bool _isLoading = false;
+  // ScrollController _scrollController = new ScrollController();
+  // List<int> _publicaciones = new List();
+  // int _ultimoItem = 0;
+  // bool _isLoading = false;
   @override
   Widget build(BuildContext context) { 
     final _screenSize = MediaQuery.of(context).size;
