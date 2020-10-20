@@ -74,7 +74,7 @@ class CardWidgetPublicaciones extends StatelessWidget {
                         ],
                       ),
                     ),
-                    bottonCard(),
+                    bottonCard(_screenSize),
                   ],
                 ),
               ),
@@ -193,50 +193,53 @@ class CardWidgetPublicaciones extends StatelessWidget {
     }
   }
 
-  Widget bottonCard() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        FlatButton(
-          child: Row(
-            children: [
-              Icon(
-                MdiIcons.thumbUpOutline,
-                color: Colors.blue[400],
-                size: 20.00,
-              ),
-              Text(' Me Gusta'),
-            ],
+  Widget bottonCard(Size screenSize) {
+    return Container(
+      width: screenSize.height*0.5,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          FlatButton(
+            child: Row(
+              children: [
+                Icon(
+                  MdiIcons.thumbUpOutline,
+                  color: Colors.blue[400],
+                  size: screenSize.width*0.05,
+                ),
+                Text(' Me Gusta',style: TextStyle(fontSize: screenSize.width*0.038),),
+              ],
+            ),
+            onPressed: () {},
           ),
-          onPressed: () {},
-        ),
-        FlatButton(
-          child: Row(
-            children: [
-              Icon(
-                MdiIcons.commentOutline,
-                color: Colors.blue[500],
-                size: 20.00,
-              ),
-              Text(' Comentar'),
-            ],
+          FlatButton(
+            child: Row(
+              children: [
+                Icon(
+                  MdiIcons.commentOutline,
+                  color: Colors.blue[500],
+                  size: screenSize.width*0.05,
+                ),
+                Text(' Comentar',style: TextStyle(fontSize: screenSize.width*0.038),),
+              ],
+            ),
+            onPressed: () {},
           ),
-          onPressed: () {},
-        ),
-        FlatButton(
-          child: Row(
-            children: [
-              Icon(
-                MdiIcons.shareOutline,
-                color: Colors.blue[300],
-                size: 30.00,
-              ),
-              Text('Compartir'),
-            ],
-          ),
-          onPressed: () {},
-        )
-      ],
+          FlatButton(
+            child: Row(
+              children: [
+                Icon(
+                  MdiIcons.shareOutline,
+                  color: Colors.blue[300],
+                  size: screenSize.width*0.08,
+                ),
+                Text('Compartir',style: TextStyle(fontSize: screenSize.width*0.038),),
+              ],
+            ),
+            onPressed: () {},
+          )
+        ],
+      ),
     );
   }
 

@@ -208,15 +208,15 @@ class _Agenda3State extends State<Agenda3> {
 
         },
       ),
-      floatingActionButton: floatingButon(prueba),
+      floatingActionButton: floatingButon(prueba,userinfo),
     );
   }
 
-  Widget floatingButon(bool prueba){
+  Widget floatingButon(bool prueba, CurrentUsuario userinfo){
     if(prueba==true){
       return FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () => Navigator.pushNamed(context, 'addagenda'),
+        onPressed: () => Navigator.pushNamed(context, 'addagenda',arguments:userinfo),
       );
     }
     return FloatingActionButton(

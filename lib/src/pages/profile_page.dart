@@ -49,7 +49,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ? Rooms(userinfo: userinfo)
                       : prefs.thisProfileType == false && prefs.currentProfile == true
                       ? Container()
-                      : prefs.thisProfileType == false && prefs.currentProfile == false
+                      : prefs.thisProfileType == true && prefs.currentProfile == false
                       ? Container()
                       : prefs.thisProfileType == true && prefs.currentProfile == false
                       ? Container()
