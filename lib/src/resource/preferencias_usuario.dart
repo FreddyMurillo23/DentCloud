@@ -58,11 +58,11 @@ class PreferenciasUsuario {
 
   //! Tipo de perfil RUC o CORREO
   //* TRUE = correo False = RUC
-  set currentProfileType(bool type) {
+  set thisProfileType(bool type) {
     _prefs.setBool('profileType', type);
   }
 
-  get currentProfileType{
+  get thisProfileType{
     if (_prefs.getBool('profileType') != null) {
       return _prefs.getBool('profileType');
     } else {

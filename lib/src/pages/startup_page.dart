@@ -37,7 +37,7 @@ class _StartUpPageState extends State<StartUpPage> {
     final List<Widget> _widgetOptions = <Widget>[
       CardPage(),
       HomePage(),
-      Agenda3(),
+      Agenda3(currentuser: userinfo,),
       ProfilePage(
         currentuser: userinfo,
       ),
