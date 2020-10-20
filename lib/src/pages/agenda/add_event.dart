@@ -1,4 +1,5 @@
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:muro_dentcloud/src/controllers/apointment_ctrl.dart';
@@ -48,10 +49,9 @@ class _AddEventState extends State<AddEvent> {
   if(form.validate()){
     form.save();
     print("Form is valid");
-    EventosCtrl.registrarEventos(doctor, doctorSeleccionado.correo, "craytus@utm.edu.ec", servicio, descripcion, fecha).then((value){
+    EventosCtrl.registrarEventos(doctorSeleccionado.cedula+'001', doctorSeleccionado.correo, "craytus@utm.edu.ec", servicio, descripcion, fecha).then((value){
       if(value){
         servicioProvider.disposeServicios();
-        print("De ley chamo");
         Navigator.pop(context);
       } else{
         print("No se pudo burro");
@@ -95,6 +95,23 @@ class _AddEventState extends State<AddEvent> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: new Text("Faltan Datos"),
+            actions: <Widget>[
+              new FlatButton(
+                  onPressed: () => {
+                    Navigator.of(context).pop()
+                  },
+                  child: new Text("Aceptar"))
+            ],
+          );
+        });
+  }
+
+  void _showDialogAccept() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return CupertinoAlertDialog(
+            title: new Text("Registro Existoso"),
             actions: <Widget>[
               new FlatButton(
                   onPressed: () => {
