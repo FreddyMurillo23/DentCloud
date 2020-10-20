@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:muro_dentcloud/src/controllers/apointment_ctrl.dart';
+import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/event_model.dart';
 import 'package:muro_dentcloud/src/pages/agenda/view_event.dart';
 import 'package:muro_dentcloud/src/providers/event_provider.dart';
@@ -10,11 +11,14 @@ import 'dart:async';
 
 
 class Agenda3 extends StatefulWidget {
+  final CurrentUsuario currentuser;
+  const Agenda3({Key key, this.currentuser}) : super(key: key);
   @override
   _Agenda3State createState() => _Agenda3State();
 }
 
 class _Agenda3State extends State<Agenda3> {
+  
   CalendarController _controller;
   Map<DateTime, List<dynamic>> _events;
   List<dynamic> _selectedEvents;
@@ -47,6 +51,7 @@ class _Agenda3State extends State<Agenda3> {
 
   @override
   Widget build(BuildContext context) {
+    CurrentUsuario userinfo = ModalRoute.of(context).settings.arguments;
     eventosProvider = Provider.of<EventosHoldProvider>(context);
     Future<List<EventosModelo>> futureEvents;
     futureEvents = EventosCtrl.listarEventos("hvargas@utm.ec");

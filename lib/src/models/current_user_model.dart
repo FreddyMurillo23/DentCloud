@@ -11,15 +11,36 @@ class CurrentUsuarios {
       final usuario = new CurrentUsuario.fromJsonMap(item);
       items.add(usuario);
     }
-    // print(items[0]);
-    // print(items.length);
-    // print(items[0].apellidos);
+    
   }
   get itemsList {
     return items;
   }
 
   CurrentUsuarios.clearItems() {
+    items.clear();
+  }
+}
+
+class ProfileUser {
+  //? Lista de tipo publicacion donde se almacenaran los datos extraidos.
+  List<CurrentUsuario> items = new List();
+
+  // Publicaciones()
+
+  ProfileUser.fromJsonList(List<dynamic> jsonList) {
+    if (jsonList == null) return;
+    //? Por cada item que recibe los va enviando al metodo que extrae los datos del json y retorna el mapa luego los agrega a una lista de items de tipo publicacion.
+    for (var item in jsonList) {
+      final usuario = new CurrentUsuario.fromJsonMap(item);
+      items.add(usuario);
+    }
+  }
+  get itemsList {
+    return items;
+  }
+
+  ProfileUser.clearItems() {
     items.clear();
   }
 }

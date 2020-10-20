@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:muro_dentcloud/src/models/apointments_model.dart';
+import 'package:muro_dentcloud/src/models/business_model.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/publications_model.dart';
 import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
@@ -96,12 +97,12 @@ class DataProvider {
     return data.items;
   }
 
-  Future<List<CurrentUsuario>> businessData(String ruc) async {
+  Future<List<NegocioData>> businessData(String ruc) async {
     String url2 =
         'http://54.197.83.249/PHP_REST_API/api/get/get_business_data_by_ruc.php?business_ruc=$ruc';
     final resp2 = await http.get(url2);
     final decodedData = json.decode(resp2.body);
-    final data = CurrentUsuarios.fromJsonList(decodedData['usuario']);
+    final data = Business.fromJsonList(decodedData['usuario']);
     // print(decodedData);
     // print(decodedData['usuario']);
     return data.items;

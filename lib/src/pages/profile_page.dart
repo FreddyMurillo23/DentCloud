@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:muro_dentcloud/src/controllers/users_ctrl.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/providers/data_provider.dart';
+import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
 import 'package:muro_dentcloud/src/widgets/cards.dart';
 import 'package:muro_dentcloud/src/widgets/drawer_appbar.dart';
 import 'package:muro_dentcloud/src/widgets/horizontal_scroll_view.dart';
@@ -16,6 +17,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final prefs = new PreferenciasUsuario();
   final publicacionesProvider = new DataProvider();
   bool businessProfile = false;
   bool currentProfile = false;
@@ -25,7 +27,7 @@ class _ProfilePageState extends State<ProfilePage> {
   // int _ultimoItem = 0;
   // bool _isLoading = false;
   @override
-  Widget build(BuildContext context) { 
+  Widget build(BuildContext context) {
     final _screenSize = MediaQuery.of(context).size;
     CurrentUsuario userinfo = ModalRoute.of(context).settings.arguments;
     // print(userinfo.publicaciones);
@@ -43,9 +45,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 SliverPadding(
                   padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 5.0),
                   sliver: SliverToBoxAdapter(
-                    child: Rooms(
-                      userinfo: userinfo,
-                    ),
+                    child: prefs.currentProfileType == true && prefs.currentProfileType == true
+                      ? Rooms(userinfo: userinfo)
+                      : Container()
                   ),
                 ),
                 SliverToBoxAdapter(

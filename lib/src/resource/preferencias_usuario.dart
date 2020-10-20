@@ -48,32 +48,26 @@ class PreferenciasUsuario {
   }
 
   //! Actual perfil que corre en la app
-  set currentProfile(String value) {
-    _prefs.setString('currentProfile', value);
-  }
+  // set currentProfile(String value) {
+  //   _prefs.setString('currentProfile', value);
+  // }
 
-  get currentProfile async {
-    return _prefs.getString('currentProfile') ?? 'empty';
-  }
+  // get currentProfile async {
+  //   return _prefs.getString('currentProfile') ?? 'empty';
+  // }
 
   //! Tipo de perfil RUC o CORREO
-  set profileType(String type) {
-    _prefs.setString('profileType', type);
+  //* TRUE = correo False = RUC
+  set currentProfileType(bool type) {
+    _prefs.setBool('profileType', type);
   }
 
-  get profileTypeRuc async {
-    if (_prefs.getString('profileType') == 'Ruc') {
-      return true;
+  get currentProfileType{
+    if (_prefs.getBool('profileType') != null) {
+      return _prefs.getBool('profileType');
     } else {
-      return false;
+      return true;
     }
   }
 
-  get profileTypeCorreo async {
-    if (_prefs.getString('profileType') == 'Correo') {
-      return true;
-    } else {
-      return false;
-    }
-  }
 }
