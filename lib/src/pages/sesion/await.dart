@@ -36,6 +36,7 @@ class AwaitPage extends StatelessWidget {
                     arguments: value[0]);
               } else {
                 print("Error");
+                print("Error");
               }
             });
           });

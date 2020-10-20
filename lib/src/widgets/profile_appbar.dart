@@ -15,6 +15,17 @@ class ProfileAppBar extends StatefulWidget {
 }
 
 class _ProfileAppBarState extends State<ProfileAppBar> {
+  bool current = true;
+  //*true = currentLoginProfile
+  //!false = OutProfile
+  
+  bool follow = true;
+  //*true = U allready follow that profile
+  //!false = u dont follow that profile
+
+  bool profileType = true;  
+  //*true = CORREO
+  //!false = RUC
   @override
   Widget build(BuildContext context) {
     final CurrentUsuario userinfo = ModalRoute.of(context).settings.arguments;
@@ -103,19 +114,7 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
               borderRadius: BorderRadius.circular(100.0),
             ),
           ),
-          ShaderMask(
-            shaderCallback: (rect) => LinearGradient(colors: [
-              Color(0xFF81D4FA),
-              Color(0xFF29B6F6),
-              Color(0xFF039BE5)
-            ]).createShader(rect),
-            child: RaisedButton(
-              onPressed: () {
-                setState(() {});
-              },
-              child: Text('Editar Perfil'),
-            ),
-          ),
+          profileButton(),
         ],
       ),
     );
@@ -134,90 +133,164 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
           ),
           child: Column(
             children: [
-              Text(
-                'Recientes',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.lightBlue,
-                    fontSize: 18),
-              ),
+              tilelist(),
               Divider(
                 height: 3,
                 color: Colors.grey,
                 thickness: 10,
               ),
-              Container(
-                alignment: Alignment.topCenter,
-                height: screensize.height * 0.30,
-                width: screensize.width * 0.36,
-                color: Colors.transparent,
-                child: ListView.builder(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 5,
-                    ),
-                    itemCount: widget.userinfo.serviciosRecientes.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      if (widget.userinfo.serviciosRecientes.length == 0) {
-                        return Container(
-                          child: Column(
-                            children: [
-                              Container(
-                                // height: screensize.height * 0.14,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(40.0),
-                                  color: Colors.white,
-                                  border: Border.all(
-                                      width: screensize.width * 0.01,
-                                      color: Colors.blueGrey.shade100),
-                                ),
-                                child: ClipRRect(
-                                  child: FadeInImage(
-                                    image: AssetImage('assets/logo.png'),
-                                    placeholder:
-                                        AssetImage('assets/loading.gif'),
-                                    fit: BoxFit.cover,
-                                  ),
-                                  borderRadius: BorderRadius.circular(40.0),
-                                ),
-                              ),
-                              Text('No hay recientes')
-                            ],
-                          ),
-                        );
-                      } else {
-                        return Container(
-                          child: Column(
-                            children: [
-                              Container(
-                                height: screensize.height * 0.14,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(40.0),
-                                  color: Colors.white,
-                                  border: Border.all(
-                                      width: screensize.width * 0.01,
-                                      color: Colors.blueGrey.shade100),
-                                ),
-                                child: ClipRRect(
-                                  child: FadeInImage(
-                                    image: NetworkImage(
-                                        'https://www.clinicablancohungria.es/wp-content/uploads/2018/05/extraccion.jpg'),
-                                    placeholder:
-                                        AssetImage('assets/loading.gif'),
-                                    fit: BoxFit.cover,
-                                  ),
-                                  borderRadius: BorderRadius.circular(40.0),
-                                ),
-                              ),
-                              Text(
-                                  '${widget.userinfo.serviciosRecientes[index].idServicio}')
-                            ],
-                          ),
-                        );
-                      }
-                    }),
-              ),
+              listContent(screensize),
             ],
           ),
         ));
+  }
+
+  Widget profileButton() {
+    return current
+        ? editarPerfil()
+        : AnimatedSwitcher(
+            duration: const Duration(seconds: 1),
+            switchOutCurve: Curves.easeOutExpo,
+            switchInCurve: Curves.easeInExpo,
+            child: follow ? seguir() : seguido(),
+          );
+    // return editarPerfil();
+  }
+
+  Widget seguir() {
+    return ShaderMask(
+      shaderCallback: (rect) => LinearGradient(
+              colors: [Color(0xFF81D4FA), Color(0xFF29B6F6), Color(0xFF039BE5)])
+          .createShader(rect),
+      child: RaisedButton(
+        onPressed: () {
+          setState(() {
+            follow = !follow;
+          });
+        },
+        child: Text('Seguir'),
+      ),
+    );
+  }
+
+  Widget seguido() {
+    return ShaderMask(
+      shaderCallback: (rect) => LinearGradient(
+              colors: [Color(0xFF81D4FA), Color(0xFF29B6F6), Color(0xFF039BE5)])
+          .createShader(rect),
+      child: RaisedButton(
+        onPressed: () {
+          setState(() {
+            follow = !follow;
+          });
+        },
+        child: Text('Seguido'),
+      ),
+    );
+  }
+
+  Widget editarPerfil() {
+    return ShaderMask(
+      shaderCallback: (rect) => LinearGradient(
+              colors: [Color(0xFF81D4FA), Color(0xFF29B6F6), Color(0xFF039BE5)])
+          .createShader(rect),
+      child: RaisedButton(
+        onPressed: () {
+          setState(() {});
+        },
+        child: Text('Editar Perfil'),
+      ),
+    );
+  }
+
+ Widget tilelist() {
+    return profileType
+        ? Text(
+            'Recientes',
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.lightBlue,
+                fontSize: 18),
+          )
+        : Text(
+            'Recientes',
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.lightBlue,
+                fontSize: 18),
+          );
+  }
+
+  Widget listContent(Size screensize) {
+    return Expanded(
+      child: Container(
+        alignment: Alignment.topCenter,
+        // height: screensize.height * 0.30,
+        width: screensize.width * 0.36,
+        color: Colors.transparent,
+        child: ListView.builder(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 5,
+            ),
+            itemCount: widget.userinfo.serviciosRecientes.length,
+            itemBuilder: (BuildContext context, int index) {
+              if (widget.userinfo.serviciosRecientes.length == 0) {
+                return Container(
+                  child: Column(
+                    children: [
+                      Container(
+                        // height: screensize.height * 0.14,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(40.0),
+                          color: Colors.white,
+                          border: Border.all(
+                              width: screensize.width * 0.01,
+                              color: Colors.blueGrey.shade100),
+                        ),
+                        child: ClipRRect(
+                          child: FadeInImage(
+                            image: AssetImage('assets/logo.png'),
+                            placeholder: AssetImage('assets/loading.gif'),
+                            fit: BoxFit.cover,
+                          ),
+                          borderRadius: BorderRadius.circular(40.0),
+                        ),
+                      ),
+                      Text('No hay recientes')
+                    ],
+                  ),
+                );
+              } else {
+                return Container(
+                  child: Column(
+                    children: [
+                      Container(
+                        height: screensize.height * 0.14,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(40.0),
+                          color: Colors.white,
+                          border: Border.all(
+                              width: screensize.width * 0.01,
+                              color: Colors.blueGrey.shade100),
+                        ),
+                        child: ClipRRect(
+                          child: FadeInImage(
+                            image: NetworkImage(
+                                'https://www.clinicablancohungria.es/wp-content/uploads/2018/05/extraccion.jpg'),
+                            placeholder: AssetImage('assets/loading.gif'),
+                            fit: BoxFit.cover,
+                          ),
+                          borderRadius: BorderRadius.circular(40.0),
+                        ),
+                      ),
+                      Text(
+                          '${widget.userinfo.serviciosRecientes[index].idServicio}')
+                    ],
+                  ),
+                );
+              }
+            }),
+      ),
+    );
   }
 }
