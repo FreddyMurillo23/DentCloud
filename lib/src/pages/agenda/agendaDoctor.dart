@@ -216,7 +216,7 @@ class _Agenda3State extends State<Agenda3> {
     if(prueba==true){
       return FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () => Navigator.pushNamed(context, 'addagenda',arguments:userinfo),
+        onPressed: () => Navigator.pushNamed(context, 'addagenda',arguments:userinfo ),
       );
     }
     return FloatingActionButton(

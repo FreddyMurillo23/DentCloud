@@ -14,10 +14,9 @@ import 'package:muro_dentcloud/src/widgets/search_bar.dart';
 import 'package:provider/provider.dart';
 
 class AddEvent extends StatefulWidget {
-  final EventosModelo eventosModeloGlobal;
-  final bool identificador;
 
-  const AddEvent({Key key, this.eventosModeloGlobal, this.identificador}) : super(key: key);
+  // final EventosModelo eventosModeloGlobal;
+  // final bool identificador;
 
   @override
   _AddEventState createState() => _AddEventState();
@@ -129,15 +128,19 @@ class _AddEventState extends State<AddEvent> {
     super.initState();
     listServicio.clear();
     _selectedItem = null;
-    controladorCorreoUser.text = "kaka@utm.ec";
-    controladorNombreUser.text = "Freddo";
-    controladorApellidoUser.text = "Murrillo";
+    controladorCorreoUser.text = "userinfo.correo";
+    controladorNombreUser.text = "userinfo.nombres";
+    controladorApellidoUser.text = "userinfo.apellidos";
   }
 
   @override
   Widget build(BuildContext context) {
     CurrentUsuario userinfo = ModalRoute.of(context).settings.arguments;
     servicioProvider = Provider.of<ServicioProvider>(context);
+    CurrentUsuario userinfo = ModalRoute.of(context).settings.arguments;
+    // controladorCorreoUser.text = userinfo.correo;
+    // controladorNombreUser.text = userinfo.nombres;
+    // controladorApellidoUser.text = userinfo.apellidos;
 
     return Scaffold(
       appBar: AppBar(
