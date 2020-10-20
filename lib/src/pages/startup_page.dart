@@ -38,9 +38,7 @@ class _StartUpPageState extends State<StartUpPage> {
       CardPage(),
       HomePage(),
       Agenda3(currentuser: userinfo,),
-      ProfilePage(
-        currentuser: userinfo,
-      ),
+      ProfilePage(currentuser: userinfo,),
     ];
     print(userinfo);
     return Scaffold(
