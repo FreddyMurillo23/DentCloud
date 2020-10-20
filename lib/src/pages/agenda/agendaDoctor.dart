@@ -33,8 +33,7 @@ class _Agenda3State extends State<Agenda3> {
     super.initState();
     _events = {};
     _selectedEvents = [];
-    _controller = CalendarController();
-    
+    _controller = CalendarController();    
   }
 
 
@@ -92,6 +91,7 @@ class _Agenda3State extends State<Agenda3> {
                 ),
                 startingDayOfWeek: StartingDayOfWeek.monday,
                 onDaySelected: (day, events) {
+                  print(userinfo);
                   
                   setState(() {
                     if(events.isNotEmpty){
