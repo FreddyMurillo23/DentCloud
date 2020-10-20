@@ -59,7 +59,7 @@ class CardWidgetPublicaciones extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 5),
                             child: Text(
-                              '${publicaciones[id].descripcionPublicacion} ',
+                              '${publicaciones[id].descripcionPublicacion}',
                               style: TextStyle(color: Colors.grey[700]),
                             ),
                           ),
