@@ -137,7 +137,6 @@ class _AddEventState extends State<AddEvent> {
   Widget build(BuildContext context) {
     CurrentUsuario userinfo = ModalRoute.of(context).settings.arguments;
     servicioProvider = Provider.of<ServicioProvider>(context);
-    CurrentUsuario userinfo = ModalRoute.of(context).settings.arguments;
     // controladorCorreoUser.text = userinfo.correo;
     // controladorNombreUser.text = userinfo.nombres;
     // controladorApellidoUser.text = userinfo.apellidos;
