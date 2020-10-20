@@ -53,7 +53,7 @@ class _Agenda3State extends State<Agenda3> {
     CurrentUsuario userinfo = ModalRoute.of(context).settings.arguments;
     eventosProvider = Provider.of<EventosHoldProvider>(context);
     Future<List<EventosModelo>> futureEvents;
-    futureEvents = EventosCtrl.listarEventos("hvargas@utm.ec");
+    futureEvents = EventosCtrl.listarEventos(userinfo.correo);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -91,7 +91,7 @@ class _Agenda3State extends State<Agenda3> {
                 ),
                 startingDayOfWeek: StartingDayOfWeek.monday,
                 onDaySelected: (day, events) {
-                  print(userinfo);
+                  print(userinfo.fotoPerfil);
                   
                   setState(() {
                     if(events.isNotEmpty){
@@ -169,7 +169,7 @@ class _Agenda3State extends State<Agenda3> {
                       height: 50,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: NetworkImage("http://54.197.83.249/Contenido_ftp/Imagenes%20por%20defecto/Placeholder_male.png"),
+                          image: NetworkImage(userinfo.fotoPerfil),
                           fit: BoxFit.fill
                         ),
                         borderRadius: BorderRadius.circular(10),
@@ -213,18 +213,10 @@ class _Agenda3State extends State<Agenda3> {
   }
 
   Widget floatingButon(bool prueba){
-    if(prueba==true){
       return FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () => Navigator.pushNamed(context, 'addagenda'),
       );
-    }
-    return FloatingActionButton(
-      child: Icon(Icons.list),
-      onPressed: () {
-        Navigator.pushNamed(context, 'eventosPendientes');
-      } 
-    );
   }
 
   Widget _buildEventsMarker(DateTime date, List events) {

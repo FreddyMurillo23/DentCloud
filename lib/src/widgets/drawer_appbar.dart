@@ -30,15 +30,15 @@ class NavDrawer extends StatelessWidget {
             title: Text('Dashboard'),
             onTap: () => {Navigator.of(context).pushReplacementNamed('home')},
           ),
-          ListTile(
-            leading: Icon(Icons.verified_user),
-            title: Text('Agenda'),
-            onTap: () => {
-              eventHoldProv.listarEventosonHold('hvargc'),
-              eventProv.listarEventosHold('hvarg.ec'),
-              Navigator.of(context).pushReplacementNamed('agenda2')
-            },
-          ),
+          // ListTile(
+          //   leading: Icon(Icons.verified_user),
+          //   title: Text('Agenda'),
+          //   onTap: () => {
+          //     eventHoldProv.listarEventosonHold('hvargc'),
+          //     eventProv.listarEventosHold('hvarg.ec'),
+          //     Navigator.of(context).pushReplacementNamed('agenda2')
+          //   },
+          // ),
           ListTile(
             leading: Icon(Icons.settings),
             title: Text('Repositorio'),

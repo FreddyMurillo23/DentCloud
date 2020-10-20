@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:muro_dentcloud/src/controllers/apointment_ctrl.dart';
 import 'package:muro_dentcloud/src/models/business_Services_models.dart';
+import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/doctors_model.dart';
 import 'package:muro_dentcloud/src/models/event_model.dart';
 import 'package:muro_dentcloud/src/models/services_model.dart';
@@ -13,10 +14,9 @@ import 'package:muro_dentcloud/src/widgets/search_bar.dart';
 import 'package:provider/provider.dart';
 
 class AddEvent extends StatefulWidget {
-  final EventosModelo eventosModeloGlobal;
-  final bool identificador;
 
-  const AddEvent({Key key, this.eventosModeloGlobal, this.identificador}) : super(key: key);
+  // final EventosModelo eventosModeloGlobal;
+  // final bool identificador;
 
   @override
   _AddEventState createState() => _AddEventState();
@@ -128,14 +128,18 @@ class _AddEventState extends State<AddEvent> {
     super.initState();
     listServicio.clear();
     _selectedItem = null;
-    controladorCorreoUser.text = "kaka@utm.ec";
-    controladorNombreUser.text = "Freddo";
-    controladorApellidoUser.text = "Murrillo";
+    controladorCorreoUser.text = "userinfo.correo";
+    controladorNombreUser.text = "userinfo.nombres";
+    controladorApellidoUser.text = "userinfo.apellidos";
   }
 
   @override
   Widget build(BuildContext context) {
     servicioProvider = Provider.of<ServicioProvider>(context);
+    CurrentUsuario userinfo = ModalRoute.of(context).settings.arguments;
+    // controladorCorreoUser.text = userinfo.correo;
+    // controladorNombreUser.text = userinfo.nombres;
+    // controladorApellidoUser.text = userinfo.apellidos;
 
     return Scaffold(
       appBar: AppBar(
