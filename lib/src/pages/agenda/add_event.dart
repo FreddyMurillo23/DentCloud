@@ -330,9 +330,11 @@ class _AddEventState extends State<AddEvent> {
                                       items: getSelectOptions(servicios), 
                                       onChanged: (selected) {
                                         this._selectedItem = dropDownItemsMap[selected];
-                                        print(_selectedItem.servicioid);
+                                        servicio = _selectedItem.servicioid.toString();
+                                        print(servicio);
                                         setState(() {
                                           this._selectedItem = dropDownItemsMap[selected];
+                                          servicio = _selectedItem.servicioid.toString();
                                         });
                                       },
                                       hint: new Text(
@@ -418,7 +420,6 @@ class _AddEventState extends State<AddEvent> {
                             },
                             onChanged: (value) {
                               print(value);
-                              print("object");
                             },
                             onSaved: (DateTime dateTime) => fecha = dateTime,
                           ),
