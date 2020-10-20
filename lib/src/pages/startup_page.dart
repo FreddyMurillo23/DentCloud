@@ -5,7 +5,7 @@ import 'package:muro_dentcloud/palette.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/pages/agenda/add_event.dart';
 import 'package:muro_dentcloud/src/pages/home_page.dart';
-import 'package:muro_dentcloud/src/pages/profile_page.dart';
+import 'package:muro_dentcloud/src/pages/profiles/profile_page.dart';
 import 'package:muro_dentcloud/src/providers/menu_providers.dart';
 import 'package:muro_dentcloud/src/utils/icono_string_util.dart';
 // import 'package:flutter_svg/flutter_svg.dart';

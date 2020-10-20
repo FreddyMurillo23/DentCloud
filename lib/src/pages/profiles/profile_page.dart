@@ -45,15 +45,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 SliverPadding(
                   padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 5.0),
                   sliver: SliverToBoxAdapter(
-                    child: prefs.thisProfileType == true && prefs.currentProfile == true
-                      ? Rooms(userinfo: userinfo)
-                      : prefs.thisProfileType == false && prefs.currentProfile == true
-                      ? Container()
-                      : prefs.thisProfileType == true && prefs.currentProfile == false
-                      ? Container()
-                      : prefs.thisProfileType == true && prefs.currentProfile == false
-                      ? Container()
-                      : Container()
+                    child: Rooms(
+                      userinfo: userinfo,
+                    ),
                   ),
                 ),
                 SliverToBoxAdapter(

@@ -6,7 +6,7 @@ import 'package:muro_dentcloud/src/pages/details_Patients.dart';
 import 'package:muro_dentcloud/src/pages/home_page.dart';
 import 'package:muro_dentcloud/src/pages/listview_page.dart';
 import 'package:muro_dentcloud/src/pages/patients_List.dart';
-import 'package:muro_dentcloud/src/pages/profile_page.dart';
+import 'package:muro_dentcloud/src/pages/profiles/profile_page.dart';
 import 'package:muro_dentcloud/src/pages/agenda/agendaDoctor.dart';
 import 'package:muro_dentcloud/src/pages/sesion/await.dart';
 import 'package:muro_dentcloud/src/pages/sesion/signin.dart';
