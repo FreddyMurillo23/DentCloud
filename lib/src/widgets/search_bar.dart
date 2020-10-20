@@ -11,7 +11,6 @@ class EventSearchDelegate extends SearchDelegate<Doctores>{
 
   EventSearchDelegate(this.searchFieldLabel,this.historial);
 
-
   @override
   List<Widget> buildActions(BuildContext context) {
     return[
@@ -49,7 +48,6 @@ class EventSearchDelegate extends SearchDelegate<Doctores>{
         builder: (BuildContext context, AsyncSnapshot snapshot) { 
 
           if ( snapshot.hasData ) {
-            print(snapshot.data.toString());
             return _showDoctores( snapshot.data );
           }
 

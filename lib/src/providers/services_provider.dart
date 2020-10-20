@@ -18,4 +18,8 @@ class ServicioProvider with ChangeNotifier{
       notifyListeners();
     });
   }
+
+  void disposeServicios(){
+    this.servicios = [];
+  }
 }
