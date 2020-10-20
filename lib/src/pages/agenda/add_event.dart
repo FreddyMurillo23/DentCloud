@@ -35,7 +35,7 @@ class _AddEventState extends State<AddEvent> {
   Map dropDownItemsMap;
   List<DropdownMenuItem> listServicio = List<DropdownMenuItem>();
   bool document = true;
-  final format = DateFormat("yyyy-MM-dd");
+  final format = DateFormat("yyyy-MM-dd HH:mm");
 
   Doctores doctorSeleccionado;
   List<Doctores> historial = [];
@@ -48,8 +48,9 @@ class _AddEventState extends State<AddEvent> {
   if(form.validate()){
     form.save();
     print("Form is valid");
-    EventosCtrl.registrarEventos("1317054888001", doctorSeleccionado.correo, "craytus@utm.edu.ec", servicio, descripcion, fecha).then((value){
+    EventosCtrl.registrarEventos(doctor, doctorSeleccionado.correo, "craytus@utm.edu.ec", servicio, descripcion, fecha).then((value){
       if(value){
+        servicioProvider.disposeServicios();
         print("De ley chamo");
         Navigator.pop(context);
       } else{
@@ -61,6 +62,9 @@ class _AddEventState extends State<AddEvent> {
     print('Form is invalid');
   }
   }
+
+  static DateTime combine(DateTime date, TimeOfDay time) => DateTime(
+      date.year, date.month, date.day, time?.hour ?? 0, time?.minute ?? 0);
 
   bool validateDoctor(Doctores doctores) {
     if (doctores != null) {
@@ -94,8 +98,8 @@ class _AddEventState extends State<AddEvent> {
             actions: <Widget>[
               new FlatButton(
                   onPressed: () => {
-                        Navigator.of(context).pop()
-                      },
+                    Navigator.of(context).pop()
+                  },
                   child: new Text("Aceptar"))
             ],
           );
@@ -105,6 +109,8 @@ class _AddEventState extends State<AddEvent> {
   @override
   void initState() {
     super.initState();
+    listServicio.clear();
+    _selectedItem = null;
     controladorCorreoUser.text = "kaka@utm.ec";
     controladorNombreUser.text = "Freddo";
     controladorApellidoUser.text = "Murrillo";
@@ -256,6 +262,7 @@ class _AddEventState extends State<AddEvent> {
                                 onTap: ()async{
                                 _selectedItem = null;
                                 final seleccionDoctor = await showSearch(context: context, delegate: EventSearchDelegate('Buscar Doctores', historial));
+                                servicioProvider.listarServicios(seleccionDoctor.cedula+"001");
                                 setState(() {
                                   doctorSeleccionado = seleccionDoctor;
                                   controlador.text = doctorSeleccionado.doctor;
@@ -267,7 +274,7 @@ class _AddEventState extends State<AddEvent> {
                               )
                             ),
                             validator: (value) => value.isEmpty ? 'Este campo no puede estar vacio' : null,
-                            onSaved: (value) => doctor = value,
+                            onSaved: (value) => doctor = value+"001",
                           ),
                         ),
                         
@@ -331,7 +338,6 @@ class _AddEventState extends State<AddEvent> {
                                       onChanged: (selected) {
                                         this._selectedItem = dropDownItemsMap[selected];
                                         servicio = _selectedItem.servicioid.toString();
-                                        print(servicio);
                                         setState(() {
                                           this._selectedItem = dropDownItemsMap[selected];
                                           servicio = _selectedItem.servicioid.toString();
@@ -402,15 +408,17 @@ class _AddEventState extends State<AddEvent> {
                                   initialDate: currentValue ?? DateTime.now(),
                                   lastDate: DateTime(2100)
                               );
-                              final time = await showTimePicker(
+                              if(date != null) {
+                                final time = await showTimePicker(
                                 context: context,
                                 initialTime:
                                     TimeOfDay.fromDateTime(currentValue ?? DateTime.now()),
-                              );
-                              print(time);
-                              DateTime prueba = DateTimeField.combine(date, time);
-                              print(prueba);
-                              return prueba;
+                                );
+                                print(combine(date, time));
+                                return combine(date, time);
+                              } else {
+                                return currentValue;
+                              }    
                             },
                             validator: (DateTime dateTime){
                               if(dateTime == null) {
@@ -436,7 +444,13 @@ class _AddEventState extends State<AddEvent> {
                         children: [
                           Expanded(
                             child: RaisedButton(
-                              onPressed: (){Navigator.pop(context);},
+                              onPressed: (){
+                                dropDownItemsMap.clear();
+                                listServicio.clear();
+                                _selectedItem = null;
+                                servicioProvider.disposeServicios();
+                                Navigator.pop(context);
+                              },
                               child: Text("Cancelar"),
                             ),
                           ),
@@ -444,7 +458,12 @@ class _AddEventState extends State<AddEvent> {
                           Expanded(
                             child: RaisedButton(
                               child: Text("Enviar Solicitud"),
-                              onPressed: (){validateFields();}
+                              onPressed: (){
+                                dropDownItemsMap.clear();
+                                listServicio.clear();
+                                _selectedItem = null;
+                                validateFields();
+                              }
                             ),
                           )
                           
