@@ -137,9 +137,9 @@ class _AddEventState extends State<AddEvent> {
   Widget build(BuildContext context) {
     CurrentUsuario userinfo = ModalRoute.of(context).settings.arguments;
     servicioProvider = Provider.of<ServicioProvider>(context);
-    // controladorCorreoUser.text = userinfo.correo;
-    // controladorNombreUser.text = userinfo.nombres;
-    // controladorApellidoUser.text = userinfo.apellidos;
+    controladorCorreoUser.text = userinfo.correo;
+    controladorNombreUser.text = userinfo.nombres;
+    controladorApellidoUser.text = userinfo.apellidos;
 
     return Scaffold(
       appBar: AppBar(
@@ -207,7 +207,7 @@ class _AddEventState extends State<AddEvent> {
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.all(Radius.circular(10)),
                                         image: DecorationImage(
-                                          image: NetworkImage("http://54.197.83.249/Contenido_ftp/Imagenes%20por%20defecto/Placeholder_male.png"),
+                                          image: NetworkImage(userinfo.fotoPerfil),
                                           fit: BoxFit.fill
                                         ),
                                         color: Colors.amber
@@ -398,6 +398,8 @@ class _AddEventState extends State<AddEvent> {
                             ),
                             validator: (value) => value.isEmpty ? 'Este campo no puede estar vacio' : null,
                             onSaved: (value) => descripcion = value,
+                            onTap: () {
+                            },
                           ),
                         ),
                       ],
