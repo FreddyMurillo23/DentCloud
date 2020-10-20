@@ -106,7 +106,7 @@ class _CardPageState extends State<CardPage> {
               itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int index) {
                 // print(publicacionesProvider.getPublicaciones());
-                print(snapshot.data.length);
+                // print(snapshot.data.length);
                 return CardWidgetPublicaciones(
                     publicaciones: snapshot.data, id: index
                 );

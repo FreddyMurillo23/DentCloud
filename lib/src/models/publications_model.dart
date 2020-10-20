@@ -1,8 +1,6 @@
-
-
 class PublicacionesByUser {
   List<Publicacion> items = new List();
-  PublicacionesByUser.fromJsonList(List<dynamic>jsonList){
+  PublicacionesByUser.fromJsonList(List<dynamic> jsonList) {
     if (jsonList == null) return;
     //? Por cada item que recibe los va enviando al metodo que extrae los datos del json y retorna el mapa luego los agrega a una lista de items de tipo publicacion.
     for (var item in jsonList) {
@@ -117,7 +115,6 @@ class Publicacion {
     } else {
       DateTime now = new DateTime.now();
       final months = (now.difference(fecha).inDays / 30).round();
-
       final timeAgoDays = now.difference(fecha).inDays;
       final timeAgoHour = now.difference(fecha).inHours;
       final timeAgoMin = now.difference(fecha).inMinutes;
