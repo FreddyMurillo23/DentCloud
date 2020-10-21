@@ -31,22 +31,25 @@ class _SignInState extends State<SignIn> {
     }
 //Prueba Temporal
     if (_email.isNotEmpty && _password.isNotEmpty) {
-      
-        final login = new DataProvider();
-        login.loginUsuario(_email, _password).then((value) {
-          if (value) {
-            login.userData(_email).then((value) {
-              if (value.isNotEmpty) {
-                Navigator.pushReplacementNamed(context, 'startuppage',arguments: value[0]);
-              } else {
-                print("Error");
-              }
-            });
-          } else {
-            print("Error");
-            _showDialog();
-          }
-        });
+      final login = new DataProvider();
+      login.loginUsuario(_email, _password).then((value) {
+        if (value) {
+          login.userData(_email).then((value) {
+            if (value.isNotEmpty) {
+              currentUserData.currentProfile = true;
+              currentUserData.profileID = value[0].cedula;
+              currentUserData.profileName = '${value[0].nombres} ${value[0].apellidos}';
+              Navigator.pushReplacementNamed(context, 'startuppage',
+                  arguments: value[0]);
+            } else {
+              print("Error");
+            }
+          });
+        } else {
+          print("Error");
+          _showDialog();
+        }
+      });
     }
   }
 
@@ -89,7 +92,7 @@ class _SignInState extends State<SignIn> {
       body: new Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-              image: AssetImage("assets/fondo.jpg"),fit: BoxFit.cover),
+              image: AssetImage("assets/fondo.jpg"), fit: BoxFit.cover),
         ),
         child: new Center(
           child: new Container(
@@ -156,18 +159,15 @@ class _SignInState extends State<SignIn> {
                         filled: true,
                         fillColor: Colors.white,
                         suffixIcon: IconButton(
-                            icon: Icon(
-                              this._obscureText
+                          icon: Icon(this._obscureText
                               ? Icons.visibility
-                              : Icons.visibility_off
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                this._obscureText = !this._obscureText;
-                              });
-                            },
-                          )
-                        ),
+                              : Icons.visibility_off),
+                          onPressed: () {
+                            setState(() {
+                              this._obscureText = !this._obscureText;
+                            });
+                          },
+                        )),
                     validator: (value) => value.isEmpty
                         ? 'La contraseña no puede estar vacía'
                         : null,

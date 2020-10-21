@@ -47,6 +47,30 @@ class PreferenciasUsuario {
     });
   }
 
+  set profileName(String nombre) {
+    _prefs.setString('profileName', nombre);
+  }
+
+  set profileID(String id) {
+    _prefs.setString('profileId', id);
+  }
+
+  get profileName {
+    if (_prefs.getString('profileName') != null) {
+      return _prefs.getString('profileName');
+    } else {
+      return 'error';
+    }
+  }
+
+  get profileID {
+    if (_prefs.getString('profileId') != null) {
+      return _prefs.getString('profileId');
+    } else {
+      return 'error';
+    }
+  }
+
   //! Actual perfil que corre en la app
   set currentProfile(bool value) {
     _prefs.setBool('currentProfile', value);

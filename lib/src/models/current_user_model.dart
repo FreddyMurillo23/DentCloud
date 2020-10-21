@@ -214,11 +214,7 @@ class CurrentUsuario {
   }
 
   get currentNegociosAsistidos {
-    if (negociosAsistidos.length == 0) {
-      return '404';
-    } else {
       return negociosAsistidos;
-    }
   }
 
   get currentUsuariosSeguidos {
@@ -254,9 +250,9 @@ class UserTrabajos {
   });
 
   UserTrabajos.fromJsonMap(Map<String, dynamic> json) {
-    rolDoctor = json['rolDoctor'];
-    idNegocio = json['idNegocio'];
-    nombreNegocio = json['nombreNegocio'];
+    rolDoctor = json['rol_doctor'];
+    idNegocio = json['id_negocio'];
+    nombreNegocio = json['nombre_negocio'];
   }
 }
 
