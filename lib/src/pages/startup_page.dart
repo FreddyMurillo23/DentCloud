@@ -51,7 +51,7 @@ class _StartUpPageState extends State<StartUpPage> {
               currentBusiness: '1304924424001') 
           
     ];
-    print(userinfo);
+    // print(userinfo);_
     return Scaffold(
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(

@@ -88,11 +88,12 @@ class _NavDrawerState extends State<NavDrawer> {
   }
 
   Widget userSelector(CurrentUsuario userinfo) {
-    return ListView.builder(
-      itemCount: userinfo.apellidos.length,
-      itemBuilder: (context, index) {
+    return Container();
+    // ListView.builder(
+    //   itemCount: userinfo.apellidos.length,
+    //   itemBuilder: (context, index) {
 
-      },
-    );
+    //   },
+    // );
   }
 }
