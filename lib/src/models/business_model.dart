@@ -29,7 +29,7 @@ class NegocioData {
   String canton;
   String ubicacion;
   String foto;
-  List<dynamic> servicios = new List();
+  List<ServiciosNegocio> servicios = new List();
   List<Personal> personal = new List();
   List<PublicacionesNegocio> publicacionesNegocio = new List();
 
@@ -133,7 +133,7 @@ class NegocioData {
 
   get openServicios {
     if (servicios == null) {
-      return '';
+      return [];
     } else {
       return servicios;
     }
@@ -196,10 +196,20 @@ class PublicacionesNegocio {
 
 class ServiciosNegocio {
   String idServicio;
+  String servicio;
+  String duracion;
+  String imagenServicio;
+
   ServiciosNegocio({
     this.idServicio,
+    this.servicio,
+    this.duracion,
+    this.imagenServicio
   });
   ServiciosNegocio.fromJsonMap(Map<String, dynamic> json) {
-    idServicio = json['id_servicio'];
+    idServicio = json ['id_servicio'];
+    servicio = json ['servicio'];
+    duracion = json ['duracion'];
+    imagenServicio = json ['imagen_servicio'];
   }
 }
