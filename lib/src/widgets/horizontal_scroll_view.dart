@@ -42,14 +42,14 @@ class Rooms extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
-            listadoNegocios(_screenSize),
+            listadoDoctores(_screenSize),
           ],
         ),
       ),
     );
   }
 
-  Widget listadoNegocios(Size _screenSize) {
+  Widget listadoDoctores(Size _screenSize) {
     final negociosProvider = new DataProvider();
     return FutureBuilder(
       future: negociosProvider.getPublicaciones(),
