@@ -48,7 +48,6 @@ class _SeachAddEventState extends State<SeachAddEvent> {
   }
     
     return Scaffold(
-      drawer: NavDrawer(),
       appBar: AppBar(
         title: Text("SearchExample"),
         actions: [

@@ -35,7 +35,11 @@ class _Agenda3State extends State<Agenda3> {
     _controller = CalendarController();
   }
 
+<<<<<<< Updated upstream
   Map<DateTime, List<dynamic>> _eventsGet(List<EventosModelo> events) {
+=======
+  Map<DateTime, List<dynamic>> _eventsGet(List<EventosModelo> events){
+>>>>>>> Stashed changes
     Map<DateTime, List<dynamic>> data = {};
     events.forEach((event) {
       DateTime date = DateTime(event.fecha.year, event.fecha.month,
