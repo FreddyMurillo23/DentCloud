@@ -35,11 +35,7 @@ class _Agenda3State extends State<Agenda3> {
     _controller = CalendarController();
   }
 
-<<<<<<< Updated upstream
-  Map<DateTime, List<dynamic>> _eventsGet(List<EventosModelo> events) {
-=======
   Map<DateTime, List<dynamic>> _eventsGet(List<EventosModelo> events){
->>>>>>> Stashed changes
     Map<DateTime, List<dynamic>> data = {};
     events.forEach((event) {
       DateTime date = DateTime(event.fecha.year, event.fecha.month,
@@ -102,6 +98,7 @@ class _Agenda3State extends State<Agenda3> {
               TableCalendar(
                 availableGestures: AvailableGestures.horizontalSwipe,
                 events: _events,
+                locale: 'es_ES',
                 initialCalendarFormat: CalendarFormat.month,
                 calendarStyle: CalendarStyle(
                     canEventMarkersOverflow: true,
@@ -110,6 +107,9 @@ class _Agenda3State extends State<Agenda3> {
                 headerStyle: HeaderStyle(
                   formatButtonVisible: false,
                   centerHeaderTitle: true,
+                  titleTextStyle: const TextStyle(
+                    
+                  )
                 ),
                 startingDayOfWeek: StartingDayOfWeek.monday,
                 onDaySelected: (day, events) {
