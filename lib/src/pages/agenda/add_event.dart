@@ -3,13 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:muro_dentcloud/src/controllers/apointment_ctrl.dart';
-import 'package:muro_dentcloud/src/models/business_Services_models.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/doctors_model.dart';
-import 'package:muro_dentcloud/src/models/event_model.dart';
 import 'package:muro_dentcloud/src/models/services_model.dart';
 import 'package:muro_dentcloud/src/providers/services_provider.dart';
-
 import 'package:muro_dentcloud/src/widgets/search_bar.dart';
 import 'package:provider/provider.dart';
 
@@ -106,22 +103,22 @@ class _AddEventState extends State<AddEvent> {
         });
   }
 
-  void _showDialogAccept() {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return CupertinoAlertDialog(
-            title: new Text("Registro Existoso"),
-            actions: <Widget>[
-              new FlatButton(
-                  onPressed: () => {
-                    Navigator.of(context).pop()
-                  },
-                  child: new Text("Aceptar"))
-            ],
-          );
-        });
-  }
+  // void _showDialogAccept() {
+  //   showDialog(
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         return CupertinoAlertDialog(
+  //           title: new Text("Registro Existoso"),
+  //           actions: <Widget>[
+  //             new FlatButton(
+  //                 onPressed: () => {
+  //                   Navigator.of(context).pop()
+  //                 },
+  //                 child: new Text("Aceptar"))
+  //           ],
+  //         );
+  //       });
+  // }
   
   @override
   void initState() {

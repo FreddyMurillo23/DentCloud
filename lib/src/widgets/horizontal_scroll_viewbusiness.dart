@@ -8,10 +8,10 @@ import 'package:muro_dentcloud/src/providers/data_provider.dart';
 
 import '../../palette.dart';
 
-class Rooms extends StatelessWidget {
+class BusinessRooms extends StatelessWidget {
   final CurrentUsuario userinfo;
   final NegocioData businessinfo;
-  const Rooms({
+  const BusinessRooms({
     Key key,
     this.userinfo,this.businessinfo
   }) : super(key: key);
@@ -65,7 +65,7 @@ class Rooms extends StatelessWidget {
               ),
               scrollDirection: Axis.horizontal,
               // itemCount: 1 + onlineUsers.length,
-              itemCount: 1 + userinfo.negociosAsistidos.length,
+              itemCount: 1 + businessinfo.servicios.length,
               itemBuilder: (BuildContext context, int index) {
                 // print(userinfo.negociosAsistidos.length);
                 if (index == 0) {

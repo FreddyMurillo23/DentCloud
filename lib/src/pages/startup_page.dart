@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:muro_dentcloud/palette.dart';
+import 'package:muro_dentcloud/src/models/business_Services_models.dart';
+import 'package:muro_dentcloud/src/models/business_model.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
-import 'package:muro_dentcloud/src/pages/agenda/add_event.dart';
 import 'package:muro_dentcloud/src/pages/home_page.dart';
-import 'package:muro_dentcloud/src/pages/profiles/profile_page.dart';
-import 'package:muro_dentcloud/src/providers/menu_providers.dart';
-import 'package:muro_dentcloud/src/utils/icono_string_util.dart';
-// import 'package:flutter_svg/flutter_svg.dart';
+import 'package:muro_dentcloud/src/pages/profiles/current_bussiness.dart';
+import 'package:muro_dentcloud/src/pages/profiles/current_user_profile.dart';
+import 'package:muro_dentcloud/src/providers/data_provider.dart';
+import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
 import 'agenda/agendaDoctor.dart';
 import 'card_page.dart';
-import 'listview_page.dart';
 
 class StartUpPage extends StatefulWidget {
   StartUpPage({Key key}) : super(key: key);
@@ -23,9 +23,6 @@ class StartUpPage extends StatefulWidget {
 class _StartUpPageState extends State<StartUpPage> {
   int _selectedIndex = 0;
 
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -35,11 +32,24 @@ class _StartUpPageState extends State<StartUpPage> {
   @override
   Widget build(BuildContext context) {
     CurrentUsuario userinfo = ModalRoute.of(context).settings.arguments;
+    
+    // NegocioData businessinfo = ModalRoute.of(context).settings.arguments;
+    final prefs = new PreferenciasUsuario();
+  
+
     final List<Widget> _widgetOptions = <Widget>[
       CardPage(),
       HomePage(),
-      Agenda3(currentuser: userinfo,),
-      ProfilePage(currentuser: userinfo,),
+      Agenda3(
+        currentuser: userinfo,
+      ),
+      prefs.currentProfile
+          ? CurrentUserProfile(
+              currentuser: userinfo,
+            )
+          : CurrentBusinessProfile(
+              currentBusiness: '1304924424001') 
+          
     ];
     print(userinfo);
     return Scaffold(
@@ -74,4 +84,3 @@ class _StartUpPageState extends State<StartUpPage> {
     );
   }
 }
-

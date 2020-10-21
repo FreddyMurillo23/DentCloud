@@ -1,19 +1,20 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:muro_dentcloud/src/models/business_model.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'circle_button.dart';
 // import 'package:flutter/material.dart';
 
-class ProfileAppBar extends StatefulWidget {
-  final CurrentUsuario userinfo;
-  ProfileAppBar({Key key, @required this.userinfo}) : super(key: key);
+class BusinessAppBar extends StatefulWidget {
+  final NegocioData userinfo;
+  BusinessAppBar({Key key, @required this.userinfo}) : super(key: key);
 
   @override
-  _ProfileAppBarState createState() => _ProfileAppBarState();
+  _BusinessAppBarState createState() => _BusinessAppBarState();
 }
 
-class _ProfileAppBarState extends State<ProfileAppBar> {
+class _BusinessAppBarState extends State<BusinessAppBar> {
   bool current = true;
   //*true = currentLoginProfile
   //!false = OutProfile
@@ -27,7 +28,7 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
   //!false = RUC
   @override
   Widget build(BuildContext context) {
-    final CurrentUsuario userinfo = ModalRoute.of(context).settings.arguments;
+    // final NegocioData userinfo = ModalRoute.of(context).settings.arguments;
     final _screenSize = MediaQuery.of(context).size;
     return SliverAppBar(
       elevation: 2.0,
@@ -43,12 +44,12 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
               border: Border.all(width: 3, color: Colors.blueGrey.shade100),
               borderRadius: BorderRadius.circular(50.0),
               color: Colors.white),
-          width: _screenSize.width * 1,
+          // width: _screenSize.width * 1,
           height: _screenSize.height * 0.035,
           // color: Colors.white,
           child: ClipRRect(
             child: Text(
-              '  ${userinfo.nombres} ${userinfo.apellidos} ',
+              '   ${widget.userinfo.openNegocio}   ',
               style: TextStyle(
                 color: Colors.grey[600],
                 fontSize: 16.0,
@@ -106,8 +107,8 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
             ),
             child: ClipRRect(
               child: FadeInImage(
-                image: NetworkImage(widget.userinfo.fotoPerfil),
-                placeholder: AssetImage('assets/loading.gif'),
+                image: NetworkImage('https://picsum.photos/500/300/?image=25'),
+                placeholder: AssetImage('assets/loading.gif'), 
                 fit: BoxFit.cover,
               ),
               borderRadius: BorderRadius.circular(100.0),
@@ -231,9 +232,9 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
             padding: const EdgeInsets.symmetric(
               horizontal: 5,
             ),
-            itemCount: widget.userinfo.serviciosRecientes.length,
+            itemCount: widget.userinfo.openServicios.length,
             itemBuilder: (BuildContext context, int index) {
-              if (widget.userinfo.serviciosRecientes.length == 0) {
+              if (widget.userinfo.openServicios.length == 0) {
                 return Container(
                   child: Column(
                     children: [
@@ -283,7 +284,7 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
                         ),
                       ),
                       Text(
-                          '${widget.userinfo.serviciosRecientes[index].idServicio}')
+                          '${widget.userinfo.openServicios[index].idServicio}')
                     ],
                   ),
                 );

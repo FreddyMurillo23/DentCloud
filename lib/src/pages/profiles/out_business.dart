@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:muro_dentcloud/src/controllers/users_ctrl.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/providers/data_provider.dart';
 import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
@@ -8,24 +7,17 @@ import 'package:muro_dentcloud/src/widgets/drawer_appbar.dart';
 import 'package:muro_dentcloud/src/widgets/horizontal_scroll_view.dart';
 import 'package:muro_dentcloud/src/widgets/profile_appbar.dart';
 
-class ProfilePage extends StatefulWidget {
+class OutBusinessProfile extends StatefulWidget {
   final CurrentUsuario currentuser;
-  const ProfilePage({Key key, this.currentuser}) : super(key: key);
+  const OutBusinessProfile({Key key, this.currentuser}) : super(key: key);
 
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  _OutBusinessProfileState createState() => _OutBusinessProfileState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _OutBusinessProfileState extends State<OutBusinessProfile> {
   final prefs = new PreferenciasUsuario();
   final publicacionesProvider = new DataProvider();
-  bool businessProfile = false;
-  bool currentProfile = false;
-  bool externalUserProfile = false;
-  // ScrollController _scrollController = new ScrollController();
-  // List<int> _publicaciones = new List();
-  // int _ultimoItem = 0;
-  // bool _isLoading = false;
   @override
   Widget build(BuildContext context) {
     final _screenSize = MediaQuery.of(context).size;

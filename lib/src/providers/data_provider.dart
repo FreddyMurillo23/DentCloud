@@ -46,8 +46,26 @@ class DataProvider {
     // print(public);
     return public;
   }
-
-  
+Future<List<Publicacion>> getPublicacionesByRuc(
+      List<PublicacionesNegocio> id) async {
+    List<Publicacion> public = new List();
+    for (var pub in id) {
+      // print(pub);
+      // print(pub.idPublicacion);
+      String url =
+          'http://54.197.83.249/PHP_REST_API/api/get/get_publications_by_id.php?id_publication=${pub.idPublicacion}';
+      final resp = await http.get(url);
+      // print(resp);
+      //? decodificacion de la data json.decode
+      final decodedData = json.decode(resp.body);
+      final publicaciones =
+          new PublicacionesByUser.fromJsonList(decodedData['publicaciones']);
+      public..add(publicaciones.items[0]);
+      // print(publicaciones.items[0]);
+    }
+    // print(public);
+    return public;
+  }
 
 
   //!PROVIDER DE DATOS PARA LA AGENDA
@@ -102,8 +120,9 @@ class DataProvider {
         'http://54.197.83.249/PHP_REST_API/api/get/get_business_data_by_ruc.php?business_ruc=$ruc';
     final resp2 = await http.get(url2);
     final decodedData = json.decode(resp2.body);
-    final data = Business.fromJsonList(decodedData['usuario']);
-    // print(decodedData);
+    final data = Business.fromJsonList(decodedData['negocio_datos']);
+    print(decodedData['negocio_datos']);
+    print(data.items);
     // print(decodedData['usuario']);
     return data.items;
   }

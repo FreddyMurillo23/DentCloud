@@ -145,11 +145,7 @@ class NegocioData {
   }
 
   get openPublicacionesNegocio {
-    if (publicacionesNegocio == null) {
-      return '';
-    } else {
       return publicacionesNegocio;
-    }
   }
 }
 

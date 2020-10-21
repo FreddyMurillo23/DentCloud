@@ -1,11 +1,3 @@
-// To parse this JSON data, do
-//
-//     final servicesBusiness = servicesBusinessFromJson(jsonString);
-
-import 'dart:convert';
-
-import 'package:muro_dentcloud/src/models/business_model.dart';
-
 class ServicesBusiness {
   String jsontype;
   List<NegocioDato> negocioDatos  = new List();

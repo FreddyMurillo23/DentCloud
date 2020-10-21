@@ -6,8 +6,11 @@ import 'package:muro_dentcloud/src/pages/details_Patients.dart';
 import 'package:muro_dentcloud/src/pages/home_page.dart';
 import 'package:muro_dentcloud/src/pages/listview_page.dart';
 import 'package:muro_dentcloud/src/pages/patients_List.dart';
-import 'package:muro_dentcloud/src/pages/profiles/profile_page.dart';
+import 'package:muro_dentcloud/src/pages/profiles/current_bussiness.dart';
+import 'package:muro_dentcloud/src/pages/profiles/current_user_profile.dart';
 import 'package:muro_dentcloud/src/pages/agenda/agendaDoctor.dart';
+import 'package:muro_dentcloud/src/pages/profiles/out_business.dart';
+import 'package:muro_dentcloud/src/pages/profiles/out_user.dart';
 import 'package:muro_dentcloud/src/pages/sesion/await.dart';
 import 'package:muro_dentcloud/src/pages/sesion/signin.dart';
 import 'package:muro_dentcloud/src/pages/sesion/signup.dart';
@@ -22,7 +25,10 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'gps': (BuildContext context) => ListaPage(),
     'home': (BuildContext context) => HomePage(),
     'agenda': (BuildContext context) => AddEvent(),
-    'perfil': (BuildContext context) => ProfilePage(),
+    'currentPerfil': (BuildContext context) =>  CurrentUserProfile(),
+    'currentBusiness': (BuildContext context) =>  CurrentBusinessProfile(),
+    'outPerfil': (BuildContext context) =>  OutUserProfile(),
+    'outBusiness': (BuildContext context) =>  OutBusinessProfile(),
     'agenda2': (BuildContext context) => Agenda3(),
     'addagenda': (BuildContext context) => AddEvent(),
     'patients': (BuildContext context) => ListPatientsBuild(),

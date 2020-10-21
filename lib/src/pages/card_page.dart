@@ -46,16 +46,7 @@ class _CardPageState extends State<CardPage> {
       appBar: AppBar(
         brightness: Brightness.light,
         backgroundColor: Colors.white,
-        title: Image(image: AssetImage('assets/title.png') ,fit: BoxFit.fill,),
-        // Text(
-        //   'DentCloud',
-        //   style: const TextStyle(
-        //     color: Palette.textColor,
-        //     fontSize: 28.0,
-        //     fontWeight: FontWeight.bold,
-        //     letterSpacing: -1.2,
-        //   ),
-        // ),
+        title: Image(image: AssetImage('assets/title.png'),height: _screenSize.height*0.1 ,fit: BoxFit.fill,),
         centerTitle: false,
         // floa ting: true,
         actions: [

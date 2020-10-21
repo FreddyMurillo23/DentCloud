@@ -24,18 +24,11 @@ class AwaitPage extends StatelessWidget {
             final login = new DataProvider();
 
             login.userData(email).then((value) {
-              
-              // login
-              //     .getPublicacionesByUser(value[0].publicaciones)
-              //     .then((value2) {
-              //   // print(value[0].publicaciones);
-              //   print(value2);
-              // });
+
               if (value.isNotEmpty) {
                 Navigator.pushReplacementNamed(context, 'startuppage',
                     arguments: value[0]);
               } else {
-                print("Error");
                 print("Error");
               }
             });

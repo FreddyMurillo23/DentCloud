@@ -24,7 +24,7 @@ class EventSearchDelegate extends SearchDelegate<Doctores>{
 
     @override
     Widget buildLeading(BuildContext context) {
-      var doctor = new DoctorCtrl();
+      // var doctor = new DoctorCtrl();
       return IconButton(
         icon: Icon(Icons.arrow_back),
         onPressed: () => this.close(context, null),
