@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:intl/number_symbols_data.dart';
 import 'package:muro_dentcloud/src/providers/data_provider.dart';
 import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
 
@@ -16,6 +17,7 @@ class AwaitPage extends StatelessWidget {
         if (email == 'empty' && password == 'empty') {
           final duration = new Duration(seconds: 1);
           new Timer(duration, () {
+            
             Navigator.pushReplacementNamed(context, 'signin');
           });
         } else {
@@ -24,8 +26,8 @@ class AwaitPage extends StatelessWidget {
             final login = new DataProvider();
 
             login.userData(email).then((value) {
-
               if (value.isNotEmpty) {
+                
                 Navigator.pushReplacementNamed(context, 'startuppage',
                     arguments: value[0]);
               } else {

@@ -14,8 +14,8 @@ import 'package:muro_dentcloud/src/widgets/profile_appbar.dart';
 class CurrentBusinessProfile extends StatefulWidget {
   final CurrentUsuario currentuser;
   final String currentBusiness;
-  const CurrentBusinessProfile({Key key,  this.currentBusiness,
-  this.currentuser})
+  const CurrentBusinessProfile(
+      {Key key, this.currentBusiness, this.currentuser})
       : super(key: key);
 
   @override
@@ -28,8 +28,9 @@ class _CurrentBusinessProfileState extends State<CurrentBusinessProfile> {
   @override
   Widget build(BuildContext context) {
     final _screenSize = MediaQuery.of(context).size;
-
+    // String ruc = ModalRoute.of(context).settings.arguments;
     final login = new DataProvider();
+    print(widget.currentBusiness);
     return FutureBuilder(
         future: login.businessData(widget.currentBusiness),
         builder: (BuildContext context, AsyncSnapshot<List> businessinfo) {
@@ -68,12 +69,12 @@ class _CurrentBusinessProfileState extends State<CurrentBusinessProfile> {
                   }),
             );
           } else {
-            return  Container(
-            height: _screenSize.height * 0.4,
-            child: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
+            return Container(
+              height: _screenSize.height * 0.4,
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
           }
         });
   }
