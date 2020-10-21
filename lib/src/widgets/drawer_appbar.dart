@@ -7,7 +7,7 @@ import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
 
 class NavDrawer extends StatefulWidget {
   final CurrentUsuario currentuser;
-  const NavDrawer({Key key, @required this.currentuser}) : super(key: key);
+  const NavDrawer({Key key, this.currentuser}) : super(key: key);
   @override
   _NavDrawerState createState() => _NavDrawerState();
 }

@@ -47,7 +47,7 @@ class _StartUpPageState extends State<StartUpPage> {
           ? CurrentUserProfile(
               currentuser: userinfo,
             )
-          : CurrentBusinessProfile(
+          : CurrentBusinessProfile(currentuser: userinfo,
               currentBusiness: '1304924424001') 
           
     ];

@@ -14,8 +14,8 @@ import 'package:muro_dentcloud/src/widgets/profile_appbar.dart';
 class CurrentBusinessProfile extends StatefulWidget {
   final CurrentUsuario currentuser;
   final String currentBusiness;
-  const CurrentBusinessProfile({Key key, @required this.currentBusiness,
-  @required this.currentuser})
+  const CurrentBusinessProfile({Key key,  this.currentBusiness,
+  this.currentuser})
       : super(key: key);
 
   @override
