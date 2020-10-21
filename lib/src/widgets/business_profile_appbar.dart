@@ -18,12 +18,12 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
   bool current = true;
   //*true = currentLoginProfile
   //!false = OutProfile
-  
+
   bool follow = true;
   //*true = U allready follow that profile
   //!false = u dont follow that profile
 
-  bool profileType = true;  
+  bool profileType = true;
   //*true = CORREO
   //!false = RUC
   @override
@@ -107,8 +107,8 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
             ),
             child: ClipRRect(
               child: FadeInImage(
-                image: NetworkImage('https://picsum.photos/500/300/?image=25'),
-                placeholder: AssetImage('assets/loading.gif'), 
+                image: NetworkImage(widget.userinfo.foto),
+                placeholder: AssetImage('assets/loading.gif'),
                 fit: BoxFit.cover,
               ),
               borderRadius: BorderRadius.circular(100.0),
@@ -203,22 +203,12 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
     );
   }
 
- Widget tilelist() {
-    return profileType
-        ? Text(
-            'Recientes',
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.lightBlue,
-                fontSize: 18),
-          )
-        : Text(
-            'Recientes',
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.lightBlue,
-                fontSize: 18),
-          );
+  Widget tilelist() {
+    return Text(
+      'Servicios',
+      style: TextStyle(
+          fontWeight: FontWeight.bold, color: Colors.lightBlue, fontSize: 18),
+    );
   }
 
   Widget listContent(Size screensize) {
@@ -261,6 +251,8 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
                   ),
                 );
               } else {
+                print(widget.userinfo.openServicios[index].servicio);
+
                 return Container(
                   child: Column(
                     children: [
@@ -275,16 +267,15 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
                         ),
                         child: ClipRRect(
                           child: FadeInImage(
-                            image: NetworkImage(
-                                'https://www.clinicablancohungria.es/wp-content/uploads/2018/05/extraccion.jpg'),
+                            image: NetworkImage(widget
+                                .userinfo.openServicios[index].imagenServicio),
                             placeholder: AssetImage('assets/loading.gif'),
                             fit: BoxFit.cover,
                           ),
                           borderRadius: BorderRadius.circular(40.0),
                         ),
                       ),
-                      Text(
-                          '${widget.userinfo.openServicios[index].idServicio}')
+                      Text('${widget.userinfo.openServicios[index].servicio}')
                     ],
                   ),
                 );

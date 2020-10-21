@@ -12,8 +12,10 @@ import 'package:muro_dentcloud/src/widgets/horizontal_scroll_viewBusiness.dart';
 import 'package:muro_dentcloud/src/widgets/profile_appbar.dart';
 
 class CurrentBusinessProfile extends StatefulWidget {
+  final CurrentUsuario currentuser;
   final String currentBusiness;
-  const CurrentBusinessProfile({Key key, @required this.currentBusiness})
+  const CurrentBusinessProfile({Key key, @required this.currentBusiness,
+  @required this.currentuser})
       : super(key: key);
 
   @override
@@ -29,11 +31,11 @@ class _CurrentBusinessProfileState extends State<CurrentBusinessProfile> {
 
     final login = new DataProvider();
     return FutureBuilder(
-        future: login.businessData('1304924424001'),
+        future: login.businessData(widget.currentBusiness),
         builder: (BuildContext context, AsyncSnapshot<List> businessinfo) {
           if (businessinfo.hasData) {
             return Scaffold(
-              drawer: NavDrawer(),
+              drawer: NavDrawer(currentuser: widget.currentuser),
               body: FutureBuilder(
                   future: publicacionesProvider.getPublicacionesByRuc(
                       businessinfo.data[0].openPublicacionesNegocio),
