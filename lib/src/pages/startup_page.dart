@@ -40,9 +40,11 @@ class _StartUpPageState extends State<StartUpPage> {
     final List<Widget> _widgetOptions = <Widget>[
       CardPage(currentuser: userinfo,),
       HomePage(),
-      Agenda3(
+      userinfo.tipoUsuario == 'D'
+      ?Agenda3(
         currentuser: userinfo,
-      ),
+      )
+      :Container(),
       prefs.currentProfile
           ? CurrentUserProfile(
               currentuser: userinfo,
