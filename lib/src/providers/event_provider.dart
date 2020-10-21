@@ -9,11 +9,8 @@ class EventosProvider with ChangeNotifier{
     EventosCtrl.listarEventos(email).then((value){
       if(value!=null){
         this.eventos = value;
-        print(value.hashCode);
       } else{
         this.eventos = List<EventosModelo>();
-        print(value.hashCode);
-        
       }
       notifyListeners();
     });
@@ -27,11 +24,8 @@ class EventosHoldProvider with ChangeNotifier{
     EventosCtrl.listarEventosPendientes(email).then((value){
       if(value!=null){
         this.eventosHold = value;
-        print(value.hashCode);
       } else{
-        this.eventosHold = List<EventosModelo>();
-        print(value.hashCode);
-        
+        this.eventosHold = List<EventosModelo>();       
       }
       notifyListeners();
     });

@@ -29,7 +29,6 @@ class EventosCtrl{
     final response = await http.get("http://54.197.83.249/PHP_REST_API/api/get/get_on_hold_appointment_by_doctor.php?email_doctor=$emailDoctor");
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body).cast<String, dynamic>();
-      print(parsed);
       return parsed['cita_en_espera'].map<EventosModelo>((json) => EventosModelo.fromJson(json)).toList();
     }
     print("object");
@@ -41,6 +40,19 @@ class EventosCtrl{
     if (response.statusCode == 200) {
       return true;
     } else {
+      return false;
+    }
+  }
+
+  static Future<bool> actualizarEventosApproved(String id) async{
+    final response = await http.post("http://54.197.83.249/PHP_REST_API/api/put/put_appointment_state.php?id_appointment=$id&state=approved");
+    if (response.statusCode == 200) {
+      print(response.statusCode);
+      print("Si");
+      return true;
+    } else {
+      print(response.statusCode);
+      print("No");
       return false;
     }
   }

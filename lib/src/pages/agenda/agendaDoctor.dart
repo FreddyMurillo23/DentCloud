@@ -25,7 +25,7 @@ class _Agenda3State extends State<Agenda3> {
   List<EventosModelo> eventosModel;
   List<EventosModeloUsuario> eventosModeUsuario;
   EventosHoldProvider eventosProvider;
-  bool prueba = true;
+  bool prueba = false;
 
   @override
   void initState() {
@@ -98,7 +98,7 @@ class _Agenda3State extends State<Agenda3> {
               TableCalendar(
                 availableGestures: AvailableGestures.horizontalSwipe,
                 events: _events,
-                locale: 'es_ES',
+                locale: 'en',
                 initialCalendarFormat: CalendarFormat.month,
                 calendarStyle: CalendarStyle(
                     canEventMarkersOverflow: true,
@@ -108,13 +108,11 @@ class _Agenda3State extends State<Agenda3> {
                   formatButtonVisible: false,
                   centerHeaderTitle: true,
                   titleTextStyle: const TextStyle(
-                    
+                    fontSize: 17,
                   )
                 ),
                 startingDayOfWeek: StartingDayOfWeek.monday,
                 onDaySelected: (day, events) {
-                  print(userinfo);
-
                   setState(() {
                     if (events.isNotEmpty) {
                       _selectedEvents = events;
