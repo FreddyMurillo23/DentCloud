@@ -5,25 +5,40 @@ import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
 // import 'package:provider/provider.dart';
 
-class NavDrawer extends StatelessWidget {
+class NavDrawer extends StatefulWidget {
+  final CurrentUsuario currentuser;
+  const NavDrawer({Key key, @required this.currentuser}) : super(key: key);
+  @override
+  _NavDrawerState createState() => _NavDrawerState();
+}
+
+class _NavDrawerState extends State<NavDrawer> {
   @override
   Widget build(BuildContext context) {
     // DoctoresProvider docProv = Provider.of<DoctoresProvider>(context);
     // EventosProvider eventProv = Provider.of<EventosProvider>(context);
     // EventosHoldProvider eventHoldProv = Provider.of<EventosHoldProvider>(context);
     final currentUserData = new PreferenciasUsuario();
+
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
           DrawerHeader(
             child: Container(
-              child: Image(image: AssetImage('assets/logo.png'),)
-            ),
+                child: Image(
+              image: AssetImage('assets/logo.png'),
+            )),
             decoration: BoxDecoration(
-              color: Colors.green,
+              color: Colors.white,
             ),
           ),
+          Divider(
+            thickness: 1.2,
+            indent: 5.5,
+          ),
+          userSelector(widget.currentuser),
+
           ListTile(
             leading: Icon(Icons.input),
             title: Text('Dashboard'),
@@ -69,6 +84,15 @@ class NavDrawer extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget userSelector(CurrentUsuario userinfo) {
+    return ListView.builder(
+      itemCount: userinfo.apellidos.length,
+      itemBuilder: (context, index) {
+
+      },
     );
   }
 }

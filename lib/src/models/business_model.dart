@@ -28,6 +28,7 @@ class NegocioData {
   String provincia;
   String canton;
   String ubicacion;
+  String foto;
   List<dynamic> servicios = new List();
   List<Personal> personal = new List();
   List<PublicacionesNegocio> publicacionesNegocio = new List();
@@ -40,6 +41,7 @@ class NegocioData {
     this.provincia,
     this.canton,
     this.ubicacion,
+    this.foto,
     this.servicios,
     this.personal,
     this.publicacionesNegocio,
@@ -53,6 +55,7 @@ class NegocioData {
     provincia = json['provincia'];
     canton = json['canton'];
     ubicacion = json['ubicacion'];
+    foto = json['foto'];
     if (json['servicios'].length != 0) {
       for (var item in json['servicios']) {
         final serv = new ServiciosNegocio.fromJsonMap(item);
@@ -145,7 +148,7 @@ class NegocioData {
   }
 
   get openPublicacionesNegocio {
-      return publicacionesNegocio;
+    return publicacionesNegocio;
   }
 }
 

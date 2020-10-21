@@ -11,7 +11,6 @@ class CurrentUsuarios {
       final usuario = new CurrentUsuario.fromJsonMap(item);
       items.add(usuario);
     }
-    
   }
   get itemsList {
     return items;
@@ -59,6 +58,7 @@ class CurrentUsuario {
   List<ServiciosReciente> serviciosRecientes = new List();
   List<NegociosAsistido> negociosAsistidos = new List();
   List<UsuariosSeguido> usuariosSeguidos = new List();
+  List<UserTrabajos> userTrabajos = new List();
 
   CurrentUsuario({
     this.correo,
@@ -74,6 +74,7 @@ class CurrentUsuario {
     this.negociosAsistidos,
     this.serviciosRecientes,
     this.usuariosSeguidos,
+    this.userTrabajos,
   });
   CurrentUsuario.fromJsonMap(Map<String, dynamic> json) {
     correo = json['correo'];
@@ -112,8 +113,17 @@ class CurrentUsuario {
         usuariosSeguidos.add(us);
       }
     }
+    if (json['trabajos'].length != 0) {
+      for (var item in json['trabajos']) {
+        final us = new UserTrabajos.fromJsonMap(item);
+        userTrabajos.add(us);
+      }
+    }
 
     //? Por cada item que recibe los va enviando al metodo que extrae los datos del json y retorna el mapa luego los agrega a una lista de items de tipo publicacion.
+  }
+  get openUserTrabajos {
+    return userTrabajos;
   }
   get currentcorreo {
     if (correo == null) {
@@ -229,6 +239,24 @@ class UserPublicacion {
   UserPublicacion.fromJsonMap(Map<String, dynamic> json) {
     idPublicacion = json['id_publicacion'];
     // print(json);
+  }
+}
+
+class UserTrabajos {
+  String rolDoctor;
+  String idNegocio;
+  String nombreNegocio;
+
+  UserTrabajos({
+    this.rolDoctor,
+    this.idNegocio,
+    this.nombreNegocio,
+  });
+
+  UserTrabajos.fromJsonMap(Map<String, dynamic> json) {
+    rolDoctor = json['rolDoctor'];
+    idNegocio = json['idNegocio'];
+    nombreNegocio = json['nombreNegocio'];
   }
 }
 
