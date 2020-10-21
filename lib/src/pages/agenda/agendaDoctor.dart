@@ -56,7 +56,7 @@ class _Agenda3State extends State<Agenda3> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      drawer: NavDrawer(),
+      drawer: NavDrawer(currentuser: widget.currentuser,),
       appBar: AppBar(
         brightness: Brightness.light,
         backgroundColor: Colors.white,
