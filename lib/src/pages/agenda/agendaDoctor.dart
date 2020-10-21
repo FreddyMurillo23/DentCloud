@@ -35,11 +35,7 @@ class _Agenda3State extends State<Agenda3> {
     _controller = CalendarController();
   }
 
-<<<<<<< Updated upstream
-  Map<DateTime, List<dynamic>> _eventsGet(List<EventosModelo> events) {
-=======
   Map<DateTime, List<dynamic>> _eventsGet(List<EventosModelo> events){
->>>>>>> Stashed changes
     Map<DateTime, List<dynamic>> data = {};
     events.forEach((event) {
       DateTime date = DateTime(event.fecha.year, event.fecha.month,
@@ -60,7 +56,7 @@ class _Agenda3State extends State<Agenda3> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      drawer: NavDrawer(),
+      drawer: NavDrawer(currentuser: widget.currentuser,),
       appBar: AppBar(
         brightness: Brightness.light,
         backgroundColor: Colors.white,
