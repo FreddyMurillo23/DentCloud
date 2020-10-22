@@ -22,14 +22,11 @@ class _BusinessServicesWgState extends State<BusinessServicesWg> {
   }
 
   Widget _swiperServ(Size _screeSize, HttpServiceData httpService) {
-    return Container(
-      //padding: EdgeInsets.symmetric(vertical: 15.0),
-      height: _screeSize.height,
-      child: Swiper(
+    return Swiper(
         itemWidth: _screeSize.width,
-        itemHeight: _screeSize.height,
+        itemHeight: _screeSize.height*0.99,
         itemCount: this.widget.businessSe[0].servicios.length,
-        viewportFraction: 0.8,
+        viewportFraction: 0.85,
         scale: 0.9,
         itemBuilder: (BuildContext context, int index) {
           return Column(
@@ -50,6 +47,7 @@ class _BusinessServicesWgState extends State<BusinessServicesWg> {
                               .imagenServicio,
                           fit: BoxFit.cover,
                         )),
+                        
                     Container(
                         padding: EdgeInsets.all(1.0),
                         decoration: new BoxDecoration(
@@ -66,8 +64,9 @@ class _BusinessServicesWgState extends State<BusinessServicesWg> {
                   ],
                 ),
               ),
+              SizedBox(height: 10),
               Container(
-                height: _screeSize.height * 0.5,
+                height: _screeSize.height * 0.55,
                 child: FutureBuilder(
                   future: httpService.getServices(
                       this.widget.businessSe[0].servicios[index].idServicio),
@@ -76,7 +75,11 @@ class _BusinessServicesWgState extends State<BusinessServicesWg> {
                     if (snapshot.hasData) {
                       return ServiceDataWg(snapshot.data);
                     } else {
-                      return Container();
+                      return Container(
+                        alignment: Alignment(0,-0.5),
+                        
+                          child: CircularProgressIndicator(),
+                      );
                     }
                   },
                 ),
@@ -87,7 +90,7 @@ class _BusinessServicesWgState extends State<BusinessServicesWg> {
         //pagination: new SwiperPagination(),
         control: new SwiperControl(),
         //layout: SwiperLayout.CUSTOM,
-      ),
-    );
+      );
+    
   }
 }

@@ -5,6 +5,7 @@ import 'package:muro_dentcloud/src/pages/agenda/doctor_pendients.dart';
 import 'package:muro_dentcloud/src/pages/details_Patients.dart';
 import 'package:muro_dentcloud/src/pages/home_page.dart';
 import 'package:muro_dentcloud/src/pages/listview_page.dart';
+import 'package:muro_dentcloud/src/pages/page_Services.dart';
 import 'package:muro_dentcloud/src/pages/patients_List.dart';
 import 'package:muro_dentcloud/src/pages/profiles/current_bussiness.dart';
 import 'package:muro_dentcloud/src/pages/profiles/current_user_profile.dart';
@@ -34,6 +35,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'patients': (BuildContext context) => ListPatientsBuild(),
     'pruebaUser': (BuildContext context) => DetailPage(),
     'eventosPendientes': (BuildContext context) => DoctorEventsPendients(),
-    //'serviciosNegocios'    : (BuildContext context) => BusinessServicePage()
+    'serviciosNegocios'    : (BuildContext context) => BusinessServicePage()
   };
 }

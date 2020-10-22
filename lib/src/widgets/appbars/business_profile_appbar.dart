@@ -131,16 +131,22 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
                 width: screensize.width * 0.01,
                 color: Colors.blueGrey.shade100),
           ),
-          child: Column(
-            children: [
-              tilelist(),
-              Divider(
-                height: 3,
-                color: Colors.grey,
-                thickness: 10,
-              ),
-              listContent(screensize),
-            ],
+          child: GestureDetector(
+            child: Column(
+              children: [
+                tilelist(),
+                Divider(
+                  height: 3,
+                  color: Colors.grey,
+                  thickness: 10,
+                ),
+                listContent(screensize),
+              ],
+            ),
+            onTap: () {
+              Navigator.pushNamed(context, 'serviciosNegocios',
+                            arguments: widget.userinfo.ruc);
+            },
           ),
         ));
   }

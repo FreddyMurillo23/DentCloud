@@ -13,22 +13,26 @@ class ServiceDataWg extends StatefulWidget {
 class _ServiceDataWgState extends State<ServiceDataWg> {
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: this.widget.businessServices.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Container(
-            child: Column(
-              children: [
-                cardListServices('descripcion',
-                    this.widget.businessServices[index].descripcion),
-                cardListServices(
-                    'duracion', this.widget.businessServices[index].duracion),
-                cardListServices(
-                    'costo', this.widget.businessServices[index].costo),
-              ],
-            ),
-          );
-        });
+    final screenSize = MediaQuery.of(context).size;
+    return Container(
+      height: screenSize.height * 0.6,
+      child: ListView.builder(
+          itemCount: this.widget.businessServices.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Container(
+              child: Column(
+                children: [
+                  cardListServices('descripcion',
+                      '${this.widget.businessServices[index].descripcion}\n \n \n \n \n \n \n'),
+                  cardListServices('duracion',
+                      '${this.widget.businessServices[index].duracion} \n \n \n \n \n \n \n'),
+                  cardListServices('costo',
+                      '${this.widget.businessServices[index].costo}\n \n \n \n \n \n \n'),
+                ],
+              ),
+            );
+          }),
+    );
   }
 
   Widget cardListServices(String headerData, String valueData) {
