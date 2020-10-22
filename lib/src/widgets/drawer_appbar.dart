@@ -41,13 +41,20 @@ class _NavDrawerState extends State<NavDrawer> {
             thickness: 1.2,
             indent: 5.5,
           ),
-          Text('Perfil Actual'.toUpperCase()),
-          CardExpansionPanel(
-            headerData: '${prefs.profileName}\n${prefs.profileID}',//('${widget.currentuser.openUserTrabajos.length}00'),
-            icon: Icons.supervised_user_circle,
-            iconColor: Colors.blueGrey,
-            lista: listaPerfiles(widget.currentuser,),
-              ),
+          
+          Container(
+            child: Column(
+              children: [
+                Text('Perfil Actual'.toUpperCase(), style: TextStyle(fontWeight: FontWeight.w500),),
+                CardExpansionPanel(
+                  headerData: '${prefs.profileName}\n${prefs.profileID}',//('${widget.currentuser.openUserTrabajos.length}00'),
+                  icon: Icons.supervised_user_circle,
+                  iconColor: Colors.blueGrey,
+                  lista: listaPerfiles(widget.currentuser,),
+                    ),
+              ],
+            ),
+          ),
 
           ListTile(
             leading: Icon(Icons.input),

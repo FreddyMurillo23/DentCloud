@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
             )
           ],
         ),
-        drawer: NavDrawer(),
+        drawer: NavDrawer(currentuser: widget.currentuser),
         body: Container(
           child: Column(
             children: [
