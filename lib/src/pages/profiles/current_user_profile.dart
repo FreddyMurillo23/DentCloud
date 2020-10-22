@@ -5,7 +5,7 @@ import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
 import 'package:muro_dentcloud/src/widgets/cards.dart';
 import 'package:muro_dentcloud/src/widgets/drawer_appbar.dart';
 import 'package:muro_dentcloud/src/widgets/horizontal_scroll_view.dart';
-import 'package:muro_dentcloud/src/widgets/profile_appbar.dart';
+import 'package:muro_dentcloud/src/widgets/appbars/profile_appbar.dart';
 
 class CurrentUserProfile extends StatefulWidget {
   final CurrentUsuario currentuser;
@@ -62,7 +62,7 @@ class _CurrentUserProfileState extends State<CurrentUserProfile> {
       return SliverList(
           delegate:
               SliverChildBuilderDelegate((BuildContext context, int index) {
-        print(snapshot.data.length);
+        // print(snapshot.data.length);
         return CardWidgetPublicaciones(publicaciones: snapshot.data, id: index);
       }, childCount: snapshot.data.length));
     } else {

@@ -102,7 +102,7 @@ class _CardPageState extends State<CardPage> {
                 // print(publicacionesProvider.getPublicaciones());
                 // print(snapshot.data.length);
                 return CardWidgetPublicaciones(
-                    publicaciones: snapshot.data, id: index
+                    publicaciones: snapshot.data, id: index,userinfo: widget.currentuser,
                 );
               },
             ),

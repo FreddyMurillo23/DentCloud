@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/publications_model.dart';
+import 'package:muro_dentcloud/src/pages/profiles/current_user_profile.dart';
 import 'package:muro_dentcloud/src/providers/data_provider.dart';
 import 'package:muro_dentcloud/src/widgets/circle_button.dart';
 import 'package:muro_dentcloud/src/widgets/profile_avatar.dart';
@@ -8,12 +10,11 @@ import 'package:muro_dentcloud/src/widgets/profile_avatar.dart';
 class CardWidgetPublicaciones extends StatelessWidget {
   final int id;
   final List<Publicacion> publicaciones;
+  final CurrentUsuario userinfo;
 
-  const CardWidgetPublicaciones({
-    Key key,
-    @required this.publicaciones,
-    @required this.id,
-  }) : super(key: key);
+  const CardWidgetPublicaciones(
+      {Key key, @required this.publicaciones, @required this.id, this.userinfo})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,11 +42,17 @@ class CardWidgetPublicaciones extends StatelessWidget {
                 child: Column(
                   children: <Widget>[
                     publicacionCard(context, _screenSize, userDataProfile),
-                    Divider(
-                      height: 10,
-                      thickness: 0,
-                      color: Colors.transparent,
-                    ),
+                    publicaciones[id].imagenPublicacion == 'empty'
+                        ? Divider(
+                            height: 0,
+                            thickness: 0,
+                            color: Colors.transparent,
+                          )
+                        : Divider(
+                            height: 10,
+                            thickness: 0,
+                            color: Colors.transparent,
+                          ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
                       child: Column(
@@ -134,21 +141,10 @@ class CardWidgetPublicaciones extends StatelessWidget {
   Widget publicacionCard(
       BuildContext context, Size _screenSize, userDataProfile) {
     if (publicaciones[id].imagenPublicacion == 'empty') {
-      return Container(
-        alignment: Alignment(-0.9, -1),
-        child: InputChip(
-            avatar: CircleAvatar(
-                backgroundColor: Colors.black,
-                child: Text(publicaciones[id].inicialNegocioPublicacion)),
-            label: Text(publicaciones[id].negocioPublicacion),
-            backgroundColor: Colors.transparent,
-            onPressed: () {
-              userDataProfile
-                  .getPublicacionesByUser(publicaciones[id].negocioRuc)
-                  .then((value) {
-                Navigator.pushNamed(context, 'perfil', arguments: value);
-              });
-            }),
+      return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+        // alignment: Alignment(-0.8, 1),
+        child: etiquetasList(context, _screenSize, userDataProfile),
       );
     } else {
       return Container(
@@ -178,11 +174,11 @@ class CardWidgetPublicaciones extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                   onTap: () {
-                    userDataProfile
-                        .getPublicacionesByUser(publicaciones[id].correoUsuario)
-                        .then((value) {
-                      // Navigator.pushNamed(context, 'perfil', arguments: value);
-                    });
+                    // !userDataProfile
+                    // !    .getPublicacionesByUser(publicaciones[id].correoUsuario)
+                    // !    .then((value) {
+                    // !  // Navigator.pushNamed(context, 'perfil', arguments: value);
+                    // !});
                   },
                 ),
                 etiquetasList(context, _screenSize, userDataProfile),
@@ -194,7 +190,7 @@ class CardWidgetPublicaciones extends StatelessWidget {
 
   Widget bottonCard(Size screenSize) {
     return Container(
-      width: screenSize.height*0.5,
+      width: screenSize.height * 0.5,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -204,9 +200,12 @@ class CardWidgetPublicaciones extends StatelessWidget {
                 Icon(
                   MdiIcons.thumbUpOutline,
                   color: Colors.blue[400],
-                  size: screenSize.width*0.05,
+                  size: screenSize.width * 0.05,
                 ),
-                Text(' Me Gusta',style: TextStyle(fontSize: screenSize.width*0.038),),
+                Text(
+                  ' Me Gusta',
+                  style: TextStyle(fontSize: screenSize.width * 0.038),
+                ),
               ],
             ),
             onPressed: () {},
@@ -217,9 +216,12 @@ class CardWidgetPublicaciones extends StatelessWidget {
                 Icon(
                   MdiIcons.commentOutline,
                   color: Colors.blue[500],
-                  size: screenSize.width*0.05,
+                  size: screenSize.width * 0.05,
                 ),
-                Text(' Comentar',style: TextStyle(fontSize: screenSize.width*0.038),),
+                Text(
+                  ' Comentar',
+                  style: TextStyle(fontSize: screenSize.width * 0.038),
+                ),
               ],
             ),
             onPressed: () {},
@@ -230,9 +232,12 @@ class CardWidgetPublicaciones extends StatelessWidget {
                 Icon(
                   MdiIcons.shareOutline,
                   color: Colors.blue[300],
-                  size: screenSize.width*0.08,
+                  size: screenSize.width * 0.08,
                 ),
-                Text('Compartir',style: TextStyle(fontSize: screenSize.width*0.038),),
+                Text(
+                  'Compartir',
+                  style: TextStyle(fontSize: screenSize.width * 0.038),
+                ),
               ],
             ),
             onPressed: () {},
@@ -301,14 +306,10 @@ class CardWidgetPublicaciones extends StatelessWidget {
                     ),
                     backgroundColor: Colors.lightBlue,
                     onPressed: () {
-                      userDataProfile
-                          .getPublicacionesByUser(publicaciones[id].negocioRuc)
-                          .then((value) {
-                        print(publicaciones[id].negocioRuc);
+                      print(publicaciones[id].negocioRuc);
 
-                        Navigator.pushNamed(context, 'perfil',
-                            arguments: value);
-                      });
+                      Navigator.pushNamed(context, 'outBusiness',
+                          arguments: publicaciones[id].negocioRuc);
                     }),
                 SizedBox(
                   width: 6,
@@ -331,13 +332,8 @@ class CardWidgetPublicaciones extends StatelessWidget {
                       label: Text(data.nombreUsuarioEtiquetado),
                       backgroundColor: Colors.transparent,
                       onPressed: () {
-                        userDataProfile
-                            .getPublicacionesByUser(
-                                publicaciones[id].correoUsuario)
-                            .then((value) {
-                          Navigator.pushNamed(context, 'perfil',
-                              arguments: value);
-                        });
+                        Navigator.pushNamed(context, 'outPerfil',
+                            arguments: data.correoEtiquetado);
                       }),
                 ),
                 SizedBox(

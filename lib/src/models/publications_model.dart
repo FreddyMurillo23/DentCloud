@@ -56,6 +56,9 @@ class Publicacion {
     this.likes,
     this.etiquetas,
     this.comentarios,
+    this.correoUsuario,
+    this.idPublicacion,
+    this.negocioRuc
   });
   //? /1 Para connvertir a double y .cast<int>() para lista de items
   //? fromJsonMap extrae los datos del json y los envia a las variables de la clase y los convierte en un mapa de datos.
@@ -69,6 +72,9 @@ class Publicacion {
     inicialnegocio = json['inicial_negocio'];
     fotoperfilusuario = json['foto_perfil'];
     likes = int.parse(json['likes']);
+    correoUsuario = json ['correo_usuario']; 
+    idPublicacion = json ['id_publicacion']; 
+    negocioRuc = json ['negocio_ruc']; 
     if (json['etiquetas'].length != 0) {
       for (var item in json['etiquetas']) {
         final eti = new Etiquetas.fromJsonMap(item);

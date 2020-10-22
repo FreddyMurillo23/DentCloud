@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
-import 'circle_button.dart';
+import '../circle_button.dart';
 // import 'package:flutter/material.dart';
 
 class ProfileAppBar extends StatefulWidget {
@@ -31,7 +31,7 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
     final _screenSize = MediaQuery.of(context).size;
     return SliverAppBar(
       elevation: 2.0,
-      expandedHeight: _screenSize.height * 0.45,
+      expandedHeight: _screenSize.height * 0.55,
       brightness: Brightness.dark,
       backgroundColor: Colors.indigoAccent,
       pinned: false,

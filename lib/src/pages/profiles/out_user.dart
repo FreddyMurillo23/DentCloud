@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/providers/data_provider.dart';
 import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
+import 'package:muro_dentcloud/src/widgets/appbars/external/out_profile_appbar.dart';
 import 'package:muro_dentcloud/src/widgets/cards.dart';
 import 'package:muro_dentcloud/src/widgets/drawer_appbar.dart';
 import 'package:muro_dentcloud/src/widgets/horizontal_scroll_view.dart';
-import 'package:muro_dentcloud/src/widgets/profile_appbar.dart';
+import 'package:muro_dentcloud/src/widgets/appbars/profile_appbar.dart';
 
 class OutUserProfile extends StatefulWidget {
   final CurrentUsuario currentuser;
@@ -31,7 +32,7 @@ class _OutUserProfileState extends State<OutUserProfile> {
           builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
             return CustomScrollView(
               slivers: [
-                ProfileAppBar(
+                OutProfileAppBar(
                   userinfo: userinfo,
                 ),
                 SliverPadding(
@@ -62,7 +63,7 @@ class _OutUserProfileState extends State<OutUserProfile> {
       return SliverList(
           delegate:
               SliverChildBuilderDelegate((BuildContext context, int index) {
-        print(snapshot.data.length);
+        // print(snapshot.data.length);
         return CardWidgetPublicaciones(publicaciones: snapshot.data, id: index);
       }, childCount: snapshot.data.length));
     } else {

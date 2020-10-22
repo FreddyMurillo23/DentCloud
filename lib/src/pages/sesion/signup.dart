@@ -376,7 +376,7 @@ class _SignupState extends State<Signup> {
                       SizedBox(height: 10,),
 
                     //Sexo
-                    new DropdownButtonFormField(
+                    DropdownButtonFormField(
                       isExpanded: true,
                       items: <String>['Masculino', 'Femenino']
                       .map<DropdownMenuItem<String>>((String value){

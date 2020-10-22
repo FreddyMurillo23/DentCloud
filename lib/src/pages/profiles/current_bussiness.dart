@@ -4,18 +4,18 @@ import 'package:muro_dentcloud/src/models/business_model.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/providers/data_provider.dart';
 import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
-import 'package:muro_dentcloud/src/widgets/business_profile_appbar.dart';
+import 'package:muro_dentcloud/src/widgets/appbars/business_profile_appbar.dart';
 import 'package:muro_dentcloud/src/widgets/cards.dart';
 import 'package:muro_dentcloud/src/widgets/drawer_appbar.dart';
 import 'package:muro_dentcloud/src/widgets/horizontal_scroll_view.dart';
 import 'package:muro_dentcloud/src/widgets/horizontal_scroll_viewBusiness.dart';
-import 'package:muro_dentcloud/src/widgets/profile_appbar.dart';
+import 'package:muro_dentcloud/src/widgets/appbars/profile_appbar.dart';
 
 class CurrentBusinessProfile extends StatefulWidget {
   final CurrentUsuario currentuser;
   final String currentBusiness;
-  const CurrentBusinessProfile(
-      {Key key, this.currentBusiness, this.currentuser})
+  const CurrentBusinessProfile({Key key,  this.currentBusiness,
+  this.currentuser})
       : super(key: key);
 
   @override
@@ -28,9 +28,8 @@ class _CurrentBusinessProfileState extends State<CurrentBusinessProfile> {
   @override
   Widget build(BuildContext context) {
     final _screenSize = MediaQuery.of(context).size;
-    // String ruc = ModalRoute.of(context).settings.arguments;
+
     final login = new DataProvider();
-    print(widget.currentBusiness);
     return FutureBuilder(
         future: login.businessData(widget.currentBusiness),
         builder: (BuildContext context, AsyncSnapshot<List> businessinfo) {
@@ -69,12 +68,12 @@ class _CurrentBusinessProfileState extends State<CurrentBusinessProfile> {
                   }),
             );
           } else {
-            return Container(
-              height: _screenSize.height * 0.4,
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
+            return  Container(
+            height: _screenSize.height * 0.4,
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
           }
         });
   }
@@ -84,7 +83,7 @@ class _CurrentBusinessProfileState extends State<CurrentBusinessProfile> {
       return SliverList(
           delegate:
               SliverChildBuilderDelegate((BuildContext context, int index) {
-        print(snapshot.data.length);
+        // print(snapshot.data.length);
         return CardWidgetPublicaciones(publicaciones: snapshot.data, id: index);
       }, childCount: snapshot.data.length));
     } else {

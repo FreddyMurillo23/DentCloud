@@ -1,38 +1,37 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:muro_dentcloud/src/models/business_model.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
-import 'circle_button.dart';
+import '../../circle_button.dart';
 // import 'package:flutter/material.dart';
 
-class BusinessAppBar extends StatefulWidget {
-  final NegocioData userinfo;
-  BusinessAppBar({Key key, @required this.userinfo}) : super(key: key);
+class OutProfileAppBar extends StatefulWidget {
+  final CurrentUsuario userinfo;
+  OutProfileAppBar({Key key, @required this.userinfo}) : super(key: key);
 
   @override
-  _BusinessAppBarState createState() => _BusinessAppBarState();
+  _OutProfileAppBarState createState() => _OutProfileAppBarState();
 }
 
-class _BusinessAppBarState extends State<BusinessAppBar> {
+class _OutProfileAppBarState extends State<OutProfileAppBar> {
   bool current = true;
   //*true = currentLoginProfile
   //!false = OutProfile
-
+  
   bool follow = true;
   //*true = U allready follow that profile
   //!false = u dont follow that profile
 
-  bool profileType = true;
+  bool profileType = true;  
   //*true = CORREO
   //!false = RUC
   @override
   Widget build(BuildContext context) {
-    // final NegocioData userinfo = ModalRoute.of(context).settings.arguments;
+    final CurrentUsuario userinfo = ModalRoute.of(context).settings.arguments;
     final _screenSize = MediaQuery.of(context).size;
     return SliverAppBar(
       elevation: 2.0,
-      expandedHeight: _screenSize.height * 0.45,
+      expandedHeight: _screenSize.height * 0.55,
       brightness: Brightness.dark,
       backgroundColor: Colors.indigoAccent,
       pinned: false,
@@ -44,12 +43,12 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
               border: Border.all(width: 3, color: Colors.blueGrey.shade100),
               borderRadius: BorderRadius.circular(50.0),
               color: Colors.white),
-          // width: _screenSize.width * 1,
+          width: _screenSize.width * 1,
           height: _screenSize.height * 0.035,
           // color: Colors.white,
           child: ClipRRect(
             child: Text(
-              '   ${widget.userinfo.openNegocio}   ',
+              '  ${userinfo.nombres} ${userinfo.apellidos} ',
               style: TextStyle(
                 color: Colors.grey[600],
                 fontSize: 16.0,
@@ -107,7 +106,7 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
             ),
             child: ClipRRect(
               child: FadeInImage(
-                image: NetworkImage(widget.userinfo.foto),
+                image: NetworkImage(widget.userinfo.fotoPerfil),
                 placeholder: AssetImage('assets/loading.gif'),
                 fit: BoxFit.cover,
               ),
@@ -203,12 +202,22 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
     );
   }
 
-  Widget tilelist() {
-    return Text(
-      'Servicios',
-      style: TextStyle(
-          fontWeight: FontWeight.bold, color: Colors.lightBlue, fontSize: 18),
-    );
+ Widget tilelist() {
+    return profileType
+        ? Text(
+            'Recientes',
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.lightBlue,
+                fontSize: 18),
+          )
+        : Text(
+            'Recientes',
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.lightBlue,
+                fontSize: 18),
+          );
   }
 
   Widget listContent(Size screensize) {
@@ -222,9 +231,9 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
             padding: const EdgeInsets.symmetric(
               horizontal: 5,
             ),
-            itemCount: widget.userinfo.openServicios.length,
+            itemCount: widget.userinfo.serviciosRecientes.length,
             itemBuilder: (BuildContext context, int index) {
-              if (widget.userinfo.openServicios.length == 0) {
+              if (widget.userinfo.serviciosRecientes.length == 0) {
                 return Container(
                   child: Column(
                     children: [
@@ -251,8 +260,6 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
                   ),
                 );
               } else {
-                print(widget.userinfo.openServicios[index].servicio);
-
                 return Container(
                   child: Column(
                     children: [
@@ -267,15 +274,16 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
                         ),
                         child: ClipRRect(
                           child: FadeInImage(
-                            image: NetworkImage(widget
-                                .userinfo.openServicios[index].imagenServicio),
+                            image: NetworkImage(
+                                'https://www.clinicablancohungria.es/wp-content/uploads/2018/05/extraccion.jpg'),
                             placeholder: AssetImage('assets/loading.gif'),
                             fit: BoxFit.cover,
                           ),
                           borderRadius: BorderRadius.circular(40.0),
                         ),
                       ),
-                      Text('${widget.userinfo.openServicios[index].servicio}')
+                      Text(
+                          '${widget.userinfo.serviciosRecientes[index].idServicio}')
                     ],
                   ),
                 );

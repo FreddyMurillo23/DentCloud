@@ -92,7 +92,7 @@ class _NavDrawerState extends State<NavDrawer> {
 
   Widget userSelector(CurrentUsuario userinfo) {
     return Container(
-      height: 300,
+      height: 200,
       child: ListView(
         children: <Widget>[
           ExpansionPanelList(
