@@ -4,6 +4,7 @@ import 'package:muro_dentcloud/src/models/current_user_model.dart';
 // import 'package:muro_dentcloud/src/providers/doctores_provider.dart';
 // import 'package:muro_dentcloud/src/providers/event_provider.dart';
 import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
+import 'package:muro_dentcloud/src/widgets/card_expansion_list.dart';
 // import 'package:provider/provider.dart';
 
 class NavDrawer extends StatefulWidget {
@@ -40,7 +41,13 @@ class _NavDrawerState extends State<NavDrawer> {
             thickness: 1.2,
             indent: 5.5,
           ),
-          userSelector(widget.currentuser),
+          Text('Perfil Actual'.toUpperCase()),
+          CardExpansionPanel(
+            headerData: '${prefs.profileName}\n${prefs.profileID}',//('${widget.currentuser.openUserTrabajos.length}00'),
+            icon: Icons.supervised_user_circle,
+            iconColor: Colors.blueGrey,
+            lista: listaPerfiles(widget.currentuser,),
+              ),
 
           ListTile(
             leading: Icon(Icons.input),
@@ -92,7 +99,7 @@ class _NavDrawerState extends State<NavDrawer> {
 
   Widget userSelector(CurrentUsuario userinfo) {
     return Container(
-      height: 200,
+      height: 100,
       child: ListView(
         children: <Widget>[
           ExpansionPanelList(
@@ -111,88 +118,8 @@ class _NavDrawerState extends State<NavDrawer> {
                     );
                   },
                   body: Container(
-                    height: 100,
-                    child: ListView.builder(
-                        itemCount:
-                            1 + widget.currentuser.openUserTrabajos.length,
-                        itemBuilder: (context, int index) {
-                          // print('${widget.currentuser.openUserTrabajos}');
-                          final data = widget.currentuser.openUserTrabajos;
-                          if (widget.currentuser.openUserTrabajos.length == 0) {
-                            return Column(
-                              children: [
-                                ListTile(
-                                  title: Text(
-                                      '${widget.currentuser.nombres} ${widget.currentuser.apellidos}'),
-                                  subtitle: Text(
-                                      '${widget.currentuser.correo} \n${widget.currentuser.cedula}'),
-                                  trailing: Icon(Icons.business),
-                                  onTap: () {
-                                    prefs.currentProfile = true;
-                                    print(userinfo.correo);
-                                    prefs.profileID = userinfo.correo;
-                                    prefs.profileName =
-                                        '${userinfo.nombres} ${userinfo.apellidos}';
-                                    print('Tap in that sheet');
-                                  },
-                                ),
-                                Divider(
-                                  color: Colors.grey,
-                                )
-                              ],
-                            );
-                          } else if (index == 0) {
-                            return Column(
-                              children: [
-                                ListTile(
-                                  title: Text(
-                                      '${widget.currentuser.nombres} ${widget.currentuser.apellidos}'),
-                                  subtitle: Text(
-                                      '${widget.currentuser.correo} \n${widget.currentuser.cedula}'),
-                                  trailing: Icon(Icons.person),
-                                  onTap: () {
-                                    print(userinfo.correo);
-                                    prefs.currentProfile = true;
-                                    prefs.profileID = userinfo.correo;
-                                    prefs.profileName =
-                                        '${userinfo.nombres} ${userinfo.apellidos}';
-                                    Navigator.of(context)
-                                        .pushNamedAndRemoveUntil('/',
-                                            (Route<dynamic> route) => false);
-                                    print('Im that bitch');
-                                  },
-                                ),
-                                Divider(
-                                  color: Colors.grey,
-                                )
-                              ],
-                            );
-                          } else {
-                            return Column(
-                              children: [
-                                ListTile(
-                                  title: Text(data[index - 1].nombreNegocio),
-                                  subtitle: Text(
-                                      '${data[index - 1].idNegocio} \n${data[index - 1].rolDoctor}'),
-                                  trailing: Icon(Icons.business),
-                                  onTap: () {
-                                    print('Last Hore');
-                                    prefs.currentProfile = false;
-                                    prefs.profileID = data[index-1].idNegocio;
-                                    prefs.profileName =
-                                        data[index-1].nombreNegocio;
-                                    Navigator.of(context)
-                                        .pushNamedAndRemoveUntil('/',
-                                            (Route<dynamic> route) => false);
-                                  },
-                                ),
-                                Divider(
-                                  color: Colors.grey,
-                                )
-                              ],
-                            );
-                          }
-                        }),
+                    
+                    child: listaPerfiles(userinfo),
                   ),
                   isExpanded: active),
             ],
@@ -200,5 +127,86 @@ class _NavDrawerState extends State<NavDrawer> {
         ],
       ),
     );
+  }
+
+ Widget listaPerfiles(CurrentUsuario userinfo) {
+    return ListView.builder(
+      shrinkWrap: true,
+        itemCount: 1 + widget.currentuser.openUserTrabajos.length,
+        itemBuilder: (context, int index) {
+          // print('${widget.currentuser.openUserTrabajos}');
+          final data = widget.currentuser.openUserTrabajos;
+          if (widget.currentuser.openUserTrabajos.length == 0) {
+            return Column(
+              children: [
+                ListTile(
+                  title: Text(
+                      '${widget.currentuser.nombres} ${widget.currentuser.apellidos}'),
+                  subtitle: Text(
+                      '${widget.currentuser.correo} \n${widget.currentuser.cedula}'),
+                  trailing: Icon(Icons.business),
+                  onTap: () {
+                    prefs.currentProfile = true;
+                    print(userinfo.correo);
+                    prefs.profileID = userinfo.correo;
+                    prefs.profileName =
+                        '${userinfo.nombres} ${userinfo.apellidos}';
+                    print('Tap in that sheet');
+                  },
+                ),
+                Divider(
+                  color: Colors.grey,
+                )
+              ],
+            );
+          } else if (index == 0) {
+            return Column(
+              children: [
+                ListTile(
+                  title: Text(
+                      '${widget.currentuser.nombres} ${widget.currentuser.apellidos}'),
+                  subtitle: Text(
+                      '${widget.currentuser.correo} \n${widget.currentuser.cedula}'),
+                  trailing: Icon(Icons.person),
+                  onTap: () {
+                    print(userinfo.correo);
+                    prefs.currentProfile = true;
+                    prefs.profileID = userinfo.correo;
+                    prefs.profileName =
+                        '${userinfo.nombres} ${userinfo.apellidos}';
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        '/', (Route<dynamic> route) => false);
+                    print('Im that bitch');
+                  },
+                ),
+                Divider(
+                  color: Colors.grey,
+                )
+              ],
+            );
+          } else {
+            return Column(
+              children: [
+                ListTile(
+                  title: Text(data[index - 1].nombreNegocio),
+                  subtitle: Text(
+                      '${data[index - 1].idNegocio} \n${data[index - 1].rolDoctor}'),
+                  trailing: Icon(Icons.business),
+                  onTap: () {
+                    print('Last Hore');
+                    prefs.currentProfile = false;
+                    prefs.profileID = data[index - 1].idNegocio;
+                    prefs.profileName = data[index - 1].nombreNegocio;
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        '/', (Route<dynamic> route) => false);
+                  },
+                ),
+                Divider(
+                  color: Colors.grey,
+                )
+              ],
+            );
+          }
+        });
   }
 }
