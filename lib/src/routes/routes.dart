@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:muro_dentcloud/src/pages/agenda/add_event.dart';
 import 'package:muro_dentcloud/src/pages/agenda/doctor_pendients.dart';
-import 'package:muro_dentcloud/src/pages/business_Services.dart';
+//import 'package:muro_dentcloud/src/pages/business_Services.dart';
 import 'package:muro_dentcloud/src/pages/details_Patients.dart';
 import 'package:muro_dentcloud/src/pages/home_page.dart';
 import 'package:muro_dentcloud/src/pages/listview_page.dart';
@@ -25,15 +25,15 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'gps': (BuildContext context) => ListaPage(),
     'home': (BuildContext context) => HomePage(),
     'agenda': (BuildContext context) => AddEvent(),
-    'currentPerfil': (BuildContext context) =>  CurrentUserProfile(),
-    'currentBusiness': (BuildContext context) =>  CurrentBusinessProfile(),
-    'outPerfil': (BuildContext context) =>  OutUserProfile(),
-    'outBusiness': (BuildContext context) =>  OutBusinessProfile(),
+    'currentPerfil': (BuildContext context) => CurrentUserProfile(),
+    'currentBusiness': (BuildContext context) => CurrentBusinessProfile(),
+    'outPerfil': (BuildContext context) => OutUserProfile(),
+    'outBusiness': (BuildContext context) => OutBusinessProfile(),
     'agenda2': (BuildContext context) => Agenda3(),
     'addagenda': (BuildContext context) => AddEvent(),
     'patients': (BuildContext context) => ListPatientsBuild(),
     'pruebaUser': (BuildContext context) => DetailPage(),
-    'eventosPendientes'    : (BuildContext context) => DoctorEventsPendients(),
-    'serviciosNegocios'    : (BuildContext context) => BusinessServicePage()
+    'eventosPendientes': (BuildContext context) => DoctorEventsPendients(),
+    //'serviciosNegocios'    : (BuildContext context) => BusinessServicePage()
   };
 }

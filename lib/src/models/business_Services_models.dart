@@ -1,14 +1,36 @@
-class ServicesBusiness {
-  String jsontype;
-  List<NegocioDato> negocioDatos  = new List();
+// To parse this JSON data, do
+//
+//     final servicesBusiness = servicesBusinessFromJson(jsonString);
 
-  ServicesBusiness.fromJsonList(List<dynamic> jsonList) {
-    if (jsonList == null) return;
-    for (var item in jsonList) {
-      final bdata = new NegocioDato.fromJson(item);
-      negocioDatos.add(bdata);
-    }
-  }
+import 'dart:convert';
+
+ServicesBusiness servicesBusinessFromJson(String str) =>
+    ServicesBusiness.fromJson(json.decode(str));
+
+String servicesBusinessToJson(ServicesBusiness data) =>
+    json.encode(data.toJson());
+
+class ServicesBusiness {
+  ServicesBusiness({
+    this.jsontype,
+    this.negocioDatos,
+  });
+
+  String jsontype;
+  List<NegocioDato> negocioDatos;
+
+  factory ServicesBusiness.fromJson(Map<String, dynamic> json) =>
+      ServicesBusiness(
+        jsontype: json["jsontype"],
+        negocioDatos: List<NegocioDato>.from(
+            json["negocio_datos"].map((x) => NegocioDato.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "jsontype": jsontype,
+        "negocio_datos":
+            List<dynamic>.from(negocioDatos.map((x) => x.toJson())),
+      };
 }
 
 class NegocioDato {

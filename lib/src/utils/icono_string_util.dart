@@ -6,6 +6,9 @@ final _icons = <String, IconData>{
   'location_on': Icons.location_on,
   'bookOpenPageVariant': MdiIcons.bookOpenPageVariant,
   'person': Icons.person,
+  'descripcion': Icons.description,
+  'duracion': Icons.timer,
+  'costo': Icons.monetization_on
 };
 
 Icon getIcon(String nombreIcono) {
