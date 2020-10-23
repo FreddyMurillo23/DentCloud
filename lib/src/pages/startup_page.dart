@@ -5,6 +5,7 @@ import 'package:muro_dentcloud/palette.dart';
 import 'package:muro_dentcloud/src/models/business_Services_models.dart';
 import 'package:muro_dentcloud/src/models/business_model.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
+import 'package:muro_dentcloud/src/pages/agenda/agendaUser.dart';
 import 'package:muro_dentcloud/src/pages/home_page.dart';
 import 'package:muro_dentcloud/src/pages/profiles/current_bussiness.dart';
 import 'package:muro_dentcloud/src/pages/profiles/current_user_profile.dart';
@@ -44,7 +45,9 @@ class _StartUpPageState extends State<StartUpPage> {
       ?Agenda3(
         currentuser: userinfo,
       )
-      :Container(),
+      : AgendaUser(
+        
+      ),
       prefs.currentProfile
           ? CurrentUserProfile(
               currentuser: userinfo,

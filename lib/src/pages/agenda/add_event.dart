@@ -103,23 +103,6 @@ class _AddEventState extends State<AddEvent> {
           );
         });
   }
-
-  // void _showDialogAccept() {
-  //   showDialog(
-  //       context: context,
-  //       builder: (BuildContext context) {
-  //         return CupertinoAlertDialog(
-  //           title: new Text("Registro Existoso"),
-  //           actions: <Widget>[
-  //             new FlatButton(
-  //                 onPressed: () => {
-  //                   Navigator.of(context).pop()
-  //                 },
-  //                 child: new Text("Aceptar"))
-  //           ],
-  //         );
-  //       });
-  // }
   
   @override
   void initState() {
@@ -138,6 +121,7 @@ class _AddEventState extends State<AddEvent> {
     controladorCorreoUser.text = userinfo.correo;
     controladorNombreUser.text = userinfo.nombres;
     controladorApellidoUser.text = userinfo.apellidos;
+    servicioProvider.listarServicios('');
 
     return Scaffold(
       appBar: AppBar(

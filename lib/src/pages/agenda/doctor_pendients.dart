@@ -79,47 +79,30 @@ class _DoctorEventsPendientsState extends State<DoctorEventsPendients> {
                         child: ListTile(
                           title: Text(eventos.paciente),
                           subtitle: Text(eventos.fecha.month.toString()+"/"+eventos.fecha.day.toString()+"  -  "+eventos.fecha.hour.toString()+":"+eventos.fecha.minute.toString()),
-                          // trailing: Wrap(
-                          //   spacing: 5,
-                          //   children: [
-                          //     RaisedButton(
-                          //       onPressed: (){
-
-                          //       }, 
-                          //       color: Colors.greenAccent[400],
-                          //       child: Text("Gestionar"),
-                          //     ),
-                          //     RaisedButton(
-                          //       onPressed: (){
-                          //         print(eventos.idcita);
-                          //         EventosCtrl.actualizarEventosApproved(eventos.idcita);
-                          //       },
-                          //       color: Colors.purple[900],
-                          //       child: Text("Aceptar"),
-                          //     )
-                          //   ],
-                          // ),
                           trailing: Wrap(
                             children: [
                               SizedBox(
-                                width: 40,
-                                child: FlatButton(
-                                  // color: Colors.red,
-                                  shape: CircleBorder(),
-                                  onPressed: (){
-                                    print('xD');
-                                  }, 
-                                  child: Icon(Icons.edit)
+                                width: 45,
+                                child: Center(
+                                  child: FlatButton(
+                                    shape: CircleBorder(),
+                                    onPressed: (){
+                                      print('xD');
+                                    }, 
+                                    child: Center(child: Center(child: Icon(Icons.edit)))
+                                  ),
                                 ),
                               ),
                               SizedBox(
-                                width: 40,
-                                child: FlatButton(
-                                  shape: CircleBorder(),
-                                  onPressed: (){
-                                    EventosCtrl.actualizarEventosApproved(eventos.idcita);
-                                  }, 
-                                  child: Icon(Icons.check)
+                                width: 45,
+                                child: Center(
+                                  child: FlatButton(
+                                    shape: CircleBorder(),
+                                    onPressed: (){
+                                      EventosCtrl.actualizarEventosApproved(eventos.idcita);
+                                    }, 
+                                    child: Center(child: Center(child: Icon(Icons.check)))
+                                  ),
                                 ),
                               ),
                             ],

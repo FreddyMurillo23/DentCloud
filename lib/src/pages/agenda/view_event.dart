@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:muro_dentcloud/src/controllers/apointment_ctrl.dart';
 import 'package:muro_dentcloud/src/models/doctors_model.dart';
 import 'package:muro_dentcloud/src/models/event_model.dart';
-import 'package:muro_dentcloud/src/widgets/search_bar.dart';
+
 
 class ViewEvent extends StatefulWidget {
   final EventosModelo eventosModeloGlobal;
@@ -30,24 +30,6 @@ class _ViewEventState extends State<ViewEvent> {
 
   Doctores doctorSeleccionado;
   List<Doctores> historial = [];
-
-  void validateFields(){
-    final form = formkey.currentState;
-
-  if(form.validate()){
-    form.save();
-    print("Form is valid");
-    EventosCtrl.registrarEventos("1317054888001", "hvargas@utm.ec", "kaka@utm.ec", servicio, descripcion, fecha).then((value){
-      if(value){
-        print("De ley chamo");
-      } else{
-        print("No se pudo burro");
-      }
-    });
-  } else{
-    print('Form is invalid');
-  }
-  }
   
   @override
   void initState() {
@@ -61,6 +43,7 @@ class _ViewEventState extends State<ViewEvent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
       ),
@@ -70,7 +53,7 @@ class _ViewEventState extends State<ViewEvent> {
           mainAxisSize: MainAxisSize.max,       
           children: [
 
-            Text("Cita", style: TextStyle(color: Colors.black, fontSize: 35),),
+            Text("Detalles de la Cita", style: TextStyle(color: Colors.black, fontSize: 35),),
 
             Padding(
               padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
@@ -174,68 +157,6 @@ class _ViewEventState extends State<ViewEvent> {
                       ],
                     ),
                     SizedBox(height: 15,),
-                    //Doctor
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        
-
-                        //Con datos encontrados
-                        if(doctorSeleccionado != null)
-                        Expanded(
-                          child: new TextFormField(
-                            controller: controlador,
-                            decoration: InputDecoration(
-                              labelText: "Doctor",
-                              filled: true,
-                              fillColor: Colors.white,
-                              enabled: false,
-                              //hintText: doctorSeleccionado.doctor,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(20)),
-                              ),
-                            ),
-                            validator: (value) => value.isEmpty ? 'Este campo no puede estar vacio' : null,
-                            onSaved: (value) => doctor = value,
-                          ),
-                        ),
-                        
-                        //No trae datos de la busqueda o recien inicia la interfaz
-                        if(doctorSeleccionado == null)
-                        Expanded(
-                          child: new TextFormField(
-                            initialValue: null,
-                            decoration: InputDecoration(
-                              labelText: "Doctor",
-                              filled: true,
-                              fillColor: Colors.white,
-                              enabled: false,
-                              hintText: widget.eventosModeloGlobal.fecha.toString(),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(20)),
-                              ),
-                              suffixIcon: GestureDetector(
-                                onTap: ()async{
-                                final seleccionDoctor = await showSearch(context: context, delegate: EventSearchDelegate('Buscar Doctores', historial));
-                                setState(() {
-                                  doctorSeleccionado = seleccionDoctor;
-                                  controlador.text = doctorSeleccionado.doctor;
-                                  if(seleccionDoctor !=null) {this.historial.insert(0, seleccionDoctor);}                           
-                                });
-                              },
-                                child: Icon(Icons.search),
-                              )
-                            ),
-                            validator: (value) => value.isEmpty ? 'Este campo no puede estar vacio' : null,
-                            onSaved: (value) => doctor = value,
-                          ),
-                        ),
-                        
-                      ],
-                    ),
-                    SizedBox(height: 15,),
                     //Servicio
                     Row(
                       mainAxisSize: MainAxisSize.max,
@@ -258,6 +179,17 @@ class _ViewEventState extends State<ViewEvent> {
                             onSaved: (value) => servicio = value,
                           ),
                         ),
+                        SizedBox(width: 5,),
+                        Container(                                    
+                          height: 60,
+                          width: 60,
+                          child: GestureDetector(
+                            child: Icon(Icons.add_box),
+                            onTap: () {
+                              print('Hola');
+                            },
+                          ),
+                        )
                       ],
                     ),
                     SizedBox(height: 15,),
@@ -287,27 +219,44 @@ class _ViewEventState extends State<ViewEvent> {
                       ],
                     ),
                     SizedBox(height: 15,),                
-                    //Fecha
+                    //Fecha y Hora
                     Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        //Fecha
                         Expanded(
                           child: TextFormField(
                             decoration: InputDecoration(
                               //labelText: "Fecha",
                               filled: true,
                               enabled: false,
-                              hintText: widget.eventosModeloGlobal.fecha.toString(),
+                              hintText: widget.eventosModeloGlobal.fecha.year.toString()+"/"+widget.eventosModeloGlobal.fecha.month.toString()
+                              +"/"+widget.eventosModeloGlobal.fecha.day.toString(),
                               fillColor: Colors.white,
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.all(Radius.circular(20)),
                               ),
                             ),
                           ),
-                        )
-
+                        ),
+                        SizedBox(width: 5,),
+                        //Hora
+                        Expanded(
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              //labelText: "Fecha",
+                              filled: true,
+                              enabled: false,
+                              hintText: widget.eventosModeloGlobal.fecha.hour.toString()+":"+widget.eventosModeloGlobal.fecha.minute.toString(),
+                              fillColor: Colors.white,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(20)),
+                              ),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                     SizedBox(height: 15,),        
@@ -320,7 +269,7 @@ class _ViewEventState extends State<ViewEvent> {
                         children: [
                           Expanded(
                             child: RaisedButton(
-                              onPressed: (){Navigator.pop(context);},
+                              onPressed: (){},
                               child: Text("Cancelar"),
                             ),
                           ),

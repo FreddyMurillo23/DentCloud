@@ -31,3 +31,18 @@ class EventosHoldProvider with ChangeNotifier{
     });
   }
 }
+
+class EventosUsuario with ChangeNotifier{
+  List<EventosModeloUsuario> eventosHold = List<EventosModeloUsuario>();
+
+  void listarEventosUser(String email){
+    EventosCtrl.listarEventosUsuarios(email).then((value){
+      if(value!=null){
+        this.eventosHold = value;
+      } else{
+        this.eventosHold = List<EventosModeloUsuario>();       
+      }
+      notifyListeners();
+    });
+  }
+}

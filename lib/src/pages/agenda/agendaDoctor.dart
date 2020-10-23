@@ -25,7 +25,6 @@ class _Agenda3State extends State<Agenda3> {
   List<EventosModelo> eventosModel;
   List<EventosModeloUsuario> eventosModeUsuario;
   EventosHoldProvider eventosProvider;
-  bool prueba = true;
 
   @override
   void initState() {
@@ -163,86 +162,143 @@ class _Agenda3State extends State<Agenda3> {
                 ),
                 calendarController: _controller,
               ),
-              Container(
-                child: Column(
-                  children: [
-                    if (_selectedEvents != null)
-                      ..._selectedEvents.map(
-                        (e) => Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.green[100],
-                            border: Border.all(
-                              color: Colors.black,
-                            ),
-                          ),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Container(
-                                    width: 50,
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          image:
-                                              NetworkImage(userinfo.fotoPerfil),
-                                          fit: BoxFit.fill),
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: Border.all(
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Flexible(
-                                    child: ListTile(
-                                      title: Text(e.servicio),
-                                      subtitle: Text(e.fecha.toString()),
-                                      onTap: () {
-                                        print(e.fecha.toString());
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (_) => ViewEvent(
-                                                    eventosModeloGlobal: e)));
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              )
-                            ],
+              
+              ExpansionTile(
+                    title: null,
+                    children: [
+                      if (_selectedEvents != null)
+                          ..._selectedEvents.map(
+                (e) => Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.green[100],
+                    border: Border.all(
+                  color: Colors.black,
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Container(
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                  image:
+                NetworkImage(userinfo.fotoPerfil),
+                  fit: BoxFit.fill),
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                color: Colors.black,
                           ),
                         ),
-                      )
-                  ],
-                ), //
-              ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Flexible(
+                        child: ListTile(
+                          title: Text(e.servicio),
+                          subtitle: Text(e.fecha.toString()),
+                          onTap: () {
+                print(e.fecha.toString());
+                Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => ViewEvent(
+                      eventosModeloGlobal: e)));
+                          },
+                        ),
+                      ),
+                    ],
+                  )
+                    ],
+                  ),
+                ),
+                          )
+                    ],
+                  )
+              // Container(
+              //   color: Colors.amber,
+              //   height: 200,
+              //   child: SingleChildScrollView(
+              //     child: Column(
+              //       children: [
+              //         if (_selectedEvents != null)
+              //           ..._selectedEvents.map(
+              //             (e) => Container(
+              //               decoration: BoxDecoration(
+              //                 borderRadius: BorderRadius.circular(10),
+              //                 color: Colors.green[100],
+              //                 border: Border.all(
+              //                   color: Colors.black,
+              //                 ),
+              //               ),
+              //               child: Column(
+              //                 children: [
+              //                   Row(
+              //                     children: [
+              //                       SizedBox(
+              //                         width: 5,
+              //                       ),
+              //                       Container(
+              //                         width: 50,
+              //                         height: 50,
+              //                         decoration: BoxDecoration(
+              //                           image: DecorationImage(
+              //                               image:
+              //                                   NetworkImage(userinfo.fotoPerfil),
+              //                               fit: BoxFit.fill),
+              //                           borderRadius: BorderRadius.circular(10),
+              //                           border: Border.all(
+              //                             color: Colors.black,
+              //                           ),
+              //                         ),
+              //                       ),
+              //                       SizedBox(
+              //                         width: 10,
+              //                       ),
+              //                       Flexible(
+              //                         child: ListTile(
+              //                           title: Text(e.servicio),
+              //                           subtitle: Text(e.fecha.toString()),
+              //                           onTap: () {
+              //                             print(e.fecha.toString());
+              //                             Navigator.push(
+              //                                 context,
+              //                                 MaterialPageRoute(
+              //                                     builder: (_) => ViewEvent(
+              //                                         eventosModeloGlobal: e)));
+              //                           },
+              //                         ),
+              //                       ),
+              //                     ],
+              //                   )
+              //                 ],
+              //               ),
+              //             ),
+              //           )
+              //       ],
+              //     ),
+              //   ), //
+              // ),
             ]),
           );
         },
       ),
-      floatingActionButton: floatingButon(prueba, userinfo),
+      floatingActionButton: floatingButon(userinfo),
     );
   }
 
-  Widget floatingButon(bool prueba, CurrentUsuario userinfo) {
-    if (prueba == true) {
-      return FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () =>
-            Navigator.pushNamed(context, 'addagenda', arguments: userinfo),
-      );
-    }
+  Widget floatingButon(CurrentUsuario userinfo) {
     return FloatingActionButton(
         child: Icon(Icons.list),
         onPressed: () {
-          Navigator.pushNamed(context, 'eventosPendientes');
+          Navigator.pushNamed(context, 'eventosPendientes', arguments: userinfo);
         });
   }
 
