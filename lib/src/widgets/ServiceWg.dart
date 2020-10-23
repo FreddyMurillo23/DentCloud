@@ -11,6 +11,8 @@ class ServiceDataWg extends StatefulWidget {
 }
 
 class _ServiceDataWgState extends State<ServiceDataWg> {
+  List<PreguntasFrecuente> datita = [];
+
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
@@ -19,6 +21,8 @@ class _ServiceDataWgState extends State<ServiceDataWg> {
       child: ListView.builder(
           itemCount: this.widget.businessServices.length,
           itemBuilder: (BuildContext context, int index) {
+            datita = this.widget.businessServices[index].preguntasFrecuentes;
+
             return Container(
               child: Column(
                 children: [
@@ -28,10 +32,44 @@ class _ServiceDataWgState extends State<ServiceDataWg> {
                       '${this.widget.businessServices[index].duracion} \n \n \n \n \n \n \n'),
                   cardListServices('costo',
                       '${this.widget.businessServices[index].costo}\n \n \n \n \n \n \n'),
+                  cardQuestions('preguntas', 'Preguntas', context, index),
                 ],
               ),
             );
           }),
+    );
+  }
+
+  Widget cardQuestions(
+      String headerData, String valueData, BuildContext context, int index) {
+    return Card(
+      margin:
+          new EdgeInsets.only(left: 20.0, right: 20.0, top: 8.0, bottom: 5.0),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+      elevation: 4.0,
+      child: ExpansionTile(
+        title: Container(
+          child: Text(
+            headerData.toUpperCase(),
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        leading: getIcon('$headerData'),
+        children: <Widget>[
+          Container(
+            height: 200,
+            child: ListView.builder(
+                itemCount: datita.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return cardListServices('${datita[index].descripcion}',
+                      '${datita[index].respuesta}');
+                }),
+          ),
+        ],
+      ),
     );
   }
 
