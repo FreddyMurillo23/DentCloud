@@ -58,6 +58,9 @@ class _StartUpPageState extends State<StartUpPage> {
     ];
     // print(userinfo);_
     return Scaffold(
+      floatingActionButton: FloatingActionButton(onPressed: (){
+        
+      }),
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
