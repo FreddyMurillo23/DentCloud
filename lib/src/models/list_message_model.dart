@@ -13,22 +13,26 @@ class ListaChatData {
   }
 }
 
-class ListaChat {
+class ListaChat{
   String receptor;
+  String emailReceptor;
+  String sala;
   String contenido;
   DateTime fecha;
   String foto;
 
   ListaChat({
     this.receptor,
+    this.emailReceptor,
+    this.sala,
     this.contenido,
     this.fecha,
     this.foto,
   });
-
   ListaChat.fromJsonMap(Map<String, dynamic> json) 
   {
     receptor = json['receptor'];
+    emailReceptor=json['email_receptor'];
     contenido = json['contenido'];
     fecha = DateTime.parse(json['fecha'].toString()); // convertir 
     foto=json['foto'];
@@ -48,5 +52,4 @@ class ListaChat {
     }
 
   }
-
 }

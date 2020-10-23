@@ -10,22 +10,27 @@ class Busqueda {
       // print(publicacion.comentarios.length);
     }
   }
+
+ 
 }
 
 class BusquedaNombre {
   String sala;
   String receptor;
+  String emailReceptor;
   String foto;
 
   BusquedaNombre({
     this.sala,
     this.receptor,
+    this.emailReceptor,
     this.foto,
   });
   BusquedaNombre.fromJsonMap(Map<String, dynamic> json) 
   {
     sala = json['sala'];
     receptor = json['receptor']; 
+    emailReceptor=json['email_receptor'];
     foto=json['foto'];
     // print(fecha);
   }
