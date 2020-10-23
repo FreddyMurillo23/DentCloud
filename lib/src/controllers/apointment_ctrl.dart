@@ -56,4 +56,17 @@ class EventosCtrl{
       return false;
     }
   }
+
+  static Future<bool> actualizarEventosDenied(String id) async{
+    final response = await http.post("http://54.197.83.249/PHP_REST_API/api/put/put_appointment_state.php?id_appointment=$id&state=denied");
+    if (response.statusCode == 200) {
+      print(response.statusCode);
+      print("Si");
+      return true;
+    } else {
+      print(response.statusCode);
+      print("No");
+      return false;
+    }
+  }
 }

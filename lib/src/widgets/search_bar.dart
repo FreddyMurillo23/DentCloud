@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:muro_dentcloud/src/controllers/doctors_ctrl.dart';
 import 'package:muro_dentcloud/src/models/doctors_model.dart';
+import 'package:muro_dentcloud/src/providers/services_provider.dart';
+import 'package:provider/provider.dart';
 
 class EventSearchDelegate extends SearchDelegate<Doctores>{
 
@@ -34,6 +36,7 @@ class EventSearchDelegate extends SearchDelegate<Doctores>{
 
     @override
     Widget buildResults(BuildContext context) {
+      ServicioProvider servicioProvider = Provider.of<ServicioProvider>(context);
 
       if(query.trim().length == 0) {
         return Center(child: Text(''));
@@ -76,6 +79,7 @@ class EventSearchDelegate extends SearchDelegate<Doctores>{
   }
 
   Widget _showDoctores(List<Doctores> doctores){
+    
     return ListView.builder(
       itemCount: doctores.length,
       itemBuilder: (context, i){

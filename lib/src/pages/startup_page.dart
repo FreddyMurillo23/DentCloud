@@ -46,7 +46,7 @@ class _StartUpPageState extends State<StartUpPage> {
         currentuser: userinfo,
       )
       : AgendaUser(
-        
+        currentuser: userinfo,
       ),
       prefs.currentProfile
           ? CurrentUserProfile(

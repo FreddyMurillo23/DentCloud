@@ -3,7 +3,8 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:muro_dentcloud/src/controllers/apointment_ctrl.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/event_model.dart';
-import 'package:muro_dentcloud/src/pages/agenda/view_event.dart';
+import 'package:muro_dentcloud/src/pages/agenda/view_eventDoctor.dart';
+import 'package:muro_dentcloud/src/pages/agenda/view_eventUser.dart';
 import 'package:muro_dentcloud/src/providers/event_provider.dart';
 import 'package:muro_dentcloud/src/widgets/circle_button.dart';
 import 'package:muro_dentcloud/src/widgets/drawer_appbar.dart';
@@ -22,7 +23,6 @@ class _AgendaUserState extends State<AgendaUser> {
   CalendarController _controller;
   Map<DateTime, List<dynamic>> _events;
   List<dynamic> _selectedEvents;
-  List<EventosModelo> eventosModel;
   List<EventosModeloUsuario> eventosModeUsuario;
   EventosHoldProvider eventosProvider;
 
@@ -32,9 +32,10 @@ class _AgendaUserState extends State<AgendaUser> {
     _events = {};
     _selectedEvents = [];
     _controller = CalendarController();
+    print("User");
   }
 
-  Map<DateTime, List<dynamic>> _eventsGet(List<EventosModelo> events){
+  Map<DateTime, List<dynamic>> _eventsGet(List<EventosModeloUsuario> events){
     Map<DateTime, List<dynamic>> data = {};
     events.forEach((event) {
       DateTime date = DateTime(event.fecha.year, event.fecha.month,
@@ -50,8 +51,8 @@ class _AgendaUserState extends State<AgendaUser> {
     CurrentUsuario userinfo = ModalRoute.of(context).settings.arguments;
     final _screenSize = MediaQuery.of(context).size;
     eventosProvider = Provider.of<EventosHoldProvider>(context);
-    Future<List<EventosModelo>> futureEvents;
-    futureEvents = EventosCtrl.listarEventos(userinfo.correo);
+    Future<List<EventosModeloUsuario>> futureEvents;
+    futureEvents = EventosCtrl.listarEventosUsuarios(userinfo.correo);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -79,7 +80,7 @@ class _AgendaUserState extends State<AgendaUser> {
           )
         ],
       ),
-      body: FutureBuilder<List<EventosModelo>>(
+      body: FutureBuilder<List<EventosModeloUsuario>>(
         future: futureEvents,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
@@ -162,66 +163,66 @@ class _AgendaUserState extends State<AgendaUser> {
                 ),
                 calendarController: _controller,
               ),
-              Container(
-                child: Column(
-                  children: [
-                    if (_selectedEvents != null)
-                      ..._selectedEvents.map(
-                        (e) => Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.green[100],
-                            border: Border.all(
-                              color: Colors.black,
-                            ),
-                          ),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Container(
-                                    width: 50,
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          image:
-                                              NetworkImage(userinfo.fotoPerfil),
-                                          fit: BoxFit.fill),
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: Border.all(
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Flexible(
-                                    child: ListTile(
-                                      title: Text(e.servicio),
-                                      subtitle: Text(e.fecha.toString()),
-                                      onTap: () {
-                                        print(e.fecha.toString());
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (_) => ViewEvent(
-                                                    eventosModeloGlobal: e)));
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              )
-                            ],
+              
+              ExpansionTile(
+                    title: null,
+                    children: [
+                      if (_selectedEvents != null)
+                          ..._selectedEvents.map(
+                (e) => Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.green[100],
+                    border: Border.all(
+                  color: Colors.black,
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Container(
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                  image:
+                NetworkImage(userinfo.fotoPerfil),
+                  fit: BoxFit.fill),
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                color: Colors.black,
                           ),
                         ),
-                      )
-                  ],
-                ), //
-              ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Flexible(
+                        child: ListTile(
+                          title: Text(e.servicio),
+                          subtitle: Text(e.fecha.toString()),
+                          onTap: () {
+                print(e.fecha.toString());
+                Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => ViewEventUser(
+                      eventosModeloGlobal: e, correo: userinfo.correo, nombres: userinfo.nombres, apellidos: userinfo.apellidos, foto: userinfo.fotoPerfil,)));
+                          },
+                        ),
+                      ),
+                    ],
+                  )
+                    ],
+                  ),
+                ),
+                          )
+                    ],
+                  )
             ]),
           );
         },
@@ -231,11 +232,11 @@ class _AgendaUserState extends State<AgendaUser> {
   }
 
   Widget floatingButon(CurrentUsuario userinfo) {
-      return FloatingActionButton(
+    return FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () =>
-            Navigator.pushNamed(context, 'addagenda', arguments: userinfo),
-      );
+        onPressed: () {
+          Navigator.pushNamed(context, 'addagenda', arguments: userinfo);
+        });
   }
 
   Widget _buildEventsMarker(DateTime date, List events) {
