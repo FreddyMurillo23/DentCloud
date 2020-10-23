@@ -41,6 +41,7 @@ class _StartUpPageState extends State<StartUpPage> {
     final List<Widget> _widgetOptions = <Widget>[
       CardPage(currentuser: userinfo,),
       HomePage(currentuser: userinfo),
+      Container(),
       userinfo.tipoUsuario == 'D'
       ?Agenda3(
         currentuser: userinfo,
@@ -58,36 +59,49 @@ class _StartUpPageState extends State<StartUpPage> {
     ];
     // print(userinfo);_
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: (){
-        
-      }),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _onItemTapped(2),
+        child: Icon(Icons.add),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: _widgetOptions.elementAt(_selectedIndex),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text('Inicio'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.location_on),
-            title: Text('GPS'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              MdiIcons.bookOpenPageVariant,
+      bottomNavigationBar: BottomAppBar(
+        
+        shape: CircularNotchedRectangle(),
+        clipBehavior: Clip.antiAlias,
+        notchMargin: 5,
+              child: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              title: Text('Inicio'),
             ),
-            title: Text('Agenda'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            title: Text('Perfil'),
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Palette.textColor,
-        mouseCursor: MouseCursor.defer,
-        unselectedItemColor: Colors.grey,
-        onTap: _onItemTapped,
+            BottomNavigationBarItem(
+              icon: Icon(Icons.location_on),
+              title: Text('GPS'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.location_on ,color: Colors.transparent,),
+              title: Text(''),
+            ),
+
+            BottomNavigationBarItem(
+              icon: Icon(
+                MdiIcons.bookOpenPageVariant,
+              ),
+              title: Text('Agenda'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              title: Text('Perfil'),
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Palette.textColor,
+          mouseCursor: MouseCursor.defer,
+          unselectedItemColor: Colors.grey,
+          onTap: _onItemTapped,
+        ),
       ),
     );
   }
