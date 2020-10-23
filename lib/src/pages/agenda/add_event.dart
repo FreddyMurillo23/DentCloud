@@ -23,7 +23,7 @@ class AddEvent extends StatefulWidget {
 
 class _AddEventState extends State<AddEvent> {
   final formkey = new GlobalKey<FormState>();
-  String doctor, email, descripcion, servicio;
+  String doctor, email, descripcion, servicio, user;
   DateTime fecha;
   ServicioProvider servicioProvider;
   Servicios _selectedItem;
@@ -47,7 +47,7 @@ class _AddEventState extends State<AddEvent> {
   if(form.validate()){
     form.save();
     print("Form is valid");
-    EventosCtrl.registrarEventos(doctorSeleccionado.cedula+'001', doctorSeleccionado.correo, "craytus@utm.edu.ec", servicio, descripcion, fecha).then((value){
+    EventosCtrl.registrarEventos(doctorSeleccionado.cedula+'001', doctorSeleccionado.correo, user, servicio, descripcion, fecha).then((value){
       if(value){
         servicioProvider.disposeServicios();
         Navigator.pop(context);
@@ -121,7 +121,6 @@ class _AddEventState extends State<AddEvent> {
     controladorCorreoUser.text = userinfo.correo;
     controladorNombreUser.text = userinfo.nombres;
     controladorApellidoUser.text = userinfo.apellidos;
-    servicioProvider.listarServicios('');
 
     return Scaffold(
       appBar: AppBar(
@@ -464,6 +463,7 @@ class _AddEventState extends State<AddEvent> {
                             child: RaisedButton(
                               child: Text("Enviar Solicitud"),
                               onPressed: (){
+                                user = userinfo.correo;
                                 dropDownItemsMap.clear();
                                 listServicio.clear();
                                 _selectedItem = null;

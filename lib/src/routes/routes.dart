@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:muro_dentcloud/src/pages/agenda/add_event.dart';
+import 'package:muro_dentcloud/src/pages/agenda/agendaUser.dart';
 import 'package:muro_dentcloud/src/pages/agenda/doctor_pendients.dart';
 //import 'package:muro_dentcloud/src/pages/business_Services.dart';
 import 'package:muro_dentcloud/src/pages/details_Patients.dart';
@@ -31,6 +32,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'outPerfil': (BuildContext context) => OutUserProfile(),
     'outBusiness': (BuildContext context) => OutBusinessProfile(),
     'agenda2': (BuildContext context) => Agenda3(),
+    'agendaUser': (BuildContext context) => AgendaUser(),
     'addagenda': (BuildContext context) => AddEvent(),
     'patients': (BuildContext context) => ListPatientsBuild(),
     'pruebaUser': (BuildContext context) => DetailPage(),
