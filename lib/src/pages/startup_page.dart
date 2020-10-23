@@ -87,6 +87,7 @@ class _StartUpPageState extends State<StartUpPage> {
       ],
     ),
       floatingActionButton: FloatingActionButton(
+        heroTag: null,
         onPressed: () => _onItemTapped(2),
         child: Icon(Icons.add),
       ),
