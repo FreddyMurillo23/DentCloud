@@ -7,10 +7,13 @@ import 'package:muro_dentcloud/src/models/business_model.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/pages/agenda/agendaUser.dart';
 import 'package:muro_dentcloud/src/pages/home_page.dart';
+import 'package:muro_dentcloud/src/pages/post_publicaciones.dart';
 import 'package:muro_dentcloud/src/pages/profiles/current_bussiness.dart';
 import 'package:muro_dentcloud/src/pages/profiles/current_user_profile.dart';
 import 'package:muro_dentcloud/src/providers/data_provider.dart';
 import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
+import 'package:muro_dentcloud/src/widgets/circle_button.dart';
+import 'package:muro_dentcloud/src/widgets/drawer_appbar.dart';
 import 'agenda/agendaDoctor.dart';
 import 'card_page.dart';
 
@@ -33,7 +36,7 @@ class _StartUpPageState extends State<StartUpPage> {
   @override
   Widget build(BuildContext context) {
     CurrentUsuario userinfo = ModalRoute.of(context).settings.arguments;
-    
+    final _screenSize = MediaQuery.of(context).size;
     // NegocioData businessinfo = ModalRoute.of(context).settings.arguments;
     final prefs = new PreferenciasUsuario();
   
@@ -41,7 +44,7 @@ class _StartUpPageState extends State<StartUpPage> {
     final List<Widget> _widgetOptions = <Widget>[
       CardPage(currentuser: userinfo,),
       HomePage(currentuser: userinfo),
-      Container(),
+      PostPublicaciones(currentuser: userinfo,),
       userinfo.tipoUsuario == 'D'
       ?Agenda3(
         currentuser: userinfo,
@@ -59,6 +62,30 @@ class _StartUpPageState extends State<StartUpPage> {
     ];
     // print(userinfo);_
     return Scaffold(
+      drawer: NavDrawer(currentuser: userinfo,),
+      appBar: AppBar(
+      brightness: Brightness.light,
+      backgroundColor: Colors.white,
+      title: Image(
+        image: AssetImage('assets/title.png'),
+        height: _screenSize.height * 0.1,
+        fit: BoxFit.fill,
+      ),
+      centerTitle: false,
+      // floa ting: true,
+      actions: [
+        CircleButton(
+          icon: Icons.search,
+          iconsize: 30.0,
+          onPressed: () => print('Search'),
+        ),
+        CircleButton(
+          icon: MdiIcons.facebookMessenger,
+          iconsize: 30.0,
+          onPressed: () => print('Messenger'),
+        )
+      ],
+    ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _onItemTapped(2),
         child: Icon(Icons.add),

@@ -35,7 +35,6 @@ class _CurrentBusinessProfileState extends State<CurrentBusinessProfile> {
         builder: (BuildContext context, AsyncSnapshot<List> businessinfo) {
           if (businessinfo.hasData) {
             return Scaffold(
-              drawer: NavDrawer(currentuser: widget.currentuser),
               body: FutureBuilder(
                   future: publicacionesProvider.getPublicacionesByRuc(
                       businessinfo.data[0].openPublicacionesNegocio),

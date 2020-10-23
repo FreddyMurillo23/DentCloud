@@ -45,44 +45,13 @@ class _CardPageState extends State<CardPage> {
   Widget build(BuildContext context) {
     final _screenSize = MediaQuery.of(context).size;
     return Scaffold(
-      drawer: NavDrawer(currentuser: widget.currentuser,),
-      appBar: AppBar(
-        brightness: Brightness.light,
-        backgroundColor: Colors.white,
-        title: Image(image: AssetImage('assets/title.png'),height: _screenSize.height*0.1 ,fit: BoxFit.fill,),
-        centerTitle: false,
-        // floa ting: true,
-        actions: [
-          CircleButton(
-            icon: Icons.search,
-            iconsize: 30.0,
-            onPressed: () => print('Search'),
-          ),
-          CircleButton(
-            icon: MdiIcons.facebookMessenger,
-            iconsize: 30.0,
-            onPressed: () => print('Messenger'),
-          )
-        ],
-      ),
+      
       body:
       Stack(
             children: <Widget>[
               _cards(_screenSize),
               _crearLoading()],
             )
-      // body: Container (
-      //   child: Column (
-      //     children: <Widget>[
-      //       // CreatePostContainer(currentUser: 'me vale verga xd ',),
-      //       Stack(
-      //       children: <Widget>[
-      //         _cards(_screenSize),
-      //         _crearLoading()],
-      //       )
-      //     ]
-      //   )
-      // ),
     );
   }
 
