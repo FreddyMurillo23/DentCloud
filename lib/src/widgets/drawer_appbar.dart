@@ -87,7 +87,7 @@ class _NavDrawerState extends State<NavDrawer> {
             leading: Icon(Icons.list),
             title: Text('Lista Pacientes'),
             onTap: () =>
-                {Navigator.of(context).pushReplacementNamed('patients')},
+                Navigator.pushNamed(context, 'patients'),
           ),
           ListTile(
             leading: Icon(Icons.exit_to_app),
