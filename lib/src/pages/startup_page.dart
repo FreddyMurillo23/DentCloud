@@ -40,7 +40,7 @@ class _StartUpPageState extends State<StartUpPage> {
 
     final List<Widget> _widgetOptions = <Widget>[
       CardPage(currentuser: userinfo,),
-      HomePage(),
+      HomePage(currentuser: userinfo),
       userinfo.tipoUsuario == 'D'
       ?Agenda3(
         currentuser: userinfo,
