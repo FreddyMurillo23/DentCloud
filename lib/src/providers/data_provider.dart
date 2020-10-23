@@ -4,7 +4,9 @@ import 'package:http/http.dart' as http;
 import 'package:muro_dentcloud/src/models/apointments_model.dart';
 import 'package:muro_dentcloud/src/models/business_model.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
+import 'package:muro_dentcloud/src/models/list_message_model.dart';
 import 'package:muro_dentcloud/src/models/publications_model.dart';
+import 'package:muro_dentcloud/src/models/search_contact_model.dart';
 import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
 
 class DataProvider {
@@ -138,4 +140,28 @@ Future<List<Publicacion>> getPublicacionesByRuc(
       return false;
     }
   }
+
+  Future<List<ListaChat>> getListChat(emailuser) async{
+    String url=
+       'http://54.197.83.249/PHP_REST_API/api/get/get_list_message_content.php?user_email=$emailuser';
+     final resp = await http.get(url);
+      List<dynamic> items = new List();
+      items.add(resp.body);
+      final decodedData = json.decode(resp.body);
+      final listachat=new ListaChatData.fromJsonList(decodedData['lista_chat']);
+      return listachat.items;
+  }
+
+  Future<List<BusquedaNombre>> buscar_chat(emailuser,String query) async
+  {
+    String url=
+    'http://54.197.83.249/PHP_REST_API/api/get/get_contact_by_name.php?user_email=$emailuser&busqueda=$query';
+    final resp = await http.get(url);
+      List<dynamic> items = new List();
+      items.add(resp.body);
+      final decodedData = json.decode(resp.body);
+      final busqueda=new Busqueda.fromJsonList(decodedData['busqueda_nombre']);
+      return busqueda.items;
+  }
+
 }
