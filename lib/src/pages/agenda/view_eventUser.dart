@@ -70,7 +70,7 @@ class _ViewEventUserState extends State<ViewEventUser> {
     )){
       case 'Yes':
         EventosCtrl.actualizarEventosDenied(eventos.idcita);
-        Navigator.pushReplacementNamed(context, 'agendaUser');
+        Navigator.pop(context, 'agendaUser');
         print('yes');
         break;
       case 'No':
