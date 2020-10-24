@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:muro_dentcloud/src/controllers/apointment_ctrl.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/event_model.dart';
-import 'package:muro_dentcloud/src/pages/agenda/pruebaScaffol.dart';
-import 'package:muro_dentcloud/src/pages/agenda/view_eventDoctor.dart';
 import 'package:muro_dentcloud/src/pages/agenda/view_eventUser.dart';
 import 'package:muro_dentcloud/src/providers/event_provider.dart';
-import 'package:muro_dentcloud/src/widgets/circle_button.dart';
-import 'package:muro_dentcloud/src/widgets/drawer_appbar.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'dart:async';

@@ -3,6 +3,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:muro_dentcloud/src/controllers/apointment_ctrl.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/event_model.dart';
+import 'package:muro_dentcloud/src/pages/agenda/doctor_pendients.dart';
 import 'package:muro_dentcloud/src/pages/agenda/view_eventDoctor.dart';
 import 'package:muro_dentcloud/src/providers/event_provider.dart';
 import 'package:muro_dentcloud/src/widgets/circle_button.dart';
@@ -275,7 +276,7 @@ class _Agenda3State extends State<Agenda3> {
     return FloatingActionButton(
         child: Icon(Icons.list),
         onPressed: () {
-          Navigator.pushNamed(context, 'eventosPendientes', arguments: userinfo);
+          Navigator.pushNamed(context, 'eventosPendientes');
         });
   }
 
