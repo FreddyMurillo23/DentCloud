@@ -3,6 +3,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:muro_dentcloud/src/controllers/apointment_ctrl.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/event_model.dart';
+import 'package:muro_dentcloud/src/pages/agenda/pruebaScaffol.dart';
 import 'package:muro_dentcloud/src/pages/agenda/view_eventDoctor.dart';
 import 'package:muro_dentcloud/src/pages/agenda/view_eventUser.dart';
 import 'package:muro_dentcloud/src/providers/event_provider.dart';
@@ -210,8 +211,12 @@ class _AgendaUserState extends State<AgendaUser> {
                 Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => ViewEventUser(
-                      eventosModeloGlobal: e, correo: userinfo.correo, nombres: userinfo.nombres, apellidos: userinfo.apellidos, foto: userinfo.fotoPerfil,)));
+                  builder: (_) => 
+                  ViewEventUser(
+                      eventosModeloGlobal: e, correo: userinfo.correo, nombres: userinfo.nombres, apellidos: userinfo.apellidos, foto: userinfo.fotoPerfil,
+                      )
+                    )
+                );
                           },
                         ),
                       ),
@@ -235,6 +240,7 @@ class _AgendaUserState extends State<AgendaUser> {
     return FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
+          print('object');
           Navigator.pushNamed(context, 'addagenda', arguments: userinfo);
         });
   }

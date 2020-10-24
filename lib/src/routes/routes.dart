@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:muro_dentcloud/src/pages/agenda/add_event.dart';
 import 'package:muro_dentcloud/src/pages/agenda/agendaUser.dart';
 import 'package:muro_dentcloud/src/pages/agenda/doctor_pendients.dart';
+import 'package:muro_dentcloud/src/pages/agenda/pruebaScaffol.dart';
 //import 'package:muro_dentcloud/src/pages/business_Services.dart';
 import 'package:muro_dentcloud/src/pages/details_Patients.dart';
 import 'package:muro_dentcloud/src/pages/home_page.dart';
@@ -20,7 +21,7 @@ import 'package:muro_dentcloud/src/pages/startup_page.dart';
 
 Map<String, WidgetBuilder> getApplicationRoutes() {
   return <String, WidgetBuilder>{
-    '/': (BuildContext context) => AwaitPage(),
+    '/': (BuildContext context) => SignIn(),
     'signin': (BuildContext context) => SignIn(),
     'signup': (BuildContext context) => Signup(),
     'startuppage': (BuildContext context) => StartUpPage(),
@@ -37,6 +38,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'patients': (BuildContext context) => ListPatientsBuild(),
     'pruebaUser': (BuildContext context) => DetailPage(),
     'eventosPendientes': (BuildContext context) => DoctorEventsPendients(),
-    'serviciosNegocios'    : (BuildContext context) => BusinessServicePage()
+    'serviciosNegocios'    : (BuildContext context) => BusinessServicePage(),
+    'prueba': (BuildContext context) => Prueba(),
   };
 }
