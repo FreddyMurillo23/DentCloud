@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:muro_dentcloud/src/controllers/apointment_ctrl.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/event_model.dart';
+import 'package:muro_dentcloud/src/models/services_model.dart';
 import 'package:muro_dentcloud/src/providers/event_provider.dart';
+import 'package:muro_dentcloud/src/providers/services_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class DoctorEventsPendients extends StatefulWidget {
   final CurrentUsuario currentuser;
@@ -21,11 +24,30 @@ class _DoctorEventsPendientsState extends State<DoctorEventsPendients> {
   final GlobalKey<ExpansionTileCardState> cardB = new GlobalKey();
   EventosHoldProvider eventosProvider;
   EventosCtrl eventosCtrl;
+  ServicioProvider servicioProvider;
+  List<DropdownMenuItem> listServicio = List<DropdownMenuItem>();
+  Map dropDownItemsMap;
+  Servicios _selectedItem;
 
   @override
   Widget build(BuildContext context) {
     eventosProvider = Provider.of<EventosHoldProvider>(context);
     eventosProvider.listarEventosonHold("hvargas@utm.ec");
+    servicioProvider = Provider.of<ServicioProvider>(context);
+
+    List<DropdownMenuItem> getSelectOptions(List<Servicios> servicios){
+    dropDownItemsMap = new Map();
+    listServicio.clear();
+    servicios.forEach((servicios) { 
+      int index = servicios.servicioid;
+      dropDownItemsMap[index] = servicios;
+      listServicio.add(new DropdownMenuItem(
+        child: Text(servicios.descripcion),
+        value: servicios.servicioid,
+      ));
+    });
+    return listServicio;
+  }
 
     //Cupertino Dialog
   Future<void> cupertinoDialog(EventosModelo eventos, BuildContext context) async{
@@ -72,6 +94,38 @@ class _DoctorEventsPendientsState extends State<DoctorEventsPendients> {
         print('Cancelar');
         break;
     }
+  }
+
+  _openPopup(context) {
+    Alert(
+        context: context,
+        title: "Editar Cita",
+        content: Column(
+          children: <Widget>[
+            TextField(
+              decoration: InputDecoration(
+                icon: Icon(Icons.account_circle),
+                labelText: 'Username',
+              ),
+            ),
+            TextField(
+              obscureText: true,
+              decoration: InputDecoration(
+                icon: Icon(Icons.lock),
+                labelText: 'Password',
+              ),
+            ),
+          ],
+        ),
+        buttons: [
+          DialogButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(
+              "LOGIN",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+          )
+        ]).show();
   }
 
 
@@ -178,7 +232,7 @@ class _DoctorEventsPendientsState extends State<DoctorEventsPendients> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(4.0)),
                           onPressed: () {
-                            //Aqui va el edit
+                            _openPopup(context);
                           },
                           child: Column(
                             children: <Widget>[
