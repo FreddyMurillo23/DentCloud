@@ -79,13 +79,7 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
       ),
       centerTitle: false,
       floating: false,
-      actions: [
-        CircleButton(
-          icon: MdiIcons.facebookMessenger,
-          iconsize: 30.0,
-          onPressed: () => print('Messenger'),
-        )
-      ],
+      
     );
   }
 

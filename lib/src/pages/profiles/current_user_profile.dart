@@ -24,7 +24,6 @@ class _CurrentUserProfileState extends State<CurrentUserProfile> {
     CurrentUsuario userinfo = ModalRoute.of(context).settings.arguments;
     // print(userinfo.publicaciones);
     return Scaffold(
-      drawer: NavDrawer(currentuser: widget.currentuser,),
       body: FutureBuilder(
           future: publicacionesProvider
               .getPublicacionesByUser(userinfo.publicaciones),
