@@ -39,6 +39,5 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'pruebaUser': (BuildContext context) => DetailPage(),
     'eventosPendientes': (BuildContext context) => DoctorEventsPendients(),
     'serviciosNegocios'    : (BuildContext context) => BusinessServicePage(),
-    'prueba': (BuildContext context) => Prueba(),
   };
 }
