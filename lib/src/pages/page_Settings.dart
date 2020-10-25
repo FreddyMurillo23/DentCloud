@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:muro_dentcloud/src/models/business_Services_models.dart';
+import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
 import 'package:muro_dentcloud/src/services/bServices_service.dart';
 import 'package:muro_dentcloud/src/widgets/circle_button.dart';
 
@@ -15,12 +16,13 @@ class _SettingsPageState extends State<SettingsPage> {
   final HttpService httpService = HttpService();
   bool isSwitched = false;
   bool freddoBobo = false;
+  PreferenciasUsuario prefs = new PreferenciasUsuario();
 
   @override
   Widget build(BuildContext context) {
     final String ruc = ModalRoute.of(context).settings.arguments;
     final screenSize = MediaQuery.of(context).size;
-
+    
     return Scaffold(
       appBar: AppBar(
         brightness: Brightness.light,
@@ -47,7 +49,7 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
       body: Container(
         child: FutureBuilder(
-          future: httpService.getBusinessServices('1317054888001'),
+          future: httpService.getBusinessServices(ruc),
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
             if (snapshot.hasData) {
               return _settingsList(snapshot.data);
@@ -99,12 +101,13 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             child: Column(
               children: [
+                // prefs.thisProfileType
                 _listConfiguration(
-                    'Administrar Servicios', 'serviciosNegocios'),
+                    'Administrar Servicios', 'serviciosNegocios',prefs.profileID),
                 Divider(),
-                _listConfiguration('Administrar Medicamentos', 'config'),
+                _listConfiguration('Administrar Medicamentos', 'config',prefs.profileID),
                 Divider(),
-                _listConfiguration('Administrar Horarios Citas', 'config'),
+                _listConfiguration('Administrar Horarios Citas', 'config',prefs.profileID),
                 Divider(),
                 _listConfigurationSwith('Priorizar notificaciones'),
                 Divider(),
@@ -121,12 +124,12 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget _listConfiguration(String title, String pageTo) {
+  Widget _listConfiguration(String title, String pageTo, String datita) {
     return ListTile(
       title: Text(title),
       trailing: FlatButton(
         onPressed: () {
-          Navigator.pushNamed(context, pageTo);
+          Navigator.pushNamed(context, pageTo, arguments: datita);
         },
         child: Icon(Icons.keyboard_arrow_right),
       ),

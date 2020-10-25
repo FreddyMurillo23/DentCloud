@@ -53,8 +53,7 @@ class _Agenda3State extends State<Agenda3> {
     eventosProvider = Provider.of<EventosHoldProvider>(context);
     Future<List<EventosModelo>> futureEvents;
     futureEvents = EventosCtrl.listarEventos(userinfo.correo);
-    DateTime selectedDay;
-    int countSelectedDay = 0;
+    
     return Scaffold(
       backgroundColor: Colors.white,
       body: FutureBuilder<List<EventosModelo>>(
@@ -69,7 +68,8 @@ class _Agenda3State extends State<Agenda3> {
           if (snapshot.hasError) {
             print(snapshot.hasError.toString());
           }
-
+          DateTime selectedDay;
+          int countSelectedDay ;
           return SingleChildScrollView(
             child: Column(children: <Widget>[
               Card(

@@ -65,7 +65,7 @@ class _NavDrawerState extends State<NavDrawer> {
           ListTile(
             leading: Icon(Icons.input),
             title: Text('Dashboard'),
-            onTap: () => {Navigator.of(context).pushReplacementNamed('home')},
+            onTap: () => {Navigator.of(context).pushNamed('home')},
           ),
           // ListTile(
           //   leading: Icon(Icons.verified_user),
@@ -79,14 +79,14 @@ class _NavDrawerState extends State<NavDrawer> {
           ListTile(
             leading: Icon(Icons.settings),
             title: Text('Repositorio'),
-            onTap: () => {Navigator.of(context).pushReplacementNamed('agenda')},
+            onTap: () => {Navigator.of(context).pushNamed('agenda')},
           ),
           ListTile(
             leading: Icon(Icons.border_color),
             title: Text('Configuración del Perfil'),
             onTap: () => {
               // docProv.listarDoctores(),
-              Navigator.pushReplacementNamed(context, 'settings'),
+              Navigator.pushNamed(context, 'settings',arguments: prefs.profileID),
             },
           ),
           ListTile(
