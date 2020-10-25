@@ -1,5 +1,7 @@
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:muro_dentcloud/src/controllers/apointment_ctrl.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/event_model.dart';
@@ -20,14 +22,16 @@ class DoctorEventsPendients extends StatefulWidget {
 }
 
 class _DoctorEventsPendientsState extends State<DoctorEventsPendients> {
-  final GlobalKey<ExpansionTileCardState> cardA = new GlobalKey();
-  final GlobalKey<ExpansionTileCardState> cardB = new GlobalKey();
+
   EventosHoldProvider eventosProvider;
   EventosCtrl eventosCtrl;
   ServicioProvider servicioProvider;
   List<DropdownMenuItem> listServicio = List<DropdownMenuItem>();
   Map dropDownItemsMap;
   Servicios _selectedItem;
+  String servicio;
+  final date = DateFormat("yyyy-MM-dd");
+  final time = DateFormat("HH:mm");
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +39,7 @@ class _DoctorEventsPendientsState extends State<DoctorEventsPendients> {
     eventosProvider.listarEventosonHold("hvargas@utm.ec");
     servicioProvider = Provider.of<ServicioProvider>(context);
 
-    List<DropdownMenuItem> getSelectOptions(List<Servicios> servicios){
+  List<DropdownMenuItem> getSelectOptions(List<Servicios> servicios){
     dropDownItemsMap = new Map();
     listServicio.clear();
     servicios.forEach((servicios) { 
@@ -102,26 +106,88 @@ class _DoctorEventsPendientsState extends State<DoctorEventsPendients> {
         title: "Editar Cita",
         content: Column(
           children: <Widget>[
-            TextField(
-              decoration: InputDecoration(
-                icon: Icon(Icons.account_circle),
-                labelText: 'Username',
-              ),
-            ),
-            TextField(
-              obscureText: true,
-              decoration: InputDecoration(
-                icon: Icon(Icons.lock),
-                labelText: 'Password',
-              ),
-            ),
+            Selector<ServicioProvider, List<Servicios>>(
+              selector: (context, model) => model.servicios,
+              builder: (context, servicios, child) => Column(
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.fromLTRB(15, 0, 10, 0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(20))
+                    ),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton(
+                        isExpanded: true,
+                        items: getSelectOptions(servicios), 
+                        onChanged: (selected) {
+                          this._selectedItem = dropDownItemsMap[selected];
+                          servicio = _selectedItem.servicioid.toString();
+                          setState(() {
+                            this._selectedItem = dropDownItemsMap[selected];
+                            servicio = _selectedItem.servicioid.toString();
+                          });
+                        },
+                        hint: new Text(
+                          _selectedItem != null ? _selectedItem.descripcion: "Servicios",
+                        ),
+                      ),
+                    ),
+                  ),
+                  //Fecha Edicion
+                  DateTimeField(
+                    decoration: InputDecoration(
+                      labelText: "Fecha",
+                      filled: true,
+                      enabled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                      ),
+                      prefixIcon: Icon(Icons.date_range)
+                    ),
+                    format: date,
+                    onShowPicker: (context, currentValue) {
+                      return showDatePicker(
+                          context: context,
+                          firstDate: DateTime(1900),
+                          initialDate: currentValue ?? DateTime.now(),
+                          lastDate: DateTime(2100));
+                    },
+                  ),
+                  SizedBox(height: 5,),
+                  //Hora Edicion
+                  DateTimeField(
+                    decoration: InputDecoration(
+                      labelText: "Hora",
+                      filled: true,
+                      enabled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                      ),
+                      prefixIcon: Icon(Icons.date_range)
+                    ),
+                    format: time,
+                    onShowPicker: (context, currentValue) async {
+                      final time = await showTimePicker(
+                        context: context,
+                        initialTime: TimeOfDay.fromDateTime(currentValue ?? DateTime.now()),
+                      );
+                      return DateTimeField.convert(time);
+                    },
+                  ),
+                ],
+              )
+            )
           ],
         ),
         buttons: [
           DialogButton(
+            color: Colors.green,
             onPressed: () => Navigator.pop(context),
             child: Text(
-              "LOGIN",
+              "Actualizar",
               style: TextStyle(color: Colors.white, fontSize: 20),
             ),
           )
