@@ -9,11 +9,8 @@ class ServicioProvider with ChangeNotifier{
     ServiciosCtrl.listarServicios(dni).then((value){
       if(value!=null){
         this.servicios = value;
-        print(value.hashCode);
       } else{
         this.servicios = List<Servicios>();
-        print(value.hashCode);
-        
       }
       notifyListeners();
     });
