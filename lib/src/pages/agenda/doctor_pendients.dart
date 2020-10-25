@@ -26,6 +26,7 @@ class _DoctorEventsPendientsState extends State<DoctorEventsPendients> {
   EventosCtrl eventosCtrl;
   ServicioProvider servicioProvider;
   List<DropdownMenuItem> listServicio = List<DropdownMenuItem>();
+  final formkey = new GlobalKey<FormState>();
   Map dropDownItemsMap;
   Servicios _selectedItem;
   String servicio;
@@ -60,8 +61,7 @@ class _DoctorEventsPendientsState extends State<DoctorEventsPendients> {
   }
   
     //Cupertino Dialog
-    Future<void> cupertinoDialog(
-        EventosModelo eventos, BuildContext context) async {
+    Future<void> cupertinoDialog(EventosModelo eventos, BuildContext context) async {
       switch (await showDialog(
         context: context,
         builder: (context) {
@@ -109,106 +109,128 @@ class _DoctorEventsPendientsState extends State<DoctorEventsPendients> {
           break;
       }
     }
-
+  
   _openPopup(context, EventosModelo eventos) {
+    dia = DateTime(eventos.fecha.year, eventos.fecha.month, eventos.fecha.day);
     Alert(
         context: context,
         title: "Editar Cita",
-        content: Column(
-          children: <Widget>[
-            Selector<ServicioProvider, List<Servicios>>(
-              selector: (context, model) => model.servicios,
-              builder: (context, servicios, child) => Column(
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.fromLTRB(15, 0, 10, 0),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(20))
-                    ),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton(
-                        isExpanded: true,
-                        items: getSelectOptions(servicios), 
-                        onChanged: (selected) {
-                          this._selectedItem = dropDownItemsMap[selected];
-                          servicio = _selectedItem.servicioid.toString();
-                          setState(() {
+        content: Form(
+          key: formkey,
+          child: Column(
+            children: <Widget>[
+              Selector<ServicioProvider, List<Servicios>>(
+                selector: (context, model) => model.servicios,
+                builder: (context, servicios, child) => Column(
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.fromLTRB(15, 0, 10, 0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(20))
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton(
+                          isExpanded: true,
+                          items: getSelectOptions(servicios), 
+                          onChanged: (selected) {
                             this._selectedItem = dropDownItemsMap[selected];
                             servicio = _selectedItem.servicioid.toString();
-                          });
-                        },
-                        hint: new Text(
-                          _selectedItem != null ? _selectedItem.descripcion: "Servicios",
+                            setState(() {
+                              this._selectedItem = dropDownItemsMap[selected];
+                              servicio = _selectedItem.servicioid.toString();
+                            });
+                          },
+                          hint: new Text(
+                            _selectedItem != null ? _selectedItem.descripcion: "Servicios",
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(height: 5,),
-                  //Fecha Edicion
-                  DateTimeField(
-                    decoration: InputDecoration(
-                      labelText: "Fecha",
-                      filled: true,
-                      enabled: true,
-                      fillColor: Colors.white,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                    SizedBox(height: 5,),
+                    //Fecha Edicion
+                    DateTimeField(
+                      initialValue: eventos.fecha,
+                      decoration: InputDecoration(
+                        labelText: "Fecha",
+                        filled: true,
+                        enabled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                        ),
+                        prefixIcon: Icon(Icons.date_range)
                       ),
-                      prefixIcon: Icon(Icons.date_range)
+                      format: date,
+                      onShowPicker: (context, currentValue) async {
+                        return showDatePicker(
+                            context: context,
+                            firstDate: DateTime.now(),
+                            initialDate: currentValue ?? DateTime.now(),
+                            lastDate: DateTime(2100));
+                      },
+                      onChanged: (value) => dia = value,
                     ),
-                    format: date,
-                    onShowPicker: (context, currentValue) {
-                      return showDatePicker(
+                    SizedBox(height: 5,),
+                    //Hora Edicion
+                    DateTimeField(
+                      initialValue: eventos.fecha,
+                      decoration: InputDecoration(
+                        labelText: "Hora",
+                        filled: true,
+                        enabled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                        ),
+                        prefixIcon: Icon(Icons.date_range)
+                      ),
+                      format: time,
+                      onShowPicker: (context, currentValue) async {
+                        final time = await showTimePicker(
                           context: context,
-                          firstDate: DateTime.now(),
-                          initialDate: currentValue ?? DateTime.now(),
-                          lastDate: DateTime(2100));
-                    },
-                    onChanged: (value) => dia = value,
-                  ),
-                  SizedBox(height: 5,),
-                  //Hora Edicion
-                  DateTimeField(
-                    decoration: InputDecoration(
-                      labelText: "Hora",
-                      filled: true,
-                      enabled: true,
-                      fillColor: Colors.white,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                      ),
-                      prefixIcon: Icon(Icons.date_range)
+                          initialTime: TimeOfDay.fromDateTime(currentValue ?? DateTime.now()),
+                        );
+                        hora = time;
+                        return DateTimeField.convert(time);
+                      },
+                      validator: (DateTime dateTime){
+                        if(dateTime == null) {
+                          return "Este campo no puede estar vacio";
+                        }
+                        return null;
+                      },
                     ),
-                    format: time,
-                    onShowPicker: (context, currentValue) async {
-                      final time = await showTimePicker(
-                        context: context,
-                        initialTime: TimeOfDay.fromDateTime(currentValue ?? DateTime.now()),
-                      );
-                      hora = time;
-                      return DateTimeField.convert(time);
-                    },
-                    
-                  ),
-                ],
+                  ],
+                )
               )
-            )
-          ],
+            ],
+          ),
         ),
         buttons: [
           DialogButton(
             color: Colors.green,
-            onPressed: () {
-              fecha = combine(dia, hora);
-              EventosCtrl.actualizarEventosDatos(eventos.idcita, servicio, fecha).then((value) {
-                if(value) {
-
-                } else {
-
-                }
-              });
-              Navigator.pop(context);
+            onPressed: () {            
+              if(servicio == null || dia == null || hora == null) {
+              } else{ 
+                fecha = combine(dia, hora);
+                EventosCtrl.actualizarEventosDatos(eventos.idcita, servicio, fecha).then((value) {
+                  if(value) {
+                    Scaffold.of(context).showSnackBar(SnackBar(
+                      content: Text("Cita Actualizada con Éxito"),
+                      duration: Duration(seconds: 1),
+                      backgroundColor: Colors.green,
+                    ));
+                  } else {
+                    Scaffold.of(context).showSnackBar(SnackBar(
+                      content: Text("Error al Actualizar la Cita"),
+                      duration: Duration(seconds: 1),
+                      backgroundColor: Colors.green,
+                    ));
+                  }
+                });
+                Navigator.pop(context);
+              }   
             },
             child: Text(
               "Actualizar",
@@ -218,9 +240,6 @@ class _DoctorEventsPendientsState extends State<DoctorEventsPendients> {
           DialogButton(
             color: Colors.red,
             onPressed: () { 
-              fecha = combine(dia, hora);
-              print(fecha);
-              print(eventos.idcita);
               Navigator.pop(context);
               },
             child: Text(
