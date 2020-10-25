@@ -6,15 +6,15 @@ import 'package:muro_dentcloud/src/models/business_Services_models.dart';
 import 'package:muro_dentcloud/src/models/business_model.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/pages/agenda/agendaUser.dart';
-import 'package:muro_dentcloud/src/pages/home_page.dart';
-import 'package:muro_dentcloud/src/pages/post_publicaciones.dart';
+import 'package:muro_dentcloud/src/pages/Inicio/home_page.dart';
+import 'package:muro_dentcloud/src/pages/Inicio/post_publicaciones.dart';
 import 'package:muro_dentcloud/src/pages/profiles/current_bussiness.dart';
 import 'package:muro_dentcloud/src/pages/profiles/current_user_profile.dart';
 import 'package:muro_dentcloud/src/providers/data_provider.dart';
 import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
 import 'package:muro_dentcloud/src/widgets/circle_button.dart';
 import 'package:muro_dentcloud/src/widgets/drawer_appbar.dart';
-import 'agenda/agendaDoctor.dart';
+import '../agenda/agendaDoctor.dart';
 import 'card_page.dart';
 
 class StartUpPage extends StatefulWidget {

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:muro_dentcloud/src/pages/agenda/add_event.dart';
 import 'package:muro_dentcloud/src/pages/agenda/agendaUser.dart';
 import 'package:muro_dentcloud/src/pages/agenda/doctor_pendients.dart';
-import 'package:muro_dentcloud/src/pages/agenda/pruebaScaffol.dart';
+// import 'package:muro_dentcloud/src/pages/agenda/pruebaScaffol.dart';
 //import 'package:muro_dentcloud/src/pages/business_Services.dart';
 import 'package:muro_dentcloud/src/pages/details_Patients.dart';
-import 'package:muro_dentcloud/src/pages/home_page.dart';
+import 'package:muro_dentcloud/src/pages/Inicio/home_page.dart';
 import 'package:muro_dentcloud/src/pages/listview_page.dart';
 import 'package:muro_dentcloud/src/pages/page_Services.dart';
 import 'package:muro_dentcloud/src/pages/patients_List.dart';
@@ -17,11 +17,11 @@ import 'package:muro_dentcloud/src/pages/profiles/out_user.dart';
 import 'package:muro_dentcloud/src/pages/sesion/await.dart';
 import 'package:muro_dentcloud/src/pages/sesion/signin.dart';
 import 'package:muro_dentcloud/src/pages/sesion/signup.dart';
-import 'package:muro_dentcloud/src/pages/startup_page.dart';
+import 'package:muro_dentcloud/src/pages/Inicio/startup_page.dart';
 
 Map<String, WidgetBuilder> getApplicationRoutes() {
   return <String, WidgetBuilder>{
-    '/': (BuildContext context) => SignIn(),
+    '/': (BuildContext context) => AwaitPage(),
     'signin': (BuildContext context) => SignIn(),
     'signup': (BuildContext context) => Signup(),
     'startuppage': (BuildContext context) => StartUpPage(),

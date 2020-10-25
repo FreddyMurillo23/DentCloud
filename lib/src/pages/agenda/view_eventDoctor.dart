@@ -46,6 +46,7 @@ class _ViewEventState extends State<ViewEvent> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
+        title: Text("Detalles de la Cita", style: TextStyle(color: Colors.black, fontSize: 35),),
       ),
       body: SingleChildScrollView(
         child: Column(   
@@ -53,7 +54,7 @@ class _ViewEventState extends State<ViewEvent> {
           mainAxisSize: MainAxisSize.max,       
           children: [
 
-            Text("Detalles de la Cita", style: TextStyle(color: Colors.black, fontSize: 35),),
+            
 
             Padding(
               padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
@@ -99,7 +100,7 @@ class _ViewEventState extends State<ViewEvent> {
                                             borderRadius: BorderRadius.all(Radius.circular(10)),
                                           )
                                         ),
-                                      ),
+                                       ),
                                     ),
                                     SizedBox(width: 10,),
                                     Container(                                    
