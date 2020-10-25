@@ -35,6 +35,7 @@ class _DoctorEventsPendientsState extends State<DoctorEventsPendients> {
 
   @override
   Widget build(BuildContext context) {
+    CurrentUsuario userinfo = ModalRoute.of(context).settings.arguments;
     eventosProvider = Provider.of<EventosHoldProvider>(context);
     eventosProvider.listarEventosonHold("hvargas@utm.ec");
     servicioProvider = Provider.of<ServicioProvider>(context);
