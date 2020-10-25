@@ -48,10 +48,8 @@ class NegocioDato {
     this.publicacionesNegocio,
   });
 
-  InicialNegocio inicialNegocio;
   String inicialNegocio;
   String ruc;
-  Negocio negocio;
   String negocio;
   String telefono;
   String provincia;
@@ -63,10 +61,9 @@ class NegocioDato {
   List<PublicacionesNegocio> publicacionesNegocio;
 
   factory NegocioDato.fromJson(Map<String, dynamic> json) => NegocioDato(
-        inicialNegocio: inicialNegocioValues.map[json["inicial_negocio"]],
         inicialNegocio: json["inicial_negocio"],
         ruc: json["ruc"],
-        negocio: negocioValues.map[json["negocio"]],
+        negocio: json["negocio"],
         telefono: json["telefono"],
         provincia: json["provincia"],
         canton: json["canton"],
@@ -82,10 +79,8 @@ class NegocioDato {
       );
 
   Map<String, dynamic> toJson() => {
-        "inicial_negocio": inicialNegocioValues.reverse[inicialNegocio],
         "inicial_negocio": inicialNegocio,
         "ruc": ruc,
-        "negocio": negocioValues.reverse[negocio],
         "negocio": negocio,
         "telefono": telefono,
         "provincia": provincia,

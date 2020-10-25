@@ -41,17 +41,23 @@ class _NavDrawerState extends State<NavDrawer> {
             thickness: 1.2,
             indent: 5.5,
           ),
-          
+
           Container(
             child: Column(
               children: [
-                Text('Perfil Actual'.toUpperCase(), style: TextStyle(fontWeight: FontWeight.w500),),
+                Text(
+                  'Perfil Actual'.toUpperCase(),
+                  style: TextStyle(fontWeight: FontWeight.w500),
+                ),
                 CardExpansionPanel(
-                  headerData: '${prefs.profileName}\n${prefs.profileID}',//('${widget.currentuser.openUserTrabajos.length}00'),
+                  headerData:
+                      '${prefs.profileName}\n${prefs.profileID}', //('${widget.currentuser.openUserTrabajos.length}00'),
                   icon: Icons.supervised_user_circle,
                   iconColor: Colors.blueGrey,
-                  lista: listaPerfiles(widget.currentuser,),
-                    ),
+                  lista: listaPerfiles(
+                    widget.currentuser,
+                  ),
+                ),
               ],
             ),
           ),
@@ -80,14 +86,13 @@ class _NavDrawerState extends State<NavDrawer> {
             title: Text('Configuración del Perfil'),
             onTap: () => {
               // docProv.listarDoctores(),
-              Navigator.pushReplacementNamed(context, 'serviciosNegocios'),
+              Navigator.pushReplacementNamed(context, 'settings'),
             },
           ),
           ListTile(
             leading: Icon(Icons.list),
             title: Text('Lista Pacientes'),
-            onTap: () =>
-                Navigator.pushNamed(context, 'patients'),
+            onTap: () => Navigator.pushNamed(context, 'patients'),
           ),
           ListTile(
             leading: Icon(Icons.exit_to_app),
@@ -125,7 +130,6 @@ class _NavDrawerState extends State<NavDrawer> {
                     );
                   },
                   body: Container(
-                    
                     child: listaPerfiles(userinfo),
                   ),
                   isExpanded: active),
@@ -136,9 +140,9 @@ class _NavDrawerState extends State<NavDrawer> {
     );
   }
 
- Widget listaPerfiles(CurrentUsuario userinfo) {
+  Widget listaPerfiles(CurrentUsuario userinfo) {
     return ListView.builder(
-      shrinkWrap: true,
+        shrinkWrap: true,
         itemCount: 1 + widget.currentuser.openUserTrabajos.length,
         itemBuilder: (context, int index) {
           // print('${widget.currentuser.openUserTrabajos}');

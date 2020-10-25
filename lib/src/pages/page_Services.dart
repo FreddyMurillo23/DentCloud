@@ -15,7 +15,11 @@ class BusinessServicePage extends StatelessWidget {
       appBar: AppBar(
         brightness: Brightness.light,
         backgroundColor: Colors.white,
-        title: Image(image: AssetImage('assets/title.png'),height: screenSize.height*0.1 ,fit: BoxFit.fill,),
+        title: Image(
+          image: AssetImage('assets/title.png'),
+          height: screenSize.height * 0.1,
+          fit: BoxFit.fill,
+        ),
         centerTitle: false,
         // floa ting: true,
         actions: [
@@ -32,21 +36,18 @@ class BusinessServicePage extends StatelessWidget {
         ],
       ),
       body: Container(
-          height: screenSize.height*0.99,
-          child: FutureBuilder(
-            future: httpService.getBusinessServices(ruc),
-            builder:
-                (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-              if (snapshot.hasData) {
-                return BusinessServicesWg(snapshot.data);
-              } else {
-                return Container();
-              }
-            },
-          ),
-            ),
-         
-      
+        height: screenSize.height * 0.99,
+        child: FutureBuilder(
+          future: httpService.getBusinessServices(ruc),
+          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+            if (snapshot.hasData) {
+              return BusinessServicesWg(snapshot.data);
+            } else {
+              return Container();
+            }
+          },
+        ),
+      ),
     );
   }
 }
