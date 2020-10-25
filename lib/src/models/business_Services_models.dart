@@ -42,30 +42,36 @@ class NegocioDato {
     this.provincia,
     this.canton,
     this.ubicacion,
+    this.foto,
     this.servicios,
     this.personal,
     this.publicacionesNegocio,
   });
 
   InicialNegocio inicialNegocio;
+  String inicialNegocio;
   String ruc;
   Negocio negocio;
+  String negocio;
   String telefono;
   String provincia;
   String canton;
   String ubicacion;
+  String foto;
   List<Servicio> servicios;
   List<Personal> personal;
   List<PublicacionesNegocio> publicacionesNegocio;
 
   factory NegocioDato.fromJson(Map<String, dynamic> json) => NegocioDato(
         inicialNegocio: inicialNegocioValues.map[json["inicial_negocio"]],
+        inicialNegocio: json["inicial_negocio"],
         ruc: json["ruc"],
         negocio: negocioValues.map[json["negocio"]],
         telefono: json["telefono"],
         provincia: json["provincia"],
         canton: json["canton"],
         ubicacion: json["ubicacion"],
+        foto: json["foto"],
         servicios: List<Servicio>.from(
             json["servicios"].map((x) => Servicio.fromJson(x))),
         personal: List<Personal>.from(
@@ -77,12 +83,15 @@ class NegocioDato {
 
   Map<String, dynamic> toJson() => {
         "inicial_negocio": inicialNegocioValues.reverse[inicialNegocio],
+        "inicial_negocio": inicialNegocio,
         "ruc": ruc,
         "negocio": negocioValues.reverse[negocio],
+        "negocio": negocio,
         "telefono": telefono,
         "provincia": provincia,
         "canton": canton,
         "ubicacion": ubicacion,
+        "foto": foto,
         "servicios": List<dynamic>.from(servicios.map((x) => x.toJson())),
         "personal": List<dynamic>.from(personal.map((x) => x.toJson())),
         "publicaciones_negocio":
