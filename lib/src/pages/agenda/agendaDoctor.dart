@@ -35,7 +35,7 @@ class _Agenda3State extends State<Agenda3> {
     _controller = CalendarController();
   }
 
-  Map<DateTime, List<dynamic>> _eventsGet(List<EventosModelo> events){
+  Map<DateTime, List<dynamic>> _eventsGet(List<EventosModelo> events) {
     Map<DateTime, List<dynamic>> data = {};
     events.forEach((event) {
       DateTime date = DateTime(event.fecha.year, event.fecha.month,
@@ -53,10 +53,10 @@ class _Agenda3State extends State<Agenda3> {
     eventosProvider = Provider.of<EventosHoldProvider>(context);
     Future<List<EventosModelo>> futureEvents;
     futureEvents = EventosCtrl.listarEventos(userinfo.correo);
-
+    DateTime selectedDay;
+    int countSelectedDay = 0;
     return Scaffold(
       backgroundColor: Colors.white,
-      
       body: FutureBuilder<List<EventosModelo>>(
         future: futureEvents,
         builder: (context, snapshot) {
@@ -72,198 +72,163 @@ class _Agenda3State extends State<Agenda3> {
 
           return SingleChildScrollView(
             child: Column(children: <Widget>[
-              TableCalendar(
-                availableGestures: AvailableGestures.horizontalSwipe,
-                events: _events,
-                locale: 'es',
-                initialCalendarFormat: CalendarFormat.month,
-                calendarStyle: CalendarStyle(
-                    canEventMarkersOverflow: true,
-                    todayColor: Colors.blueGrey[500],
-                    selectedColor: Colors.red),
-                headerStyle: HeaderStyle(
-                  formatButtonVisible: false,
-                  centerHeaderTitle: true,
-                  titleTextStyle: const TextStyle(
-                    fontSize: 17,
-                  )
-                ),
-                startingDayOfWeek: StartingDayOfWeek.monday,
-                onDaySelected: (day, events) {
-                  setState(() {
-                    if (events.isNotEmpty) {
-                      _selectedEvents = events;
-                      print("Si hay eventos en este día");
-                    } else {
-                      print("No hay eventos en este día");
-                      _selectedEvents.clear();
-                    }
-                  });
-                },
-                builders: CalendarBuilders(
-                  selectedDayBuilder: (context, date, events) => Container(
-                    margin: const EdgeInsets.all(4.0),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        color: Colors.blueGrey[500],
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Text(
-                      date.day.toString(),
-                      style: TextStyle(color: Colors.black),
-                    ),
-                  ),
-                  todayDayBuilder: (context, date, events) => Container(
-                    margin: const EdgeInsets.all(4.0),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Text(
-                      date.day.toString(),
-                      style: TextStyle(color: Colors.black),
-                    ),
-                  ),
-                  markersBuilder: (context, date, events, holidays) {
-                    final children = <Widget>[];
-
-                    if (events.isNotEmpty) {
-                      children.add(
-                        Positioned(
-                          right: 1,
-                          bottom: 1,
-                          child: _buildEventsMarker(date, events),
-                        ),
-                      );
-                    }
-                    return children;
+              Card(
+                child: TableCalendar(
+                  availableGestures: AvailableGestures.horizontalSwipe,
+                  events: _events,
+                  locale: 'es',
+                  initialCalendarFormat: CalendarFormat.month,
+                  calendarStyle: CalendarStyle(
+                      canEventMarkersOverflow: true,
+                      todayColor: Colors.blueGrey[500],
+                      selectedColor: Colors.red),
+                  headerStyle: HeaderStyle(
+                      formatButtonVisible: false,
+                      centerHeaderTitle: true,
+                      titleTextStyle: const TextStyle(
+                        fontSize: 17,
+                      )),
+                  startingDayOfWeek: StartingDayOfWeek.monday,
+                  onDaySelected: (day, events) {
+                    setState(() {
+                      if (events.isNotEmpty) {
+                        _selectedEvents = events;
+                        print("Si hay eventos en este día");
+                        selectedDay = day;
+                        countSelectedDay = events.length;
+                      } else {
+                        selectedDay = day;
+                        countSelectedDay = 0;
+                        print("No hay eventos en este día");
+                        _selectedEvents.clear();
+                      }
+                    });
                   },
-                ),
-                calendarController: _controller,
-              ),
-              
-              ExpansionTile(
-                    title: null,
-                    children: [
-                      if (_selectedEvents != null)
-                          ..._selectedEvents.map(
-                (e) => Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.green[100],
-                    border: Border.all(
-                  color: Colors.black,
-                    ),
-                  ),
-                  child: Column(
-                    children: [
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: 5,
+                  builders: CalendarBuilders(
+                    selectedDayBuilder: (context, date, events) => Container(
+                      margin: const EdgeInsets.all(4.0),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          color: Colors.blueGrey[500],
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Text(
+                        date.day.toString(),
+                        style: TextStyle(color: Colors.black),
                       ),
-                      Container(
-                        width: 50,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                  image:
-                NetworkImage(userinfo.fotoPerfil),
-                  fit: BoxFit.fill),
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                color: Colors.black,
+                    ),
+                    todayDayBuilder: (context, date, events) => Container(
+                      margin: const EdgeInsets.all(4.0),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Text(
+                        date.day.toString(),
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ),
+                    markersBuilder: (context, date, events, holidays) {
+                      final children = <Widget>[];
+
+                      if (events.isNotEmpty) {
+                        children.add(
+                          Positioned(
+                            right: 1,
+                            bottom: 1,
+                            child: _buildEventsMarker(date, events),
+                          ),
+                        );
+                      }
+                      return children;
+                    },
+                  ),
+                  calendarController: _controller,
+                ),
+                elevation: 10,
+                margin: new EdgeInsets.only(
+                    left: 10.0, right: 10.0, top: 8.0, bottom: 5.0),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0)),
+              ),
+              Card(
+                child: ExpansionTile(
+                  tilePadding:
+                      EdgeInsets.fromLTRB(_screenSize.width * 0.060, 0, 12, 1),
+                  leading: Icon(
+                    MdiIcons.bookOpenPageVariant,
+                    color: Colors.lightBlue,
+                  ),
+                  title: Text(
+                    '$selectedDay',
+                    style: TextStyle(color: Colors.grey.shade600),
+                  ),
+                  subtitle: Text('Usted tiene $countSelectedDay citas agendadas'),
+                  children: [
+                    if (_selectedEvents != null)
+                      ..._selectedEvents.map(
+                        (e) => Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.green[100],
+                            border: Border.all(
+                              color: Colors.black,
+                            ),
+                          ),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Container(
+                                    width: 50,
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                          image:
+                                              NetworkImage(userinfo.fotoPerfil),
+                                          fit: BoxFit.fill),
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Flexible(
+                                    child: ListTile(
+                                      title: Text(e.servicio),
+                                      subtitle: Text(e.fecha.toString()),
+                                      onTap: () {
+                                        print(e.fecha.toString());
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (_) => ViewEvent(
+                                                    eventosModeloGlobal: e)));
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Flexible(
-                        child: ListTile(
-                          title: Text(e.servicio),
-                          subtitle: Text(e.fecha.toString()),
-                          onTap: () {
-                print(e.fecha.toString());
-                Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => ViewEvent(
-                      eventosModeloGlobal: e)));
-                          },
-                        ),
-                      ),
-                    ],
-                  )
-                    ],
-                  ),
+                      )
+                  ],
                 ),
-                          )
-                    ],
-                  )
-              // Container(
-              //   color: Colors.amber,
-              //   height: 200,
-              //   child: SingleChildScrollView(
-              //     child: Column(
-              //       children: [
-              //         if (_selectedEvents != null)
-              //           ..._selectedEvents.map(
-              //             (e) => Container(
-              //               decoration: BoxDecoration(
-              //                 borderRadius: BorderRadius.circular(10),
-              //                 color: Colors.green[100],
-              //                 border: Border.all(
-              //                   color: Colors.black,
-              //                 ),
-              //               ),
-              //               child: Column(
-              //                 children: [
-              //                   Row(
-              //                     children: [
-              //                       SizedBox(
-              //                         width: 5,
-              //                       ),
-              //                       Container(
-              //                         width: 50,
-              //                         height: 50,
-              //                         decoration: BoxDecoration(
-              //                           image: DecorationImage(
-              //                               image:
-              //                                   NetworkImage(userinfo.fotoPerfil),
-              //                               fit: BoxFit.fill),
-              //                           borderRadius: BorderRadius.circular(10),
-              //                           border: Border.all(
-              //                             color: Colors.black,
-              //                           ),
-              //                         ),
-              //                       ),
-              //                       SizedBox(
-              //                         width: 10,
-              //                       ),
-              //                       Flexible(
-              //                         child: ListTile(
-              //                           title: Text(e.servicio),
-              //                           subtitle: Text(e.fecha.toString()),
-              //                           onTap: () {
-              //                             print(e.fecha.toString());
-              //                             Navigator.push(
-              //                                 context,
-              //                                 MaterialPageRoute(
-              //                                     builder: (_) => ViewEvent(
-              //                                         eventosModeloGlobal: e)));
-              //                           },
-              //                         ),
-              //                       ),
-              //                     ],
-              //                   )
-              //                 ],
-              //               ),
-              //             ),
-              //           )
-              //       ],
-              //     ),
-              //   ), //
-              // ),
+                elevation: 10,
+                margin: new EdgeInsets.only(
+                    left: 10.0, right: 10.0, top: 8.0, bottom: 5.0),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0)),
+              ),
+              Container(
+                height: 100,
+              ),
             ]),
           );
         },
@@ -276,7 +241,8 @@ class _Agenda3State extends State<Agenda3> {
     return FloatingActionButton(
         child: Icon(Icons.list),
         onPressed: () {
-          Navigator.pushNamed(context, 'eventosPendientes', arguments: userinfo);
+          Navigator.pushNamed(context, 'eventosPendientes',
+              arguments: userinfo);
         });
   }
 
