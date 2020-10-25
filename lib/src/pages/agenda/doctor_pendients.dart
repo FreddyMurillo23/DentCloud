@@ -43,23 +43,6 @@ class _DoctorEventsPendientsState extends State<DoctorEventsPendients> {
     eventosProvider = Provider.of<EventosHoldProvider>(context);
     eventosProvider.listarEventosonHold(userinfo.correo);
     servicioProvider = Provider.of<ServicioProvider>(context);
-<<<<<<< Updated upstream
-    // print(userinfo.apellidos);
-    List<DropdownMenuItem> getSelectOptions(List<Servicios> servicios) {
-      dropDownItemsMap = new Map();
-      listServicio.clear();
-      servicios.forEach((servicios) {
-        int index = servicios.servicioid;
-        dropDownItemsMap[index] = servicios;
-        listServicio.add(new DropdownMenuItem(
-          child: Text(servicios.descripcion),
-          value: servicios.servicioid,
-        ));
-      });
-      return listServicio;
-    }
-
-=======
     servicioProvider.listarServicios(userinfo.cedula+'001');
 
   List<DropdownMenuItem> getSelectOptions(List<Servicios> servicios){
@@ -76,7 +59,6 @@ class _DoctorEventsPendientsState extends State<DoctorEventsPendients> {
     return listServicio;
   }
   
->>>>>>> Stashed changes
     //Cupertino Dialog
     Future<void> cupertinoDialog(
         EventosModelo eventos, BuildContext context) async {
@@ -128,109 +110,6 @@ class _DoctorEventsPendientsState extends State<DoctorEventsPendients> {
       }
     }
 
-<<<<<<< Updated upstream
-    _openPopup(context) {
-      Alert(
-          context: context,
-          title: "Editar Cita",
-          content: Column(
-            children: <Widget>[
-              Selector<ServicioProvider, List<Servicios>>(
-                  selector: (context, model) => model.servicios,
-                  builder: (context, servicios, child) => Column(
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.fromLTRB(15, 0, 10, 0),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20))),
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButton(
-                                isExpanded: true,
-                                items: getSelectOptions(servicios),
-                                onChanged: (selected) {
-                                  this._selectedItem =
-                                      dropDownItemsMap[selected];
-                                  servicio =
-                                      _selectedItem.servicioid.toString();
-                                  setState(() {
-                                    this._selectedItem =
-                                        dropDownItemsMap[selected];
-                                    servicio =
-                                        _selectedItem.servicioid.toString();
-                                  });
-                                },
-                                hint: new Text(
-                                  _selectedItem != null
-                                      ? _selectedItem.descripcion
-                                      : "Servicios",
-                                ),
-                              ),
-                            ),
-                          ),
-                          //Fecha Edicion
-                          DateTimeField(
-                            decoration: InputDecoration(
-                                labelText: "Fecha",
-                                filled: true,
-                                enabled: true,
-                                fillColor: Colors.white,
-                                border: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20)),
-                                ),
-                                prefixIcon: Icon(Icons.date_range)),
-                            format: date,
-                            onShowPicker: (context, currentValue) {
-                              return showDatePicker(
-                                  context: context,
-                                  firstDate: DateTime(1900),
-                                  initialDate: currentValue ?? DateTime.now(),
-                                  lastDate: DateTime(2100));
-                            },
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          //Hora Edicion
-                          DateTimeField(
-                            decoration: InputDecoration(
-                                labelText: "Hora",
-                                filled: true,
-                                enabled: true,
-                                fillColor: Colors.white,
-                                border: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20)),
-                                ),
-                                prefixIcon: Icon(Icons.date_range)),
-                            format: time,
-                            onShowPicker: (context, currentValue) async {
-                              final time = await showTimePicker(
-                                context: context,
-                                initialTime: TimeOfDay.fromDateTime(
-                                    currentValue ?? DateTime.now()),
-                              );
-                              return DateTimeField.convert(time);
-                            },
-                          ),
-                        ],
-                      ))
-            ],
-          ),
-          buttons: [
-            DialogButton(
-              color: Colors.green,
-              onPressed: () => Navigator.pop(context),
-              child: Text(
-                "Actualizar",
-                style: TextStyle(color: Colors.white, fontSize: 20),
-              ),
-            )
-          ]).show();
-    }
-=======
   _openPopup(context, EventosModelo eventos) {
     Alert(
         context: context,
@@ -352,7 +231,6 @@ class _DoctorEventsPendientsState extends State<DoctorEventsPendients> {
         ]).show();
   }
 
->>>>>>> Stashed changes
 
     return Scaffold(
       backgroundColor: Colors.white,
