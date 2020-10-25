@@ -78,7 +78,7 @@ class PreferenciasUsuario {
 
   get currentProfile {
     if (_prefs.getBool('currentProfile') != null) {
-      return _prefs.getBool('currentProfile');
+      return _prefs.getBool('currentProfile'); 
     } else {
       return true;
     }
