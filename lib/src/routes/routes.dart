@@ -22,7 +22,7 @@ import 'package:muro_dentcloud/src/pages/Inicio/startup_page.dart';
 
 Map<String, WidgetBuilder> getApplicationRoutes() {
   return <String, WidgetBuilder>{
-    '/': (BuildContext context) => SignIn(),
+    '/': (BuildContext context) => AwaitPage(),
     'signin': (BuildContext context) => SignIn(),
     'signup': (BuildContext context) => Signup(),
     'startuppage': (BuildContext context) => StartUpPage(),
