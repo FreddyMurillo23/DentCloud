@@ -54,8 +54,6 @@ class _ViewEventState extends State<ViewEvent> {
           mainAxisSize: MainAxisSize.max,       
           children: [
 
-            
-
             Padding(
               padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
               child: Form(
