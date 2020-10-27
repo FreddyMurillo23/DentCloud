@@ -263,18 +263,22 @@ class _AddEventState extends State<AddEvent> {
                               suffixIcon: GestureDetector(
                                 onTap: ()async{
                                 _selectedItem = null;
+                                historial = [];
                                 final seleccionDoctor = await showSearch(context: context, delegate: EventSearchDelegate('Buscar Doctores', historial));
                                 servicioProvider.listarServicios(seleccionDoctor.cedula+"001");
                                 setState(() {
                                   doctorSeleccionado = seleccionDoctor;
                                   controlador.text = doctorSeleccionado.doctor;
                                   servicioProvider.listarServicios(doctorSeleccionado.cedula+"001");
-                                  if(seleccionDoctor !=null) {this.historial.insert(0, seleccionDoctor);}                        
+                                  //if(seleccionDoctor !=null) {this.historial.insert(0, seleccionDoctor);}                        
                                 });
                               },
                                 child: Icon(Icons.search),
                               )
                             ),
+                            onTap: () {
+                              print(doctorSeleccionado.cedula);
+                            },
                             validator: (value) => value.isEmpty ? 'Este campo no puede estar vacio' : null,
                             onSaved: (value) => doctor = value+"001",
                           ),
