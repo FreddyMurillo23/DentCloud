@@ -23,51 +23,91 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
     final _screenSize = MediaQuery.of(context).size;
     final publicacionesProvider = new DataProvider();
     return Scaffold(
-      body: Column(
-        children: [
-          Card(
-            margin: new EdgeInsets.symmetric(
-                horizontal: _screenSize.width * 0.035,
-                vertical: _screenSize.height * 0.02),
-            child: Container(
-              // color: Colors.blue,
-              height: _screenSize.height * 0.35,
-            ),
-            elevation: 5,
+        body: SingleChildScrollView(
+      child: Container(
+        padding: EdgeInsets.all(15),
+        child: Form(
+          child: Column(
+            children: <Widget>[
+              _crearPost(),
+              _etiquetas(),
+              _bottonEnviarForm(),
+            ],
           ),
-          SizedBox(
-            height: _screenSize.height * 0.01,
-          ),
-          Container(
-            child: TextField(
-              controller: controladorCorreoUser,
-              decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.blueGrey[600],
-                  labelText: "Correo Electrónico",
-                  labelStyle: TextStyle(
-                    color: Colors.white,
-                  ),
-                  enabled: false,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  )),
-            ),
-            color: Colors.blue,
-            height: _screenSize.height * 0.08,
-          ),
-          Divider(),
-          Container(
-            color: Colors.blue,
-            height: _screenSize.height * 0.08,
-          ),
-          Divider(),
-          Container(
-            color: Colors.blue,
-            height: _screenSize.height * 0.08,
-          ),
-        ],
+        ),
       ),
+    ));
+  }
+
+  Widget _crearPost() {
+    return TextFormField(
+      textCapitalization: TextCapitalization.sentences,
+      decoration: InputDecoration(labelText: 'Publicacion'),
+    );
+  }
+
+  Widget _etiquetas() {
+    return TextFormField(
+      textCapitalization: TextCapitalization.sentences,
+      decoration: InputDecoration(labelText: 'Publicacion'),
+    );
+  }
+
+  Widget _bottonEnviarForm() {
+    return RaisedButton.icon(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+      color: Colors.lightBlue,
+      textColor: Colors.white,
+      label: Text('Publicar'),
+      icon: Icon(Icons.publish),
+      onPressed: () {
+        Navigator.pushNamed(context, 'prueba');
+      },
     );
   }
 }
+// Column(
+//         children: [
+//           Card(
+//             margin: new EdgeInsets.symmetric(
+//                 horizontal: _screenSize.width * 0.035,
+//                 vertical: _screenSize.height * 0.02),
+//             child: Container(
+//               // color: Colors.blue,
+//               height: _screenSize.height * 0.35,
+//             ),
+//             elevation: 5,
+//           ),
+//           SizedBox(
+//             height: _screenSize.height * 0.01,
+//           ),
+//           Container(
+//             child: TextField(
+//               controller: controladorCorreoUser,
+//               decoration: InputDecoration(
+//                   filled: true,
+//                   fillColor: Colors.blueGrey[600],
+//                   labelText: "Correo Electrónico",
+//                   labelStyle: TextStyle(
+//                     color: Colors.white,
+//                   ),
+//                   enabled: false,
+//                   border: OutlineInputBorder(
+//                     borderRadius: BorderRadius.all(Radius.circular(10)),
+//                   )),
+//             ),
+//             color: Colors.blue,
+//             height: _screenSize.height * 0.08,
+//           ),
+//           Divider(),
+//           Container(
+//             color: Colors.blue,
+//             height: _screenSize.height * 0.08,
+//           ),
+//           Divider(),
+//           Container(
+//             color: Colors.blue,
+//             height: _screenSize.height * 0.08,
+//           ),
+//         ],
+//       ),
