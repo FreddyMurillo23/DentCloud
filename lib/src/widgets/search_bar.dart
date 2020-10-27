@@ -22,14 +22,17 @@ class EventSearchDelegate extends SearchDelegate<Doctores>{
       )
     ];   
     }
-  
 
     @override
     Widget buildLeading(BuildContext context) {
       // var doctor = new DoctorCtrl();
       return IconButton(
         icon: Icon(Icons.arrow_back),
-        onPressed: () => this.close(context, null),
+        onPressed: () {
+          Doctores docs = Doctores(cedula: "", correo: "", celular: "", doctor: "", fechanacimiento: DateTime.now(), foto: "");
+          print(docs.cedula);
+          this.close(context, docs);
+        },
       );
     }
   
@@ -51,7 +54,7 @@ class EventSearchDelegate extends SearchDelegate<Doctores>{
         builder: (BuildContext context, AsyncSnapshot snapshot) { 
 
           if ( snapshot.hasData ) {
-            return _showDoctores( snapshot.data );
+            return _showDoctores( snapshot.data , servicioProvider);
           }
 
           if ( snapshot.hasError ) {
@@ -74,11 +77,46 @@ class EventSearchDelegate extends SearchDelegate<Doctores>{
 
     @override
     Widget buildSuggestions(BuildContext context) {
-    return _showDoctores(this.historial);
+      Future<List<Doctores>> futureDoctor;
+      futureDoctor = DoctorCtrl.listarPrueba(query);
+      print(futureDoctor);
+
+      return FutureBuilder(
+        future: futureDoctor,
+        builder: (context, snapshot) {
+
+          List<Doctores> datos = snapshot.data;
+
+          List<Doctores> suglist = query.isEmpty
+          ? historial
+          : datos.where((element) => datos == null
+          ? []
+          : element.doctor.startsWith(query)).toList();
+
+          //=> element.doctor.startsWith(query)).toList();
+
+          if ( snapshot.hasError ) {
+            print("Wey No");
+            return ListTile( title: Text('No hay nada con ese Termino') );
+          }
+
+          if ( snapshot.hasData ) {
+           return _showDoctoresHistorial(suglist);
+          }
+          
+          return Center(
+              child: SizedBox(
+                height: 30,
+                width: 30,
+                child: CircularProgressIndicator(),
+              ),
+          );
+        },
+      );
     
   }
 
-  Widget _showDoctores(List<Doctores> doctores){
+  Widget _showDoctores(List<Doctores> doctores, ServicioProvider servicioProvider){
     
     return ListView.builder(
       itemCount: doctores.length,
@@ -86,7 +124,42 @@ class EventSearchDelegate extends SearchDelegate<Doctores>{
         final doctor = doctores[i];
 
         return ListTile(
-          leading: Image.network("http://54.197.83.249/Contenido_ftp/Imagenes%20por%20defecto/Placeholder_male.png", width: 45,),
+          leading: Image.network(doctor.foto, width: 45,),
+          title: Text(doctor.doctor),
+          onTap: (){
+            servicioProvider.listarServicios(doctor.cedula+"001");
+            this.close(context, doctor);
+          },
+        );
+      },
+    );
+  }
+
+  Widget _showDoctoresHistorial(List<Doctores> doctores){
+
+    if (doctores == null) {
+      return Center(
+          child: SizedBox(
+            height: 30,
+            width: 30,
+            child: CircularProgressIndicator(),
+          ),
+      );
+    } else {
+      return ListView.builder(
+      itemCount: doctores.length,
+      itemBuilder: (context, i){
+        final doctor = doctores[i];
+
+        String fotoS;
+        if(doctor.foto == ""){
+          fotoS = "http://54.197.83.249/Contenido_ftp/Imagenes%20por%20defecto/Placeholder_male.png";
+        } else {
+          fotoS = doctor.foto;
+        }
+
+        return ListTile(
+          leading: Image.network(fotoS, width: 45,),
           title: Text(doctor.doctor),
           onTap: (){
             this.close(context, doctor);
@@ -94,6 +167,8 @@ class EventSearchDelegate extends SearchDelegate<Doctores>{
         );
       },
     );
+
+    }   
   }
   
 }
