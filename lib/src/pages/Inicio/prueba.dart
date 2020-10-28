@@ -22,6 +22,7 @@ class _PruebaState extends State<Prueba> {
                 child: ListView.builder(
                   itemCount: 1 + list.length,
                   shrinkWrap: true,
+                  
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (contex, int id) {
                     if (list.length == 0) {

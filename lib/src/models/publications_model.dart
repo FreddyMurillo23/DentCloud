@@ -1,3 +1,5 @@
+import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
+
 class PublicacionesByUser {
   List<Publicacion> items = new List();
   PublicacionesByUser.fromJsonList(List<dynamic> jsonList) {
@@ -33,33 +35,32 @@ class Publicacion {
   String correoUsuario;
   String descripcion;
   String archivo;
-  DateTime fecha;
+  DateTime fecha = new DateTime.now();
   String idPublicacion;
   String negocio;
   String negocioRuc;
   String inicialnegocio;
   String inicialusuario;
   String fotoperfilusuario;
-  int likes;
+  int likes = 0;
   List<Etiquetas> etiquetas = new List();
   List<Comentarios> comentarios = new List();
 
-  Publicacion({
-    this.usuario,
-    this.descripcion,
-    this.fecha,
-    this.archivo,
-    this.negocio,
-    this.inicialusuario,
-    this.inicialnegocio,
-    this.fotoperfilusuario,
-    this.likes,
-    this.etiquetas,
-    this.comentarios,
-    this.correoUsuario,
-    this.idPublicacion,
-    this.negocioRuc
-  });
+  Publicacion(
+      {this.usuario = ' ',
+      this.descripcion = ' ',
+      this.fecha,
+      this.archivo = ' ',
+      this.negocio = ' ',
+      this.inicialusuario = ' ',
+      this.inicialnegocio = ' ',
+      this.fotoperfilusuario = ' ',
+      this.likes = 0,
+      this.etiquetas = const [],
+      this.comentarios = const [],
+      this.correoUsuario = ' ',
+      this.idPublicacion = ' ',
+      this.negocioRuc = ' '});
   //? /1 Para connvertir a double y .cast<int>() para lista de items
   //? fromJsonMap extrae los datos del json y los envia a las variables de la clase y los convierte en un mapa de datos.
   Publicacion.fromJsonMap(Map<String, dynamic> json) {
@@ -72,9 +73,9 @@ class Publicacion {
     inicialnegocio = json['inicial_negocio'];
     fotoperfilusuario = json['foto_perfil'];
     likes = int.parse(json['likes']);
-    correoUsuario = json ['correo_usuario']; 
-    idPublicacion = json ['id_publicacion']; 
-    negocioRuc = json ['negocio_ruc']; 
+    correoUsuario = json['correo_usuario'];
+    idPublicacion = json['id_publicacion'];
+    negocioRuc = json['negocio_ruc'];
     if (json['etiquetas'].length != 0) {
       for (var item in json['etiquetas']) {
         final eti = new Etiquetas.fromJsonMap(item);

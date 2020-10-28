@@ -109,36 +109,6 @@ class _NavDrawerState extends State<NavDrawer> {
     );
   }
 
-  Widget userSelector(CurrentUsuario userinfo) {
-    return Container(
-      height: 100,
-      child: ListView(
-        children: <Widget>[
-          ExpansionPanelList(
-            expansionCallback: (int index, bool expanded) {
-              print('index: $index');
-              setState(() {
-                active = !active;
-              });
-            },
-            children: <ExpansionPanel>[
-              ExpansionPanel(
-                  headerBuilder: (BuildContext context, bool isEspanded) {
-                    return ListTile(
-                      title: Text('Sesion: ${prefs.profileName}'),
-                      subtitle: Text('${prefs.profileID}'),
-                    );
-                  },
-                  body: Container(
-                    child: listaPerfiles(userinfo),
-                  ),
-                  isExpanded: active),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
 
   Widget listaPerfiles(CurrentUsuario userinfo) {
     return ListView.builder(
