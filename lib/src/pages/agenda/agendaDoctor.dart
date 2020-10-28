@@ -20,10 +20,10 @@ class _Agenda3State extends State<Agenda3> {
   CalendarController _controller;
   Map<DateTime, List<dynamic>> _events;
   List<dynamic> _selectedEvents;
-  List<EventosModelo> eventosModel;
+  List<EventosModelo> eventosModel2;
   List<EventosModeloUsuario> eventosModeUsuario;
   EventosHoldProvider eventosProvider;
-  int countSelectedDay;
+  int countSelectedDay, countList;
   DateTime selectedDay;
 
   @override
@@ -34,6 +34,8 @@ class _Agenda3State extends State<Agenda3> {
     _controller = CalendarController();
     countSelectedDay = 0;
     selectedDay = DateTime.now();
+    eventosModel2 = [];
+    countList = 0;
   }
   
 
@@ -46,6 +48,11 @@ class _Agenda3State extends State<Agenda3> {
       data[date].add(event);
     });
     return data;
+  }
+
+  List<EventosModelo> transormar(List<dynamic> dinamico) {
+    var temporal2 = List<EventosModelo>.from(dinamico);
+    return temporal2;
   }
 
   @override
@@ -96,10 +103,15 @@ class _Agenda3State extends State<Agenda3> {
                     setState(() {
                       if (events.isNotEmpty) {
                         _selectedEvents = events;
+                        eventosModel2 = transormar(_selectedEvents);
                         selectedDay = day;
-                        print(selectedDay.toIso8601String());
+                        countList = eventosModel2.length;
+                        print(countList.toString());
                         countSelectedDay = events.length;
                       } else {
+                        eventosModel2 = [];
+                        countList = eventosModel2.length;
+                        print(countList);
                         selectedDay = day;
                         countSelectedDay = 0;
                         _selectedEvents.clear();
@@ -154,7 +166,7 @@ class _Agenda3State extends State<Agenda3> {
               ),
 
               //Eventos
-              if (_selectedEvents.isNotEmpty)
+              if (countList != 0)
               Card(
                 child: ExpansionTile(
                   tilePadding:
@@ -169,63 +181,45 @@ class _Agenda3State extends State<Agenda3> {
                   ),
                   subtitle: Text('Usted tiene $countSelectedDay citas agendadas'),
                   children: [
-                    if (_selectedEvents != null)
-                      ..._selectedEvents.map(
-                        (e) => Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.green[100],
-                            border: Border.all(
-                              color: Colors.black,
-                            ),
-                          ),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Container(
-                                    width: 50,
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          image:
-                                              NetworkImage(userinfo.fotoPerfil),
-                                          fit: BoxFit.fill),
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: Border.all(
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Flexible(
-                                    child: ListTile(
-                                      title: Text(e.servicio),
-                                      subtitle: Text(e.fecha.toString()),
-                                      onTap: () {    
-                                        setState(() {
-                                          _selectedEvents.clear();
-                                        });                                   
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (_) => ViewEvent(
-                                                    eventosModeloGlobal: e,)));
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                      )
+                    for(EventosModelo eventos in eventosModel2)
+                    Dismissible(
+                      key: ValueKey(eventos),
+                      child: ListTile(
+                        title: Text(eventos.servicio),
+                        subtitle: Text(eventos.fecha.toString()),
+                        onLongPress: () {
+                          print("object");
+                        },
+                      ),
+                      onDismissed: (direction) {
+                        setState(() {
+                          eventosModel2.remove(eventos);
+                          EventosCtrl.actualizarEventosDenied(eventos.idcita).then((value) {
+                            if (value) {
+                              setState(() {
+                                eventosModel2.remove(eventos);
+                                countList = eventosModel2.length;
+                              });                             
+                              print('Si Wey');
+                            } else {
+                              print('No');
+                            }
+                          });
+
+                        });
+                        print("object");
+                      },
+                      background: Container(
+                        child: Icon(Icons.delete, color: Colors.red,),
+                        alignment: Alignment.center,
+                      ),
+                      secondaryBackground: Container(
+                        child: Icon(Icons.delete, color: Colors.red,),
+                        alignment: Alignment.center,
+                      ),
+                    ),
                   ],
+                  
                 ),
                 elevation: 10,
                 margin: new EdgeInsets.only(
@@ -233,6 +227,71 @@ class _Agenda3State extends State<Agenda3> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0)),
               ),
+
+
+              // Card(
+              //   child: ExpansionTile(
+              //     tilePadding:
+              //         EdgeInsets.fromLTRB(_screenSize.width * 0.060, 0, 12, 1),
+              //     leading: Icon(
+              //       MdiIcons.bookOpenPageVariant,
+              //       color: Colors.lightBlue,
+              //     ),
+              //     title: Text(
+              //       selectedDay.year.toString()+'-'+selectedDay.month.toString()+'-'+selectedDay.day.toString(),
+              //       style: TextStyle(color: Colors.grey.shade600),
+              //     ),
+              //     subtitle: Text('Usted tiene $countSelectedDay citas agendadas'),
+              //     children: [
+                    
+              //       if (_selectedEvents != null)
+              //         ..._selectedEvents.map(
+              //           (e) => Row(
+              //             children: [
+              //               Flexible(
+              //                 child: Dismissible(
+              //                   key: ValueKey(e),
+              //                   child: ListTile(
+              //                     leading: Image(image: NetworkImage(userinfo.fotoPerfil)),
+              //                     title: Text(e.servicio),
+              //                     subtitle: Text(e.fecha.toString()),
+              //                     // onTap: () {    
+              //                     //   setState(() {
+              //                     //     _selectedEvents.clear();
+              //                     //   });                                   
+              //                     //   Navigator.push(
+              //                     //       context,
+              //                     //       MaterialPageRoute(
+              //                     //           builder: (_) => ViewEvent(
+              //                     //               eventosModeloGlobal: e,)));
+              //                     // },
+              //                   ),
+              //                   background: Container(color: Colors.amber),
+              //                   onDismissed: (direction) {
+              //                     setState(() {
+              //                       EventosCtrl.actualizarEventosDenied(e.idcita).then((value) {
+              //                         if (value) {
+              //                           print('Si Wey');
+              //                         } else {
+              //                           print('No');
+              //                         }
+              //                       });
+              //                     });
+              //                     print(e.idcita);
+              //                   },
+              //                 ),
+              //               ),
+              //             ],
+              //           ),
+              //         )
+              //     ],
+              //   ),
+              //   elevation: 10,
+              //   margin: new EdgeInsets.only(
+              //       left: 10.0, right: 10.0, top: 8.0, bottom: 5.0),
+              //   shape: RoundedRectangleBorder(
+              //       borderRadius: BorderRadius.circular(20.0)),
+              // ),
               Container(
                 height: 100,
               ),
