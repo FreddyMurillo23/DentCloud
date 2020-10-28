@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:muro_dentcloud/src/pages/Inicio/prueba.dart';
 import 'package:muro_dentcloud/src/pages/agenda/add_event.dart';
 import 'package:muro_dentcloud/src/pages/agenda/agendaUser.dart';
 import 'package:muro_dentcloud/src/pages/agenda/doctor_pendients.dart';
@@ -41,5 +42,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'eventosPendientes': (BuildContext context) => DoctorEventsPendients(),
     'serviciosNegocios': (BuildContext context) => BusinessServicePage(),
     'settings': (BuildContext context) => SettingsPage(),
+    'prueba': (BuildContext context) => Prueba(),
+    // 'postPublicacion': (BuildContext context) => PostPublicacionPage(),
   };
 }
