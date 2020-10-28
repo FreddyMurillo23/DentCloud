@@ -46,3 +46,18 @@ class EventosUsuario with ChangeNotifier{
     });
   }
 }
+
+class EventosDoctores with ChangeNotifier{
+  List<EventosModelo> eventos = List<EventosModelo>();
+
+  void listarEventosDoctor(String email){
+    EventosCtrl.listarEventos(email).then((value){
+      if(value!=null){
+        this.eventos = value;
+      } else{
+        this.eventos = List<EventosModelo>();       
+      }
+      notifyListeners();
+    });
+  }
+}

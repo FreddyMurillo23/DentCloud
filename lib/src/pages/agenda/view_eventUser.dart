@@ -40,7 +40,6 @@ class _ViewEventUserState extends State<ViewEventUser> {
     controladorCorreoUser.text = widget.correo;
     controladorNombreUser.text = widget.nombres;
     controladorApellidoUser.text = widget.apellidos;
-    
   }
 
   //Cupertino Dialog

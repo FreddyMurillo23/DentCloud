@@ -3,11 +3,8 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:muro_dentcloud/src/controllers/apointment_ctrl.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/event_model.dart';
-import 'package:muro_dentcloud/src/pages/agenda/doctor_pendients.dart';
 import 'package:muro_dentcloud/src/pages/agenda/view_eventDoctor.dart';
 import 'package:muro_dentcloud/src/providers/event_provider.dart';
-import 'package:muro_dentcloud/src/widgets/circle_button.dart';
-import 'package:muro_dentcloud/src/widgets/drawer_appbar.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'dart:async';
@@ -26,6 +23,8 @@ class _Agenda3State extends State<Agenda3> {
   List<EventosModelo> eventosModel;
   List<EventosModeloUsuario> eventosModeUsuario;
   EventosHoldProvider eventosProvider;
+  int countSelectedDay;
+  DateTime selectedDay;
 
   @override
   void initState() {
@@ -33,7 +32,10 @@ class _Agenda3State extends State<Agenda3> {
     _events = {};
     _selectedEvents = [];
     _controller = CalendarController();
+    countSelectedDay = 0;
+    selectedDay = DateTime.now();
   }
+  
 
   Map<DateTime, List<dynamic>> _eventsGet(List<EventosModelo> events) {
     Map<DateTime, List<dynamic>> data = {};
@@ -68,12 +70,13 @@ class _Agenda3State extends State<Agenda3> {
           if (snapshot.hasError) {
             print(snapshot.hasError.toString());
           }
-          DateTime selectedDay;
-          int countSelectedDay ;
+          
+
           return SingleChildScrollView(
             child: Column(children: <Widget>[
               Card(
                 child: TableCalendar(
+                  initialSelectedDay: null,
                   availableGestures: AvailableGestures.horizontalSwipe,
                   events: _events,
                   locale: 'es',
@@ -93,13 +96,12 @@ class _Agenda3State extends State<Agenda3> {
                     setState(() {
                       if (events.isNotEmpty) {
                         _selectedEvents = events;
-                        print("Si hay eventos en este día");
                         selectedDay = day;
+                        print(selectedDay.toIso8601String());
                         countSelectedDay = events.length;
                       } else {
                         selectedDay = day;
                         countSelectedDay = 0;
-                        print("No hay eventos en este día");
                         _selectedEvents.clear();
                       }
                     });
@@ -150,6 +152,9 @@ class _Agenda3State extends State<Agenda3> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0)),
               ),
+
+              //Eventos
+              if (_selectedEvents.isNotEmpty)
               Card(
                 child: ExpansionTile(
                   tilePadding:
@@ -159,7 +164,7 @@ class _Agenda3State extends State<Agenda3> {
                     color: Colors.lightBlue,
                   ),
                   title: Text(
-                    '$selectedDay',
+                    selectedDay.year.toString()+'-'+selectedDay.month.toString()+'-'+selectedDay.day.toString(),
                     style: TextStyle(color: Colors.grey.shade600),
                   ),
                   subtitle: Text('Usted tiene $countSelectedDay citas agendadas'),
@@ -202,13 +207,15 @@ class _Agenda3State extends State<Agenda3> {
                                     child: ListTile(
                                       title: Text(e.servicio),
                                       subtitle: Text(e.fecha.toString()),
-                                      onTap: () {
-                                        print(e.fecha.toString());
+                                      onTap: () {    
+                                        setState(() {
+                                          _selectedEvents.clear();
+                                        });                                   
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (_) => ViewEvent(
-                                                    eventosModeloGlobal: e)));
+                                                    eventosModeloGlobal: e,)));
                                       },
                                     ),
                                   ),

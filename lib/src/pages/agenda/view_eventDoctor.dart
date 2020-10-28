@@ -1,7 +1,9 @@
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:muro_dentcloud/src/controllers/apointment_ctrl.dart';
+import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/doctors_model.dart';
 import 'package:muro_dentcloud/src/models/event_model.dart';
 
@@ -30,11 +32,52 @@ class _ViewEventState extends State<ViewEvent> {
 
   Doctores doctorSeleccionado;
   List<Doctores> historial = [];
+
+  Future<void> cupertinoDialog(EventosModelo eventos, BuildContext context) async{
+    switch(await showDialog(
+      context: context,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          title: const Text('Cancelar Cita'),
+          content: Text('¿Desea cancelar esta cita?'),
+          actions: <Widget>[
+            CupertinoDialogAction(
+              onPressed: () {
+                Navigator.pop(context, 'Aceptar');
+              },
+              child: const Text('Aceptar'),
+            ),
+            CupertinoDialogAction(
+              onPressed: () {
+                Navigator.pop(context, 'Cancelar');
+              },
+              child: const Text('Cancelar'),
+            ),
+          ],
+        );
+      },
+    )){
+      case 'Aceptar':
+      print(eventos.idcita);
+        EventosCtrl.actualizarEventosDenied(eventos.idcita).then((value) {
+            if (value) {
+              print('Si Wey');
+            } else {
+              print('No');
+            }
+          });
+        Navigator.pop(context, 'agendaUser');
+        break;
+      case 'Cancelar':
+        print('Cancelar');
+        break;
+    }
+  }
   
   @override
   void initState() {
     super.initState();
-    controladorCorreoUser.text = widget.eventosModeloGlobal.paciente;
+    controladorCorreoUser.text = widget.eventosModeloGlobal.correo;
     controladorNombreUser.text = widget.eventosModeloGlobal.paciente;
     controladorApellidoUser.text = widget.eventosModeloGlobal.paciente;
     
@@ -107,7 +150,7 @@ class _ViewEventState extends State<ViewEvent> {
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.all(Radius.circular(10)),
                                         image: DecorationImage(
-                                          image: NetworkImage("http://54.197.83.249/Contenido_ftp/Imagenes%20por%20defecto/Placeholder_male.png"),
+                                          image: NetworkImage(widget.eventosModeloGlobal.foto),
                                           fit: BoxFit.fill
                                         ),
                                         color: Colors.amber
@@ -268,11 +311,21 @@ class _ViewEventState extends State<ViewEvent> {
                         children: [
                           Expanded(
                             child: RaisedButton(
-                              onPressed: (){},
-                              child: Text("Cancelar"),
+                              onPressed: (){
+                                cupertinoDialog(widget.eventosModeloGlobal, context);
+                              },
+                              child: Text("Cancelar Cita"),
                             ),
                           ),
                           SizedBox(width: 10,),
+                          Expanded(
+                            child: RaisedButton(
+                              onPressed: (){
+                                
+                              },
+                              child: Text("Editar Cita"),
+                            ),
+                          ),
                         ],
                       ),
                     ),

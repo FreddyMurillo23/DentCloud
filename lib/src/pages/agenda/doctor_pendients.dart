@@ -414,13 +414,7 @@ class _DoctorEventsPendientsState extends State<DoctorEventsPendients> {
                   ],
                 )
             ] else ...[
-              Center(
-                child: SizedBox(
-                  height: 30,
-                  width: 30,
-                  child: CircularProgressIndicator(),
-                ),
-              )
+              
             ]
           ],
         ),
