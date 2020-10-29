@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:muro_dentcloud/src/models/apointments_model.dart';
 import 'package:muro_dentcloud/src/models/business_model.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
+import 'package:muro_dentcloud/src/models/follows_model.dart';
 import 'package:muro_dentcloud/src/models/list_message_model.dart';
 import 'package:muro_dentcloud/src/models/publications_model.dart';
 import 'package:muro_dentcloud/src/models/search_contact_model.dart';
@@ -48,7 +49,8 @@ class DataProvider {
     // print(public);
     return public;
   }
-Future<List<Publicacion>> getPublicacionesByRuc(
+
+  Future<List<Publicacion>> getPublicacionesByRuc(
       List<PublicacionesNegocio> id) async {
     List<Publicacion> public = new List();
     for (var pub in id) {
@@ -62,13 +64,12 @@ Future<List<Publicacion>> getPublicacionesByRuc(
       final decodedData = json.decode(resp.body);
       final publicaciones =
           new PublicacionesByUser.fromJsonList(decodedData['publicaciones']);
-      public..add(publicaciones.items[0]);
+      public..add(publicaciones.items[0]);  
       // print(publicaciones.items[0]);
     }
     // print(public);
     return public;
   }
-
 
   //!PROVIDER DE DATOS PARA LA AGENDA
   Future<List<EventModel>> eventosPorCorreo(emailDoctor) async {
@@ -141,27 +142,34 @@ Future<List<Publicacion>> getPublicacionesByRuc(
     }
   }
 
-  Future<List<ListaChat>> getListChat(emailuser) async{
-    String url=
-       'http://54.197.83.249/PHP_REST_API/api/get/get_list_message_content.php?user_email=$emailuser';
-     final resp = await http.get(url);
-      List<dynamic> items = new List();
-      items.add(resp.body);
-      final decodedData = json.decode(resp.body);
-      final listachat=new ListaChatData.fromJsonList(decodedData['lista_chat']);
-      return listachat.items;
-  }
-
-  Future<List<BusquedaNombre>> buscar_chat(emailuser,String query) async
-  {
-    String url=
-    'http://54.197.83.249/PHP_REST_API/api/get/get_contact_by_name.php?user_email=$emailuser&busqueda=$query';
+  Future<List<ListaChat>> getListChat(emailuser) async {
+    String url =
+        'http://54.197.83.249/PHP_REST_API/api/get/get_list_message_content.php?user_email=$emailuser';
     final resp = await http.get(url);
-      List<dynamic> items = new List();
-      items.add(resp.body);
-      final decodedData = json.decode(resp.body);
-      final busqueda=new Busqueda.fromJsonList(decodedData['busqueda_nombre']);
-      return busqueda.items;
+    List<dynamic> items = new List();
+    items.add(resp.body);
+    final decodedData = json.decode(resp.body);
+    final listachat = new ListaChatData.fromJsonList(decodedData['lista_chat']);
+    return listachat.items;
   }
 
+  Future<List<BusquedaNombre>> buscar_chat(emailuser, String query) async {
+    String url =
+        'http://54.197.83.249/PHP_REST_API/api/get/get_contact_by_name.php?user_email=$emailuser&busqueda=$query';
+    final resp = await http.get(url);
+    List<dynamic> items = new List();
+    items.add(resp.body);
+    final decodedData = json.decode(resp.body);
+    final busqueda = new Busqueda.fromJsonList(decodedData['busqueda_nombre']);
+    return busqueda.items;
+  }
+
+  Future<List<Siguiendo>> follow(String emailUser) {
+    String url =
+        'http://54.197.83.249/PHP_REST_API/api/get/get_followers_by_user.php?user_email=$emailUser';
+    final resp = await http.get(url);
+    final decodedData = jsonDecode(resp.body);
+    final follows 
+
+  }
 }
