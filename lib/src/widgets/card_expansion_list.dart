@@ -6,7 +6,7 @@ class CardExpansionPanel extends StatelessWidget {
   final IconData icon;
   final Color iconColor;
   final Widget lista;
-  final bool status;
+
 
   const CardExpansionPanel({
     Key key,
@@ -14,7 +14,7 @@ class CardExpansionPanel extends StatelessWidget {
     @required this.icon,
     @required this.iconColor,
     @required this.lista,
-    @required this.status,
+
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {

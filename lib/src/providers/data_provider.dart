@@ -164,12 +164,12 @@ class DataProvider {
     return busqueda.items;
   }
 
-  Future<List<Siguiendo>> follow(String emailUser) {
-    String url =
-        'http://54.197.83.249/PHP_REST_API/api/get/get_followers_by_user.php?user_email=$emailUser';
-    final resp = await http.get(url);
-    final decodedData = jsonDecode(resp.body);
-    final follows 
+  // Future<List<Siguiendo>> follow(String emailUser) {
+  //   String url =
+  //       'http://54.197.83.249/PHP_REST_API/api/get/get_followers_by_user.php?user_email=$emailUser';
+  //   final resp = await http.get(url);
+  //   final decodedData = jsonDecode(resp.body);
+  //   final follows 
 
-  }
+  // }
 }

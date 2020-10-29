@@ -112,7 +112,7 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
               lista: listaPerfiles(
                 widget.currentuser,
               ),
-              status: status,
+
             ),
             SizedBox(
               height: screenSize.height * 0.01,
