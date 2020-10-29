@@ -24,8 +24,8 @@ class CardExpansionPanel extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       elevation: 4.0,
       child: ExpansionTile(
-        initiallyExpanded: status,
-        // maintainState: status,
+
+        initiallyExpanded: false,
         title: Text(
           headerData,
           style: TextStyle(
