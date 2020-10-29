@@ -6,6 +6,7 @@ class CardExpansionPanel extends StatelessWidget {
   final IconData icon;
   final Color iconColor;
   final Widget lista;
+  final bool status;
 
   const CardExpansionPanel({
     Key key,
@@ -13,7 +14,7 @@ class CardExpansionPanel extends StatelessWidget {
     @required this.icon,
     @required this.iconColor,
     @required this.lista,
-
+    @required this.status,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -23,6 +24,8 @@ class CardExpansionPanel extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       elevation: 4.0,
       child: ExpansionTile(
+        initiallyExpanded: status,
+        // maintainState: status,
         title: Text(
           headerData,
           style: TextStyle(
@@ -30,8 +33,11 @@ class CardExpansionPanel extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
-        tilePadding:EdgeInsets.fromLTRB(10, 5, 10, 5),
-        leading: Icon(icon,color: iconColor,),
+        tilePadding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+        leading: Icon(
+          icon,
+          color: iconColor,
+        ),
         children: <Widget>[
           // Text(valueData),
           lista

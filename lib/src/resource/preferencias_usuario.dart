@@ -17,7 +17,7 @@ class PreferenciasUsuario {
   }
 
   //! Datos del correo actual en la app
-  get currentCorreo async {
+  get currentCorreo {
     return _prefs.getString('currentCorreo') ?? 'empty';
   }
 

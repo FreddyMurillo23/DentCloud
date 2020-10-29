@@ -12,31 +12,29 @@ class AwaitPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final _screenSize = MediaQuery.of(context).size;
     final currentUserData = new PreferenciasUsuario();
-    currentUserData.currentCorreo.then((email) {
-      currentUserData.currentPassword.then((password) {
-        if (email == 'empty' && password == 'empty') {
-          final duration = new Duration(seconds: 1);
-          new Timer(duration, () {
-            
-            Navigator.pushReplacementNamed(context, 'signin');
-          });
-        } else {
-          final duration = new Duration(seconds: 1);
-          new Timer(duration, () {
-            final login = new DataProvider();
+    
+    currentUserData.currentPassword.then((password) {
+      
+      if (currentUserData.currentCorreo == 'empty' && password == 'empty') {
+        final duration = new Duration(seconds: 1);
+        new Timer(duration, () {
+          Navigator.pushReplacementNamed(context, 'signin');
+        });
+      } else {
+        final duration = new Duration(seconds: 1);
+        new Timer(duration, () {
+          final login = new DataProvider();
 
-            login.userData(email).then((value) {
-              if (value.isNotEmpty) {
-                
-                Navigator.pushReplacementNamed(context, 'startuppage',
-                    arguments: value[0]);
-              } else {
-                print("Error");
-              }
-            });
+          login.userData(currentUserData.currentCorreo).then((value) {
+            if (value.isNotEmpty) {
+              Navigator.pushReplacementNamed(context, 'startuppage',
+                  arguments: value[0]);
+            } else {
+              print("Error");
+            }
           });
-        }
-      });
+        });
+      }
     });
 
     return Scaffold(
