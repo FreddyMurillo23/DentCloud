@@ -92,249 +92,255 @@ class _ViewEventState extends State<ViewEvent> {
         title: Text("Detalles de la Cita", style: TextStyle(color: Colors.black, fontSize: 35),),
       ),
       body: SingleChildScrollView(
-        child: Column(   
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,       
-          children: [
+        padding: EdgeInsets.symmetric(vertical: 40, horizontal: 10),
+        child: Card(
+          color: Colors.amber,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0)),
+          child: Column(   
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,       
+            children: [
 
-            Padding(
-              padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
-              child: Form(
-                key: formkey,
-                child: Column(
-                  children: [
+              Padding(
+                padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
+                child: Form(
+                  key: formkey,
+                  child: Column(
+                    children: [
 
-                    //Container Usuario
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Container(
-                            height: 250,
-                            decoration: BoxDecoration(
-                              color: Colors.blueGrey[900],
-                              borderRadius: BorderRadius.all(Radius.circular(20)),            
-                            ),
-                            padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
-                            child: Column(                 
-                              children: [
-                                //Correo Usuario
-                                Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Flexible(
-                                      child: TextField(
-                                        controller: controladorCorreoUser,
-                                        decoration: InputDecoration(
-                                          filled: true,
-                                          fillColor: Colors.blueGrey[600],
-                                          labelText: "Correo Electrónico",
-                                          labelStyle: TextStyle(
-                                            color: Colors.white,
-                                          ),
-                                          enabled: false,
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                                          )
-                                        ),
-                                       ),
-                                    ),
-                                    SizedBox(width: 10,),
-                                    Container(                                    
-                                      height: 60,
-                                      width: 60,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                                        image: DecorationImage(
-                                          image: NetworkImage(widget.eventosModeloGlobal.foto),
-                                          fit: BoxFit.fill
-                                        ),
-                                        color: Colors.amber
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(height: 15,),
-                                //Nombres Usuario
-                                TextField(
-                                  controller: controladorNombreUser,
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    fillColor: Colors.blueGrey[600],
-                                    labelText: "Nombres",
-                                    labelStyle: TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                    enabled: false,
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                                    )
-                                  ),
-                                ),
-                                SizedBox(height: 15,),
-                                //Apellidos Usuario
-                                TextField(
-                                  controller: controladorApellidoUser,
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    fillColor: Colors.blueGrey[600],
-                                    labelText: "Apellidos",
-                                    labelStyle: TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                    enabled: false,
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                                    )
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 15,),
-                    //Servicio
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: new TextFormField(
-                            decoration: InputDecoration(   
-                              //labelText: "Servicio",                         
-                              filled: true,
-                              fillColor: Colors.white,
-                              enabled: false,
-                              hintText: widget.eventosModeloGlobal.servicio,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(20)),
-                              ),
-                            ),
-                            validator: (value) => value.isEmpty ? 'Este campo no puede estar vacio' : null,
-                            onSaved: (value) => servicio = value,
-                          ),
-                        ),
-                        SizedBox(width: 5,),
-                        Container(                                    
-                          height: 60,
-                          width: 60,
-                          child: GestureDetector(
-                            child: Icon(Icons.add_box),
-                            onTap: () {
-                              print('Hola');
-                            },
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(height: 15,),
-                    //Descripcion
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: new TextFormField(
-                            maxLines: 3,
-                            decoration: InputDecoration(   
-                              //labelText: "Descripción",                         
-                              filled: true,
-                              fillColor: Colors.white,
-                              enabled: false,
-                              hintText: widget.eventosModeloGlobal.descripcion,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(20)),
-                              ),
-                            ),
-                            validator: (value) => value.isEmpty ? 'Este campo no puede estar vacio' : null,
-                            onSaved: (value) => descripcion = value,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 15,),                
-                    //Fecha y Hora
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        //Fecha
-                        Expanded(
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              //labelText: "Fecha",
-                              filled: true,
-                              enabled: false,
-                              hintText: widget.eventosModeloGlobal.fecha.year.toString()+"/"+widget.eventosModeloGlobal.fecha.month.toString()
-                              +"/"+widget.eventosModeloGlobal.fecha.day.toString(),
-                              fillColor: Colors.white,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(20)),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 5,),
-                        //Hora
-                        Expanded(
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              //labelText: "Fecha",
-                              filled: true,
-                              enabled: false,
-                              hintText: widget.eventosModeloGlobal.fecha.hour.toString()+":"+widget.eventosModeloGlobal.fecha.minute.toString(),
-                              fillColor: Colors.white,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(20)),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 15,),        
-                    //Botones
-                    Center(
-                      child: Row(
+                      //Container Usuario
+                      Row(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Expanded(
-                            child: RaisedButton(
-                              onPressed: (){
-                                cupertinoDialog(widget.eventosModeloGlobal, context);
-                              },
-                              child: Text("Cancelar Cita"),
+                            child: Container(
+                              height: 250,
+                              decoration: BoxDecoration(
+                                color: Colors.blueGrey[900],
+                                borderRadius: BorderRadius.all(Radius.circular(20)),            
+                              ),
+                              padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
+                              child: Column(                 
+                                children: [
+                                  //Correo Usuario
+                                  Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Flexible(
+                                        child: TextField(
+                                          controller: controladorCorreoUser,
+                                          decoration: InputDecoration(
+                                            filled: true,
+                                            fillColor: Colors.blueGrey[600],
+                                            labelText: "Correo Electrónico",
+                                            labelStyle: TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                            enabled: false,
+                                            border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                                            )
+                                          ),
+                                         ),
+                                      ),
+                                      SizedBox(width: 10,),
+                                      Container(                                    
+                                        height: 60,
+                                        width: 60,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                                          image: DecorationImage(
+                                            image: NetworkImage(widget.eventosModeloGlobal.foto),
+                                            fit: BoxFit.fill
+                                          ),
+                                          color: Colors.amber
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(height: 15,),
+                                  //Nombres Usuario
+                                  TextField(
+                                    controller: controladorNombreUser,
+                                    decoration: InputDecoration(
+                                      filled: true,
+                                      fillColor: Colors.blueGrey[600],
+                                      labelText: "Nombres",
+                                      labelStyle: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                      enabled: false,
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                                      )
+                                    ),
+                                  ),
+                                  SizedBox(height: 15,),
+                                  //Apellidos Usuario
+                                  TextField(
+                                    controller: controladorApellidoUser,
+                                    decoration: InputDecoration(
+                                      filled: true,
+                                      fillColor: Colors.blueGrey[600],
+                                      labelText: "Apellidos",
+                                      labelStyle: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                      enabled: false,
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                                      )
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 15,),
+                      //Servicio
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: new TextFormField(
+                              decoration: InputDecoration(   
+                                //labelText: "Servicio",                         
+                                filled: true,
+                                fillColor: Colors.white,
+                                enabled: false,
+                                hintText: widget.eventosModeloGlobal.servicio,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                                ),
+                              ),
+                              validator: (value) => value.isEmpty ? 'Este campo no puede estar vacio' : null,
+                              onSaved: (value) => servicio = value,
                             ),
                           ),
-                          SizedBox(width: 10,),
-                          Expanded(
-                            child: RaisedButton(
-                              onPressed: (){
-                                
+                          SizedBox(width: 5,),
+                          Container(                                    
+                            height: 60,
+                            width: 60,
+                            child: GestureDetector(
+                              child: Icon(Icons.add_box),
+                              onTap: () {
+                                print('Hola');
                               },
-                              child: Text("Editar Cita"),
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(height: 15,),
+                      //Descripcion
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: new TextFormField(
+                              maxLines: 3,
+                              decoration: InputDecoration(   
+                                //labelText: "Descripción",                         
+                                filled: true,
+                                fillColor: Colors.white,
+                                enabled: false,
+                                hintText: widget.eventosModeloGlobal.descripcion,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                                ),
+                              ),
+                              validator: (value) => value.isEmpty ? 'Este campo no puede estar vacio' : null,
+                              onSaved: (value) => descripcion = value,
                             ),
                           ),
                         ],
                       ),
-                    ),
+                      SizedBox(height: 15,),                
+                      //Fecha y Hora
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          //Fecha
+                          Expanded(
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                //labelText: "Fecha",
+                                filled: true,
+                                enabled: false,
+                                hintText: widget.eventosModeloGlobal.fecha.year.toString()+"/"+widget.eventosModeloGlobal.fecha.month.toString()
+                                +"/"+widget.eventosModeloGlobal.fecha.day.toString(),
+                                fillColor: Colors.white,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 5,),
+                          //Hora
+                          Expanded(
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                //labelText: "Fecha",
+                                filled: true,
+                                enabled: false,
+                                hintText: widget.eventosModeloGlobal.fecha.hour.toString()+":"+widget.eventosModeloGlobal.fecha.minute.toString(),
+                                fillColor: Colors.white,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 15,),        
+                      //Botones
+                      // Center(
+                      //   child: Row(
+                      //     mainAxisSize: MainAxisSize.max,
+                      //     mainAxisAlignment: MainAxisAlignment.start,
+                      //     crossAxisAlignment: CrossAxisAlignment.center,
+                      //     children: [
+                      //       Expanded(
+                      //         child: RaisedButton(
+                      //           onPressed: (){
+                      //             cupertinoDialog(widget.eventosModeloGlobal, context);
+                      //           },
+                      //           child: Text("Cancelar Cita"),
+                      //         ),
+                      //       ),
+                      //       SizedBox(width: 10,),
+                      //       Expanded(
+                      //         child: RaisedButton(
+                      //           onPressed: (){
+                                  
+                      //           },
+                      //           child: Text("Editar Cita"),
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
 
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
