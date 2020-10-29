@@ -55,6 +55,8 @@ class _Agenda3State extends State<Agenda3> {
     return temporal2;
   }
 
+  
+
   @override
   Widget build(BuildContext context) {
     CurrentUsuario userinfo = ModalRoute.of(context).settings.arguments;
@@ -187,27 +189,55 @@ class _Agenda3State extends State<Agenda3> {
                       child: ListTile(
                         title: Text(eventos.servicio),
                         subtitle: Text(eventos.fecha.toString()),
-                        onLongPress: () {
+                        onTap: () {
                           print("object");
+                          Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => ViewEvent(
+                                  eventosModeloGlobal: eventos,)));
                         },
                       ),
-                      onDismissed: (direction) {
-                        setState(() {
-                          eventosModel2.remove(eventos);
-                          EventosCtrl.actualizarEventosDenied(eventos.idcita).then((value) {
-                            if (value) {
-                              setState(() {
-                                eventosModel2.remove(eventos);
-                                countList = eventosModel2.length;
-                              });                             
-                              print('Si Wey');
-                            } else {
-                              print('No');
-                            }
-                          });
+                      direction: DismissDirection.startToEnd,
+                      confirmDismiss: (direction) async{
+                        return await showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: const Text('Cancelar Cita'),
+                              content: const Text("¿Está seguro que desea cancelar esta cita?"),
+                               actions: <Widget>[
+                                  FlatButton(
+                                    onPressed: () {
 
-                        });
-                        print("object");
+                                      setState(() {
+                                      eventosModel2.remove(eventos);
+                                      EventosCtrl.actualizarEventosDenied(eventos.idcita).then((value) {
+                                        if (value) {
+                                          setState(() {
+                                            eventosModel2.remove(eventos);
+                                            countSelectedDay--;
+                                            countList = eventosModel2.length;
+                                          });                             
+                                          print('Si Wey');
+                                        } else {
+                                          print('No');
+                                        }
+                                      });
+                                    });
+                                    
+                                    Navigator.of(context).pop(false);
+                                    },
+                                    child: const Text("Aceptar")
+                                  ),
+                                  FlatButton(
+                                    onPressed: () => Navigator.of(context).pop(false),
+                                    child: const Text("Cancelar"),
+                                  ),
+                                ],
+                            );
+                          },
+                        );
                       },
                       background: Container(
                         child: Icon(Icons.delete, color: Colors.red,),
@@ -228,70 +258,6 @@ class _Agenda3State extends State<Agenda3> {
                     borderRadius: BorderRadius.circular(20.0)),
               ),
 
-
-              // Card(
-              //   child: ExpansionTile(
-              //     tilePadding:
-              //         EdgeInsets.fromLTRB(_screenSize.width * 0.060, 0, 12, 1),
-              //     leading: Icon(
-              //       MdiIcons.bookOpenPageVariant,
-              //       color: Colors.lightBlue,
-              //     ),
-              //     title: Text(
-              //       selectedDay.year.toString()+'-'+selectedDay.month.toString()+'-'+selectedDay.day.toString(),
-              //       style: TextStyle(color: Colors.grey.shade600),
-              //     ),
-              //     subtitle: Text('Usted tiene $countSelectedDay citas agendadas'),
-              //     children: [
-                    
-              //       if (_selectedEvents != null)
-              //         ..._selectedEvents.map(
-              //           (e) => Row(
-              //             children: [
-              //               Flexible(
-              //                 child: Dismissible(
-              //                   key: ValueKey(e),
-              //                   child: ListTile(
-              //                     leading: Image(image: NetworkImage(userinfo.fotoPerfil)),
-              //                     title: Text(e.servicio),
-              //                     subtitle: Text(e.fecha.toString()),
-              //                     // onTap: () {    
-              //                     //   setState(() {
-              //                     //     _selectedEvents.clear();
-              //                     //   });                                   
-              //                     //   Navigator.push(
-              //                     //       context,
-              //                     //       MaterialPageRoute(
-              //                     //           builder: (_) => ViewEvent(
-              //                     //               eventosModeloGlobal: e,)));
-              //                     // },
-              //                   ),
-              //                   background: Container(color: Colors.amber),
-              //                   onDismissed: (direction) {
-              //                     setState(() {
-              //                       EventosCtrl.actualizarEventosDenied(e.idcita).then((value) {
-              //                         if (value) {
-              //                           print('Si Wey');
-              //                         } else {
-              //                           print('No');
-              //                         }
-              //                       });
-              //                     });
-              //                     print(e.idcita);
-              //                   },
-              //                 ),
-              //               ),
-              //             ],
-              //           ),
-              //         )
-              //     ],
-              //   ),
-              //   elevation: 10,
-              //   margin: new EdgeInsets.only(
-              //       left: 10.0, right: 10.0, top: 8.0, bottom: 5.0),
-              //   shape: RoundedRectangleBorder(
-              //       borderRadius: BorderRadius.circular(20.0)),
-              // ),
               Container(
                 height: 100,
               ),
