@@ -103,31 +103,50 @@ class _Agenda3State extends State<Agenda3> {
     if (form.validate()) {
       form.save();
       if(servicio == null || dia == null || hora == null) {
-              } else{ 
-                fecha = combine(dia, hora);
-                EventosCtrl.actualizarEventosDatos(eventos.idcita, servicio, fecha).then((value) {
-                  if(value) {
-                    print('Si');
-                    // Scaffold.of(context).showSnackBar(SnackBar(
-                    //   content: Text("Cita Actualizada con Éxito"),
-                    //   duration: Duration(seconds: 1),
-                    //   backgroundColor: Colors.green,
-                    // ));
-                  } else {
-                    print('No');
-                    // Scaffold.of(context).showSnackBar(SnackBar(
-                    //   content: Text("Error al Actualizar la Cita"),
-                    //   duration: Duration(seconds: 1),
-                    //   backgroundColor: Colors.green,
-                    // ));
-                  }
-                });
-                Navigator.pop(context);
-              }   
+        } else{ 
+          fecha = combine(dia, hora);
+          EventosCtrl.actualizarEventosDatos(eventos.idcita, servicio, fecha).then((value) {
+            if(value) {
+              Scaffold.of(context).showSnackBar(SnackBar(
+                content: Text("Cita Actualizada con Éxito"),
+                duration: Duration(seconds: 1),
+                backgroundColor: Colors.green,
+              ));
+            } else {
+              Scaffold.of(context).showSnackBar(SnackBar(
+                content: Text("Error al Actualizar la Cita"),
+                duration: Duration(seconds: 1),
+                backgroundColor: Colors.green,
+              ));
+            }
+          });
+          Navigator.pop(context);
+        }   
       print("Form is valid");
     } else {
       print('Form is invalid');
     }
+  }
+
+  void _onLoading(BuildContext context2) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: new Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              new CircularProgressIndicator(),
+              new Text("Loading"),
+            ],
+          ),
+        );
+      },
+    );
+    new Future.delayed(new Duration(seconds: 3), () {
+      Navigator.of(context2).pop(false); //pop dialog
+    });
   }
 
     _openPopup(context, EventosModelo eventos) {
@@ -197,6 +216,7 @@ class _Agenda3State extends State<Agenda3> {
                     SizedBox(height: 5,),
                     //Hora Edicion
                     DateTimeField(
+                      
                       initialValue: eventos.fecha,
                       decoration: InputDecoration(
                         labelText: "Hora",
@@ -218,9 +238,12 @@ class _Agenda3State extends State<Agenda3> {
                         return DateTimeField.convert(time);
                       },
                       validator: (DateTime dateTime){
-                        if(dateTime == null) {
+                        if(dateTime == null) { 
                           return "Este campo no puede estar vacio";
+                        } else if(dateTime.hour == 0){
+                          return "Ingrese una hora valida";
                         }
+                        print(dateTime.hour.toString());
                         return null;
                       },
                     ),
@@ -236,28 +259,7 @@ class _Agenda3State extends State<Agenda3> {
             onPressed: () {            
               print('Hey');
               valideField(eventos);
-
-
-              // if(servicio == null || dia == null || hora == null) {
-              // } else{ 
-              //   fecha = combine(dia, hora);
-              //   EventosCtrl.actualizarEventosDatos(eventos.idcita, servicio, fecha).then((value) {
-              //     if(value) {
-              //       Scaffold.of(context).showSnackBar(SnackBar(
-              //         content: Text("Cita Actualizada con Éxito"),
-              //         duration: Duration(seconds: 1),
-              //         backgroundColor: Colors.green,
-              //       ));
-              //     } else {
-              //       Scaffold.of(context).showSnackBar(SnackBar(
-              //         content: Text("Error al Actualizar la Cita"),
-              //         duration: Duration(seconds: 1),
-              //         backgroundColor: Colors.green,
-              //       ));
-              //     }
-              //   });
-              //   Navigator.pop(context);
-              // }   
+              
             },
             child: Text(
               "Actualizar",
@@ -290,8 +292,7 @@ class _Agenda3State extends State<Agenda3> {
 
           if (snapshot.hasError) {
             print(snapshot.hasError.toString());
-          }
-          
+          }       
 
           return SingleChildScrollView(
             child: Column(children: <Widget>[
@@ -390,7 +391,7 @@ class _Agenda3State extends State<Agenda3> {
                     color: Colors.lightBlue,
                   ),
                   title: Text(
-                    selectedDay.year.toString()+'-'+selectedDay.month.toString()+'-'+selectedDay.day.toString(),
+                    selectedDay.year.toString()+' - '+selectedDay.month.toString()+' - '+selectedDay.day.toString(),
                     style: TextStyle(color: Colors.grey.shade600),
                   ),
                   subtitle: Text('Usted tiene $countSelectedDay citas agendadas'),
@@ -399,10 +400,14 @@ class _Agenda3State extends State<Agenda3> {
                     Dismissible(
                       key: ValueKey(eventos),
                       child: ListTile(
+                        leading: Container(
+                          width: 60,
+                          height: 60,
+                          child: FadeInImage.assetNetwork(placeholder: 'assets/loading.gif', image: eventos.foto),
+                        ),
                         title: Text(eventos.servicio),
-                        subtitle: Text(eventos.fecha.toString()),
+                        subtitle: Text(eventos.fecha.year.toString()+"/"+eventos.fecha.month.toString()+"/"+eventos.fecha.day.toString()),
                         onTap: () {
-                          print("object");
                           Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -424,7 +429,6 @@ class _Agenda3State extends State<Agenda3> {
                                actions: <Widget>[
                                   FlatButton(
                                     onPressed: () {
-
                                       setState(() {
                                       eventosModel2.remove(eventos);
                                       EventosCtrl.actualizarEventosDenied(eventos.idcita).then((value) {
@@ -433,21 +437,58 @@ class _Agenda3State extends State<Agenda3> {
                                             eventosModel2.remove(eventos);
                                             countSelectedDay--;
                                             countList = eventosModel2.length;
+                                            
                                           });                             
-                                          print('Si Wey');
                                         } else {
-                                          print('No');
                                         }
                                       });
-                                    });
-                                    
-                                    Navigator.of(context).pop(false);
+                                    });  
+                                      showDialog(
+                                        context: context,
+                                        barrierDismissible: false,
+                                        builder: (BuildContext context) {
+                                          return Dialog(
+                                            child: new Container(
+                                              height: 100,
+                                              child: new Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  new CircularProgressIndicator(),
+                                                  new SizedBox(width: 10,),
+                                                  new Text("Cargando"),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      );
+                                      new Future.delayed(new Duration(seconds: 2), () {
+                                        Navigator.of(context).pop(false); //pop dialog
+                                      });
+                                      new Future.delayed(new Duration(milliseconds: 1000), () {
+                                        Navigator.of(context).pop(false); //pop dialog
+                                      });
+                                    //   setState(() {
+                                    //   eventosModel2.remove(eventos);
+                                    //   EventosCtrl.actualizarEventosDenied(eventos.idcita).then((value) {
+                                    //     if (value) {
+                                    //       setState(() {
+                                    //         eventosModel2.remove(eventos);
+                                    //         countSelectedDay--;
+                                    //         countList = eventosModel2.length;
+                                            
+                                    //       });                             
+                                    //     } else {
+                                    //     }
+                                    //   });
+                                    // });                                    
                                     },
                                     child: const Text("Aceptar")
                                   ),
                                   FlatButton(
                                     onPressed: () => Navigator.of(context).pop(false),
                                     child: const Text("Cancelar"),
+                                    
                                   ),
                                 ],
                             );

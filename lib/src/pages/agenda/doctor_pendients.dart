@@ -165,7 +165,7 @@ class _DoctorEventsPendientsState extends State<DoctorEventsPendients> {
                       onShowPicker: (context, currentValue) async {
                         return showDatePicker(
                             context: context,
-                            firstDate: DateTime.now(),
+                            firstDate: DateTime(1900),
                             initialDate: currentValue ?? DateTime.now(),
                             lastDate: DateTime(2100));
                       },

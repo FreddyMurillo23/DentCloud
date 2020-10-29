@@ -3,6 +3,7 @@ import 'package:muro_dentcloud/src/pages/Inicio/prueba.dart';
 import 'package:muro_dentcloud/src/pages/agenda/add_event.dart';
 import 'package:muro_dentcloud/src/pages/agenda/agendaUser.dart';
 import 'package:muro_dentcloud/src/pages/agenda/doctor_pendients.dart';
+import 'package:muro_dentcloud/src/pages/agenda/receta_medica.dart';
 // import 'package:muro_dentcloud/src/pages/agenda/pruebaScaffol.dart';
 //import 'package:muro_dentcloud/src/pages/business_Services.dart';
 import 'package:muro_dentcloud/src/pages/details_Patients.dart';
@@ -43,6 +44,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'serviciosNegocios': (BuildContext context) => BusinessServicePage(),
     'settings': (BuildContext context) => SettingsPage(),
     'prueba': (BuildContext context) => Prueba(),
+    'recetas': (BuildContext context) => RecetaMedica(),
     // 'postPublicacion': (BuildContext context) => PostPublicacionPage(),
   };
 }
