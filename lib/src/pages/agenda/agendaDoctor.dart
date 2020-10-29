@@ -1,11 +1,16 @@
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:muro_dentcloud/src/controllers/apointment_ctrl.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/event_model.dart';
+import 'package:muro_dentcloud/src/models/services_model.dart';
 import 'package:muro_dentcloud/src/pages/agenda/view_eventDoctor.dart';
 import 'package:muro_dentcloud/src/providers/event_provider.dart';
+import 'package:muro_dentcloud/src/providers/services_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'dart:async';
 
@@ -19,12 +24,23 @@ class Agenda3 extends StatefulWidget {
 class _Agenda3State extends State<Agenda3> {
   CalendarController _controller;
   Map<DateTime, List<dynamic>> _events;
+  ServicioProvider servicioProvider;
   List<dynamic> _selectedEvents;
   List<EventosModelo> eventosModel2;
   List<EventosModeloUsuario> eventosModeUsuario;
   EventosHoldProvider eventosProvider;
   int countSelectedDay, countList;
+  Map dropDownItemsMap;
   DateTime selectedDay;
+  List<DropdownMenuItem> listServicio = List<DropdownMenuItem>();
+  Servicios _selectedItem;
+  final date = DateFormat("yyyy-MM-dd");
+  final time = DateFormat("HH:mm");
+  DateTime fecha, dia;
+  TimeOfDay hora;
+  String servicio;
+  final formkey = new GlobalKey<FormState>();
+  
 
   @override
   void initState() {
@@ -38,6 +54,8 @@ class _Agenda3State extends State<Agenda3> {
     countList = 0;
   }
   
+  static DateTime combine(DateTime date, TimeOfDay time) => DateTime(
+      date.year, date.month, date.day, time?.hour ?? 0, time?.minute ?? 0);
 
   Map<DateTime, List<dynamic>> _eventsGet(List<EventosModelo> events) {
     Map<DateTime, List<dynamic>> data = {};
@@ -55,7 +73,19 @@ class _Agenda3State extends State<Agenda3> {
     return temporal2;
   }
 
-  
+  List<DropdownMenuItem> getSelectOptions(List<Servicios> servicios){
+    dropDownItemsMap = new Map();
+    listServicio.clear();
+    servicios.forEach((servicios) { 
+      int index = servicios.servicioid;
+      dropDownItemsMap[index] = servicios;
+      listServicio.add(new DropdownMenuItem(
+        child: Text(servicios.descripcion),
+        value: servicios.servicioid,
+      ));
+    });
+    return listServicio;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +94,188 @@ class _Agenda3State extends State<Agenda3> {
     eventosProvider = Provider.of<EventosHoldProvider>(context);
     Future<List<EventosModelo>> futureEvents;
     futureEvents = EventosCtrl.listarEventos(userinfo.correo);
+    servicioProvider = Provider.of<ServicioProvider>(context);
+    servicioProvider.listarServicios(userinfo.cedula+'001');
+
+    void valideField(EventosModelo eventos){
+    final form = formkey.currentState;
+
+    if (form.validate()) {
+      form.save();
+      if(servicio == null || dia == null || hora == null) {
+              } else{ 
+                fecha = combine(dia, hora);
+                EventosCtrl.actualizarEventosDatos(eventos.idcita, servicio, fecha).then((value) {
+                  if(value) {
+                    print('Si');
+                    // Scaffold.of(context).showSnackBar(SnackBar(
+                    //   content: Text("Cita Actualizada con Éxito"),
+                    //   duration: Duration(seconds: 1),
+                    //   backgroundColor: Colors.green,
+                    // ));
+                  } else {
+                    print('No');
+                    // Scaffold.of(context).showSnackBar(SnackBar(
+                    //   content: Text("Error al Actualizar la Cita"),
+                    //   duration: Duration(seconds: 1),
+                    //   backgroundColor: Colors.green,
+                    // ));
+                  }
+                });
+                Navigator.pop(context);
+              }   
+      print("Form is valid");
+    } else {
+      print('Form is invalid');
+    }
+  }
+
+    _openPopup(context, EventosModelo eventos) {
+    dia = DateTime(eventos.fecha.year, eventos.fecha.month, eventos.fecha.day);
+    Alert(
+        context: context,
+        title: "Editar Cita",
+        content: Form(
+          key: formkey,
+          child: Column(
+            children: <Widget>[
+              Selector<ServicioProvider, List<Servicios>>(
+                selector: (context, model) => model.servicios,
+                builder: (context, servicios, child) => Column(
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.fromLTRB(15, 0, 10, 0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(20))
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton(
+                          isExpanded: true,
+                          items: getSelectOptions(servicios), 
+                          onChanged: (selected) {
+                            this._selectedItem = dropDownItemsMap[selected];
+                            servicio = _selectedItem.servicioid.toString();
+                            setState(() {
+                              this._selectedItem = dropDownItemsMap[selected];
+                              servicio = _selectedItem.servicioid.toString();
+                            });
+                          },
+                          hint: new Text(
+                            _selectedItem != null ? _selectedItem.descripcion: "Servicios",
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 5,),
+                    //Fecha Edicion
+                    DateTimeField(
+                      initialValue: eventos.fecha,
+                      decoration: InputDecoration(
+                        labelText: "Fecha",
+                        filled: true,
+                        enabled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                        ),
+                        prefixIcon: Icon(Icons.date_range)
+                      ),
+                      format: date,
+                      onShowPicker: (context, currentValue) async {
+                        return showDatePicker(
+                            context: context,
+                            firstDate: DateTime.now(),
+                            initialDate: currentValue ?? DateTime.now(),
+                            lastDate: DateTime(2100));
+                      },
+                      onChanged: (value) => dia = value,
+                      validator: (value) => value == null
+                      ? 'Este campo no puede estar vacio'
+                      : null,
+                    ),
+                    SizedBox(height: 5,),
+                    //Hora Edicion
+                    DateTimeField(
+                      initialValue: eventos.fecha,
+                      decoration: InputDecoration(
+                        labelText: "Hora",
+                        filled: true,
+                        enabled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                        ),
+                        prefixIcon: Icon(Icons.date_range)
+                      ),
+                      format: time,
+                      onShowPicker: (context, currentValue) async {
+                        final time = await showTimePicker(
+                          context: context,
+                          initialTime: TimeOfDay.fromDateTime(currentValue ?? DateTime.now()),
+                        );
+                        hora = time;
+                        return DateTimeField.convert(time);
+                      },
+                      validator: (DateTime dateTime){
+                        if(dateTime == null) {
+                          return "Este campo no puede estar vacio";
+                        }
+                        return null;
+                      },
+                    ),
+                  ],
+                )
+              )
+            ],
+          ),
+        ),
+        buttons: [
+          DialogButton(
+            color: Colors.green,
+            onPressed: () {            
+              print('Hey');
+              valideField(eventos);
+
+
+              // if(servicio == null || dia == null || hora == null) {
+              // } else{ 
+              //   fecha = combine(dia, hora);
+              //   EventosCtrl.actualizarEventosDatos(eventos.idcita, servicio, fecha).then((value) {
+              //     if(value) {
+              //       Scaffold.of(context).showSnackBar(SnackBar(
+              //         content: Text("Cita Actualizada con Éxito"),
+              //         duration: Duration(seconds: 1),
+              //         backgroundColor: Colors.green,
+              //       ));
+              //     } else {
+              //       Scaffold.of(context).showSnackBar(SnackBar(
+              //         content: Text("Error al Actualizar la Cita"),
+              //         duration: Duration(seconds: 1),
+              //         backgroundColor: Colors.green,
+              //       ));
+              //     }
+              //   });
+              //   Navigator.pop(context);
+              // }   
+            },
+            child: Text(
+              "Actualizar",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+          ),
+          DialogButton(
+            color: Colors.red,
+            onPressed: () { 
+              Navigator.pop(context);
+              },
+            child: Text(
+              "Cancelar",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+          )
+        ]).show();
+  }
     
     return Scaffold(
       backgroundColor: Colors.white,
@@ -196,6 +408,9 @@ class _Agenda3State extends State<Agenda3> {
                           MaterialPageRoute(
                               builder: (_) => ViewEvent(
                                   eventosModeloGlobal: eventos,)));
+                        },
+                        onLongPress: () {
+                          _openPopup(context, eventos);
                         },
                       ),
                       direction: DismissDirection.startToEnd,
