@@ -125,6 +125,7 @@ class CurrentUsuario {
   get openUserTrabajos {
     return userTrabajos;
   }
+
   get currentcorreo {
     if (correo == null) {
       return '404';
@@ -214,7 +215,7 @@ class CurrentUsuario {
   }
 
   get currentNegociosAsistidos {
-      return negociosAsistidos;
+    return negociosAsistidos;
   }
 
   get currentUsuariosSeguidos {
@@ -242,17 +243,20 @@ class UserTrabajos {
   String rolDoctor;
   String idNegocio;
   String nombreNegocio;
+  String imagenNegocio;
 
   UserTrabajos({
     this.rolDoctor,
     this.idNegocio,
     this.nombreNegocio,
+    this.imagenNegocio,
   });
 
   UserTrabajos.fromJsonMap(Map<String, dynamic> json) {
     rolDoctor = json['rol_doctor'];
     idNegocio = json['id_negocio'];
     nombreNegocio = json['nombre_negocio'];
+    imagenNegocio = json['foto_negocio'];
   }
 }
 
