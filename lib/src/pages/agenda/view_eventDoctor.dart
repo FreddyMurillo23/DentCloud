@@ -6,6 +6,7 @@ import 'package:muro_dentcloud/src/controllers/apointment_ctrl.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/doctors_model.dart';
 import 'package:muro_dentcloud/src/models/event_model.dart';
+import 'package:muro_dentcloud/src/pages/agenda/receta_medica.dart';
 
 
 class ViewEvent extends StatefulWidget {
@@ -233,7 +234,11 @@ class _ViewEventState extends State<ViewEvent> {
                             child: GestureDetector(
                               child: Icon(Icons.add_box),
                               onTap: () {
-                                print('Hola');
+                                Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => RecetaMedica(
+                                  eventosModeloGlobal: widget.eventosModeloGlobal,)));
                               },
                             ),
                           )

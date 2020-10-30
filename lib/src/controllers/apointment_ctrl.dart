@@ -11,7 +11,6 @@ class EventosCtrl{
       final parsed = json.decode(response.body).cast<String, dynamic>();
       return parsed['cita_acceptada'].map<EventosModelo>((json) => EventosModelo.fromJson(json)).toList();
     }
-    print("object");
     return null;
   }
 
@@ -21,7 +20,6 @@ class EventosCtrl{
       final parsed = json.decode(response.body).cast<String, dynamic>();
       return parsed['cita_acceptada'].map<EventosModeloUsuario>((json) => EventosModeloUsuario.fromJson(json)).toList();
     }
-    print("object");
     return null;
   }
 
@@ -31,7 +29,6 @@ class EventosCtrl{
       final parsed = json.decode(response.body).cast<String, dynamic>();
       return parsed['cita_en_espera'].map<EventosModelo>((json) => EventosModelo.fromJson(json)).toList();
     }
-    print("object");
     return null;
   }
 

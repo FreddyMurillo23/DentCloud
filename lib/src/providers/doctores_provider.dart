@@ -9,11 +9,8 @@ class DoctoresProvider with ChangeNotifier{
     DoctorCtrl.listarDoctores().then((value){
       if(value!=null){
         this.doctores = value;
-        print(value.hashCode);
       } else{
-        this.doctores = List<Doctores>();
-        print(value.hashCode);
-        
+        this.doctores = List<Doctores>();        
       }
       notifyListeners();
     });
@@ -27,11 +24,8 @@ class DoctoresProviderName with ChangeNotifier{
     DoctorCtrl.listarPrueba(name).then((value){
       if(value!=null){
         this.doctoresName = value;
-        print(value.hashCode);
       } else{
-        this.doctoresName = List<Doctores>();
-        print(value.hashCode);
-        
+        this.doctoresName = List<Doctores>();       
       }
       notifyListeners();
     });
