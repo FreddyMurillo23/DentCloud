@@ -180,7 +180,7 @@ class _SignInState extends State<SignIn> {
                     child: Text("Registrarse"),
                     onPressed: () => {
                       Navigator.of(context).pushNamedAndRemoveUntil(
-                          'registrarse', (Route<dynamic> route) => false)
+                          'signup', (Route<dynamic> route) => false)
                     },
                     color: Colors.lightBlue,
                     shape: RoundedRectangleBorder(
