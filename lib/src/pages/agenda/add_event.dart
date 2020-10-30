@@ -237,7 +237,7 @@ class _AddEventState extends State<AddEvent> {
                       ],
                     ),
                     SizedBox(height: 15,),
-                    //Doctor
+                    //!Doctor
                     Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.start,

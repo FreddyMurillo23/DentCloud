@@ -4,19 +4,20 @@ import 'package:muro_dentcloud/src/models/business_Services_models.dart';
 
 class Follow {
   List<Siguiendo> items = new List();
-  
+
   Follow.fromJsonList(List<dynamic> jsonList) {
     if (jsonList == null) return;
     for (var item in jsonList) {
       final follow = new Siguiendo.fromJsonMap(item);
       items.add(follow);
+      print(follow);
     }
   }
 }
 
 class Siguiendo {
-  List<UsuariosSeguido> usuariosSeguidos;
-  List<NegociosSeguido> negociosSeguidos;
+  List<UsuariosSeguido> usuariosSeguidos = new List();
+  List<NegociosSeguido> negociosSeguidos = new List();
 
   Siguiendo({
     this.usuariosSeguidos = const [],
@@ -42,16 +43,21 @@ class NegociosSeguido {
   String idNegocioSiguiendo;
   String negocioSeguido;
   String fechaSeguimiento;
+  String fotoNegocio;
+  String nombreNegocio;
 
-  NegociosSeguido({
-    this.idNegocioSiguiendo,
-    this.negocioSeguido,
-    this.fechaSeguimiento,
-  });
+  NegociosSeguido(
+      {this.idNegocioSiguiendo,
+      this.negocioSeguido,
+      this.fechaSeguimiento,
+      this.fotoNegocio,
+      this.nombreNegocio});
   NegociosSeguido.fromJsonMap(Map<String, dynamic> json) {
     idNegocioSiguiendo = json['id_negocio_siguiendo'];
     negocioSeguido = json['negocio_seguido'];
     fechaSeguimiento = json['fecha_seguimiento'];
+    fotoNegocio = json['foto_negocio'];
+    nombreNegocio = json['nombre_negocio'];
   }
 }
 
@@ -59,15 +65,21 @@ class UsuariosSeguido {
   String idUsuarioSiguiendo;
   String usuarioSeguido;
   String fechaSeguimiento;
+  String nombreUsuario;
+  String fotoPerfil;
 
   UsuariosSeguido({
     this.idUsuarioSiguiendo,
     this.usuarioSeguido,
     this.fechaSeguimiento,
+    this.fotoPerfil,
+    this.nombreUsuario
   });
   UsuariosSeguido.fromJsonMap(Map<String, dynamic> json) {
     idUsuarioSiguiendo = json['id_usuario_siguiendo'];
     usuarioSeguido = json['usuario_seguido'];
     fechaSeguimiento = json['fecha_seguimiento'];
+    fotoPerfil= json['foto_perfil'];
+    nombreUsuario= json['nombre_usuario'];
   }
 }

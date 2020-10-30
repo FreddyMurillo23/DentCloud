@@ -21,11 +21,10 @@ class PostPublicaciones extends StatefulWidget {
 class _PostPublicacionesState extends State<PostPublicaciones> {
   TextEditingController controladorCorreoUser = TextEditingController();
   final formKey = GlobalKey<FormState>();
-  Publicacion publicacion = new Publicacion();
+  final publicacion = new Publicacion();
   PreferenciasUsuario prefs = new PreferenciasUsuario();
   final publicacionesProvider = new DataProvider();
   var correo = ' ';
-  bool status = false;
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
@@ -50,7 +49,7 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
               SizedBox(
                 height: screenSize.height * 0.015,
               ),
-              _bottonEnviarForm(screenSize),
+              _bottonEnviarForm(screenSize, widget.currentuser),
             ],
           ),
         ),
@@ -73,7 +72,7 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
           maxLines: null,
           minLines: null,
           autocorrect: true,
-          autofocus: true,
+          autofocus: false,
         ),
       ),
     );
@@ -102,17 +101,14 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
                 style: TextStyle(color: Colors.lightBlue),
               ),
             ),
-            CardExpansionPanel(
+            new CardExpansionPanel(
               headerData: publicacion.negocio == ' '
                   ? 'Seleccione un Negocio'
                   : publicacion
                       .negocio, //('${widget.currentuser.openUserTrabajos.length}00'),
               icon: Icons.business,
               iconColor: Colors.blueGrey,
-              lista: listaPerfiles(
-                widget.currentuser,
-              ),
-
+              lista: listaPerfiles(widget.currentuser, screenSize),
             ),
             SizedBox(
               height: screenSize.height * 0.01,
@@ -157,7 +153,7 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
     );
   }
 
-  Widget _bottonEnviarForm(Size screenSize) {
+  Widget _bottonEnviarForm(Size screenSize, CurrentUsuario userinfo) {
     return RaisedButton.icon(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
       color: Colors.lightBlue,
@@ -165,6 +161,12 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
       label: Text('Publicar'),
       icon: Icon(Icons.publish),
       onPressed: () {
+        formKey.currentState.save();
+        publicacion.usuario = '${userinfo.nombres} ${userinfo.apellidos}';
+        publicacion.correoUsuario = '${userinfo.correo}';
+        // publicacion.descripcion = '';
+        //! publicacion.archivo = '';
+        publicacion.fecha = new DateTime.now();
         Navigator.pushNamed(context, 'prueba');
       },
     );
@@ -183,86 +185,151 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
     return Container();
   }
 
-  Widget listaPerfiles(CurrentUsuario userinfo) {
+  Widget listaPerfiles(CurrentUsuario userinfo, Size screenSize) {
     correo = prefs.currentCorreo;
     // print(userinfo.nombres);
-    return FutureBuilder(
-        future: publicacionesProvider.getPublicaciones(),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          return ListView.builder(
-              shrinkWrap: true,
-              itemCount: 1 + widget.currentuser.openUserTrabajos.length,
-              itemBuilder: (context, int index) {
-                // print('${widget.currentuser.openUserTrabajos}');
-                final data = widget.currentuser.openUserTrabajos;
-                if (widget.currentuser.openUserTrabajos.length == 0) {
-                  return Column(
-                    children: [
-                      ListTile(
-                        title: Text(
-                            '${widget.currentuser.nombres} ${widget.currentuser.apellidos}'),
-                        subtitle: Text(
-                            '${widget.currentuser.correo} \n${widget.currentuser.cedula}'),
-                        trailing: Icon(Icons.business),
-                        onTap: () {
-                          setState(() {
-                            publicacion.negocio = 'publicacion';
-                            print('setState!!!!! >:3');
-                            status = !status;
-                          });
-                        },
-                      ),
-                      Divider(
-                        color: Colors.grey,
-                      )
-                    ],
-                  );
-                } else if (index == 0) {
-                  return Column(
-                    children: [
-                      ListTile(
-                        title: Text(
-                            '${widget.currentuser.nombres} ${widget.currentuser.apellidos}'),
-                        subtitle: Text(
-                            '${widget.currentuser.correo} \n${widget.currentuser.cedula}'),
-                        trailing: Icon(Icons.person),
-                        onTap: () {
-                          setState(() {
-                            publicacion.negocio = 'publicacion';
-                            print('setState!!!!! >:3');
-                            status = !status;
-                          });
-                        },
-                      ),
-                      Divider(
-                        color: Colors.grey,
-                      )
-                    ],
-                  );
-                } else {
-                  return Column(
-                    children: [
-                      ListTile(
-                        title: Text(data[index - 1].nombreNegocio),
-                        subtitle: Text(
-                            '${data[index - 1].idNegocio} \n${data[index - 1].rolDoctor}'),
-                        trailing: Icon(Icons.business),
-                        onTap: () {
-                          setState(() {
-                            publicacion.negocio = data[index - 1].nombreNegocio;
-                            print('setState!!!!! >:3');
-                            print(status);
-                            status = !status;
-                          });
-                        },
-                      ),
-                      Divider(
-                        color: Colors.grey,
-                      )
-                    ],
-                  );
-                }
-              });
-        });
+    return Container(
+      // height: screenSize.height * 0.45,
+      child: FutureBuilder(
+          future: publicacionesProvider.follow(correo),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            final data = userinfo.openUserTrabajos;
+            if (snapshot.hasData) {
+              final followed = snapshot.data[0].negociosSeguidos;
+              // print(snapshot.data[0].negociosSeguidos[0].nombreNegocio);
+              return ListView.builder(
+                shrinkWrap: true,
+                itemCount: widget.currentuser.openUserTrabajos.length +
+                    snapshot.data[0].negociosSeguidos.length,
+                itemBuilder: (context, index) {
+                  if (widget.currentuser.openUserTrabajos.length == 0) {
+                    return Column(
+                      children: [
+                        ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor: Colors.lightBlue,
+                            backgroundImage:
+                                NetworkImage('${followed[index].fotoNegocio}'),
+                          ),
+                          title: Text('${followed[index].nombreNegocio}'),
+                          subtitle: Text('${followed[index].negocioSeguido}'),
+                          trailing: Icon(Icons.business),
+                          onTap: () {
+                            setState(() {
+                              publicacion.negocioRuc =
+                                  followed[index].negocioSeguido;
+                              publicacion.negocio =
+                                  followed[index].nombreNegocio;
+                              // publicacion.negocio = snapshot
+                              //     .data[0].negociosSeguidos[index].nombreNegocio;
+                              print(followed[index].nombreNegocio);
+                            });
+                          },
+                        ),
+                        Divider(
+                          color: Colors.grey,
+                        )
+                      ],
+                    );
+                  } else {
+                    if (index < data.length) {
+                      return Column(
+                        children: [
+                          ListTile(
+                            title: Text('${data[index].nombreNegocio}'),
+                            subtitle: Text(
+                                '${data[index].idNegocio} \n${data[index].rolDoctor}'),
+                            trailing: Icon(Icons.business),
+                            onTap: () {
+                              setState(() {
+                                publicacion.negocioRuc = data[index].idNegocio;
+                                publicacion.negocio = data[index].nombreNegocio;
+                                // publicacion.negocio = snapshot
+                                //     .data[0].negociosSeguidos[index].nombreNegocio;
+                                print(data[index].nombreNegocio);
+                              });
+                            },
+                          ),
+                          Divider(
+                            color: Colors.grey,
+                          )
+                        ],
+                      );
+                    } else {
+                      return Column(
+                        children: [
+                          ListTile(
+                            leading: CircleAvatar(
+                            backgroundColor: Colors.lightBlue,
+                            backgroundImage:
+                                NetworkImage('${followed[index - data.length].fotoNegocio}'),
+                          ),
+                            title: Text(
+                                '${followed[index - data.length].nombreNegocio}'),
+                            subtitle: Text(
+                                '${followed[index - data.length].negocioSeguido}'),
+                            trailing: Icon(Icons.business),
+                            onTap: () {
+                              setState(() {
+                                publicacion.negocioRuc =
+                                    followed[index - data.length]
+                                        .negocioSeguido;
+                                publicacion.negocio =
+                                    followed[index - data.length].nombreNegocio;
+                                // publicacion.negocio = snapshot
+                                //     .data[0].negociosSeguidos[index].nombreNegocio;
+                                print(followed[index - data.length]
+                                    .nombreNegocio);
+                              });
+                            },
+                          ),
+                          Divider(
+                            color: Colors.grey,
+                          )
+                        ],
+                      );
+                    }
+                  }
+                },
+              );
+            } else {
+              // final followed = snapshot.data[0].negociosSeguidos;
+              // print(snapshot.data[0].negociosSeguidos[0].nombreNegocio);
+              return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: widget.currentuser.openUserTrabajos.length,
+                  itemBuilder: (context, index) {
+                    if (widget.currentuser.openUserTrabajos.length != 0) {
+                      return Column(
+                        children: [
+                          ListTile(
+                            title: Text('${data[index].nombreNegocio}'),
+                            subtitle: Text(
+                                '${data[index].idNegocio} \n${data[index].rolDoctor}'),
+                            trailing: Icon(Icons.business),
+                            onTap: () {
+                              setState(() {
+                                publicacion.negocioRuc = data[index].idNegocio;
+                                publicacion.negocio = data[index].nombreNegocio;
+                                // publicacion.negocio = snapshot
+                                //     .data[0].negociosSeguidos[index].nombreNegocio;
+                                print(data[index].nombreNegocio);
+                              });
+                            },
+                          ),
+                          Divider(
+                            color: Colors.grey,
+                          )
+                        ],
+                      );
+                    } else {
+                      return ListTile(
+                        title: Text('Debes seguir a un Negocio para poder publicar'),
+                      );
+                    }
+                  });
+            }
+          }),
+    );
   }
 }

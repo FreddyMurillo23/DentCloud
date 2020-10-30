@@ -49,7 +49,7 @@ class _NavDrawerState extends State<NavDrawer> {
                   'Perfil Actual'.toUpperCase(),
                   style: TextStyle(fontWeight: FontWeight.w500),
                 ),
-                CardExpansionPanel(
+                new CardExpansionPanel(
                   headerData:
                       '${prefs.profileName}\n${prefs.profileID}', //('${widget.currentuser.openUserTrabajos.length}00'),
                   icon: Icons.supervised_user_circle,

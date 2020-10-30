@@ -22,6 +22,7 @@ class DataProvider {
     final resp = await http.get(url);
     //? decodificacion de la data json.decode
     final decodedData = json.decode(resp.body);
+    // print(decodedData);
     final publicaciones =
         new Publicaciones.fromJsonList(decodedData['publicaciones']);
     // print(publicaciones.items[0].usuario);
@@ -64,7 +65,7 @@ class DataProvider {
       final decodedData = json.decode(resp.body);
       final publicaciones =
           new PublicacionesByUser.fromJsonList(decodedData['publicaciones']);
-      public..add(publicaciones.items[0]);  
+      public..add(publicaciones.items[0]);
       // print(publicaciones.items[0]);
     }
     // print(public);
@@ -164,12 +165,17 @@ class DataProvider {
     return busqueda.items;
   }
 
-  // Future<List<Siguiendo>> follow(String emailUser) {
-  //   String url =
-  //       'http://54.197.83.249/PHP_REST_API/api/get/get_followers_by_user.php?user_email=$emailUser';
-  //   final resp = await http.get(url);
-  //   final decodedData = jsonDecode(resp.body);
-  //   final follows 
+  Future<List<Siguiendo>> follow(String emailUser) async {
+    String url =
+        'http://54.197.83.249/PHP_REST_API/api/get/get_followers_by_user.php?user_email=$emailUser';
+    final resp = await http.get(url);
 
-  // }
+      final decodedData = jsonDecode(resp.body);
+      // print(decodedData['siguiendo']);
+      final follows = Follow.fromJsonList(decodedData['siguiendo']);
+      // print('here');
+      // print(follows.items.length);
+      return follows.items;
+
+  }
 }
