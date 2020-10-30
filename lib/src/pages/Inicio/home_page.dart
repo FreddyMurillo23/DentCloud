@@ -24,23 +24,8 @@ class _HomePageState extends State<HomePage> {
     final prefs = new PreferenciasUsuario();
 
     return Scaffold(
-
-        body: Container(
-          child: Column(
-            children: [
-              CardExpansionPanel(
-                  headerData: 'hello',//('${widget.currentuser.openUserTrabajos.length}00'),
-                  icon: Icons.supervised_user_circle,
-                  iconColor: Colors.cyan,
-                  lista: listaPerfiles(widget.currentuser, prefs),
-              ),
-              Container(
-                height: 20,
-                color: Colors.blue,
-              )
-            ],
-          ),
-        ));
+      body: Center(child: Image(image: AssetImage('assets/Monito_cool.gif'),)),
+    );
   }
 
   Widget listaPerfiles(CurrentUsuario userinfo, PreferenciasUsuario prefs) {
