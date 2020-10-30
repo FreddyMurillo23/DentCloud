@@ -236,6 +236,11 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
                       return Column(
                         children: [
                           ListTile(
+                            leading: CircleAvatar(
+                            backgroundColor: Colors.lightBlue,
+                            backgroundImage:
+                                NetworkImage('${data[index].imagenNegocio}'),
+                          ),
                             title: Text('${data[index].nombreNegocio}'),
                             subtitle: Text(
                                 '${data[index].idNegocio} \n${data[index].rolDoctor}'),
@@ -303,6 +308,11 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
                       return Column(
                         children: [
                           ListTile(
+                            leading: CircleAvatar(
+                            backgroundColor: Colors.lightBlue,
+                            backgroundImage:
+                                NetworkImage('${data[index].imagenNegocio}'),
+                            ),
                             title: Text('${data[index].nombreNegocio}'),
                             subtitle: Text(
                                 '${data[index].idNegocio} \n${data[index].rolDoctor}'),
