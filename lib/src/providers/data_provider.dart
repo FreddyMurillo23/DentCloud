@@ -183,8 +183,13 @@ class DataProvider {
     String url =
         'http://54.197.83.249/PHP_REST_API/api/get/get_drug_data.php?drug_name=$medicina';
     final resp = await http.get(url);
-    final decodedData = jsonDecode(resp.body);
-    final drougs = Drougs.fromJsonList(decodedData['medicamento']);
-    return drougs.items;
+    if (resp.statusCode == 200) {
+      final decodedData = jsonDecode(resp.body);
+      final drougs = Drougs.fromJsonList(decodedData['medicamento']);
+      return drougs.items;
+    } else {
+      return new List();
+    }
+
   }
 }
