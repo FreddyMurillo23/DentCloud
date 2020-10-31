@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:muro_dentcloud/src/models/apointments_model.dart';
 import 'package:muro_dentcloud/src/models/business_model.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
+import 'package:muro_dentcloud/src/models/drougs_model.dart';
 import 'package:muro_dentcloud/src/models/follows_model.dart';
 import 'package:muro_dentcloud/src/models/list_message_model.dart';
 import 'package:muro_dentcloud/src/models/publications_model.dart';
@@ -170,12 +171,20 @@ class DataProvider {
         'http://54.197.83.249/PHP_REST_API/api/get/get_followers_by_user.php?user_email=$emailUser';
     final resp = await http.get(url);
 
-      final decodedData = jsonDecode(resp.body);
-      // print(decodedData['siguiendo']);
-      final follows = Follow.fromJsonList(decodedData['siguiendo']);
-      // print('here');
-      // print(follows.items.length);
-      return follows.items;
+    final decodedData = jsonDecode(resp.body);
+    // print(decodedData['siguiendo']);
+    final follows = Follow.fromJsonList(decodedData['siguiendo']);
+    // print('here');
+    // print(follows.items.length);
+    return follows.items;
+  }
 
+  Future<List<Medicamento>> drougs(String medicina) async {
+    String url =
+        'http://54.197.83.249/PHP_REST_API/api/get/get_drug_data.php?drug_name=$medicina';
+    final resp = await http.get(url);
+    final decodedData = jsonDecode(resp.body);
+    final drougs = Drougs.fromJsonList(decodedData['medicamento']);
+    return drougs.items;
   }
 }
