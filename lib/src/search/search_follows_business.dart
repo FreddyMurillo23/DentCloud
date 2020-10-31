@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:muro_dentcloud/src/providers/data_provider.dart';
 import 'package:muro_dentcloud/src/models/follows_model.dart';
 
-class FollowsSearch extends SearchDelegate
+class FollowsBusinessSearch extends SearchDelegate
 {
    @override
   final useremail;
-  FollowsSearch(this.useremail);
+  FollowsBusinessSearch(this.useremail);
   final followProvider = new DataProvider();
     String seleccion=" ";
   @override
@@ -55,7 +55,7 @@ class FollowsSearch extends SearchDelegate
         {
           
            return ListView.builder(
-          itemCount: snapshot.data[0].usuariosSeguidos.length,
+          itemCount: snapshot.data[0].negociosSeguidos.length,
           itemBuilder: (BuildContext context, int index)
           {
             if(index==null)
@@ -68,12 +68,12 @@ class FollowsSearch extends SearchDelegate
                 children: [
                   ListTile(
                     leading:FadeInImage(
-                  image: NetworkImage(snapshot.data[0].usuariosSeguidos[index].fotoPerfil),
+                  image: NetworkImage(snapshot.data[0].negociosSeguidos[index].fotoNegocio),
                   placeholder: AssetImage('assets/jar-loading.gif'),
                   width: 50,
                   fit: BoxFit.contain,
                 ), 
-                    title: Text(snapshot.data[0].usuariosSeguidos[index].nombreUsuario),
+                    title: Text(snapshot.data[0].negociosSeguidos[index].nombreNegocio),
                     onTap: (){
                       close(context, null);
                       // navegadoress
