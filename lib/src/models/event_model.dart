@@ -4,10 +4,11 @@ class EventosModelo{
   String servicio;
   String descripcion;
   String idcita;
+  String idservicio;
   String correo;
   String foto;
 
-  EventosModelo({this.paciente,this.fecha,this.servicio,this.descripcion, this.idcita, this.correo, this.foto});
+  EventosModelo({this.paciente,this.fecha,this.servicio,this.descripcion, this.idcita, this.correo, this.foto, this.idservicio});
 
   factory EventosModelo.fromJson(Map<String, dynamic> json) {
     return EventosModelo(
@@ -18,6 +19,7 @@ class EventosModelo{
       idcita: json['id_cita'],
       correo: json['correo_paciente'],
       foto: json['foto_paciente'],
+      idservicio: json['id_servicio'],
     );
   }
 }
