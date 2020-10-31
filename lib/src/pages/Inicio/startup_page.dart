@@ -75,14 +75,14 @@ class _StartUpPageState extends State<StartUpPage> {
       // floa ting: true,
       actions: [
         CircleButton(
-          icon: Icons.search,
+          icon: MdiIcons.accountSearchOutline,
           iconsize: 30.0,
           onPressed: () => print('Search'),
         ),
         CircleButton(
-          icon: MdiIcons.facebookMessenger,
+          icon: MdiIcons.chatOutline,
           iconsize: 30.0,
-          onPressed: () => print('Messenger'),
+          onPressed: () => Navigator.pushNamed(context, 'messenger', arguments: userinfo),
         )
       ],
     ),

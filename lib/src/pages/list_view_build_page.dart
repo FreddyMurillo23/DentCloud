@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/providers/data_provider.dart';
 import 'package:muro_dentcloud/src/search/search_delegate.dart';
+import 'package:muro_dentcloud/src/widgets/circle_button.dart';
 import 'package:muro_dentcloud/src/widgets/list_build_contact.dart';
 
 class ListPage extends StatefulWidget {
@@ -15,30 +18,30 @@ class _ListPageState extends State<ListPage> {
   final listachatProvider = new DataProvider();
   @override
   Widget build(BuildContext context) {
+    CurrentUsuario userinfo = ModalRoute.of(context).settings.arguments;
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: appMenu(),
+      appBar: appMenu(size),
       body: Column(
         children: <Widget>[
-          barraBusqueda(context),
-          Expanded(child: estado(size)),
+          barraBusqueda(context, userinfo),
+          Expanded(child: estado(size,userinfo)),
         ],
       ),
     );
   }
 
   
-  Widget estado(Size size) {
+  Widget estado(Size size,CurrentUsuario userinfo) {
   return SafeArea(
-    child: _list(size),
+    child: _list(size, userinfo),
   );
 }
 
-  Widget _list(Size size) 
-  {
+  Widget _list(Size size, CurrentUsuario userinfo) {
     
     return FutureBuilder(
-      future: listachatProvider.getListChat("fmurillo4888@utm.edu.ec"),
+      future: listachatProvider.getListChat(userinfo.correo),
       builder: (BuildContext context,AsyncSnapshot<List> snapshot){
         if (snapshot.hasData) 
         {
@@ -69,24 +72,24 @@ class _ListPageState extends State<ListPage> {
     );
   }
 
-  Widget appMenu() {
+  Widget appMenu(Size _screenSize) {
   return AppBar(
-    title: Text(
-      "Inbox",
-      style: TextStyle(fontSize: 25),
-    ), //
-    elevation: 5,
-    centerTitle: true,
-    leading: IconButton(
-      icon: Icon(Icons.arrow_back_ios),
-      tooltip: 'atras',
-      onPressed: () {},
-    ),
+    brightness: Brightness.light,
+      backgroundColor: Colors.white,
+      title: Image(
+        image: AssetImage('assets/title.png'),
+        height: _screenSize.height * 0.1,
+        fit: BoxFit.fill,
+      ),
+      centerTitle: false,
+
     actions: <Widget>[
-      IconButton(
-          icon: const Icon(Icons.add_to_home_screen),
-          tooltip: 'mensaje',
-          onPressed: () {}),
+      CircleButton(
+          icon: MdiIcons.forumOutline,
+          iconsize: 30.0,
+          onPressed: (){},
+          // onPressed: () => Navigator.pushNamed(context, 'messenger', arguments: userinfo),
+        )
     ],
   );
  }
@@ -94,7 +97,7 @@ class _ListPageState extends State<ListPage> {
 
 }
 
-Widget barraBusqueda(BuildContext context) {
+Widget barraBusqueda(BuildContext context, CurrentUsuario userinfo) {
   return Padding(
     padding: const EdgeInsets.all(16),
     child: ClipRRect(
@@ -102,7 +105,7 @@ Widget barraBusqueda(BuildContext context) {
       borderRadius: BorderRadius.circular(20),
       child: TextField(
         decoration: InputDecoration(
-            hintText: "Search..",
+            hintText: "  Buscar..",
             hintStyle: TextStyle(color: Colors.grey.shade600, fontSize: 19),
             suffixIcon: Icon(
               Icons.search,
@@ -115,7 +118,7 @@ Widget barraBusqueda(BuildContext context) {
             enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.grey.shade100))),
        onTap: (){
-         showSearch(context: context, delegate: ChatSearch("fmurillo4888@utm.edu.ec"),);
+         showSearch(context: context, delegate: ChatSearch(userinfo.correo),);
        },
        readOnly: true,
       ),
