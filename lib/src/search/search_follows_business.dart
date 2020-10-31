@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:muro_dentcloud/src/providers/data_provider.dart';
 import 'package:muro_dentcloud/src/models/follows_model.dart';
 
-class FollowsBusinessSearch extends SearchDelegate
+class FollowsBusinessSearch extends SearchDelegate<Siguiendo>
 {
    @override
   final useremail;
-  FollowsBusinessSearch(this.useremail);
+  final Siguiendo negocio;
+
+  FollowsBusinessSearch(this.useremail, this.negocio);
+ 
   final followProvider = new DataProvider();
     String seleccion=" ";
+    
   @override
   List<Widget> buildActions(BuildContext context) {
       return [
@@ -18,7 +22,6 @@ class FollowsBusinessSearch extends SearchDelegate
 
         }),
       ];
-
     }
   
     @override
@@ -53,7 +56,6 @@ class FollowsBusinessSearch extends SearchDelegate
         {
           if(snapshot.data.length!=0)
         {
-          
            return ListView.builder(
           itemCount: snapshot.data[0].negociosSeguidos.length,
           itemBuilder: (BuildContext context, int index)
@@ -75,9 +77,8 @@ class FollowsBusinessSearch extends SearchDelegate
                 ), 
                     title: Text(snapshot.data[0].negociosSeguidos[index].nombreNegocio),
                     onTap: (){
-                      close(context, null);
-                      // navegadoress
-                      //Navigator.pushNamed(context, 'detalle',arguments: chatcontactos)
+                       negocio.negociosSeguidos[1]=snapshot.data[0].negociosSeguidos[index];
+                       this.close(context, negocio);
                     },
 
                   ),

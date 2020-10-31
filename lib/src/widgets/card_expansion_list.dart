@@ -25,7 +25,6 @@ class CardExpansionPanel extends StatelessWidget {
       elevation: 4.0,
       child: ExpansionTile(
         onExpansionChanged: (bool valesverg){
-          
         },
 
         initiallyExpanded: false,
