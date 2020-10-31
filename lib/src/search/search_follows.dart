@@ -1,10 +1,12 @@
-/*import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:flutter/material.dart';
 import 'package:muro_dentcloud/src/providers/data_provider.dart';
 import 'package:muro_dentcloud/src/models/follows_model.dart';
 
 class FollowsSearch extends SearchDelegate
 {
+   @override
+  final useremail;
+  FollowsSearch(this.useremail);
   final followProvider = new DataProvider();
     String seleccion=" ";
   @override
@@ -45,25 +47,32 @@ class FollowsSearch extends SearchDelegate
   
     @override
     Widget buildSuggestions(BuildContext context) {
-     if(query.isEmpty)
-    {
-      return Container();
-
-    }
+    
     return FutureBuilder(
-      future: followProvider.drougs(query),
-      builder: (BuildContext context, AsyncSnapshot<List<Medicamento>> snapshot) {
+      future: followProvider.follow_search(useremail, query),
+      builder: (BuildContext context, AsyncSnapshot<List<Siguiendo>> snapshot) {
         if(snapshot.hasData)
         {
-          final follow = snapshot.data;
-          return ListView(
-            children: follow.map((medicamentobuscado) {
-              return  Column(
+           return ListView.builder(
+            itemCount: snapshot.data[0].usuariosSeguidos.length,
+          itemBuilder: (BuildContext context, int index)
+          {
+            if(index==null)
+            { 
+              return Container();
+
+            }else
+            {
+               return  Column(
                 children: [
                   ListTile(
-                    leading: Icon(MdiIcons.pill),
-                    title: Text(medicamentobuscado.drugName),
-                    subtitle: Text(medicamentobuscado.drugConcentration),
+                    leading:FadeInImage(
+                  image: NetworkImage(snapshot.data[0].usuariosSeguidos[index].fotoPerfil),
+                  placeholder: AssetImage('assets/jar-loading.gif'),
+                  width: 50,
+                  fit: BoxFit.contain,
+                ), 
+                    title: Text(snapshot.data[0].usuariosSeguidos[index].nombreUsuario),
                     onTap: (){
                       close(context, null);
                       // navegadoress
@@ -74,14 +83,14 @@ class FollowsSearch extends SearchDelegate
                   Divider(),
                 ],
               );
-
-            }).toList(),
+            }
+              
+            
+             
+              
+          },
           );
-
-
         }
-        else
-        {
           return Center(
               child: SizedBox(
                 height: 30,
@@ -89,9 +98,9 @@ class FollowsSearch extends SearchDelegate
                 child: CircularProgressIndicator(),
               ),
           );
-        }
-              },
+        
+      },
     );
   }
 
-}*/
+}

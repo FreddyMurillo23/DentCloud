@@ -187,4 +187,28 @@ class DataProvider {
     final drougs = Drougs.fromJsonList(decodedData['medicamento']);
     return drougs.items;
   }
+
+
+
+  Future<List<Siguiendo>> follow_search(String emailUser,String query) async {
+    String url =
+        'http://54.197.83.249/PHP_REST_API/api/get/get_followers_by_like.php?user_email=$emailUser&name=$query';
+    final resp = await http.get(url);
+   
+   if(resp.statusCode==200)
+   {
+     final decodedData = jsonDecode(resp.body);
+    // print(decodedData['siguiendo']);
+    final follows = Follow.fromJsonList(decodedData['siguiendo']);
+    // print('here');
+    // print(follows.items.length);
+    return follows.items;
+
+   }
+   else
+   {
+     return new List();
+   }
+    
+  }
 }
