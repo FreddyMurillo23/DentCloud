@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:muro_dentcloud/palette.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 // import 'package:muro_dentcloud/src/providers/doctores_provider.dart';
@@ -61,11 +62,18 @@ class _NavDrawerState extends State<NavDrawer> {
               ],
             ),
           ),
+          widget.currentuser.tipoUsuario == 'D'
+          ? ListTile(
+            leading: Icon(MdiIcons.pill),
+            title: Text('Medicinas'),
+            onTap: () => {Navigator.pushNamed(context,'medicinas')},
+          )
+          :Container(),
 
           ListTile(
             leading: Icon(Icons.input),
             title: Text('Dashboard'),
-            onTap: () => {Navigator.of(context).pushNamed('home')},
+            onTap: () => {Navigator.pushNamed( context,'home')},
           ),
           // ListTile(
           //   leading: Icon(Icons.verified_user),
