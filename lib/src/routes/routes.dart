@@ -8,6 +8,7 @@ import 'package:muro_dentcloud/src/pages/agenda/receta_medica.dart';
 //import 'package:muro_dentcloud/src/pages/business_Services.dart';
 import 'package:muro_dentcloud/src/pages/details_Patients.dart';
 import 'package:muro_dentcloud/src/pages/Inicio/home_page.dart';
+import 'package:muro_dentcloud/src/pages/list_view_build_page.dart';
 import 'package:muro_dentcloud/src/pages/listview_page.dart';
 import 'package:muro_dentcloud/src/pages/page_Services.dart';
 import 'package:muro_dentcloud/src/pages/page_Settings.dart';
@@ -45,6 +46,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'settings': (BuildContext context) => SettingsPage(),
     'prueba': (BuildContext context) => Prueba(),
     'recetas': (BuildContext context) => RecetaMedica(),
+    'messenger': (BuildContext context) => ListPage(),
     // 'postPublicacion': (BuildContext context) => PostPublicacionPage(),
   };
 }

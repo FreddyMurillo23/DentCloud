@@ -28,7 +28,7 @@ class ListWidgetChat extends StatelessWidget {
                   child: FadeInImage(
                     height: size1.height * 0.07,
                    // width: size1.width*0.05,
-                    placeholder: AssetImage('assets/placeholder.png'),
+                    placeholder: AssetImage('assets/jar-loading.gif'),
                     image: NetworkImage(lista_chats[id].foto),
                     fit: BoxFit.cover,
                   ),
