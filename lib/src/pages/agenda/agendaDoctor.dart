@@ -103,6 +103,7 @@ class _Agenda3State extends State<Agenda3> {
     if (form.validate()) {
       form.save();
       if(servicio == null || dia == null || hora == null) {
+        print('Algo nulo chamo');
         } else{ 
           fecha = combine(dia, hora);
           EventosCtrl.actualizarEventosDatos(eventos.idcita, servicio, fecha).then((value) {
@@ -120,6 +121,11 @@ class _Agenda3State extends State<Agenda3> {
               ));
             }
           });
+          setState(() {
+            _selectedItem = null;
+            countList = 0;
+          });
+          
           Navigator.pop(context);
         }   
       print("Form is valid");
@@ -151,6 +157,7 @@ class _Agenda3State extends State<Agenda3> {
 
     _openPopup(context, EventosModelo eventos) {
     dia = DateTime(eventos.fecha.year, eventos.fecha.month, eventos.fecha.day);
+    servicio = eventos.idservicio;
     Alert(
         context: context,
         title: "Editar Cita",
@@ -170,9 +177,11 @@ class _Agenda3State extends State<Agenda3> {
                       ),
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton(
+                          
                           isExpanded: true,
                           items: getSelectOptions(servicios), 
                           onChanged: (selected) {
+
                             this._selectedItem = dropDownItemsMap[selected];
                             servicio = _selectedItem.servicioid.toString();
                             setState(() {
@@ -181,7 +190,7 @@ class _Agenda3State extends State<Agenda3> {
                             });
                           },
                           hint: new Text(
-                            _selectedItem != null ? _selectedItem.descripcion: "Servicios",
+                            _selectedItem != null ? _selectedItem.descripcion: eventos.servicio.toString(),
                           ),
                         ),
                       ),
@@ -204,7 +213,7 @@ class _Agenda3State extends State<Agenda3> {
                       onShowPicker: (context, currentValue) async {
                         return showDatePicker(
                             context: context,
-                            firstDate: DateTime.now(),
+                            firstDate: DateTime(1900),
                             initialDate: currentValue ?? DateTime.now(),
                             lastDate: DateTime(2100));
                       },
@@ -257,9 +266,7 @@ class _Agenda3State extends State<Agenda3> {
           DialogButton(
             color: Colors.green,
             onPressed: () {            
-              print('Hey');
-              valideField(eventos);
-              
+              valideField(eventos);            
             },
             child: Text(
               "Actualizar",
@@ -269,6 +276,7 @@ class _Agenda3State extends State<Agenda3> {
           DialogButton(
             color: Colors.red,
             onPressed: () { 
+              _selectedItem = null;
               Navigator.pop(context);
               },
             child: Text(
@@ -384,6 +392,10 @@ class _Agenda3State extends State<Agenda3> {
               if (countList != 0)
               Card(
                 child: ExpansionTile(
+                  maintainState: false,
+                  onExpansionChanged: (value) {
+                    print('Exploooosion');
+                  },
                   tilePadding:
                       EdgeInsets.fromLTRB(_screenSize.width * 0.060, 0, 12, 1),
                   leading: Icon(
@@ -408,11 +420,12 @@ class _Agenda3State extends State<Agenda3> {
                         title: Text(eventos.servicio),
                         subtitle: Text(eventos.fecha.year.toString()+"/"+eventos.fecha.month.toString()+"/"+eventos.fecha.day.toString()),
                         onTap: () {
+                          //!
                           Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (_) => ViewEvent(
-                                  eventosModeloGlobal: eventos,)));
+                                  eventosModeloGlobal: eventos, currentuser: userinfo,)));
                         },
                         onLongPress: () {
                           _openPopup(context, eventos);

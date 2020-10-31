@@ -11,8 +11,9 @@ import 'package:muro_dentcloud/src/pages/agenda/receta_medica.dart';
 
 class ViewEvent extends StatefulWidget {
   final EventosModelo eventosModeloGlobal;
+  final CurrentUsuario currentuser;
 
-  const ViewEvent({Key key, this.eventosModeloGlobal}) : super(key: key);
+  const ViewEvent({Key key, this.eventosModeloGlobal, this.currentuser}) : super(key: key);
 
   @override
   _ViewEventState createState() => _ViewEventState();
@@ -238,7 +239,7 @@ class _ViewEventState extends State<ViewEvent> {
                           context,
                           MaterialPageRoute(
                               builder: (_) => RecetaMedica(
-                                  eventosModeloGlobal: widget.eventosModeloGlobal,)));
+                                  eventosModeloGlobal: widget.eventosModeloGlobal, currentuser: widget.currentuser,)));
                               },
                             ),
                           )

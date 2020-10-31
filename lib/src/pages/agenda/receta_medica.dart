@@ -1,12 +1,14 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/event_model.dart';
 
 class RecetaMedica extends StatefulWidget {
   final EventosModelo eventosModeloGlobal;
+  final CurrentUsuario currentuser;
 
-  const RecetaMedica({Key key, this.eventosModeloGlobal}) : super(key: key);
+  const RecetaMedica({Key key, this.eventosModeloGlobal, this.currentuser}) : super(key: key);
   
   @override
   _RecetaMedicaState createState() => _RecetaMedicaState();
@@ -21,13 +23,17 @@ class _RecetaMedicaState extends State<RecetaMedica> {
   TextEditingController controladorFechaUser = TextEditingController();
   TextEditingController controladorEdadUser = TextEditingController();
 
+  String fecha(){
+    return widget.eventosModeloGlobal.fecha.year.toString()+'/'+widget.eventosModeloGlobal.fecha.month.toString()+'/'+widget.eventosModeloGlobal.fecha.day.toString();
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    controladorNombreUser.text = 'Aqui va el Nombre del Paciente';
-    controladorFechaUser.text = 'YYYY/MM/DD';
-    controladorEdadUser.text = 'NN';
+    controladorNombreUser.text = widget.eventosModeloGlobal.paciente;
+    controladorFechaUser.text = fecha();
+    controladorEdadUser.text = '∞';
   }
 
   Widget contenedor(double altura, String texto){
@@ -125,7 +131,7 @@ class _RecetaMedicaState extends State<RecetaMedica> {
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.all(Radius.circular(10)),
                                           image: DecorationImage(
-                                            image: NetworkImage("http://54.197.83.249/Contenido_ftp/Imagenes%20por%20defecto/Placeholder_male.png"),
+                                            image: NetworkImage(widget.currentuser.fotoPerfil),
                                             fit: BoxFit.fill
                                           ),
                                           color: Colors.amber
@@ -135,9 +141,9 @@ class _RecetaMedicaState extends State<RecetaMedica> {
                                       Expanded(
                                         child: Column(
                                           children: [
-                                            contenedor(30, "Aqui va el nombre"),
+                                            contenedor(30, widget.currentuser.nombres+' '+widget.currentuser.nombres),
                                             SizedBox(height: 5,),
-                                            contenedor(30, "Aqui va la profesion"),
+                                            contenedor(30, widget.currentuser.tipoUsuario),
                                           ],
                                         ),
                                       )
@@ -151,17 +157,17 @@ class _RecetaMedicaState extends State<RecetaMedica> {
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
                                       Expanded(
-                                        child: contenedor(30, "Aqui va el CI"),
+                                        child: contenedor(30, 'CI: '+widget.currentuser.cedula),
                                       ),
                                       SizedBox(width: 10,),
                                       Expanded(
-                                        child: contenedor(30, "Aqui va el telefono"),
+                                        child: contenedor(30, 'Celular: '+widget.currentuser.celular),
                                       )
                                     ],
                                   ),
 
                                   SizedBox(height: 10,),
-                                  contenedor(30, "Aqui va la direccion"),
+                                  contenedor(30, "Aqui va la direccion, si tan solo hubiera una"),
                                   SizedBox(height: 15,),
                                   textFields('Nombre del Paciente', controladorNombreUser),
                                   SizedBox(height: 15,),
@@ -176,7 +182,7 @@ class _RecetaMedicaState extends State<RecetaMedica> {
                                           decoration: InputDecoration(
                                             filled: true,
                                             fillColor: Colors.blueGrey[600],
-                                            labelText: "Fecha",
+                                            labelText: "Fecha de la Cita",
                                             labelStyle: TextStyle(
                                               color: Colors.white,
                                             ),
