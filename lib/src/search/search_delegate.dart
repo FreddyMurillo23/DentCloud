@@ -66,7 +66,7 @@ class ChatSearch extends SearchDelegate
               return  ListTile(
                 leading: FadeInImage(
                   image: NetworkImage(chatcontactos.foto),
-                  placeholder: AssetImage('assets/placeholder.png'),
+                  placeholder: AssetImage('assets/jar-loading.gif'),
                   width: 50,
                   fit: BoxFit.contain,
                 ),
