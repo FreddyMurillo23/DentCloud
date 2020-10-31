@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:muro_dentcloud/src/providers/data_provider.dart';
 import 'package:muro_dentcloud/src/models/drougs_model.dart';
+import 'package:muro_dentcloud/src/widgets/card_expansion_drougs.dart';
+import 'package:muro_dentcloud/src/widgets/card_expansion_list.dart';
 
 class DrogSearch extends SearchDelegate {
   final chatProvider = new DataProvider();
@@ -73,23 +75,13 @@ class DrogSearch extends SearchDelegate {
                 children: medicamentos.map((medicamentobuscado) {
                   return Column(
                     children: [
-                      Card(
-                        elevation: 20,
-                        margin: new EdgeInsets.only(
-                            left: 10.0, right: 10.0, top: 8.0, bottom: 5.0),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0)),
-                        child: ListTile(
-                          leading: Icon(MdiIcons.pill),
-                          title: Text(medicamentobuscado.drugName),
-                          subtitle: Text(medicamentobuscado.drugConcentration),
-                          onTap: () {
-                            // close(context, null);
-                            // navegadoress
-                            Navigator.pushNamed(context, 'medicinasdetalle', arguments: medicamentobuscado);
-                          },
-                          trailing: Icon(MdiIcons.play),
-                        ),
+                      CardExpansionPanelDrougs(
+                        headerData: medicamentobuscado.drugName,
+                        subtitle: medicamentobuscado.drugConcentration,
+                        icon: MdiIcons.pill,
+                        iconColor: Colors.grey.shade600,
+                        lista: _data(medicamentobuscado),
+                        // icon: ,
                       ),
                       Divider(),
                     ],
@@ -129,6 +121,54 @@ class DrogSearch extends SearchDelegate {
           );
         }
       },
+    );
+  }
+
+  Widget _data(Medicamento medicamento) {
+    return Container(
+      child: Column(
+        children: <Widget>[
+          ListTile(
+            title: Text('Forma farmaceutica:'),
+            subtitle: Text(medicamento.drugPharmaceuticalForm),
+          ),
+          ListTile(
+            title: Text('Via de administracion:'),
+            subtitle: Text(medicamento.drugAdministration),
+          ),
+          ListTile(
+            title: Text('Concentracion:'),
+            subtitle: Text(medicamento.drugConcentration),
+          ),
+          ListTile(
+            title: Text('Tipo de producto:'),
+            subtitle: Text(medicamento.drugKindOfProduct),
+          ),
+          ListTile(
+            title: Text('Laboratorio:'),
+            subtitle: Text(medicamento.drugManufacturingLaboratory),
+          ),
+          ListTile(
+            title: Text('Indicaciones:'),
+            subtitle: Text(medicamento.drugIndications),
+          ),
+          ListTile(
+            title: Text('Contraindicaciones:'),
+            subtitle: Text(medicamento.drugContraindications),
+          ),
+          ListTile(
+            title: Text('Forma parte de el Cuadro Nacional de Medicamentos Basicos?'),
+            subtitle: Text(medicamento.drugCnmb),
+          ),
+          // Divider(),
+          ListTile(
+            title: Text('Numero de registro sanitario 2020 :'),
+            subtitle: Text(medicamento.drugHealthRegister),
+          ),
+          
+          
+        ],
+      ),
     );
   }
 }

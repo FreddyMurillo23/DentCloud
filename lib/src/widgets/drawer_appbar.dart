@@ -51,6 +51,7 @@ class _NavDrawerState extends State<NavDrawer> {
                   style: TextStyle(fontWeight: FontWeight.w500),
                 ),
                 new CardExpansionPanel(
+                  // subtitle: '',
                   headerData:
                       '${prefs.profileName}\n${prefs.profileID}', //('${widget.currentuser.openUserTrabajos.length}00'),
                   icon: Icons.supervised_user_circle,
