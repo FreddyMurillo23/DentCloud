@@ -64,15 +64,21 @@ class DrogSearch extends SearchDelegate
           final medicamentos = snapshot.data;
           return ListView(
             children: medicamentos.map((medicamentobuscado) {
-              return  ListTile(
-                leading: Icon(MdiIcons.pill),
-                title: Text(medicamentobuscado.drugName),
-                onTap: (){
-                  close(context, null);
-                  // navegadoress
-                  //Navigator.pushNamed(context, 'detalle',arguments: chatcontactos)
-                },
+              return  Column(
+                children: [
+                  ListTile(
+                    leading: Icon(MdiIcons.pill),
+                    title: Text(medicamentobuscado.drugName),
+                    subtitle: Text(medicamentobuscado.drugConcentration),
+                    onTap: (){
+                      close(context, null);
+                      // navegadoress
+                      //Navigator.pushNamed(context, 'detalle',arguments: chatcontactos)
+                    },
 
+                  ),
+                  Divider(),
+                ],
               );
 
             }).toList(),
