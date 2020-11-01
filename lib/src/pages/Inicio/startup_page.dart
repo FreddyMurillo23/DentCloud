@@ -16,6 +16,7 @@ import 'package:muro_dentcloud/src/widgets/circle_button.dart';
 import 'package:muro_dentcloud/src/widgets/drawer_appbar.dart';
 import '../agenda/agendaDoctor.dart';
 import 'card_page.dart';
+import 'package:muro_dentcloud/src/models/publications_model.dart';
 
 class StartUpPage extends StatefulWidget {
   StartUpPage({Key key}) : super(key: key);
@@ -44,7 +45,7 @@ class _StartUpPageState extends State<StartUpPage> {
     final List<Widget> _widgetOptions = <Widget>[
       CardPage(currentuser: userinfo,),
       HomePage(currentuser: userinfo),
-      PostPublicaciones(currentuser: userinfo,),
+      PostPublicaciones(currentuser: userinfo,publicacion: new Publicacion(),),
       userinfo.tipoUsuario == 'D'
       ?Agenda3(
         currentuser: userinfo,

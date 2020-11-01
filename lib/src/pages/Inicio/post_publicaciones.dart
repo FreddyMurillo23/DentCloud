@@ -1,18 +1,17 @@
 // import 'dart:html';
-
 import 'package:flutter/material.dart';
-// import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/publications_model.dart';
 import 'package:muro_dentcloud/src/providers/data_provider.dart';
 import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
-import 'package:muro_dentcloud/src/widgets/card_expansion_list.dart';
+import 'package:muro_dentcloud/src/widgets/card_expansion_list1.dart';
 
 // import 'package:muro_dentcloud/src/widgets/circle_button.dart';
 // import 'package:muro_dentcloud/src/widgets/drawer_appbar.dart';
 class PostPublicaciones extends StatefulWidget {
   final CurrentUsuario currentuser;
-  const PostPublicaciones({Key key, @required this.currentuser})
+  final  Publicacion publicacion; 
+  const PostPublicaciones({Key key, @required this.currentuser, this.publicacion})
       : super(key: key);
   @override
   _PostPublicacionesState createState() => _PostPublicacionesState();
@@ -79,6 +78,7 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
   }
 
   Widget _etiquetaNegocio(Size screenSize) {
+    correo = prefs.currentCorreo;
     return Container(
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.0),
@@ -101,14 +101,14 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
                 style: TextStyle(color: Colors.lightBlue),
               ),
             ),
-            new CardExpansionPanel(
-              headerData: publicacion.negocio == ' '
+            new CardExpansionPanel1(
+              headerData: widget.publicacion.negocio == ' '
                   ? 'Seleccione un Negocio'
                   : publicacion
-                      .negocio, //('${widget.currentuser.openUserTrabajos.length}00'),
-              icon: Icons.business,
-              iconColor: Colors.blueGrey,
-              lista: listaPerfiles(widget.currentuser, screenSize),
+                      .negocio,
+                       //('${widget.currentuser.openUserTrabajos.length}00'),
+              email: correo
+              ,
             ),
             SizedBox(
               height: screenSize.height * 0.01,
@@ -223,6 +223,7 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
                               // publicacion.negocio = snapshot
                               //     .data[0].negociosSeguidos[index].nombreNegocio;
                               print(followed[index].nombreNegocio);
+
                             });
                           },
                         ),

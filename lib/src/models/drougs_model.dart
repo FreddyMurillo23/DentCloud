@@ -12,7 +12,6 @@ class Drougs {
 }
 
 class Medicamento {
-
   String drugId;
   String drugHealthRegister;
   String drugInstitution;
@@ -61,7 +60,15 @@ class Medicamento {
     drugCum = json["drug_cum"];
     drugConcentration = json["drug_concentration"];
     drugCnmb = json["drug_cnmb"];
-    drugIndications = json["drug_indications"];
-    drugContraindications = json["drug_contraindications"];
+    if (json['drug_indications'] == null) {
+      drugIndications = 'Agregue indicaciones';
+    } else {
+      drugIndications = json["drug_indications"];
+    }
+    if (json["drug_contraindications"] == null) {
+      drugContraindications = 'Agregue contraindicaciones';
+    } else {
+      drugContraindications = json["drug_contraindications"];
+    }
   }
 }
