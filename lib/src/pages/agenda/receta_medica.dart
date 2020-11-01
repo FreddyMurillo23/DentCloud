@@ -218,7 +218,11 @@ class _RecetaMedicaState extends State<RecetaMedica> {
                                       SizedBox(width: 10,),
                                       FloatingActionButton(
                                         onPressed: (){
-                                          Navigator.pushNamed(context, 'pdfRecipes');
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (_) => RecipeTest(
+                                                    eventosModeloGlobal: widget.eventosModeloGlobal, currentuser: widget.currentuser,)));
                                         },
                                         child: Icon(Icons.add_circle),
                                         elevation: 0,

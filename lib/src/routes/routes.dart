@@ -52,7 +52,9 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'messenger': (BuildContext context) => ListPage(),
     'medicinas': (BuildContext context) => DrougsPage(),
     'medicinasdetalle': (BuildContext context) => DrougsDetailsPage(),
+
     'pdfRecipes': (BuildContext context) => RecipeTest(),
+    'pdfRecipes2': (BuildContext context) => RecipeTest(),
     // 'postPublicacion': (BuildContext context) => PostPublicacionPage(),
   };
 }
