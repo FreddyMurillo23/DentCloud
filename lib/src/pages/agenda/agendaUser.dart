@@ -156,6 +156,11 @@ class _AgendaUserState extends State<AgendaUser> {
                   ),
                   calendarController: _controller,
                 ),
+                elevation: 10,
+                margin: new EdgeInsets.only(
+                    left: 10.0, right: 10.0, top: 8.0, bottom: 5.0),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0)),
               ),
               //Eventos
               if (countList != 0)
@@ -180,6 +185,7 @@ class _AgendaUserState extends State<AgendaUser> {
                         title: Text(eventos.servicio),
                         subtitle: Text(eventos.fecha.toString()),
                         onTap: () {
+                          //!
                           print("object");
                           Navigator.push(
                           context,
@@ -215,8 +221,31 @@ class _AgendaUserState extends State<AgendaUser> {
                                         }
                                       });
                                     });
-                                    
-                                    Navigator.of(context).pop(false);
+                                    showDialog(
+                                      context: context,
+                                      barrierDismissible: false,
+                                      builder: (BuildContext context) {
+                                        return Dialog(
+                                          child: new Container(
+                                            height: 100,
+                                            child: new Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                new CircularProgressIndicator(),
+                                                new SizedBox(width: 10,),
+                                                new Text(" Cargando"),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    );
+                                    new Future.delayed(new Duration(seconds: 2), () {
+                                      Navigator.of(context).pop(false); //pop dialog
+                                    });
+                                    new Future.delayed(new Duration(milliseconds: 1000), () {
+                                      Navigator.of(context).pop(false); //pop dialog
+                                    });
                                     },
                                     child: const Text("Aceptar")
                                   ),
@@ -248,69 +277,9 @@ class _AgendaUserState extends State<AgendaUser> {
                     borderRadius: BorderRadius.circular(20.0)),
               ),
               
-              // ExpansionTile(
-              //       title: null,
-              //       children: [
-              //         if (_selectedEvents != null)
-              //             ..._selectedEvents.map(
-              //   (e) => Container(
-              //     decoration: BoxDecoration(
-              //       borderRadius: BorderRadius.circular(10),
-              //       color: Colors.green[100],
-              //       border: Border.all(
-              //     color: Colors.black,
-              //       ),
-              //     ),
-              //     child: Column(
-              //       children: [
-              //     Row(
-              //       children: [
-              //         SizedBox(
-              //           width: 5,
-              //         ),
-              //         Container(
-              //           width: 50,
-              //           height: 50,
-              //           decoration: BoxDecoration(
-              //             image: DecorationImage(
-              //     image:
-              //   NetworkImage(userinfo.fotoPerfil),
-              //     fit: BoxFit.fill),
-              //             borderRadius: BorderRadius.circular(10),
-              //             border: Border.all(
-              //   color: Colors.black,
-              //             ),
-              //           ),
-              //         ),
-              //         SizedBox(
-              //           width: 10,
-              //         ),
-              //         Flexible(
-              //           child: ListTile(
-              //             title: Text(e.servicio),
-              //             subtitle: Text(e.fecha.toString()),
-              //             onTap: () {
-              //   print(e.fecha.toString());
-              //   Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (_) => 
-              //     ViewEventUser(
-              //         eventosModeloGlobal: e, correo: userinfo.correo, nombres: userinfo.nombres, apellidos: userinfo.apellidos, foto: userinfo.fotoPerfil,
-              //         )
-              //       )
-              //   );
-              //             },
-              //           ),
-              //         ),
-              //       ],
-              //     )
-              //       ],
-              //     ),
-              //   ),
-              //             )
-              //       ],
-              //     )
+               Container(
+                height: 100,
+              ),
             ]),
           );
         },

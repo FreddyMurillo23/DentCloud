@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/event_model.dart';
+import 'package:muro_dentcloud/src/pages/medicinas/recipe_test.dart';
 
 class RecetaMedica extends StatefulWidget {
   final EventosModelo eventosModeloGlobal;
@@ -216,7 +217,9 @@ class _RecetaMedicaState extends State<RecetaMedica> {
                                       ),
                                       SizedBox(width: 10,),
                                       FloatingActionButton(
-                                        onPressed: (){},
+                                        onPressed: (){
+                                          Navigator.pushNamed(context, 'pdfRecipes');
+                                        },
                                         child: Icon(Icons.add_circle),
                                         elevation: 0,
                                         backgroundColor: Colors.blueGrey[900],

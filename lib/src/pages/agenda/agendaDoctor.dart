@@ -456,45 +456,31 @@ class _Agenda3State extends State<Agenda3> {
                                         }
                                       });
                                     });  
-                                      showDialog(
-                                        context: context,
-                                        barrierDismissible: false,
-                                        builder: (BuildContext context) {
-                                          return Dialog(
-                                            child: new Container(
-                                              height: 100,
-                                              child: new Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  new CircularProgressIndicator(),
-                                                  new SizedBox(width: 10,),
-                                                  new Text("Cargando"),
-                                                ],
-                                              ),
+                                    showDialog(
+                                      context: context,
+                                      barrierDismissible: false,
+                                      builder: (BuildContext context) {
+                                        return Dialog(
+                                          child: new Container(
+                                            height: 100,
+                                            child: new Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                new CircularProgressIndicator(),
+                                                new SizedBox(width: 10,),
+                                                new Text(" Cargando"),
+                                              ],
                                             ),
-                                          );
-                                        },
-                                      );
-                                      new Future.delayed(new Duration(seconds: 2), () {
-                                        Navigator.of(context).pop(false); //pop dialog
-                                      });
-                                      new Future.delayed(new Duration(milliseconds: 1000), () {
-                                        Navigator.of(context).pop(false); //pop dialog
-                                      });
-                                    //   setState(() {
-                                    //   eventosModel2.remove(eventos);
-                                    //   EventosCtrl.actualizarEventosDenied(eventos.idcita).then((value) {
-                                    //     if (value) {
-                                    //       setState(() {
-                                    //         eventosModel2.remove(eventos);
-                                    //         countSelectedDay--;
-                                    //         countList = eventosModel2.length;
-                                            
-                                    //       });                             
-                                    //     } else {
-                                    //     }
-                                    //   });
-                                    // });                                    
+                                          ),
+                                        );
+                                      },
+                                    );
+                                    new Future.delayed(new Duration(seconds: 2), () {
+                                      Navigator.of(context).pop(false); //pop dialog
+                                    });
+                                    new Future.delayed(new Duration(milliseconds: 1000), () {
+                                      Navigator.of(context).pop(false); //pop dialog
+                                    });                                  
                                     },
                                     child: const Text("Aceptar")
                                   ),
