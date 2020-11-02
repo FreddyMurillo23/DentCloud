@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:muro_dentcloud/src/models/publications_model.dart';
 import 'package:muro_dentcloud/src/providers/data_provider.dart';
 import 'package:muro_dentcloud/src/models/follows_model.dart';
 
-class FollowsSearch extends SearchDelegate
+class FollowsSearch extends SearchDelegate<Publicacion>
 {
    @override
   final useremail;
-  FollowsSearch(this.useremail);
+    final Publicacion usuario;
+  FollowsSearch(this.useremail, this.usuario);
   final followProvider = new DataProvider();
     String seleccion=" ";
   @override
@@ -74,9 +76,11 @@ class FollowsSearch extends SearchDelegate
                 ), 
                     title: Text(snapshot.data[0].usuariosSeguidos[index].nombreUsuario),
                     onTap: (){
-                      close(context, null);
-                      // navegadoress
-                      //Navigator.pushNamed(context, 'detalle',arguments: chatcontactos)
+                      usuario.correoUsuario=snapshot.data[0].usuariosSeguidos[index].usuarioSeguido;
+                      usuario.fotoperfilusuario=snapshot.data[0].usuariosSeguidos[index].fotoPerfil;
+                      usuario.usuario=snapshot.data[0].usuariosSeguidos[index].nombreUsuario;
+                      this.close(context, usuario);
+                      
                     },
 
                   ),

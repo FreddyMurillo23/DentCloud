@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:muro_dentcloud/src/models/publications_model.dart';
 import 'package:muro_dentcloud/src/providers/data_provider.dart';
 import 'package:muro_dentcloud/src/models/follows_model.dart';
-
-class FollowsBusinessSearch extends SearchDelegate<Siguiendo>
+class FollowsBusinessSearch extends SearchDelegate<Publicacion>
 {
    @override
   final useremail;
-  final Siguiendo negocio;
+  final Publicacion negocio;
 
   FollowsBusinessSearch(this.useremail, this.negocio);
  
@@ -77,7 +77,8 @@ class FollowsBusinessSearch extends SearchDelegate<Siguiendo>
                 ), 
                     title: Text(snapshot.data[0].negociosSeguidos[index].nombreNegocio),
                     onTap: (){
-                       negocio.negociosSeguidos[1]=snapshot.data[0].negociosSeguidos[index];
+                       negocio.negocioRuc=snapshot.data[0].negociosSeguidos[index].negocioSeguido;
+                       negocio.negocio=snapshot.data[0].negociosSeguidos[index].nombreNegocio;
                        this.close(context, negocio);
                     },
 
@@ -107,6 +108,10 @@ class FollowsBusinessSearch extends SearchDelegate<Siguiendo>
         
       },
     );
+  }
+  Widget _negocio()
+  {
+
   }
 
 }

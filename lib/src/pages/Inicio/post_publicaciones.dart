@@ -1,10 +1,13 @@
 // import 'dart:html';
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
+import 'package:muro_dentcloud/src/models/follows_model.dart';
 import 'package:muro_dentcloud/src/models/publications_model.dart';
 import 'package:muro_dentcloud/src/providers/data_provider.dart';
 import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
-import 'package:muro_dentcloud/src/widgets/card_expansion_list1.dart';
+import 'package:muro_dentcloud/src/search/search_follows.dart';
+import 'package:muro_dentcloud/src/search/search_follows_business.dart';
 
 // import 'package:muro_dentcloud/src/widgets/circle_button.dart';
 // import 'package:muro_dentcloud/src/widgets/drawer_appbar.dart';
@@ -101,15 +104,7 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
                 style: TextStyle(color: Colors.lightBlue),
               ),
             ),
-            new CardExpansionPanel1(
-              headerData: widget.publicacion.negocio == ' '
-                  ? 'Seleccione un Negocio'
-                  : publicacion
-                      .negocio,
-                       //('${widget.currentuser.openUserTrabajos.length}00'),
-              email: correo
-              ,
-            ),
+             card1(correo),
             SizedBox(
               height: screenSize.height * 0.01,
             )
@@ -120,6 +115,7 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
   }
 
   Widget _etiquetaUsuarios(Size screenSize) {
+    correo = prefs.currentCorreo;
     return Container(
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.0),
@@ -142,10 +138,10 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
                 style: TextStyle(color: Colors.lightBlue),
               ),
             ),
-            listaEtiquetas(screenSize),
+            cardusuarioEtiqueta(correo),
             Container(
-              height: 50,
-              width: 50,
+              height: 10,
+              width: 10,
             ),
           ],
         ),
@@ -184,7 +180,74 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
   Widget listaEtiquetas(Size screenSize) {
     return Container();
   }
+  Widget card1(String email)
+ {
+   String headerData;
+   if(publicacion.negocio==" "){
+     headerData="Seleccione un negocio";
+   }
+   else
+   {
+     headerData=publicacion.negocio;
+     
+   }
+   return Card(
+       margin:
+            new EdgeInsets.only(left: 10.0, right: 10.0, top: 8.0, bottom: 5.0),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+        elevation: 4.0,
+        child: ListTile(
+          leading: Icon(MdiIcons.bookSearchOutline),
+          title: Text(headerData),
+          trailing: Icon(MdiIcons.play),
+          onTap: () async {
+          final  negocio= await showSearch(context: context, delegate:  FollowsBusinessSearch(email,publicacion));
+          setState(() {
+          publicacion.negocio=negocio.negocio;
+          publicacion.negocioRuc=negocio.negocioRuc;
+          });
+                    
+          
+          })
+      
+    );
 
+ }
+ 
+  Widget cardusuarioEtiqueta(String email){
+    String headerData;
+   if(publicacion.usuario==" "){
+     headerData="Seleccione un usuario";
+   }
+   else
+   {
+     headerData=publicacion.usuario;
+     
+   }
+   return Card(
+       margin:
+            new EdgeInsets.only(left: 10.0, right: 10.0, top: 8.0, bottom: 5.0),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+        elevation: 4.0,
+        child: ListTile(
+          leading: Icon(MdiIcons.bookSearchOutline),
+          title: Text(headerData),
+          trailing: Icon(MdiIcons.play),
+          onTap: () async {
+          final  usuario= await showSearch(context: context, delegate:  FollowsSearch(email,publicacion));
+          setState(() {
+          publicacion.usuario=usuario.usuario;
+          publicacion.correoUsuario=usuario.correoUsuario;
+          publicacion.fotoperfilusuario=usuario.fotoperfilusuario;
+          });
+                    
+          
+          })
+      
+    );
+
+
+  }
   Widget listaPerfiles(CurrentUsuario userinfo, Size screenSize) {
     correo = prefs.currentCorreo;
     // print(userinfo.nombres);
