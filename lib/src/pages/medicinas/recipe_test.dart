@@ -30,6 +30,49 @@ String genero(CurrentUsuario userinfo){
   }
 }
 
+String imprimirEdad(DateTime fechaCumple){
+  String edad;
+  var hoy = new DateTime.now();
+  var anios = hoy.year - fechaCumple.year;
+  if(hoy.month <= fechaCumple.month){
+    print(anios - 1);
+    edad = (anios - 1).toString();
+    return edad;
+  }else{
+    print(anios);
+    edad = (anios).toString();
+    return edad;
+  }
+}
+
+List<pw.TableRow> getTable(List<String> prueba){
+  List<pw.TableRow> tableRows = List<pw.TableRow>();
+  prueba.forEach((element) { 
+    tableRows.add(
+       pw.TableRow(
+        decoration: pw.BoxDecoration(
+          border: pw.BoxBorder(
+            bottom: true,
+            top: true,
+            right: true,
+            left: true,
+            style: pw.BorderStyle.solid,
+            color: green
+          )
+        ),
+        children: [
+          pw.Text(element),
+          pw.Text(element),
+          pw.Text(element),
+          
+        ]
+      )
+    );
+  });
+  return tableRows;
+}
+
+
 String fechaCompleta(EventosModelo eventos) {
   return eventos.fecha.year.toString()+'-'+eventos.fecha.month.toString()+'-'+eventos.fecha.day.toString();
 }
@@ -37,6 +80,12 @@ String fechaCompleta(EventosModelo eventos) {
 const PdfColor green = PdfColor.fromInt(0xff9ce5d0);
 
 class _RecipeTestState extends State<RecipeTest> {
+  List<String> prueba = ['Medicina1', 'Medicina2', 'Medicina3', 'Medicina4'];
+  List<pw.TableRow> pruebita = [
+    pw.TableRow(),
+    pw.TableRow(),
+    pw.TableRow(),
+  ];
 
   final pdf = pw.Document();
 
@@ -76,28 +125,108 @@ class _RecipeTestState extends State<RecipeTest> {
                   
                   pw.Divider(),
 
-                  pw.Row(
-                    children: <pw.Widget>[
-                      pw.Text('Nombre del Paciente: '+widget.eventosModeloGlobal.paciente,
-                      textScaleFactor: 1.2,
-                      style: pw.Theme.of(context)
-                          .defaultTextStyle
-                      ),
-                      pw.SizedBox(width: 10),
-                      
-                      pw.Text('Fecha de la Cita: '+fechaCompleta(widget.eventosModeloGlobal),
-                      textScaleFactor: 1.2,
-                      style: pw.Theme.of(context)
-                          .defaultTextStyle
-                      ),
-                    ]
-                  ),
+                  pw.Partitions(children: [
+                    pw.Partition(
+                      child: pw.Column(
+                        crossAxisAlignment: pw.CrossAxisAlignment.start,
+                        children: [
+                          pw.Text('Nombre del Paciente: '+widget.eventosModeloGlobal.paciente,
+                          textScaleFactor: 1.2,
+                          style: pw.Theme.of(context)
+                              .defaultTextStyle
+                          ),
+                        ]
+                      )
+                    ),
+                    pw.Partition(
+                      child: pw.Column(
+                        crossAxisAlignment: pw.CrossAxisAlignment.end,
+                        children: [
+                         pw.Text('Fecha de la Cita: '+fechaCompleta(widget.eventosModeloGlobal),
+                        textScaleFactor: 1.2,
+                        style: pw.Theme.of(context)
+                            .defaultTextStyle
+                        ),
+                        ]
+                      )
+                    )
+                  ]),
+
+                  pw.Partitions(children: [
+                    pw.Partition(
+                      child: pw.Column(
+                        crossAxisAlignment: pw.CrossAxisAlignment.start,
+                        children: [
+                          pw.Text('Servicio: '+widget.eventosModeloGlobal.servicio,
+                          textScaleFactor: 1.2,
+                          style: pw.Theme.of(context)
+                              .defaultTextStyle
+                          ),
+                        ]
+                      )
+                    ),
+                    pw.Partition(
+                      child: pw.Column(
+                        crossAxisAlignment: pw.CrossAxisAlignment.center,
+                        children: [
+                         pw.Text('Edad: '+fechaCompleta(widget.eventosModeloGlobal),
+                        textScaleFactor: 1.2,
+                        style: pw.Theme.of(context)
+                            .defaultTextStyle
+                        ),
+                        ]
+                      )
+                    ),
+                    pw.Partition(
+                      child: pw.Column(
+                        crossAxisAlignment: pw.CrossAxisAlignment.end,
+                        children: [
+                          pw.Text('Aqui va algo: '+widget.eventosModeloGlobal.paciente,
+                          textScaleFactor: 1.2,
+                          style: pw.Theme.of(context)
+                              .defaultTextStyle
+                          ),
+                        ]
+                      )
+                    ),
+                  ]),
+
+                  pw.SizedBox(height: 10),
+
+                  pw.Table(
+                    defaultVerticalAlignment: pw.TableCellVerticalAlignment.middle,
+                    columnWidths: {
+                      0: pw.FlexColumnWidth(1),
+                      1: pw.FixedColumnWidth(40),
+                      2: pw.FixedColumnWidth(40),
+                    },
+                    children: 
+                      getTable(prueba),
+                      // pw.TableRow(
+                      //   decoration: pw.BoxDecoration(
+                      //     border: pw.BoxBorder(
+                      //       bottom: true,
+                      //       top: true,
+                      //       right: true,
+                      //       left: true,
+                      //       style: pw.BorderStyle.solid,
+                      //       color: green
+                      //     )
+                      //   ),
+                      //   children: [
+                      //     pw.Text('data1'),
+                      //     pw.Text('data2'),
+                      //     pw.Text('data3'),
+                          
+                      //   ]
+                      // )
+                    
+                  )
                 ]
               ),
             ),
           ])
           ),
-          
         ]
 
       )
@@ -159,6 +288,46 @@ class _RecipeTestState extends State<RecipeTest> {
       ), // This trailing comma makes auto-formatting nicer for build methods.
 
     );
+  }
+}
+
+class _Block extends pw.StatelessWidget {
+  _Block({this.title});
+
+  final String title;
+
+  @override
+  pw.Widget build(pw.Context context) {
+    return pw.Column(
+        crossAxisAlignment: pw.CrossAxisAlignment.start,
+        children: <pw.Widget>[
+          pw.Row(
+              crossAxisAlignment: pw.CrossAxisAlignment.start,
+              children: <pw.Widget>[
+                pw.Container(
+                  width: 6,
+                  height: 6,
+                  margin: const pw.EdgeInsets.only(top: 2.5, left: 2, right: 5),
+                  decoration: const pw.BoxDecoration(
+                      color: green, shape: pw.BoxShape.circle),
+                ),
+                pw.Text(title,
+                    style: pw.Theme.of(context)
+                        .defaultTextStyle
+                        .copyWith(fontWeight: pw.FontWeight.bold)),
+              ]),
+          pw.Container(
+            decoration: const pw.BoxDecoration(
+                border: pw.BoxBorder(left: true, color: green, width: 2)),
+            padding: const pw.EdgeInsets.only(left: 10, top: 5, bottom: 5),
+            margin: const pw.EdgeInsets.only(left: 5),
+            child: pw.Column(
+                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                children: <pw.Widget>[
+                  pw.Lorem(length: 20),
+                ]),
+          ),
+        ]);
   }
 }
 

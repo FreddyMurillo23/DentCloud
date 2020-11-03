@@ -86,15 +86,8 @@ class _RecetaMedicaState extends State<RecetaMedica> {
         title: Text("Receta Medica", style: TextStyle(color: Colors.black, fontSize: 35),),
       ),
       body: SingleChildScrollView(
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          decoration: BoxDecoration(
-            image: DecorationImage(image: AssetImage('assets/fondo.jpg'),
-            fit: BoxFit.fill
-            ),
-          ),
+        child: Card(
           child: Column(   
-            
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,       
             children: [
@@ -385,6 +378,7 @@ class _RecetaMedicaState extends State<RecetaMedica> {
                   )
                   ),
                 ),
+                
             ],
           ),
         ),
