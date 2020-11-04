@@ -208,8 +208,12 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
                   context: context,
                   delegate: FollowsBusinessSearch(email, publicacion));
               setState(() {
+                if(negocio!=null)
+                {
                 publicacion.negocio = negocio.negocio;
                 publicacion.negocioRuc = negocio.negocioRuc;
+                }
+              
               });
             }));
   }
@@ -236,9 +240,13 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
                   context: context,
                   delegate: FollowsSearch(email, publicacion));
               setState(() {
+                if(usuario!=null)
+                {
                 etiq.nombreUsuarioEtiquetado = usuario.usuario;
                 etiq.correoEtiquetado = usuario.correoUsuario;
                 etiquetas.add(etiq);
+                }
+                
                 // .add(etiq);
               });
             }));
