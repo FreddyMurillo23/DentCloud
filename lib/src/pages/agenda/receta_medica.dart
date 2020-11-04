@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/event_model.dart';
 import 'package:muro_dentcloud/src/pages/medicinas/recipe_test.dart';
+import 'package:muro_dentcloud/src/search/search_drogs.dart';
 
 class RecetaMedica extends StatefulWidget {
   final EventosModelo eventosModeloGlobal;
@@ -237,62 +238,30 @@ class _RecetaMedicaState extends State<RecetaMedica> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Expanded(
-                            child: Column(
-                              children: [
-                                Text('Medicamento:', style: TextStyle(color: Colors.black),),
-                                SizedBox(height: 5,),
-                                Container(
-                                  height: 40,
-                                  width: MediaQuery.of(context).size.width,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                                    border: Border.all(color: Colors.black),
-                                    color: Colors.white
-                                  ),
-                                  child: DropdownButtonHideUnderline(
-                                    child: DropdownButton(
-                                      items: [], 
-                                      onChanged: null,
-                                    ),
-                                  )
-                                )
-                              ],
-                            ),
-                          ),
-                          SizedBox(width: 5,),
-                          Column(
-                            children: [
-                              SizedBox(height: 20,),
-                              ClipPath(
-                                child: Container(
-                                    width: 20,
-                                    height: 20,
-                                    color: Colors.grey,
-                                  ),
-                                clipper: CustomClipPathPrueba(),
+                          child: new TextFormField(
+                            focusNode: FocusNode(),
+                            readOnly: true,
+                            enableInteractiveSelection: false,
+                            initialValue: null,
+                            decoration: InputDecoration(
+                              labelText: "Medicina",
+                              filled: true,
+                              fillColor: Colors.white,
+                              hintText: null,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(20)),
                               ),
-                            ],
-                          ),
-
-                          SizedBox(width: 5,),
-                          Expanded(
-                            child: Column(
-                              children: [
-                                Text('Denomiacion Generica:', style: TextStyle(color: Colors.black),),
-                                SizedBox(height: 5,),
-                                Container(
-                                  height: 40,
-                                  width: MediaQuery.of(context).size.width,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                                    border: Border.all(color: Colors.black),
-                                    color: Colors.white
-                                  ),
-                                  child: Text(''),
-                                )
-                              ],
+                              suffixIcon: GestureDetector(
+                                onTap: ()async{
+                                final seleccionMedicina = await showSearch(context: context, delegate:DrogSearch());  
+                              },
+                                child: Icon(Icons.search),
+                              )
                             ),
+                            validator: (value) => value.isEmpty ? 'Este campo no puede estar vacio' : null,
                           ),
+                        ),
+                          
                         ],
                       ),
                       SizedBox(height: 5,),

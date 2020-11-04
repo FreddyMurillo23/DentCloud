@@ -233,7 +233,7 @@ class _ViewEventState extends State<ViewEvent> {
                             height: 60,
                             width: 60,
                             child: GestureDetector(
-                              child: Icon(Icons.add_box),
+                              child: Icon(Icons.receipt),
                               onTap: () {
                                 Navigator.push(
                           context,
