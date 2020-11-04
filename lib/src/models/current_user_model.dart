@@ -54,28 +54,33 @@ class CurrentUsuario {
   String sexo;
   String tipoUsuario;
   String fotoPerfil;
+  String profesion;
+  String provinciaResidencia;
+  String ciudadResidencia;
   List<UserPublicacion> publicaciones = new List();
   List<ServiciosReciente> serviciosRecientes = new List();
   List<NegociosAsistido> negociosAsistidos = new List();
   List<UsuariosSeguido> usuariosSeguidos = new List();
   List<UserTrabajos> userTrabajos = new List();
 
-  CurrentUsuario({
-    this.correo,
-    this.cedula,
-    this.nombres,
-    this.apellidos,
-    this.fechaNacimiento,
-    this.celular,
-    this.sexo,
-    this.tipoUsuario,
-    this.fotoPerfil,
-    this.publicaciones,
-    this.negociosAsistidos,
-    this.serviciosRecientes,
-    this.usuariosSeguidos,
-    this.userTrabajos,
-  });
+  CurrentUsuario(
+      {this.correo,
+      this.cedula,
+      this.nombres,
+      this.apellidos,
+      this.fechaNacimiento,
+      this.celular,
+      this.sexo,
+      this.tipoUsuario,
+      this.fotoPerfil,
+      this.publicaciones,
+      this.negociosAsistidos,
+      this.serviciosRecientes,
+      this.usuariosSeguidos,
+      this.userTrabajos,
+      this.ciudadResidencia,
+      this.profesion,
+      this.provinciaResidencia});
   CurrentUsuario.fromJsonMap(Map<String, dynamic> json) {
     correo = json['correo'];
     cedula = json['cedula'];
@@ -86,6 +91,9 @@ class CurrentUsuario {
     sexo = json['sexo'];
     tipoUsuario = json['tipo_usuario'];
     fotoPerfil = json['foto_perfil'];
+    ciudadResidencia = json['ciudad_residencia'];
+    profesion = json['profesion'];
+    provinciaResidencia = json['ciudad_residencia'];
 
     if (json['publicaciones'].length != 0) {
       for (var item in json['publicaciones']) {
