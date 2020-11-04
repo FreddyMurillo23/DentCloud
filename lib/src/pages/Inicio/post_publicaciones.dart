@@ -26,6 +26,8 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
   final formKey = GlobalKey<FormState>();
   final publicacion = new Publicacion();
   List<Etiquetas> etiquetas = new List();
+  final etiq = new Etiquetas();
+
   PreferenciasUsuario prefs = new PreferenciasUsuario();
   final publicacionesProvider = new DataProvider();
   var correo = ' ';
@@ -213,12 +215,11 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
   }
 
   Widget cardusuarioEtiqueta(String email) {
-    final etiq = new Etiquetas();
     String headerData;
-    if (publicacion.usuario == " ") {
+    if (etiq.nombreUsuarioEtiquetado == " ") {
       headerData = "Agregar usuario";
     } else {
-      headerData = publicacion.etiquetas[0].nombreUsuarioEtiquetado;
+      headerData = etiq.nombreUsuarioEtiquetado;
     }
     return Card(
         margin:

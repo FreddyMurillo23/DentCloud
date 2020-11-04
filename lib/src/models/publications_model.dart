@@ -245,9 +245,9 @@ class Etiquetas {
   String publicacionId;
   Etiquetas({
     this.idEtiqueta,
-    this.correoEtiquetado,
+    this.correoEtiquetado = ' ',
     this.inicialUsuario,
-    this.nombreUsuarioEtiquetado,
+    this.nombreUsuarioEtiquetado = ' ',
     this.publicacionId,
   });
   Etiquetas.fromJsonMap(Map<String, dynamic> json) {
