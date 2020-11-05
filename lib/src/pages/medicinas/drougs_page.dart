@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:muro_dentcloud/src/search/search_drogs.dart';
+import 'package:muro_dentcloud/src/search/search_and_show_drougs.dart';
 import 'package:muro_dentcloud/src/widgets/circle_button.dart';
 
 class DrougsPage extends StatelessWidget {

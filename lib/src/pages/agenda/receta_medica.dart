@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/event_model.dart';
 import 'package:muro_dentcloud/src/pages/medicinas/recipe_test.dart';
-import 'package:muro_dentcloud/src/search/search_drogs.dart';
+import 'package:muro_dentcloud/src/search/search_and_show_drougs.dart';
 
 class RecetaMedica extends StatefulWidget {
   final EventosModelo eventosModeloGlobal;
