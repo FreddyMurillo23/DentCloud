@@ -69,11 +69,6 @@ Widget fotoperfil(Size sizescreen)
 
 }
 
-_selecionarfoto(){
-  foto= await 
-}
-
-
    Widget appMenu(Size _screenSize) {
   return AppBar(
     brightness: Brightness.light,
