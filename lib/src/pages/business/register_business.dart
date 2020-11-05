@@ -1,4 +1,4 @@
-//import 'dart:html';
+import 'dart:html';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +15,7 @@ class RegisterBusiness extends StatefulWidget {
 }
 
 class _RegisterBusinessState extends State<RegisterBusiness> {
-  //File imageFile;
+  File imageFile;
   @override
   Widget build(BuildContext context) {
      final sizeScreen = MediaQuery.of(context).size;
