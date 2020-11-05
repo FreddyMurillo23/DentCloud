@@ -1,8 +1,8 @@
 import 'dart:html';
-
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-
+import 'package:image_picker/image_picker.dart';
 
 class RegisterBusiness extends StatefulWidget {
   RegisterBusiness({Key key}) : super(key: key);
@@ -12,7 +12,7 @@ class RegisterBusiness extends StatefulWidget {
 }
 
 class _RegisterBusinessState extends State<RegisterBusiness> {
-  File foto;
+  var foto;
   @override
   Widget build(BuildContext context) {
      final sizeScreen = MediaQuery.of(context).size;
@@ -55,7 +55,9 @@ Widget fotoperfil(Size sizescreen)
                child: Container(
                  child: IconButton(
                  icon: Icon(Icons.add_a_photo),
-                 onPressed: (){},
+                 onPressed: (){
+                   _selecionarfoto();
+                 },
                  ),
             ),
           ),
@@ -69,11 +71,17 @@ Widget fotoperfil(Size sizescreen)
 
 }
 
-_selecionarfoto(){
-  foto= await 
+<<<<<<< HEAD
+Future  _selecionarfoto() async {
+  var picture = await ImagePicker.pickImage(source: ImageSource.gallery);
+  this.setState(() {
+    foto=picture;
+  });
 }
 
 
+=======
+>>>>>>> 97e8dc0fa668f083cb9985def58f8a93a93ee73b
    Widget appMenu(Size _screenSize) {
   return AppBar(
     brightness: Brightness.light,

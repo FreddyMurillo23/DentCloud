@@ -14,7 +14,7 @@ class AwaitPage extends StatelessWidget {
     final currentUserData = new PreferenciasUsuario();
     
     currentUserData.currentPassword.then((password) {
-      
+        
       if (currentUserData.currentCorreo == 'empty' && password == 'empty') {
         final duration = new Duration(seconds: 1);
         new Timer(duration, () {
