@@ -1,4 +1,4 @@
-import 'package:muro_dentcloud/src/models/publications_model.dart';
+
 
 class Drougs {
   List<Medicamento> items = new List();
