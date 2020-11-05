@@ -93,7 +93,7 @@ class CurrentUsuario {
     fotoPerfil = json['foto_perfil'];
     ciudadResidencia = json['ciudad_residencia'];
     profesion = json['profesion'];
-    provinciaResidencia = json['ciudad_residencia'];
+    provinciaResidencia = json['ciudad_residencia'];  
 
     if (json['publicaciones'].length != 0) {
       for (var item in json['publicaciones']) {

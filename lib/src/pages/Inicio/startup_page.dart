@@ -83,7 +83,9 @@ class _StartUpPageState extends State<StartUpPage> {
         CircleButton(
           icon: MdiIcons.chatOutline,
           iconsize: 30.0,
-          onPressed: () => Navigator.pushNamed(context, 'messenger', arguments: userinfo),
+          onPressed: () => 
+          Navigator.pushNamed(context, 'registerbusiness', arguments: userinfo)
+         // Navigator.pushNamed(context, 'messenger', arguments: userinfo),
         )
       ],
     ),

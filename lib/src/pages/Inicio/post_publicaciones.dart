@@ -26,6 +26,8 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
   final formKey = GlobalKey<FormState>();
   final publicacion = new Publicacion();
   List<Etiquetas> etiquetas = new List();
+  final etiq = new Etiquetas();
+
   PreferenciasUsuario prefs = new PreferenciasUsuario();
   final publicacionesProvider = new DataProvider();
   var correo = ' ';
@@ -206,19 +208,22 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
                   context: context,
                   delegate: FollowsBusinessSearch(email, publicacion));
               setState(() {
+                if(negocio!=null)
+                {
                 publicacion.negocio = negocio.negocio;
                 publicacion.negocioRuc = negocio.negocioRuc;
+                }
+              
               });
             }));
   }
 
   Widget cardusuarioEtiqueta(String email) {
-    final etiq = new Etiquetas();
     String headerData;
-    if (publicacion.usuario == " ") {
+    if (etiq.nombreUsuarioEtiquetado == " ") {
       headerData = "Agregar usuario";
     } else {
-      headerData = publicacion.etiquetas[0].nombreUsuarioEtiquetado;
+      headerData = etiq.nombreUsuarioEtiquetado;
     }
     return Card(
         margin:
@@ -235,9 +240,13 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
                   context: context,
                   delegate: FollowsSearch(email, publicacion));
               setState(() {
+                if(usuario!=null)
+                {
                 etiq.nombreUsuarioEtiquetado = usuario.usuario;
                 etiq.correoEtiquetado = usuario.correoUsuario;
                 etiquetas.add(etiq);
+                }
+                
                 // .add(etiq);
               });
             }));
