@@ -71,7 +71,7 @@ Widget fotoperfil(Size sizescreen)
 
 }
 
-<<<<<<< HEAD
+
 Future  _selecionarfoto() async {
   var picture = await ImagePicker.pickImage(source: ImageSource.gallery);
   this.setState(() {
@@ -80,8 +80,6 @@ Future  _selecionarfoto() async {
 }
 
 
-=======
->>>>>>> 97e8dc0fa668f083cb9985def58f8a93a93ee73b
    Widget appMenu(Size _screenSize) {
   return AppBar(
     brightness: Brightness.light,
