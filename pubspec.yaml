@@ -34,8 +34,7 @@ dependencies:
   provider: ^4.3.2
   datetime_picker_formfield: ^1.0.0
   flutter_datetime_formfield: ^0.1.2
-  table_calendar: ^2.2.3
-  image_picker: ^0.6.7+12
+  table_calendar: ^2.3.0
   flutter_clean_calendar: ^1.0.2
   http: ^0.12.2
   intl: ^0.16.1
