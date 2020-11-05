@@ -97,7 +97,7 @@ class _AgendaUserState extends State<AgendaUser> {
                     )
                   ),
                   startingDayOfWeek: StartingDayOfWeek.monday,
-                  onDaySelected: (day, events) {
+                  onDaySelected: (day, events, holidays) {
                     setState(() {
                       if (events.isNotEmpty) {
                         _selectedEvents = events;
