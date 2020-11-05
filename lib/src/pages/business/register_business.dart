@@ -25,26 +25,46 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
     );
   }
 
-
-
 Widget fotoperfil(Size sizescreen)
 {
-  /*return  Container(
-    decoration: BoxDecoration(
-      gradient:  LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [
-           Color(0XFF2E5596),
-          Color(0XFF16304E),
-        ]
-      ),
-    ),
-  height: sizescreen.height*0.10,
-  //color:  Colors.blue,
-  
+  return Padding(
+      padding: EdgeInsets.all(20),
+      child: Center(
+        child: Stack(
+         children: [
+           Container(
+             width: sizescreen.width*0.3,
+            height: sizescreen.height*0.2,
+            child: ClipRRect(
+                borderRadius: BorderRadius.circular(40.0),
+                child: FadeInImage(
+                 placeholder: AssetImage('assets/jar-loading.gif'),
+                 image: new NetworkImage("http://54.197.83.249/Contenido_ftp/Imagenes%20por%20defecto/Placeholder_male.png"),
+              fit: BoxFit.cover
+              ),
+            ),
+             decoration:  BoxDecoration(
+              shape: BoxShape.circle, 
+            ),
+           ),
+           Positioned(
+              bottom: -11,
+              right: -15,
+               child: Container(
+                 child: IconButton(
+                 icon: Icon(Icons.add_a_photo),
+                 onPressed: (){},
+                 ),
+            ),
+          ),
+         ],
 
-  );*/
+        ),
+
+
+      ),
+    );
+
 }
 
 
