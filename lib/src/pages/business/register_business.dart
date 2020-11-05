@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:muro_dentcloud/src/widgets/circle_button.dart';
@@ -10,7 +12,7 @@ class RegisterBusiness extends StatefulWidget {
 }
 
 class _RegisterBusinessState extends State<RegisterBusiness> {
- 
+  File foto;
   @override
   Widget build(BuildContext context) {
      final sizeScreen = MediaQuery.of(context).size;
