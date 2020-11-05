@@ -95,7 +95,7 @@ class _Agenda2State extends State<Agenda2> {
                 formatButtonShowsNext: false,
               ),
               startingDayOfWeek: StartingDayOfWeek.monday,
-              onDaySelected: (date, events) {
+              onDaySelected: (date, events, holidays) {
                 print(date.day);
                 setState(() {
                   _selectedEvents = events;

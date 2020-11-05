@@ -322,7 +322,7 @@ class _Agenda3State extends State<Agenda3> {
                         fontSize: 17,
                       )),
                   startingDayOfWeek: StartingDayOfWeek.monday,
-                  onDaySelected: (day, events) {
+                  onDaySelected: (day, events, holidays) {
                     setState(() {
                       if (events.isNotEmpty) {
                         _selectedEvents = events;
