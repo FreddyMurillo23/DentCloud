@@ -4,8 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/drougs_model.dart';
 import 'package:muro_dentcloud/src/models/event_model.dart';
+import 'package:muro_dentcloud/src/pages/medicinas/PdfPreviewScreen.dart';
 import 'package:muro_dentcloud/src/pages/medicinas/recipe_test.dart';
 import 'package:muro_dentcloud/src/search/search_drougs.dart';
+import 'dart:io';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:flutter/cupertino.dart';
+import 'package:path_provider/path_provider.dart';
 
 class RecetaMedica extends StatefulWidget {
   final EventosModelo eventosModeloGlobal;
@@ -17,7 +23,20 @@ class RecetaMedica extends StatefulWidget {
   _RecetaMedicaState createState() => _RecetaMedicaState();
 }
 
-
+String imprimirEdad(DateTime fechaCumple){
+  String edad;
+  var hoy = new DateTime.now();
+  var anios = hoy.year - fechaCumple.year;
+  if(hoy.month <= fechaCumple.month){
+    print(anios - 1);
+    edad = (anios - 1).toString();
+    return edad;
+  }else{
+    print(anios);
+    edad = (anios).toString();
+    return edad;
+  }
+}
 
 class _RecetaMedicaState extends State<RecetaMedica> {
   final formkey = new GlobalKey<FormState>();
@@ -42,6 +61,7 @@ class _RecetaMedicaState extends State<RecetaMedica> {
     controladorEdadUser.text = '∞';
     controladorMedicina.text = '';
     medicamentosLista = [];
+    medicamento = null;
   }
 
   Widget contenedor(double altura, String texto){
@@ -55,7 +75,7 @@ class _RecetaMedicaState extends State<RecetaMedica> {
       );
     }
 
-    Widget textFields(String texto, TextEditingController controller){
+  Widget textFields(String texto, TextEditingController controller){
       return Flexible(
         child: TextField(
           controller: controladorNombreUser,
@@ -81,8 +101,7 @@ class _RecetaMedicaState extends State<RecetaMedica> {
         ),
       );
     }
-
-
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -308,13 +327,18 @@ class _RecetaMedicaState extends State<RecetaMedica> {
                           ),
                         ),
                         SizedBox(width: 5,),
-                        ClipPath(
-                          child: Container(
-                            width: 20,
-                            height: 20,
-                            color: Colors.green,
-                          ),
-                          clipper: CustomClipPathPrueba(),
+                        Column(
+                          children: [
+                            SizedBox(height: 20,),
+                            ClipPath(
+                              child: Container(
+                                  width: 20,
+                                  height: 20,
+                                  color: Colors.grey,
+                                ),
+                              clipper: CustomClipPathPrueba(),
+                            ),
+                          ],
                         ),
                         SizedBox(width: 5,),
                         Expanded(
@@ -330,7 +354,9 @@ class _RecetaMedicaState extends State<RecetaMedica> {
                                   border: Border.all(color: Colors.black),
                                   color: Colors.white
                                 ),
-                                child: Text(''),
+                                child: medicamento == null
+                                ? Center(child: Text(''),) 
+                                : Center(child: Text(medicamento.drugPharmaceuticalForm),),
                               )
                             ],
                           ),
@@ -366,6 +392,31 @@ class _RecetaMedicaState extends State<RecetaMedica> {
                         ),
                       ],
                     ),
+                    SizedBox(height: 5,),
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: RaisedButton(
+                            onPressed: () {
+                              
+                            },
+                            child: Text('data'),
+                          ),
+                        ),
+                        SizedBox(width: 5,),
+                        Expanded(
+                          child: RaisedButton(
+                            onPressed: () {
+                              
+                            },
+                            child: Text('data'),
+                          ),
+                        ),
+                      ],
+                    )
                   ],
                 )
                 ),
