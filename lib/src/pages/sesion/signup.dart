@@ -106,8 +106,6 @@ class _SignupState extends State<Signup> {
           fit: BoxFit.cover
           ),       
         ),
-
-
           child: new Center(
           child: new Container(
             height: 750,
