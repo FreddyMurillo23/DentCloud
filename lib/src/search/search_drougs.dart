@@ -5,7 +5,7 @@ import 'package:muro_dentcloud/src/models/drougs_model.dart';
 import 'package:muro_dentcloud/src/widgets/card_expansion_drougs.dart';
 import 'package:muro_dentcloud/src/widgets/card_expansion_list.dart';
 
-class DrougSearchSelect extends SearchDelegate {
+class DrougSearchSelect extends SearchDelegate<Medicamento> {
   final chatProvider = new DataProvider();
   String seleccion = " ";
   @override
@@ -60,7 +60,6 @@ class DrougSearchSelect extends SearchDelegate {
       future: chatProvider.drougs(query),
       builder:
           (BuildContext context, AsyncSnapshot<List<Medicamento>> snapshot) {
-        print(snapshot.data);
         if (snapshot.hasData) {
           final medicamentos = snapshot.data;
           return Stack(

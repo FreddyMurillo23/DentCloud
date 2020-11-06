@@ -1,7 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
-import 'package:flutter/services.dart';
-import 'package:muro_dentcloud/src/models/apointments_model.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/event_model.dart';
 import 'package:pdf/pdf.dart';
@@ -81,11 +78,7 @@ const PdfColor green = PdfColor.fromInt(0xff9ce5d0);
 
 class _RecipeTestState extends State<RecipeTest> {
   List<String> prueba = ['Medicina1', 'Medicina2', 'Medicina3', 'Medicina4'];
-  List<pw.TableRow> pruebita = [
-    pw.TableRow(),
-    pw.TableRow(),
-    pw.TableRow(),
-  ];
+  
 
   final pdf = pw.Document();
 
@@ -107,7 +100,7 @@ class _RecipeTestState extends State<RecipeTest> {
                         .defaultTextStyle
                         .copyWith(fontWeight: pw.FontWeight.bold)),
                   pw.Padding(padding: const pw.EdgeInsets.only(top: 10)),
-                  pw.Text(widget.currentuser.tipoUsuario,
+                  pw.Text(widget.currentuser.profesion,
                       textScaleFactor: 1.2,
                       style: pw.Theme.of(context)
                           .defaultTextStyle
@@ -201,26 +194,7 @@ class _RecipeTestState extends State<RecipeTest> {
                       2: pw.FixedColumnWidth(40),
                     },
                     children: 
-                      getTable(prueba),
-                      // pw.TableRow(
-                      //   decoration: pw.BoxDecoration(
-                      //     border: pw.BoxBorder(
-                      //       bottom: true,
-                      //       top: true,
-                      //       right: true,
-                      //       left: true,
-                      //       style: pw.BorderStyle.solid,
-                      //       color: green
-                      //     )
-                      //   ),
-                      //   children: [
-                      //     pw.Text('data1'),
-                      //     pw.Text('data2'),
-                      //     pw.Text('data3'),
-                          
-                      //   ]
-                      // )
-                    
+                      getTable(prueba),                    
                   )
                 ]
               ),
@@ -268,7 +242,7 @@ class _RecipeTestState extends State<RecipeTest> {
 
       floatingActionButton: FloatingActionButton(
         onPressed: ()async{
-          
+
           writeOnPdf();
           await savePdf();
 
@@ -282,70 +256,10 @@ class _RecipeTestState extends State<RecipeTest> {
           Navigator.push(context, MaterialPageRoute(
             builder: (context) => PdfPreviewScreen(path: fullPath,)
           ));
-
         },
         child: Icon(Icons.save),
       ), // This trailing comma makes auto-formatting nicer for build methods.
 
-    );
-  }
-}
-
-class _Block extends pw.StatelessWidget {
-  _Block({this.title});
-
-  final String title;
-
-  @override
-  pw.Widget build(pw.Context context) {
-    return pw.Column(
-        crossAxisAlignment: pw.CrossAxisAlignment.start,
-        children: <pw.Widget>[
-          pw.Row(
-              crossAxisAlignment: pw.CrossAxisAlignment.start,
-              children: <pw.Widget>[
-                pw.Container(
-                  width: 6,
-                  height: 6,
-                  margin: const pw.EdgeInsets.only(top: 2.5, left: 2, right: 5),
-                  decoration: const pw.BoxDecoration(
-                      color: green, shape: pw.BoxShape.circle),
-                ),
-                pw.Text(title,
-                    style: pw.Theme.of(context)
-                        .defaultTextStyle
-                        .copyWith(fontWeight: pw.FontWeight.bold)),
-              ]),
-          pw.Container(
-            decoration: const pw.BoxDecoration(
-                border: pw.BoxBorder(left: true, color: green, width: 2)),
-            padding: const pw.EdgeInsets.only(left: 10, top: 5, bottom: 5),
-            margin: const pw.EdgeInsets.only(left: 5),
-            child: pw.Column(
-                crossAxisAlignment: pw.CrossAxisAlignment.start,
-                children: <pw.Widget>[
-                  pw.Lorem(length: 20),
-                ]),
-          ),
-        ]);
-  }
-}
-
-class _UrlText extends pw.StatelessWidget {
-  _UrlText(this.text, this.url);
-
-  final String text;
-  final String url;
-
-  @override
-  pw.Widget build(pw.Context context) {
-    return pw.UrlLink(
-      destination: url,
-      child: pw.Text(text,
-          style: const pw.TextStyle(
-            decoration: pw.TextDecoration.underline,
-            color: PdfColors.blue,
-          )),
     );
   }
 }
