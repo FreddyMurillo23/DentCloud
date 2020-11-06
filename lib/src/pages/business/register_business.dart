@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:gradient_text/gradient_text.dart';
 
 class RegisterBusiness extends StatefulWidget {
   RegisterBusiness({Key key}) : super(key: key);
@@ -12,6 +13,17 @@ class RegisterBusiness extends StatefulWidget {
 
 class _RegisterBusinessState extends State<RegisterBusiness> {
   final formkey = new GlobalKey<FormState>();
+var foto;
+  void validarregistrar() {
+    File picture=foto;
+    final form = formkey.currentState;
+    if (form.validate()) {
+      form.save();
+    }
+
+
+  }
+
   // numero de Ruc
   bool validateNumber(String value) {
     if (value.length < 13) {
@@ -20,14 +32,14 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
       return true;
     }
   }
-   
+
   // Nombre de la empresa
   bool validateName(String value) {
     Pattern pattern = r'(^[a-zA-Z ]*$)';
     RegExp regExp = new RegExp(pattern);
     return (!regExp.hasMatch(value)) ? false : true;
   }
- 
+
   // Telefono
   bool validatePhone(String value) {
     if (value.length < 10) {
@@ -37,7 +49,7 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
     }
   }
 
-  var foto;
+
   String business_ruc, business_name, business_phone, province, canton;
   String business_location;
   @override
@@ -45,31 +57,108 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
     final sizeScreen = MediaQuery.of(context).size;
     return Scaffold(
       appBar: appMenu(sizeScreen),
-      body: SingleChildScrollView(
-              child: Column(
-          children: [
-            _mostrarfotoperfil(sizeScreen),
-            //textFieldNombre(),
-            textFieldruc(sizeScreen),
-            SizedBox(height: 15,),
-            textFieldNombre(sizeScreen),
-            SizedBox(height: 15,),
-            textFieldprovincia(sizeScreen),
-             SizedBox(height: 15,),
-            textFieldCiudad(sizeScreen),
-            SizedBox(height: 15,),
-            textFieldPhone(sizeScreen),
-            SizedBox(height: 15,),
-            
-          ],
+      body: Container(
+         decoration: BoxDecoration(
+          image: DecorationImage(image: AssetImage("assets/fondo.jpg"),
+          fit: BoxFit.cover
+          ),       
         ),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(
+            children: [
+              Form(
+                key: formkey,
+                        child: Column(
+                  children: [
+                    _mostrarfotoperfil(sizeScreen),
+                    //textFieldNombre(),
+                    textFieldruc(sizeScreen),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    textFieldNombre(sizeScreen),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    textFieldprovincia(sizeScreen),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    textFieldCiudad(sizeScreen),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    textFieldPhone(sizeScreen),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    textFieldLocation(sizeScreen),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    buttonRegistrar(sizeScreen),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buttonRegistrar(Size sizescreen) {
+    return Container(
+      width: sizescreen.width*0.95,
+      child: Row(
+        children: [
+          Container(
+            width: sizescreen.width * 0.49,
+            child: ButtonTheme(
+             minWidth: sizescreen.width * 0.35,
+             //height: sizescreen.height*0.056,
+              child: Center(
+                child: RaisedButton(
+                  child: Text("Registrar"),
+                  onPressed: validarregistrar,
+                  color: Colors.lightBlue,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          
+          Container(
+            width: sizescreen.width * 0.45,
+            child: Center(
+              child: ButtonTheme(
+                 minWidth: sizescreen.width * 0.36,
+                 //height: sizescreen.height*0.056,
+                            child: RaisedButton(
+                  child: Text("Cancelar"),
+                  onPressed: () => {
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        '/', (Route<dynamic> route) => false)
+                  },
+                  color: Colors.lightBlue,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                ),
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
 
   Widget textFieldruc(Size sizescreen) {
     return Container(
-       width: sizescreen.width*0.85,
+      width: sizescreen.width * 0.85,
       child: Center(
         child: TextFormField(
           maxLength: 13,
@@ -100,10 +189,43 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
     );
   }
 
+  Widget textFieldLocation(Size sizescreen) {
+    return Container(
+      width: sizescreen.width * 0.85,
+      //padding:EdgeInsets.all(3),
+      child: Center(
+        child: TextFormField(
+          autofocus: false,
+          keyboardType: TextInputType.text,
+          textCapitalization: TextCapitalization.words,
+          decoration: InputDecoration(
+            labelText: "Localizacion",
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+              borderSide: BorderSide(color: Colors.black),
+            ),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+                borderSide: BorderSide(color: Colors.black)),
+            prefixIcon: Icon(Icons.text_fields),
+            filled: true,
+            fillColor: Colors.white,
+          ),
+          validator: (value) => value.isEmpty
+              ? 'Este campo no puede estar vacío'
+              : !validateName(value)
+                  ? 'Ingrese un nombre válido'
+                  : null,
+          onSaved: (value) => this.business_name = value,
+        ),
+      ),
+    );
+  }
+
   Widget textFieldNombre(Size sizescreen) {
-     return Container(
-       width: sizescreen.width*0.85,
-       //padding:EdgeInsets.all(3),
+    return Container(
+      width: sizescreen.width * 0.85,
+      //padding:EdgeInsets.all(3),
       child: Center(
         child: TextFormField(
           autofocus: false,
@@ -133,10 +255,10 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
     );
   }
 
-Widget textFieldprovincia(Size sizescreen){
- return Container(
-       width: sizescreen.width*0.85,
-       //padding:EdgeInsets.all(3),
+  Widget textFieldprovincia(Size sizescreen) {
+    return Container(
+      width: sizescreen.width * 0.85,
+      //padding:EdgeInsets.all(3),
       child: Center(
         child: TextFormField(
           autofocus: false,
@@ -164,12 +286,12 @@ Widget textFieldprovincia(Size sizescreen){
         ),
       ),
     );
-}
+  }
 
-Widget textFieldCiudad(Size sizescreen){
-  return Container(
-       width: sizescreen.width*0.85,
-       //padding:EdgeInsets.all(3),
+  Widget textFieldCiudad(Size sizescreen) {
+    return Container(
+      width: sizescreen.width * 0.85,
+      //padding:EdgeInsets.all(3),
       child: Center(
         child: TextFormField(
           autofocus: false,
@@ -197,14 +319,12 @@ Widget textFieldCiudad(Size sizescreen){
         ),
       ),
     );
+  }
 
-}
-
-
-Widget textFieldPhone(Size sizescreen){
- return Container(
-       width: sizescreen.width*0.85,
-       //padding:EdgeInsets.all(3),
+  Widget textFieldPhone(Size sizescreen) {
+    return Container(
+      width: sizescreen.width * 0.85,
+      //padding:EdgeInsets.all(3),
       child: Center(
         child: TextFormField(
           autofocus: false,
@@ -232,12 +352,12 @@ Widget textFieldPhone(Size sizescreen){
         ),
       ),
     );
-}
+  }
 
-Widget textFieldlocation(Size sizescreen){
-  return Container(
-       width: sizescreen.width*0.85,
-       //padding:EdgeInsets.all(3),
+  Widget textFieldlocation(Size sizescreen) {
+    return Container(
+      width: sizescreen.width * 0.85,
+      //padding:EdgeInsets.all(3),
       child: Center(
         child: TextFormField(
           autofocus: false,
@@ -265,9 +385,9 @@ Widget textFieldlocation(Size sizescreen){
         ),
       ),
     );
-}
+  }
 
-Widget _mostrarfotoperfil(Size sizescreen) {
+  Widget _mostrarfotoperfil(Size sizescreen) {
     if (foto != null) {
       return Padding(
         padding: EdgeInsets.all(20),
@@ -357,32 +477,42 @@ Widget _mostrarfotoperfil(Size sizescreen) {
         return Align(
           alignment: Alignment.bottomCenter,
           child: Container(
-            height: sizescreen.height * 0.28,
-            width: sizescreen.width * 0.9,
+            height: 250,
+            width: 400,
             child: Stack(
-              children: [
+              children: [ 
+                
                 Positioned(
                   bottom: -10,
                   left: 15,
                   child: Center(
                     child: Container(
                       color: Color(0x00000000),
-                      width: sizescreen.width * 0.8,
-                      height: sizescreen.height * 0.5,
+                      width: 380,
+                      height: 450,
                       child: Image(
                         image: AssetImage('assets/title.png'),
                       ),
                     ),
                   ),
                 ),
-                /*SizedBox.expand(
-                  child: Image(
-                    image: AssetImage('assets/logo.png'),
-                  ),
-                ),*/
+                Positioned(
+                 top: 210,
+                left: 60,
+                  child: Material(
+                     child: Container(
+                      child: GradientText('Camara',
+                      gradient: LinearGradient(
+                      colors: [Colors.green[200], Colors.blue[200], Colors.green[300]]
+                      ),
+                      style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,
+                      ),
+                ),
+                    ),
+                  )),
                 Positioned(
                   bottom: 25,
-                  left: 30,
+                  left: 40,
                   child: Material(
                     color: Color(0x00000000),
                     child: IconButton(
@@ -396,8 +526,21 @@ Widget _mostrarfotoperfil(Size sizescreen) {
                   ),
                 ),
                 Positioned(
+                 top: 210,
+                left: 250,
+                  child: Material(
+                     child: Container(
+                      child: GradientText('Galeria',
+                       gradient: LinearGradient(
+                      colors: [Colors.green[200], Colors.blue[200], Colors.green[300]]
+                      ),
+                      style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
+                ),
+                    ),
+                  )),
+                Positioned(
                   bottom: 25,
-                  left: 200,
+                  left: 230,
                   child: Material(
                     color: Color(0x00000000),
                     child: IconButton(
