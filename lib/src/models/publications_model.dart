@@ -246,7 +246,7 @@ class Etiquetas {
   Etiquetas({
     this.idEtiqueta,
     this.correoEtiquetado = ' ',
-    this.inicialUsuario,
+    this.inicialUsuario = 'F',
     this.nombreUsuarioEtiquetado = ' ',
     this.publicacionId,
   });

@@ -26,7 +26,7 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
   final formKey = GlobalKey<FormState>();
   final publicacion = new Publicacion();
   List<Etiquetas> etiquetas = new List();
-  final etiq = new Etiquetas();
+  
 
   PreferenciasUsuario prefs = new PreferenciasUsuario();
   final publicacionesProvider = new DataProvider();
@@ -208,17 +208,16 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
                   context: context,
                   delegate: FollowsBusinessSearch(email, publicacion));
               setState(() {
-                if(negocio!=null)
-                {
-                publicacion.negocio = negocio.negocio;
-                publicacion.negocioRuc = negocio.negocioRuc;
+                if (negocio != null) {
+                  publicacion.negocio = negocio.negocio;
+                  publicacion.negocioRuc = negocio.negocioRuc;
                 }
-              
               });
             }));
   }
 
   Widget cardusuarioEtiqueta(String email) {
+    final etiq = new Etiquetas(); 
     String headerData;
     if (etiq.nombreUsuarioEtiquetado == " ") {
       headerData = "Agregar usuario";
@@ -240,199 +239,67 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
                   context: context,
                   delegate: FollowsSearch(email, publicacion));
               setState(() {
-                if(usuario!=null)
-                {
-                etiq.nombreUsuarioEtiquetado = usuario.usuario;
-                etiq.correoEtiquetado = usuario.correoUsuario;
-                etiquetas.add(etiq);
+                if (usuario != null) {
+                  etiq.nombreUsuarioEtiquetado = usuario.usuario;
+                  etiq.correoEtiquetado = usuario.correoUsuario;
+                  for (var otp in etiquetas) {
+                    print(otp.nombreUsuarioEtiquetado);
+                  }
+                  print(etiquetas);
+                  etiquetas.add(etiq);
                 }
-                
+
                 // .add(etiq);
               });
             }));
   }
 
   Widget listaEtiquetados(Size screenSize) {
-    if (publicacion.etiquetas.isNotEmpty) {
-      return ListView.builder(
-          shrinkWrap: true,
-          itemCount: publicacion.etiquetas.length,
-          itemBuilder: (BuildContext context, index) {
-            if (publicacion.etiquetas.length == 0) {
-              return Container(
-                height: 10,
-                width: 20,
-                color: Colors.lightBlue,
-              );
-            } else {
-              return Container(
-                height: 10,
-                width: 10,
-                color: Colors.red,
-              );
-            }
-          });
+    if (etiquetas.isNotEmpty) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Container(
+          height: screenSize.height * 0.06,
+          alignment: Alignment.center,
+          child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              // shrinkWrap: true,
+              itemCount: etiquetas.length,
+              itemBuilder: (BuildContext context, index) {
+                // print(index);
+                // print(etiquetas[index].correoEtiquetado);
+                return Row(
+                  children: [
+                    InputChip(
+                      avatar: CircleAvatar(
+                          backgroundColor: Colors.white,
+                          child: Icon(Icons.person)
+                      ),
+                      label: Text(
+                        etiquetas[index].nombreUsuarioEtiquetado,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      backgroundColor: Colors.lightBlue,
+                      onPressed: () {},
+                      onDeleted: () {
+                        setState(() {
+                          etiquetas.removeAt(index);
+                        });
+                      },
+                      deleteIcon: Icon(
+                        Icons.highlight_remove,
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(width: screenSize.width*0.02,),
+                  ],
+                );
+              }),
+        ),
+      );
     } else {
       return Container();
     }
   }
 
-  // Widget listaPerfiles(CurrentUsuario userinfo, Size screenSize) {
-  //   correo = prefs.currentCorreo;
-  //   // print(userinfo.nombres);
-  //   return Container(
-  //     // height: screenSize.height * 0.45,
-  //     child: FutureBuilder(
-  //         future: publicacionesProvider.follow(correo),
-  //         builder: (BuildContext context, AsyncSnapshot snapshot) {
-  //           final data = userinfo.openUserTrabajos;
-  //           if (snapshot.hasData) {
-  //             final followed = snapshot.data[0].negociosSeguidos;
-  //             // print(snapshot.data[0].negociosSeguidos[0].nombreNegocio);
-  //             return ListView.builder(
-  //               shrinkWrap: true,
-  //               itemCount: widget.currentuser.openUserTrabajos.length +
-  //                   snapshot.data[0].negociosSeguidos.length,
-  //               itemBuilder: (context, index) {
-  //                 if (widget.currentuser.openUserTrabajos.length == 0) {
-  //                   return Column(
-  //                     children: [
-  //                       ListTile(
-  //                         leading: CircleAvatar(
-  //                           backgroundColor: Colors.lightBlue,
-  //                           backgroundImage:
-  //                               NetworkImage('${followed[index].fotoNegocio}'),
-  //                         ),
-  //                         title: Text('${followed[index].nombreNegocio}'),
-  //                         subtitle: Text('${followed[index].negocioSeguido}'),
-  //                         trailing: Icon(Icons.business),
-  //                         onTap: () {
-  //                           setState(() {
-  //                             publicacion.negocioRuc =
-  //                                 followed[index].negocioSeguido;
-  //                             publicacion.negocio =
-  //                                 followed[index].nombreNegocio;
-  //                             // publicacion.negocio = snapshot
-  //                             //     .data[0].negociosSeguidos[index].nombreNegocio;
-  //                             print(followed[index].nombreNegocio);
-  //                           });
-  //                         },
-  //                       ),
-  //                       Divider(
-  //                         color: Colors.grey,
-  //                       )
-  //                     ],
-  //                   );
-  //                 } else {
-  //                   if (index < data.length) {
-  //                     return Column(
-  //                       children: [
-  //                         ListTile(
-  //                           leading: CircleAvatar(
-  //                             backgroundColor: Colors.lightBlue,
-  //                             backgroundImage:
-  //                                 NetworkImage('${data[index].imagenNegocio}'),
-  //                           ),
-  //                           title: Text('${data[index].nombreNegocio}'),
-  //                           subtitle: Text(
-  //                               '${data[index].idNegocio} \n${data[index].rolDoctor}'),
-  //                           trailing: Icon(Icons.business),
-  //                           onTap: () {
-  //                             setState(() {
-  //                               publicacion.negocioRuc = data[index].idNegocio;
-  //                               publicacion.negocio = data[index].nombreNegocio;
-  //                               // publicacion.negocio = snapshot
-  //                               //     .data[0].negociosSeguidos[index].nombreNegocio;
-  //                               print(data[index].nombreNegocio);
-  //                             });
-  //                           },
-  //                         ),
-  //                         Divider(
-  //                           color: Colors.grey,
-  //                         )
-  //                       ],
-  //                     );
-  //                   } else {
-  //                     return Column(
-  //                       children: [
-  //                         ListTile(
-  //                           leading: CircleAvatar(
-  //                             backgroundColor: Colors.lightBlue,
-  //                             backgroundImage: NetworkImage(
-  //                                 '${followed[index - data.length].fotoNegocio}'),
-  //                           ),
-  //                           title: Text(
-  //                               '${followed[index - data.length].nombreNegocio}'),
-  //                           subtitle: Text(
-  //                               '${followed[index - data.length].negocioSeguido}'),
-  //                           trailing: Icon(Icons.business),
-  //                           onTap: () {
-  //                             setState(() {
-  //                               publicacion.negocioRuc =
-  //                                   followed[index - data.length]
-  //                                       .negocioSeguido;
-  //                               publicacion.negocio =
-  //                                   followed[index - data.length].nombreNegocio;
-  //                               // publicacion.negocio = snapshot
-  //                               //     .data[0].negociosSeguidos[index].nombreNegocio;
-  //                               print(followed[index - data.length]
-  //                                   .nombreNegocio);
-  //                             });
-  //                           },
-  //                         ),
-  //                         Divider(
-  //                           color: Colors.grey,
-  //                         )
-  //                       ],
-  //                     );
-  //                   }
-  //                 }
-  //               },
-  //             );
-  //           } else {
-  //             // final followed = snapshot.data[0].negociosSeguidos;
-  //             // print(snapshot.data[0].negociosSeguidos[0].nombreNegocio);
-  //             return ListView.builder(
-  //                 shrinkWrap: true,
-  //                 itemCount: widget.currentuser.openUserTrabajos.length,
-  //                 itemBuilder: (context, index) {
-  //                   if (widget.currentuser.openUserTrabajos.length != 0) {
-  //                     return Column(
-  //                       children: [
-  //                         ListTile(
-  //                           leading: CircleAvatar(
-  //                             backgroundColor: Colors.lightBlue,
-  //                             backgroundImage:
-  //                                 NetworkImage('${data[index].imagenNegocio}'),
-  //                           ),
-  //                           title: Text('${data[index].nombreNegocio}'),
-  //                           subtitle: Text(
-  //                               '${data[index].idNegocio} \n${data[index].rolDoctor}'),
-  //                           trailing: Icon(Icons.business),
-  //                           onTap: () {
-  //                             setState(() {
-  //                               publicacion.negocioRuc = data[index].idNegocio;
-  //                               publicacion.negocio = data[index].nombreNegocio;
-  //                               // publicacion.negocio = snapshot
-  //                               //     .data[0].negociosSeguidos[index].nombreNegocio;
-  //                               print(data[index].nombreNegocio);
-  //                             });
-  //                           },
-  //                         ),
-  //                         Divider(
-  //                           color: Colors.grey,
-  //                         )
-  //                       ],
-  //                     );
-  //                   } else {
-  //                     return ListTile(
-  //                       title: Text(
-  //                           'Debes seguir a un Negocio para poder publicar'),
-  //                     );
-  //                   }
-  //                 });
-  //           }
-  //         }),
-  //   );
-  // }
 }
