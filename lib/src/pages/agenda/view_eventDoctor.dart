@@ -7,6 +7,7 @@ import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/doctors_model.dart';
 import 'package:muro_dentcloud/src/models/event_model.dart';
 import 'package:muro_dentcloud/src/pages/agenda/receta_medica.dart';
+import 'package:muro_dentcloud/src/pages/agenda/receta_medica2.dart';
 
 
 class ViewEvent extends StatefulWidget {
@@ -238,7 +239,7 @@ class _ViewEventState extends State<ViewEvent> {
                                 Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (_) => RecetaMedica(
+                              builder: (_) => RecetaMedica2(
                                   eventosModeloGlobal: widget.eventosModeloGlobal, currentuser: widget.currentuser,)));
                               },
                             ),
