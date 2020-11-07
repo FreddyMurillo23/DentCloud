@@ -192,16 +192,16 @@ class DataProvider {
 
   }
 
-Future <bool> registrar_negocio(String usermail,String business_ruc,String business_name, String business_phone, String province, String canton,String business_location,String fotopath)
+ static Future <bool> registrar_negocio(String usermail,String business_ruc,String business_name, String business_phone, String province, String canton,String business_location,String fotopath)
 async {
   var url=Uri.parse('http://54.197.83.249/PHP_REST_API/api/post/post_business.php?business_ruc=$business_ruc&business_name=$business_name&business_phone=$business_phone&province=$province&canton=$canton&business_location=$business_location&user_email=$usermail');
   var request = http.MultipartRequest('POST',url);
-  if(fotopath==null)
+  if(fotopath!=null)
   {
-   fotopath=null;
+   var pic = await http.MultipartFile.fromPath("archivo",fotopath);
+   request.files.add(pic);
   }
-  var pic = await http.MultipartFile.fromPath("archivo",fotopath);
-  request.files.add(pic);
+  
   var response = await request.send();
   if(response.statusCode == 200)
   {

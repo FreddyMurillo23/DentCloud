@@ -1,5 +1,4 @@
 
-import 'dart:html';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -27,28 +26,14 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
       form.save();
     }
 
-    var option=businessData.registrar_negocio(email, business_ruc, business_name, business_phone, province, canton, business_location, pathfoto);
-   if(option==true){
+    DataProvider.registrar_negocio(email, business_ruc, business_name, business_phone, province, canton, business_location, pathfoto).then((value) {
+     if(value){
        Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
-   }
-   else
-   {
-     showDialog(
-        context: context,
-        builder: (_) =>  CupertinoAlertDialog(
-              title: new Text("Alerta"),
-              content: new Text("Negocio ya existente"),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text('Cerrar'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                )
-              ],
-            ));
-     
-   }
+     }
+    });
+  
+  
+  
    
 
   }
@@ -581,7 +566,7 @@ bool validateLocalizcion(String value){
   }
 
   _selecionarfotoGalery() async {
-    var picture = await ImagePicker().getImage(source: ImageSource.gallery);
+    var picture = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
       foto = picture;
       Navigator.of(context).pop();
@@ -590,7 +575,7 @@ bool validateLocalizcion(String value){
   }
 
   _selecionarfotoCamara() async {
-    var picture = await ImagePicker().getImage(source: ImageSource.camera);
+    var picture = await ImagePicker.pickImage(source: ImageSource.camera);
     setState(() {
       foto = picture;
       Navigator.of(context).pop();
