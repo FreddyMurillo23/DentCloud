@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:muro_dentcloud/src/models/apointments_model.dart';
 import 'package:muro_dentcloud/src/models/business_model.dart';
@@ -193,6 +192,28 @@ class DataProvider {
 
   }
 
+Future <bool> registrar_negocio(String usermail,String business_ruc,String business_name, String business_phone, String province, String canton,String business_location,String fotopath)
+async {
+  var url=Uri.parse('http://54.197.83.249/PHP_REST_API/api/post/post_business.php?business_ruc=$business_ruc&business_name=$business_name&business_phone=$business_phone&province=$province&canton=$canton&business_location=$business_location&user_email=$usermail');
+  var request = http.MultipartRequest('POST',url);
+  if(fotopath==null)
+  {
+   fotopath=null;
+  }
+  var pic = await http.MultipartFile.fromPath("archivo",fotopath);
+  request.files.add(pic);
+  var response = await request.send();
+  if(response.statusCode == 200)
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+
+
+}
 
 
   Future<List<Siguiendo>> follow_search(String emailUser,String query) async {
