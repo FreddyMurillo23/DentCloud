@@ -35,31 +35,7 @@ String imprimirEdad(DateTime fechaCumple){
   }
 }
 
-List<TableRow> getTable(List<Receta> receta){
-  List<TableRow> tableRows = List<TableRow>();
-  receta.forEach((e) { 
-    tableRows.add(
-       TableRow(
-        decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(width: 1.0, color: Colors.grey[400]),
-            ),
-          ),
-        children: [
-          Text(e.medicina),
-          IconButton(
-            icon: Icon(Icons.delete), 
-            onPressed: (){
-              print("Aqui se eliminaria la weada");
-            }
-          )
-          
-        ]
-      )
-    );
-  });
-  return tableRows;
-}
+
 
 class _RecetaMedica2State extends State<RecetaMedica2> {
   final formkey = new GlobalKey<FormState>();
@@ -67,6 +43,8 @@ class _RecetaMedica2State extends State<RecetaMedica2> {
   TextEditingController controladorNombreUser = TextEditingController();
   TextEditingController controladorFechaUser = TextEditingController();
   TextEditingController controladorEdadUser = TextEditingController();
+  TextEditingController controladorDosifiacion = TextEditingController();
+  TextEditingController controladorPresentacion = TextEditingController();
   
   Medicamento medicamento;
   List<Receta> recetaLista;
@@ -85,9 +63,67 @@ class _RecetaMedica2State extends State<RecetaMedica2> {
     controladorFechaUser.text = fecha();
     controladorEdadUser.text = '∞';
     controladorMedicina.text = '';
+    controladorDosifiacion.text = '';
+    controladorPresentacion.text = '';
     recetaLista = [];
     medicamento = null;
   }
+
+  List<TableRow> getTable(List<Receta> receta, String prescripcion, BuildContext context){
+  List<TableRow> tableRows = List<TableRow>();
+  receta.forEach((e) { 
+    tableRows.add(
+       TableRow(
+        children: [
+          Card(
+            child: ExpansionTile(
+              title: Text(e.medicina),
+              children: [
+                ListTile(
+                  title: Text('Dosificacion: '+e.dosificacion),
+                  subtitle: Text('Prescripcion: '+prescripcion),
+                )
+              ],
+            ),
+          ),
+          IconButton(
+            icon: Icon(Icons.delete, color: Colors.red,), 
+            onPressed: (){
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: const Text('Eliminar Elemento'),
+                    content: const Text('¿Está seguro que desea cancelar este elemento?'),
+                    actions: <Widget>[
+                      FlatButton(
+                        onPressed: (){
+                          setState(() {
+                            receta.remove(e);
+                          });
+                          Navigator.of(context).pop();
+                        }, 
+                        child: const Text('Aceptar'),
+                      ),
+                      FlatButton(
+                        onPressed: (){
+                          Navigator.of(context).pop();
+                        }, 
+                        child: const Text('Cancelar'),
+                      ),
+                    ],
+                  );
+                },
+              );
+            }
+          )
+          
+        ]
+      )
+    );
+  });
+  return tableRows;
+}
 
   Widget contenedor(double altura, String texto){
       return Container(
@@ -285,11 +321,7 @@ class _RecetaMedica2State extends State<RecetaMedica2> {
                                       SizedBox(width: 10,),
                                       FloatingActionButton(
                                         onPressed: (){
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (_) => RecipeTest(
-                                                    eventosModeloGlobal: widget.eventosModeloGlobal, currentuser: widget.currentuser,)));
+                                          validateFields(medicamento, prescripcion);
                                         },
                                         child: Icon(Icons.add_circle),
                                         elevation: 0,
@@ -327,6 +359,7 @@ class _RecetaMedica2State extends State<RecetaMedica2> {
                               ),
                               suffixIcon: GestureDetector(
                                 onTap: ()async{
+                                validateFields(medicamento, prescripcion);
                                 final seleccionMedicina = await showSearch(context: context, delegate:DrougSearchSelect());
                                 if(seleccionMedicina == null) {
                                   setState(() {
@@ -336,6 +369,8 @@ class _RecetaMedica2State extends State<RecetaMedica2> {
                                 setState(() {
                                   medicamento = seleccionMedicina;
                                   controladorMedicina.text = medicamento.drugName;
+                                  controladorDosifiacion.text = medicamento.drugKindOfProduct;
+                                  controladorPresentacion.text = medicamento.drugPharmaceuticalForm;
                                   print(medicamento.drugAdministration);
                                 });  
                                 }       
@@ -361,18 +396,32 @@ class _RecetaMedica2State extends State<RecetaMedica2> {
                               children: [
                                 Text('Dosificacion:', style: TextStyle(color: Colors.black),),
                                 SizedBox(height: 5,),
-                                Container(
-                                  height: 40,
-                                  //width: MediaQuery.of(context).size.width * 0.30,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                                    border: Border.all(color: Colors.black),
-                                    color: Colors.white
+                                TextFormField(
+                                  controller: controladorDosifiacion,
+                                  minLines: 1,
+                                  readOnly: true,
+                                  decoration: InputDecoration(                           
+                                    filled: true,
+                                    fillColor: Colors.white,
+                                    enabled: true,
+                                    hintText: null,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                                    ),
                                   ),
-                                  child: medicamento == null
-                                  ? Center(child: Text(''),) 
-                                  : Center(child: Text(medicamento.drugKindOfProduct),),
-                                )
+                                ),
+                                // Container(
+                                //   height: 40,
+                                //   //width: MediaQuery.of(context).size.width * 0.30,
+                                //   decoration: BoxDecoration(
+                                //     borderRadius: BorderRadius.all(Radius.circular(10)),
+                                //     border: Border.all(color: Colors.black),
+                                //     color: Colors.white
+                                //   ),
+                                //   child: medicamento == null
+                                //   ? Center(child: Text(''),) 
+                                //   : Center(child: Text(medicamento.drugKindOfProduct),),
+                                // )
                               ],
                             ),
                           ),
@@ -396,18 +445,32 @@ class _RecetaMedica2State extends State<RecetaMedica2> {
                               children: [
                                 Text('Presentacion:', style: TextStyle(color: Colors.black),),
                                 SizedBox(height: 5,),
-                                Container(
-                                  height: 40,
-                                  width: MediaQuery.of(context).size.width,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                                    border: Border.all(color: Colors.black),
-                                    color: Colors.white
+                                TextFormField(
+                                  controller: controladorPresentacion,
+                                  minLines: 1,
+                                  readOnly: true,
+                                  decoration: InputDecoration(                           
+                                    filled: true,
+                                    fillColor: Colors.white,
+                                    enabled: true,
+                                    hintText: null,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                                    ),
                                   ),
-                                  child: medicamento == null
-                                  ? Center(child: Text(''),) 
-                                  : Center(child: Text(medicamento.drugPharmaceuticalForm),),
-                                )
+                                ),
+                                // Container(
+                                //   height: 40,
+                                //   width: MediaQuery.of(context).size.width,
+                                //   decoration: BoxDecoration(
+                                //     borderRadius: BorderRadius.all(Radius.circular(10)),
+                                //     border: Border.all(color: Colors.black),
+                                //     color: Colors.white
+                                //   ),
+                                //   child: medicamento == null
+                                //   ? Center(child: Text(''),) 
+                                //   : Center(child: Text(medicamento.drugPharmaceuticalForm),),
+                                // )
                               ],
                             ),
                           ),
@@ -450,7 +513,7 @@ class _RecetaMedica2State extends State<RecetaMedica2> {
                           Expanded(
                             child: RaisedButton(
                               onPressed: () {
-                                
+                                Navigator.of(context).pop();
                               },
                               child: Text('Cancelar'),
                             ),
@@ -459,9 +522,19 @@ class _RecetaMedica2State extends State<RecetaMedica2> {
                           Expanded(
                             child: RaisedButton(
                               onPressed: () {
-                                validateFields(medicamento, prescripcion);
+                                if(recetaLista == [] || recetaLista == null || recetaLista.length == 0){
+                                  print("No");
+                                } else {
+                                  List<Receta> no;
+                                  no = recetaLista;
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => RecipeTest(
+                                          eventosModeloGlobal: widget.eventosModeloGlobal, currentuser: widget.currentuser, receta: recetaLista,)));
+                                }
                               },
-                              child: Text('Añadir'),
+                              child: Text('Generar Receta'),
                             ),
                           ),
                         ],
@@ -496,7 +569,7 @@ class _RecetaMedica2State extends State<RecetaMedica2> {
                           0: FlexColumnWidth(1),
                           1: FixedColumnWidth(40),
                         },
-                        children: getTable(recetaLista),
+                        children: getTable(recetaLista, prescripcion, context),
                       ),
                     ),
                   ),

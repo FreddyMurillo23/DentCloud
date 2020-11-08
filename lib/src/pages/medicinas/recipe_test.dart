@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/event_model.dart';
+import 'package:muro_dentcloud/src/models/receta_model.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:flutter/material.dart';
@@ -12,8 +13,9 @@ class RecipeTest extends StatefulWidget {
 
   final EventosModelo eventosModeloGlobal;
   final CurrentUsuario currentuser;
+  final List<Receta> receta;
 
-  const RecipeTest({Key key, this.eventosModeloGlobal, this.currentuser}) : super(key: key);
+  const RecipeTest({Key key, this.eventosModeloGlobal, this.currentuser, this.receta}) : super(key: key);
   
   @override
   _RecipeTestState createState() => _RecipeTestState();
@@ -42,9 +44,9 @@ String imprimirEdad(DateTime fechaCumple){
   }
 }
 
-List<pw.TableRow> getTable(List<String> prueba){
+List<pw.TableRow> getTable(List<Receta> receta){
   List<pw.TableRow> tableRows = List<pw.TableRow>();
-  prueba.forEach((element) { 
+  receta.forEach((element) { 
     tableRows.add(
        pw.TableRow(
         decoration: pw.BoxDecoration(
@@ -58,10 +60,9 @@ List<pw.TableRow> getTable(List<String> prueba){
           )
         ),
         children: [
-          pw.Text(element),
-          pw.Text(element),
-          pw.Text(element),
-          
+          pw.Text(element.medicina),
+          pw.Text(element.presentacion),
+          pw.Text(element.dosificacion),
         ]
       )
     );
@@ -194,7 +195,7 @@ class _RecipeTestState extends State<RecipeTest> {
                       2: pw.FixedColumnWidth(40),
                     },
                     children: 
-                      getTable(prueba),                    
+                      getTable(widget.receta),                    
                   )
                 ]
               ),
@@ -221,6 +222,7 @@ class _RecipeTestState extends State<RecipeTest> {
 
   Widget build(BuildContext context) {
     print(widget.eventosModeloGlobal.correo);
+    print(widget.receta[0].medicina);
     return Scaffold(
 
       appBar: AppBar(
