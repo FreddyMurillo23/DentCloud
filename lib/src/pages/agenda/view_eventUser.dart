@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:muro_dentcloud/src/controllers/apointment_ctrl.dart';
+import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/doctors_model.dart';
 import 'package:muro_dentcloud/src/models/event_model.dart';
 import 'package:muro_dentcloud/src/pages/agenda/agendaUser.dart';
@@ -11,8 +12,9 @@ import 'package:muro_dentcloud/src/pages/agenda/agendaUser.dart';
 class ViewEventUser extends StatefulWidget {
   final EventosModeloUsuario eventosModeloGlobal;
   final String correo, nombres, apellidos, foto;
+  final CurrentUsuario currentuser;
 
-  const ViewEventUser({Key key, this.eventosModeloGlobal, this.correo, this.nombres, this.apellidos, this.foto}) : super(key: key);
+  const ViewEventUser({Key key, this.eventosModeloGlobal, this.correo, this.nombres, this.apellidos, this.foto, this.currentuser}) : super(key: key);
 
   @override
   _ViewEventUserState createState() => _ViewEventUserState();
@@ -37,9 +39,9 @@ class _ViewEventUserState extends State<ViewEventUser> {
   @override
   void initState() {
     super.initState();
-    controladorCorreoUser.text = widget.correo;
-    controladorNombreUser.text = widget.nombres;
-    controladorApellidoUser.text = widget.apellidos;
+    controladorCorreoUser.text = widget.currentuser.correo;
+    controladorNombreUser.text = widget.currentuser.nombres;
+    controladorApellidoUser.text = widget.currentuser.apellidos;
   }
 
   //Cupertino Dialog
@@ -79,6 +81,7 @@ class _ViewEventUserState extends State<ViewEventUser> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.currentuser.apellidos);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -145,7 +148,7 @@ class _ViewEventUserState extends State<ViewEventUser> {
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.all(Radius.circular(10)),
                                         image: DecorationImage(
-                                          image: NetworkImage(widget.foto),
+                                          image: NetworkImage(widget.currentuser.fotoPerfil),
                                           fit: BoxFit.fill
                                         ),
                                       ),
