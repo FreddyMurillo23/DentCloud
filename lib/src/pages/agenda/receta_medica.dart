@@ -365,7 +365,6 @@ class _RecetaMedicaState extends State<RecetaMedica> {
                               ),
                               suffixIcon: GestureDetector(
                                 onTap: ()async{
-                                validateFields(medicamento, prescripcion);
                                 final seleccionMedicina = await showSearch(context: context, delegate:DrougSearchSelect());
                                 if(seleccionMedicina == null) {
                                   setState(() {
@@ -440,6 +439,7 @@ class _RecetaMedicaState extends State<RecetaMedica> {
                                 Text('Presentacion:', style: TextStyle(color: Colors.black),),
                                 SizedBox(height: 5,),
                                 TextFormField(
+                                  autofocus: false,
                                   controller: controladorPresentacion,
                                   minLines: 1,
                                   readOnly: true,

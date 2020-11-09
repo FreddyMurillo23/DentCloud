@@ -66,7 +66,7 @@ List<pw.TableRow> getTable(List<Receta> receta){
               pw.Text('Medicamento: '+element.medicina),
               pw.Text('Dosificacion: '+element.dosificacion, style: pw.TextStyle(fontSize: 10)),
               pw.Text('Presentacion: '+element.presentacion, style: pw.TextStyle(fontSize: 10)),
-              pw.Text('Prescripcion: '+element.prescripcion, style: pw.TextStyle(fontSize: 10)),
+              // pw.Text('Prescripcion: '+element.prescripcion, style: pw.TextStyle(fontSize: 10)),
               pw.Divider(),
             ]
           )
