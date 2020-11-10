@@ -97,7 +97,6 @@ class _ViewEventState extends State<ViewEvent> {
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(vertical: 40, horizontal: 10),
         child: Card(
-          color: Colors.amber,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0)),
           child: Column(   
@@ -348,6 +347,7 @@ class _ViewEventState extends State<ViewEvent> {
               ),
             ],
           ),
+          elevation: 5,
         ),
       ),
     );

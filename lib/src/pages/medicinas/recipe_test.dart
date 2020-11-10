@@ -66,7 +66,7 @@ List<pw.TableRow> getTable(List<Receta> receta){
               pw.Text('Medicamento: '+element.medicina),
               pw.Text('Dosificacion: '+element.dosificacion, style: pw.TextStyle(fontSize: 10)),
               pw.Text('Presentacion: '+element.presentacion, style: pw.TextStyle(fontSize: 10)),
-              // pw.Text('Prescripcion: '+element.prescripcion, style: pw.TextStyle(fontSize: 10)),
+              pw.Text('Prescripcion: '+element.prescripcion, style: pw.TextStyle(fontSize: 10)),
               pw.Divider(),
             ]
           )
@@ -218,12 +218,13 @@ class _RecipeTestState extends State<RecipeTest> {
   }
 
   Future savePdf() async{
+    String archivo = widget.eventosModeloGlobal.paciente;
     Directory documentDirectory = await getApplicationDocumentsDirectory();
 
     String documentPath = documentDirectory.path;
     print(documentPath);
 
-    File file = File("$documentPath/example.pdf");
+    File file = File("$documentPath/recipe_$archivo.pdf");
     //File file = File("/storage/emulated/0/Android/data/example.pdf");
 
     file.writeAsBytesSync(pdf.save());
@@ -245,13 +246,14 @@ class _RecipeTestState extends State<RecipeTest> {
 
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text("PDF TUTORIAL", style: TextStyle(fontSize: 34),)
+            Text("PDF TUTORIAL", style: TextStyle(fontSize: 34),),
           ],
         ),
       ),
 
       floatingActionButton: FloatingActionButton(
         onPressed: ()async{
+          String archivo = widget.eventosModeloGlobal.paciente;
 
           writeOnPdf();
           await savePdf();
@@ -260,7 +262,7 @@ class _RecipeTestState extends State<RecipeTest> {
 
           String documentPath = documentDirectory.path;
 
-          String fullPath = "$documentPath/example.pdf";
+          String fullPath = "$documentPath/recipe_$archivo.pdf";
           print(fullPath);
 
           Navigator.push(context, MaterialPageRoute(
