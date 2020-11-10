@@ -218,7 +218,7 @@ class _RecipeTestState extends State<RecipeTest> {
   }
 
   Future savePdf() async{
-    String archivo = widget.eventosModeloGlobal.paciente;
+    String archivo = widget.eventosModeloGlobal.nombrePaciente;
     Directory documentDirectory = await getApplicationDocumentsDirectory();
 
     String documentPath = documentDirectory.path;
@@ -253,7 +253,7 @@ class _RecipeTestState extends State<RecipeTest> {
 
       floatingActionButton: FloatingActionButton(
         onPressed: ()async{
-          String archivo = widget.eventosModeloGlobal.paciente;
+          String archivo = widget.eventosModeloGlobal.nombrePaciente;
 
           writeOnPdf();
           await savePdf();

@@ -8,9 +8,17 @@ class PdfPreviewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String prueba = '/data/user/0/easyapproach.com.pdf_test/app_flutter/weySoyYo';
     return PDFViewerScaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        actions: [
+          FloatingActionButton(
+            onPressed: (){
+              print(path);
+            },
+            child: Icon(Icons.upload_file),
+          )
+        ],
+      ),
       path:path,
     );
   }
