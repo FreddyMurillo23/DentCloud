@@ -134,27 +134,6 @@ class _Agenda3State extends State<Agenda3> {
     }
   }
 
-  void _onLoading(BuildContext context2) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return Dialog(
-          child: new Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              new CircularProgressIndicator(),
-              new Text("Loading"),
-            ],
-          ),
-        );
-      },
-    );
-    new Future.delayed(new Duration(seconds: 3), () {
-      Navigator.of(context2).pop(false); //pop dialog
-    });
-  }
-
     _openPopup(context, EventosModelo eventos) {
     dia = DateTime(eventos.fecha.year, eventos.fecha.month, eventos.fecha.day);
     servicio = eventos.idservicio;
@@ -476,11 +455,9 @@ class _Agenda3State extends State<Agenda3> {
                                       },
                                     );
                                     new Future.delayed(new Duration(seconds: 2), () {
+                                      Navigator.of(context).pop(false);
                                       Navigator.of(context).pop(false); //pop dialog
-                                    });
-                                    new Future.delayed(new Duration(milliseconds: 1000), () {
-                                      Navigator.of(context).pop(false); //pop dialog
-                                    });                                  
+                                    });                                
                                     },
                                     child: const Text("Aceptar")
                                   ),

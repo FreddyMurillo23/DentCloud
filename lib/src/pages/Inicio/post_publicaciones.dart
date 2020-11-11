@@ -1,5 +1,8 @@
 // import 'dart:html';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/follows_model.dart';
@@ -8,6 +11,7 @@ import 'package:muro_dentcloud/src/providers/data_provider.dart';
 import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
 import 'package:muro_dentcloud/src/search/search_follows.dart';
 import 'package:muro_dentcloud/src/search/search_follows_business.dart';
+import 'package:muro_dentcloud/src/widgets/circle_button.dart';
 
 // import 'package:muro_dentcloud/src/widgets/circle_button.dart';
 // import 'package:muro_dentcloud/src/widgets/drawer_appbar.dart';
@@ -26,11 +30,11 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
   final formKey = GlobalKey<FormState>();
   final publicacion = new Publicacion();
   List<Etiquetas> etiquetas = new List();
-  
 
   PreferenciasUsuario prefs = new PreferenciasUsuario();
   final publicacionesProvider = new DataProvider();
   var correo = ' ';
+  File foto;
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
@@ -43,6 +47,7 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
           key: formKey,
           child: Column(
             children: <Widget>[
+              _mostrarImagen(screenSize),
               _crearPost(screenSize),
               SizedBox(
                 height: screenSize.height * 0.015,
@@ -56,6 +61,9 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
                 height: screenSize.height * 0.015,
               ),
               _bottonEnviarForm(screenSize, widget.currentuser),
+              SizedBox(
+                height: 60,
+              )
             ],
           ),
         ),
@@ -161,24 +169,15 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
       textColor: Colors.white,
       label: Text('Publicar'),
       icon: Icon(Icons.publish),
-      onPressed: () {
+      onPressed: () async {
         formKey.currentState.save();
         publicacion.usuario = '${userinfo.nombres} ${userinfo.apellidos}';
         publicacion.correoUsuario = '${userinfo.correo}';
-        // publicacion.descripcion = '';
-        //! publicacion.archivo = '';
-        publicacion.fecha = new DateTime.now();
-        Navigator.pushNamed(context, 'prueba');
+        String id = await publicacionesProvider.subirImagenPublicacion(
+            foto, publicacion);
+        print(id);
+        // Navigator.pushNamed(context, 'prueba');
       },
-    );
-  }
-
-  Widget _addFoto(Size screenSize) {
-    return OutlineButton(
-      onPressed: () {
-        print('vale verga la vida');
-      },
-      child: Icon(Icons.add),
     );
   }
 
@@ -217,7 +216,7 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
   }
 
   Widget cardusuarioEtiqueta(String email) {
-    final etiq = new Etiquetas(); 
+    final etiq = new Etiquetas();
     String headerData;
     if (etiq.nombreUsuarioEtiquetado == " ") {
       headerData = "Agregar usuario";
@@ -273,8 +272,7 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
                     InputChip(
                       avatar: CircleAvatar(
                           backgroundColor: Colors.white,
-                          child: Icon(Icons.person)
-                      ),
+                          child: Icon(Icons.person)),
                       label: Text(
                         etiquetas[index].nombreUsuarioEtiquetado,
                         style: TextStyle(color: Colors.white),
@@ -291,7 +289,9 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
                         color: Colors.white,
                       ),
                     ),
-                    SizedBox(width: screenSize.width*0.02,),
+                    SizedBox(
+                      width: screenSize.width * 0.02,
+                    ),
                   ],
                 );
               }),
@@ -302,4 +302,109 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
     }
   }
 
+  Widget _mostrarImagen(Size screenSize) {
+    if (publicacion.imagenPublicacion != 'empty') {
+      //TODO: Tengo que hacer esto
+      return Container();
+    } else {
+      if (foto != null) {
+        return Stack(
+          alignment: Alignment(0.95, 0.99),
+          children: <Widget>[
+            Card(
+              margin: new EdgeInsets.only(
+                  left: 5.0, right: 5.0, top: 8.0, bottom: 25.0),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
+              elevation: 30.0,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10.0),
+                child: Image.file(
+                  foto,
+                  fit: BoxFit.cover,
+                  // height: 300.0,
+                ),
+              ),
+            ),
+            Row(
+              children: [
+                CircleButton(
+                  icon: Icons.add_a_photo_outlined,
+                  iconsize: 30,
+                  colorIcon: Colors.blue[600],
+                  colorBorde: Colors.lightBlue[50],
+                  onPressed: () {
+                    _ingresarImagen(ImageSource.camera);
+                  },
+                ),
+                CircleButton(
+                  icon: Icons.image_search,
+                  iconsize: 30,
+                  colorIcon: Colors.blue[600],
+                  colorBorde: Colors.lightBlue[50],
+                  onPressed: () {
+                    _ingresarImagen(ImageSource.gallery);
+                  },
+                ),
+              ],
+            ),
+          ],
+        );
+      }
+      return Stack(
+        alignment: Alignment(1, 0.99),
+        children: <Widget>[
+          Card(
+              margin: new EdgeInsets.only(
+                  left: 5.0, right: 5.0, top: 8.0, bottom: 25.0),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
+              elevation: 30.0,
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10.0),
+                  child: Image.asset('assets/upload.png'))),
+          Row(
+            children: [
+              CircleButton(
+                icon: Icons.add_a_photo_outlined,
+                iconsize: 30,
+                colorIcon: Colors.blue[600],
+                colorBorde: Colors.lightBlue[50],
+                onPressed: () {
+                  _ingresarImagen(ImageSource.camera);
+                },
+              ),
+              SizedBox(
+                width: screenSize.width * 0.02,
+              ),
+              CircleButton(
+                icon: Icons.image_search,
+                iconsize: 30,
+                colorIcon: Colors.blue[600],
+                colorBorde: Colors.lightBlue[50],
+                onPressed: () {
+                  _ingresarImagen(ImageSource.gallery);
+                },
+              ),
+            ],
+          ),
+          // IconButton(
+          //     icon: Icon(Icons.add_a_photo),
+          //     onPressed: () {
+          //       _ingresarImagen();
+          //     })
+        ],
+      );
+    }
+    // return Container();
+  }
+
+  _ingresarImagen(ImageSource tipo) async {
+    foto = await ImagePicker.pickImage(source: tipo);
+    if (foto != null) {
+      //limpieza
+    }
+
+    setState(() {});
+  }
 }

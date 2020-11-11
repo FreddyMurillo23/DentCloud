@@ -79,10 +79,14 @@ class _StartUpPageState extends State<StartUpPage> {
           icon: MdiIcons.accountSearchOutline,
           iconsize: 30.0,
           onPressed: () => print('Search'),
+          colorIcon: Colors.blue[600],
+          colorBorde: Colors.lightBlue[50],
         ),
         CircleButton(
           icon: MdiIcons.chatOutline,
           iconsize: 30.0,
+          colorIcon: Colors.blue[600],
+          colorBorde: Colors.lightBlue[50],
           onPressed: () => 
          // Navigator.pushNamed(context, 'registerbusiness', arguments: userinfo)
           Navigator.pushNamed(context, 'messenger', arguments: userinfo),

@@ -49,7 +49,7 @@ class _RecetaMedicaState extends State<RecetaMedica> {
   Medicamento medicamento;
   List<Receta> recetaLista;
   Receta receta;
-  String prescripcion;
+  String prescripcion = '';
 
   String fecha(){
     return widget.eventosModeloGlobal.fecha.year.toString()+'/'+widget.eventosModeloGlobal.fecha.month.toString()+'/'+widget.eventosModeloGlobal.fecha.day.toString();
@@ -169,6 +169,7 @@ class _RecetaMedicaState extends State<RecetaMedica> {
       );
     }
  
+ 
   @override
   Widget build(BuildContext context) {
 
@@ -179,13 +180,15 @@ class _RecetaMedicaState extends State<RecetaMedica> {
       if(form.validate()){
         form.save();
         Medicamento prueba = medicamento;
+        String prescri = prescripcion;
         receta.dosificacion = prueba.drugKindOfProduct;
         receta.medicina = prueba.drugName;
-        receta.prescripcion = prescripcion;
+        receta.prescripcion = prescri;
         receta.presentacion = prueba.drugPharmaceuticalForm;
         setState(() {
           recetaLista.add(receta);
         });
+        
         print("Form is valid");
       } else {
         print("Form is invalid");
@@ -482,6 +485,11 @@ class _RecetaMedicaState extends State<RecetaMedica> {
                               ),
                               validator: (value) => value.isEmpty ? 'Este campo no puede estar vacio' : null,
                               onSaved: (value) => prescripcion = value,
+                              onChanged: (value) {
+                                setState(() {
+                                  prescripcion = value;
+                                });
+                              },
                             ),
                           ),
                         ],
@@ -510,7 +518,21 @@ class _RecetaMedicaState extends State<RecetaMedica> {
                             child: RaisedButton(
                               onPressed: () {
                                 if(recetaLista == [] || recetaLista == null || recetaLista.length == 0){
-                                  print("No");
+                                  showDialog(
+                                  context: context,
+                                  builder: (_) => new AlertDialog(
+                                      title: new Text("No se pudo generar la receta"),
+                                      content: new Text("Deben existir elementos para poder generar la receta"),
+                                      actions: <Widget>[
+                                        FlatButton(
+                                          child: Text('Aceptar'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        )
+                                      ],
+                                    )
+                                  );
                                 } else {
                                 Navigator.push(
                                   context,

@@ -4,12 +4,16 @@ class CircleButton extends StatelessWidget {
   final IconData icon;
   final double iconsize;
   final Function onPressed;
+  final Color colorBorde;
+  final Color colorIcon;
 
   const CircleButton(
       {Key key,
       @required this.icon,
       @required this.iconsize,
-      @required this.onPressed})
+      @required this.onPressed,
+      @required this.colorBorde,
+      @required this.colorIcon})
       : super(key: key);
 
   @override
@@ -17,13 +21,13 @@ class CircleButton extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.all(6.0),
       decoration: BoxDecoration(
-        color: Colors.lightBlue[50],
+        color: colorBorde,
         shape: BoxShape.circle,
       ),
       child: IconButton(
           icon: Icon(icon),
           iconSize: iconsize,
-          color: Colors.blue[600],
+          color: colorIcon,
           onPressed: onPressed),
     );
   }
