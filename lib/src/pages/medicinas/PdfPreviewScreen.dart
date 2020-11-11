@@ -39,7 +39,7 @@ class _PdfPreviewScreenState extends State<PdfPreviewScreen> {
         print('ARCHIVO SUBIDA');
       } else {
         print('ARCHIVO NO SUBIDA');
-      }
+      } 
   }
 
     return PDFViewerScaffold(
