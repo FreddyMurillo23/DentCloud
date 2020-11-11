@@ -9,9 +9,6 @@ class UserBusinessSearch extends SearchDelegate {
   String seleccion = " ";
   bool activar = true;
 
-  
-
-
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
@@ -57,281 +54,337 @@ class UserBusinessSearch extends SearchDelegate {
             (BuildContext context, AsyncSnapshot<List<UserData>> snapshot) {
           final userData = snapshot.data;
           if (snapshot.hasData) {
-            return Stack(
-              children: [
-               Positioned(
-                 top: 5,
-                 left: 5,
-                 child: ButtonTheme(
-                   minWidth: sizescreen.width * 0.48,
-                  child: Opacity(
-                    opacity: 0.8,
-                    child: RaisedButton(
-                     child: Text('Usuario'),
-                     onPressed: (){},
-                     shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10))
-                 ),
+            return Container(
+                 height: sizescreen.height,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Container(
+                        width: sizescreen.width*1,
+                        height: sizescreen.height*0.08,
+                        child: Row(
+            children: [
+            SizedBox(width: 5,),
+                   ButtonTheme(
+                       minWidth: sizescreen.width * 0.48,
+                      child: Opacity(
+                        opacity: 0.8,
+                        child: RaisedButton(
+            color: Colors.transparent,
+                         child: Text('Usuario'),
+                         onPressed: (){},
+                         shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10))
+                     ),
+                      ),
+                     ),
+                     SizedBox(width: 8,),
+                     Container(
+                       child: Opacity(
+                         opacity: 0.8,
+             child: ButtonTheme(
+             minWidth: sizescreen.width * 0.47,
+             child: RaisedButton(
+                color: Colors.transparent,
+             child: Text('Negocio'),
+             onPressed: (){
+               activar=false;
+             },
+             shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10))
+                         ),
+                       ),
+                       ),
+                     ),
+            ],
+                        ),
+                      ),
+                    
+                    Card(
+                      elevation: 10,
+                                          child: Container(
+                           decoration: BoxDecoration(
+                           ),
+                           width: sizescreen.width*0.9,
+                           height: sizescreen.height*0.76,
+                           child: ListView.builder(
+             itemCount: userData.length,
+             itemBuilder: (BuildContext context, int index){
+               if(index==null)
+               {
+                 return Container();
+
+               }
+                return Column(
+                children: [
+                  ListTile(
+                      leading: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: FadeInImage(
+                      placeholder: AssetImage('assets/jar-loading.gif') ,
+                      image:  NetworkImage(userData[index].fotoPerfilUsuario),
+                      fit: BoxFit.cover,
+                      width: 50,
+                        ),
+                      ),
+                      title: Text(userData[index].nombreUsuario),
+                      onTap: (){},
                   ),
-               )),
-               Positioned(
-                 top: 5,
-                 right: 2,
-                 child: Opacity(
-                   opacity: 0.8,
-                                    child: ButtonTheme(
-                     minWidth: sizescreen.width * 0.48,
-                    child: RaisedButton(
-                     child: Text('Negocio'),
-                     onPressed: (){
-                       activar=false;
-                     },
-                     shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10))
-                   ),
-               ),
-                 )),
-               Positioned(
-                 top: 70,
-                 left: 5,
-                 child: Container(
-                   decoration: BoxDecoration(
-                   ),
-                   width: sizescreen.width*0.9,
-                   height: sizescreen.height*0.75,
-                   child: ListView.builder(
-                     itemCount: userData.length,
-                     itemBuilder: (BuildContext context, int index){
-                       if(index==null)
-                       {
-                         return Container();
+                  Divider(),
+                ],
+                );
+             }),
+                           //color: Colors.green,
+                           ),
+                    ),
 
-                       }
-                        return Column(
-                        children: [
-                          ListTile(
-                            leading: ClipRRect(
-                                borderRadius: BorderRadius.circular(20),
-                                child: FadeInImage(
-                                placeholder: AssetImage('assets/jar-loading.gif') ,
-                                image:  NetworkImage(userData[index].fotoPerfilUsuario),
-                                fit: BoxFit.cover,
-                                width: 50,
-                              ),
-                            ),
-                            title: Text(userData[index].nombreUsuario),
-                          ),
-                          Divider(),
-                        ],
-                        );
-                     }),
-                   //color: Colors.green,
-                   )),
-
-              ],
-            );
+                    ],
+                  ),
+                ),
+              );
           }
           else
           {
-             return Stack(
-              children: [
-               Positioned(
-                 top: 5,
-                 left: 5,
-                 child: ButtonTheme(
-                   minWidth: sizescreen.width * 0.48,
-                  child: Opacity(
-                    opacity: 0.8,
-                    child: RaisedButton(
-                     child: Text('Usuario'),
-                     onPressed: (){},
-                     shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10))
-                 ),
-                  ),
-               )),
-               Positioned(
-                 top: 5,
-                 right: 2,
-                 child: Opacity(
-                   opacity: 0.8,
-                                    child: ButtonTheme(
-                     minWidth: sizescreen.width * 0.48,
-                    child: RaisedButton(
-                     child: Text('Negocio'),
-                     onPressed: (){
-                       activar=false;
-                     },
-                     shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10))
-                   ),
-               ),
-                 )),
-               Positioned(
-                 top: 70,
-                 left: 5,
-                 child: Container(
-                   decoration: BoxDecoration(
-                   ),
-                   width: sizescreen.width*0.9,
-                   height: sizescreen.height*0.75,
-                   child:Center(
+             return Container(
+                 height: sizescreen.height,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Container(
+                        width: sizescreen.width*1,
+                        height: sizescreen.height*0.08,
+                        child: Row(
+            children: [
+            SizedBox(width: 5,),
+                   ButtonTheme(
+                       minWidth: sizescreen.width * 0.48,
+                      child: Opacity(
+                        opacity: 0.8,
+                        child: RaisedButton(
+            color: Colors.transparent,
+                         child: Text('Usuario'),
+                         onPressed: (){},
+                         shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10))
+                     ),
+                      ),
+                     ),
+                     SizedBox(width: 8,),
+                     Container(
+                       child: Opacity(
+                         opacity: 0.8,
+             child: ButtonTheme(
+             minWidth: sizescreen.width * 0.47,
+             child: RaisedButton(
+                color: Colors.transparent,
+             child: Text('Negocio'),
+             onPressed: (){
+               activar=false;
+             },
+             shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10))
+                         ),
+                       ),
+                       ),
+                     ),
+            ],
+                        ),
+                      ),
+                    
+                    Card(
+                      elevation: 10,
+                      child: Container(
+                         width: sizescreen.width*0.9,
+                          height: sizescreen.height*0.76,
+                         child:Center(
                      child: SizedBox(
                         height: 30,
                         width: 30,
                         child: CircularProgressIndicator(),
                      ),
                    )
-                   //color: Colors.green,
-                   )),
+                           
+                           //color: Colors.green,
+                      ),
+                    ),
 
-              ],
-            );
+                    ],
+                  ),
+                ),
+              );
           }
         },
       );
-    } else {
-      return FutureBuilder (
+    } else 
+    {
+      return FutureBuilder(
         future: businessProvider.businesSearch(query),
         builder:
             (BuildContext context, AsyncSnapshot<List<Negocio>> snapshot) {
-          final businesData = snapshot.data;
+          final userData = snapshot.data;
           if (snapshot.hasData) {
-            return Stack(
-              children: [
-               Positioned(
-                 top: 5,
-                 left: 5,
-                 child: ButtonTheme(
-                   minWidth: sizescreen.width * 0.48,
-                  child: Opacity(
-                     opacity: 0.8,
-                     child: RaisedButton(
-                     child: Text('Usuario'),
-                     onPressed: (){
-                       activar=true;
-                     },
-                     shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10))
-                 ),
-                  ),
-               )),
-               Positioned(
-                 top: 5,
-                 right: 2,
-                 child: ButtonTheme(
-                   minWidth: sizescreen.width * 0.48,
-                  child: Opacity(
-                    opacity: 0.8,
-                      child: RaisedButton(
-                     child: Text('Negocio'),
-                     onPressed: (){
-                       activar=false;
-                     },
-                     shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10))
-                 ),
-                  ),
-               )),
-               Positioned(
-                 top: 70,
-                 left: 5,
-                 child: Container(
-                   decoration: BoxDecoration(
-                   ),
-                   width: sizescreen.width*0.9,
-                   height: sizescreen.height*0.75,
-                   child: ListView.builder(
-                     itemCount: businesData.length,
-                     itemBuilder: (BuildContext context, int index){
-                       if(index==null)
-                       {
-                         return Container();
+            return Container(
+                 height: sizescreen.height,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Container(
+                        width: sizescreen.width*1,
+                        height: sizescreen.height*0.08,
+                        child: Row(
+            children: [
+            SizedBox(width: 5,),
+                   ButtonTheme(
+                       minWidth: sizescreen.width * 0.48,
+                      child: Opacity(
+                        opacity: 0.8,
+                        child: RaisedButton(
+            color: Colors.transparent,
+                         child: Text('Usuario'),
+                         onPressed: (){},
+                         shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10))
+                     ),
+                      ),
+                     ),
+                     SizedBox(width: 8,),
+                     Container(
+                       child: Opacity(
+                         opacity: 0.8,
+             child: ButtonTheme(
+             minWidth: sizescreen.width * 0.47,
+             child: RaisedButton(
+                color: Colors.transparent,
+             child: Text('Negocio'),
+             onPressed: (){
+               activar=false;
+             },
+             shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10))
+                         ),
+                       ),
+                       ),
+                     ),
+            ],
+                        ),
+                      ),
+                    
+                    Card(
+                      elevation: 10,
+                                          child: Container(
+                           decoration: BoxDecoration(
+                           ),
+                           width: sizescreen.width*0.9,
+                           height: sizescreen.height*0.76,
+                           child: ListView.builder(
+             itemCount: userData.length,
+             itemBuilder: (BuildContext context, int index){
+               if(index==null)
+               {
+                 return Container();
 
-                       }
-                        return Column(
-                        children: [
-                          ListTile(
-                            leading: ClipRRect(
-                                borderRadius: BorderRadius.circular(20),
-                                child: FadeInImage(
-                                placeholder: AssetImage('assets/jar-loading.gif') ,
-                                image:  NetworkImage(businesData[index].fotoNegocio),
-                                fit: BoxFit.cover,
-                                width: 50,
-                              ),
-                            ),
-                            title: Text(businesData[index].nombreNegocio),
-                          ),
-                          Divider(),
-                        ],
-                        );
-                     }),
-                   //color: Colors.green,
-                   )),
+               }
+                return Column(
+                children: [
+                  ListTile(
+                      leading: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: FadeInImage(
+                      placeholder: AssetImage('assets/jar-loading.gif') ,
+                      image:  NetworkImage(userData[index].fotoNegocio),
+                      fit: BoxFit.cover,
+                      width: 50,
+                        ),
+                      ),
+                      title: Text(userData[index].nombreNegocio),
+                      onTap: (){},
+                  ),
+                  Divider(),
+                ],
+                );
+             }),
+                           //color: Colors.green,
+                           ),
+                    ),
 
-              ],
-            );
+                    ],
+                  ),
+                ),
+              );
           }
           else
           {
-             return Stack(
-              children: [
-               Positioned(
-                 top: 5,
-                 left: 5,
-                 child: ButtonTheme(
-                   minWidth: sizescreen.width * 0.48,
-                  child: Opacity(
-                    opacity: 0.8,
-                    child: RaisedButton(
-                     child: Text('Usuario'),
-                     onPressed: (){},
-                     shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10))
-                 ),
-                  ),
-               )),
-               Positioned(
-                 top: 5,
-                 right: 2,
-                 child: Opacity(
-                   opacity: 0.8,
-                                    child: ButtonTheme(
-                     minWidth: sizescreen.width * 0.48,
-                    child: RaisedButton(
-                     child: Text('Negocio'),
-                     onPressed: (){
-                       activar=false;
-                     },
-                     shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10))
-                   ),
-               ),
-                 )),
-               Positioned(
-                 top: 70,
-                 left: 5,
-                 child: Container(
-                   decoration: BoxDecoration(
-                   ),
-                   width: sizescreen.width*0.9,
-                   height: sizescreen.height*0.75,
-                   child:Center(
+             return Container(
+                 height: sizescreen.height,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Container(
+                        width: sizescreen.width*1,
+                        height: sizescreen.height*0.08,
+                        child: Row(
+            children: [
+            SizedBox(width: 5,),
+                   ButtonTheme(
+                       minWidth: sizescreen.width * 0.48,
+                      child: Opacity(
+                        opacity: 0.8,
+                        child: RaisedButton(
+            color: Colors.transparent,
+                         child: Text('Usuario'),
+                         onPressed: (){},
+                         shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10))
+                     ),
+                      ),
+                     ),
+                     SizedBox(width: 8,),
+                     Container(
+                       child: Opacity(
+                         opacity: 0.8,
+             child: ButtonTheme(
+             minWidth: sizescreen.width * 0.47,
+             child: RaisedButton(
+                color: Colors.transparent,
+             child: Text('Negocio'),
+             onPressed: (){
+               activar=false;
+             },
+             shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10))
+                         ),
+                       ),
+                       ),
+                     ),
+            ],
+                        ),
+                      ),
+                    
+                    Card(
+                      elevation: 10,
+                      child: Container(
+                         width: sizescreen.width*0.9,
+                          height: sizescreen.height*0.76,
+                         child:Center(
                      child: SizedBox(
                         height: 30,
                         width: 30,
                         child: CircularProgressIndicator(),
                      ),
                    )
-                   //color: Colors.green,
-                   )),
+                           
+                           //color: Colors.green,
+                      ),
+                    ),
 
-              ],
-            );
+                    ],
+                  ),
+                ),
+              );
           }
         },
       );
+      
     }
   }
 }
