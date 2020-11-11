@@ -243,10 +243,8 @@ class DataProvider {
         'http://54.197.83.249/PHP_REST_API/api/post/post_publications.php?user_email=${pub.correoUsuario}&business_ruc=${pub.negocioRuc}&description=${pub.descripcion}&date_time=$time');
 
     if (imagen != null) {
-      final mimeType = mime(imagen.path).split('/');
       final imageUploadRequest = http.MultipartRequest('POST', url);
-      final file = await http.MultipartFile.fromPath('file', imagen.path,
-          contentType: MediaType(mimeType[0], mimeType[1]));
+      final file = await http.MultipartFile.fromPath('archivo', imagen.path,);
       imageUploadRequest.files.add(file);
       final streamResponse = await imageUploadRequest.send();
       final resp = await http.Response.fromStream(streamResponse);
@@ -254,10 +252,14 @@ class DataProvider {
         print('ya valio barriga');
         print(resp.body);
         return null;
+      }else{
+        final respData = json.decode(resp.body);
+      final publicacion =
+            Resp.fromJsonList(respData['respuesta_obtenida']);
+      return publicacion.items[0].idPublication; 
       }
-      final respData = json.decode(resp.body);
-      print(respData);
-      return respData['respuesta_obtenida'];
+      
+     
 
 
       
