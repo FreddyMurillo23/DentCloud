@@ -564,6 +564,7 @@ bool validateLocalizcion(String value){
   }
 
   _selecionarfotoGalery() async {
+    // ignore: deprecated_member_use
     var picture = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
       foto = picture;
@@ -573,6 +574,7 @@ bool validateLocalizcion(String value){
   }
 
   _selecionarfotoCamara() async {
+    // ignore: deprecated_member_use
     var picture = await ImagePicker.pickImage(source: ImageSource.camera);
     setState(() {
       foto = picture;

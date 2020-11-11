@@ -1,4 +1,3 @@
-import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
 
 class PublicacionesByUser {
   List<Publicacion> items = new List();

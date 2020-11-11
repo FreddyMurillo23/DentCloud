@@ -1,11 +1,9 @@
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/drougs_model.dart';
 import 'package:muro_dentcloud/src/models/event_model.dart';
 import 'package:muro_dentcloud/src/models/receta_model.dart';
-import 'package:muro_dentcloud/src/pages/medicinas/PdfPreviewScreen.dart';
 import 'package:muro_dentcloud/src/pages/medicinas/recipe_test.dart';
 import 'package:muro_dentcloud/src/search/search_drougs.dart';
 import 'package:flutter/cupertino.dart';
@@ -57,7 +55,6 @@ class _RecetaMedicaState extends State<RecetaMedica> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     controladorNombreUser.text = widget.eventosModeloGlobal.paciente;
     controladorFechaUser.text = fecha();

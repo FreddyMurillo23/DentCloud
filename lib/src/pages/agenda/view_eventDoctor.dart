@@ -7,7 +7,6 @@ import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/doctors_model.dart';
 import 'package:muro_dentcloud/src/models/event_model.dart';
 import 'package:muro_dentcloud/src/pages/agenda/receta_medica.dart';
-import 'package:muro_dentcloud/src/pages/agenda/receta_medica.dart';
 
 
 class ViewEvent extends StatefulWidget {
