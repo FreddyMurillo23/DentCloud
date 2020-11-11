@@ -266,7 +266,7 @@ class _RecipeTestState extends State<RecipeTest> {
           print(fullPath);
 
           Navigator.push(context, MaterialPageRoute(
-            builder: (context) => PdfPreviewScreen(path: fullPath,)
+            builder: (context) => PdfPreviewScreen(path: fullPath, currentUsuario: widget.currentuser, eventosModeloGlobal: widget.eventosModeloGlobal,)
           ));
         },
         child: Icon(Icons.save),
