@@ -49,7 +49,6 @@ dependencies:
   path_provider: ^1.6.5
   flutter_full_pdf_viewer: ^1.0.6
   gradient_text: ^1.0.2
-  file_picker: ^2.0.12
 dev_dependencies:
   flutter_test:
     sdk: flutter

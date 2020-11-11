@@ -79,7 +79,6 @@ class EventSearchDelegate extends SearchDelegate<Doctores>{
     Widget buildSuggestions(BuildContext context) {
       Future<List<Doctores>> futureDoctor;
       futureDoctor = DoctorCtrl.listarPrueba(query);
-      ServicioProvider servicioProvider = Provider.of<ServicioProvider>(context);
       print(futureDoctor);
 
       return FutureBuilder(
@@ -94,6 +93,7 @@ class EventSearchDelegate extends SearchDelegate<Doctores>{
           ? []
           : element.doctor.startsWith(query)).toList();
 
+          //=> element.doctor.startsWith(query)).toList();
 
           if ( snapshot.hasError ) {
             print("Wey No");
@@ -101,8 +101,7 @@ class EventSearchDelegate extends SearchDelegate<Doctores>{
           }
 
           if ( snapshot.hasData ) {
-          //  return _showDoctoresHistorial(suglist);
-            return _showDoctores(suglist, servicioProvider);
+           return _showDoctoresHistorial(suglist);
           }
           
           return Center(
@@ -128,7 +127,6 @@ class EventSearchDelegate extends SearchDelegate<Doctores>{
           leading: Image.network(doctor.foto, width: 45,),
           title: Text(doctor.doctor),
           onTap: (){
-            print('Wey');
             servicioProvider.listarServicios(doctor.cedula+"001");
             this.close(context, doctor);
           },

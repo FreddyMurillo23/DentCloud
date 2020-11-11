@@ -7,7 +7,7 @@ import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/doctors_model.dart';
 import 'package:muro_dentcloud/src/models/event_model.dart';
 import 'package:muro_dentcloud/src/pages/agenda/receta_medica.dart';
-import 'package:muro_dentcloud/src/pages/agenda/receta_medica.dart';
+import 'package:muro_dentcloud/src/pages/agenda/receta_medica2.dart';
 
 
 class ViewEvent extends StatefulWidget {
@@ -81,8 +81,8 @@ class _ViewEventState extends State<ViewEvent> {
   void initState() {
     super.initState();
     controladorCorreoUser.text = widget.eventosModeloGlobal.correo;
-    controladorNombreUser.text = widget.eventosModeloGlobal.nombrePaciente;
-    controladorApellidoUser.text = widget.eventosModeloGlobal.apellidoPaciente;
+    controladorNombreUser.text = widget.eventosModeloGlobal.paciente;
+    controladorApellidoUser.text = widget.eventosModeloGlobal.paciente;
     
   }
 
@@ -97,6 +97,7 @@ class _ViewEventState extends State<ViewEvent> {
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(vertical: 40, horizontal: 10),
         child: Card(
+          color: Colors.amber,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0)),
           child: Column(   
@@ -238,7 +239,7 @@ class _ViewEventState extends State<ViewEvent> {
                                 Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (_) => RecetaMedica(
+                              builder: (_) => RecetaMedica2(
                                   eventosModeloGlobal: widget.eventosModeloGlobal, currentuser: widget.currentuser,)));
                               },
                             ),
@@ -347,7 +348,6 @@ class _ViewEventState extends State<ViewEvent> {
               ),
             ],
           ),
-          elevation: 5,
         ),
       ),
     );
