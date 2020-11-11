@@ -240,7 +240,7 @@ class DataProvider {
     DateTime now = new DateTime.now();
     String time = now.toString();
     final url = Uri.parse(
-        'http://54.197.83.249/PHP_REST_API/api/post/post_publications.php?user_email=${pub.correoUsuario}&business_ruc=${pub.negocio}&description=${pub.descripcion}&date_time=$time');
+        'http://54.197.83.249/PHP_REST_API/api/post/post_publications.php?user_email=${pub.correoUsuario}&business_ruc=${pub.negocioRuc}&description=${pub.descripcion}&date_time=$time');
 
     if (imagen != null) {
       final mimeType = mime(imagen.path).split('/');
