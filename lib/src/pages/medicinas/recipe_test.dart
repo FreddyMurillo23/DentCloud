@@ -49,20 +49,27 @@ List<pw.TableRow> getTable(List<Receta> receta){
   receta.forEach((element) { 
     tableRows.add(
        pw.TableRow(
-        decoration: pw.BoxDecoration(
-          border: pw.BoxBorder(
-            bottom: true,
-            top: true,
-            right: true,
-            left: true,
-            style: pw.BorderStyle.solid,
-            color: green
-          )
-        ),
+        // decoration: pw.BoxDecoration(
+        //   border: pw.BoxBorder(
+        //     bottom: true,
+        //     top: true,
+        //     right: true,
+        //     left: true,
+        //     style: pw.BorderStyle.solid,
+        //     color: green
+        //   )
+        // ),
         children: [
-          pw.Text(element.medicina),
-          pw.Text(element.presentacion),
-          pw.Text(element.dosificacion),
+          pw.Column(
+            crossAxisAlignment: pw.CrossAxisAlignment.start,
+            children: <pw.Widget>[
+              pw.Text('Medicamento: '+element.medicina),
+              pw.Text('Dosificacion: '+element.dosificacion, style: pw.TextStyle(fontSize: 10)),
+              pw.Text('Presentacion: '+element.presentacion, style: pw.TextStyle(fontSize: 10)),
+              pw.Text('Prescripcion: '+element.prescripcion, style: pw.TextStyle(fontSize: 10)),
+              pw.Divider(),
+            ]
+          )
         ]
       )
     );
@@ -78,9 +85,7 @@ String fechaCompleta(EventosModelo eventos) {
 const PdfColor green = PdfColor.fromInt(0xff9ce5d0);
 
 class _RecipeTestState extends State<RecipeTest> {
-  List<String> prueba = ['Medicina1', 'Medicina2', 'Medicina3', 'Medicina4'];
   
-
   final pdf = pw.Document();
 
   writeOnPdf(){
@@ -163,7 +168,7 @@ class _RecipeTestState extends State<RecipeTest> {
                       child: pw.Column(
                         crossAxisAlignment: pw.CrossAxisAlignment.center,
                         children: [
-                         pw.Text('Edad: '+fechaCompleta(widget.eventosModeloGlobal),
+                         pw.Text('Edad: '+imprimirEdad(widget.eventosModeloGlobal.fechaNacimiento),
                         textScaleFactor: 1.2,
                         style: pw.Theme.of(context)
                             .defaultTextStyle
@@ -191,11 +196,15 @@ class _RecipeTestState extends State<RecipeTest> {
                     defaultVerticalAlignment: pw.TableCellVerticalAlignment.middle,
                     columnWidths: {
                       0: pw.FlexColumnWidth(1),
-                      1: pw.FixedColumnWidth(40),
-                      2: pw.FixedColumnWidth(40),
                     },
                     children: 
                       getTable(widget.receta),                    
+                  ),
+
+                  pw.SizedBox(height: 50),
+                  pw.Footer(
+
+                    title: pw.Text('Aqui podria ir la firma del Dcotor')
                   )
                 ]
               ),
@@ -209,20 +218,20 @@ class _RecipeTestState extends State<RecipeTest> {
   }
 
   Future savePdf() async{
+    String archivo = widget.eventosModeloGlobal.nombrePaciente;
     Directory documentDirectory = await getApplicationDocumentsDirectory();
 
     String documentPath = documentDirectory.path;
     print(documentPath);
 
-    File file = File("$documentPath/example.pdf");
+    File file = File("$documentPath/recipe_$archivo.pdf");
     //File file = File("/storage/emulated/0/Android/data/example.pdf");
 
     file.writeAsBytesSync(pdf.save());
   }
 
   Widget build(BuildContext context) {
-    print(widget.eventosModeloGlobal.correo);
-    print(widget.receta[0].medicina);
+    print(widget.receta[0].prescripcion);
     return Scaffold(
 
       appBar: AppBar(
@@ -237,13 +246,14 @@ class _RecipeTestState extends State<RecipeTest> {
 
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text("PDF TUTORIAL", style: TextStyle(fontSize: 34),)
+            Text("PDF TUTORIAL", style: TextStyle(fontSize: 34),),
           ],
         ),
       ),
 
       floatingActionButton: FloatingActionButton(
         onPressed: ()async{
+          String archivo = widget.eventosModeloGlobal.nombrePaciente;
 
           writeOnPdf();
           await savePdf();
@@ -252,15 +262,15 @@ class _RecipeTestState extends State<RecipeTest> {
 
           String documentPath = documentDirectory.path;
 
-          String fullPath = "$documentPath/example.pdf";
+          String fullPath = "$documentPath/recipe_$archivo.pdf";
           print(fullPath);
 
           Navigator.push(context, MaterialPageRoute(
-            builder: (context) => PdfPreviewScreen(path: fullPath,)
+            builder: (context) => PdfPreviewScreen(path: fullPath, currentUsuario: widget.currentuser, eventosModeloGlobal: widget.eventosModeloGlobal,)
           ));
         },
         child: Icon(Icons.save),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
 
     );
   }

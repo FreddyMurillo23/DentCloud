@@ -191,7 +191,7 @@ class _AgendaUserState extends State<AgendaUser> {
                           context,
                           MaterialPageRoute(
                               builder: (_) => ViewEventUser(
-                                  eventosModeloGlobal: eventos,)));
+                                  eventosModeloGlobal: eventos, currentuser: userinfo,)));
                         },
                       ),
                       direction: DismissDirection.startToEnd,
