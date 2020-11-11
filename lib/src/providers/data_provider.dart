@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:muro_dentcloud/src/models/apointments_model.dart';
 import 'package:muro_dentcloud/src/models/business_model.dart';
@@ -9,6 +10,8 @@ import 'package:muro_dentcloud/src/models/list_message_model.dart';
 import 'package:muro_dentcloud/src/models/publications_model.dart';
 import 'package:muro_dentcloud/src/models/search_contact_model.dart';
 import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
+import 'package:mime_type/mime_type.dart';
+import 'package:http_parser/http_parser.dart';
 
 class DataProvider {
   // String _apiKey = '';
@@ -189,52 +192,87 @@ class DataProvider {
     } else {
       return new List();
     }
-
   }
 
- static Future <bool> registrar_negocio(String usermail,String business_ruc,String business_name, String business_phone, String province, String canton,String business_location,String fotopath)
-async {
-  var url=Uri.parse('http://54.197.83.249/PHP_REST_API/api/post/post_business.php?business_ruc=$business_ruc&business_name=$business_name&business_phone=$business_phone&province=$province&canton=$canton&business_location=$business_location&user_email=$usermail');
-  var request = http.MultipartRequest('POST',url);
-  if(fotopath!=null)
-  {
-   var pic = await http.MultipartFile.fromPath("archivo",fotopath);
-   request.files.add(pic);
+  static Future<bool> registrar_negocio(
+      String usermail,
+      String businessRuc,
+      String businessName,
+      String businessPhone,
+      String province,
+      String canton,
+      String businessLocation,
+      String fotopath) async {
+    var url = Uri.parse(
+        'http://54.197.83.249/PHP_REST_API/api/post/post_business.php?business_ruc=$businessRuc&business_name=$businessName&business_phone=$businessPhone&province=$province&canton=$canton&business_location=$businessLocation&user_email=$usermail');
+    var request = http.MultipartRequest('POST', url);
+    if (fotopath != null) {
+      var pic = await http.MultipartFile.fromPath("archivo", fotopath);
+      request.files.add(pic);
+    }
+
+    var response = await request.send();
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
   }
-  
-  var response = await request.send();
-  if(response.statusCode == 200)
-  {
-    return true;
-  }
-  else
-  {
-    return false;
-  }
 
-
-}
-
-
-  Future<List<Siguiendo>> follow_search(String emailUser,String query) async {
+  Future<List<Siguiendo>> follow_search(String emailUser, String query) async {
     String url =
         'http://54.197.83.249/PHP_REST_API/api/get/get_followers_by_like.php?user_email=$emailUser&name=$query';
     final resp = await http.get(url);
-   
-   if(resp.statusCode==200)
-   {
-     final decodedData = jsonDecode(resp.body);
-    // print(decodedData['siguiendo']);
-    final follows = Follow.fromJsonList(decodedData['siguiendo']);
-    // print('here');
-    // print(follows.items.length);
-    return follows.items;
 
-   }
-   else
-   {
-     return new List();
-   }
-    
+    if (resp.statusCode == 200) {
+      final decodedData = jsonDecode(resp.body);
+      // print(decodedData['siguiendo']);
+      final follows = Follow.fromJsonList(decodedData['siguiendo']);
+      // print('here');
+      // print(follows.items.length);
+      return follows.items;
+    } else {
+      return new List();
+    }
+  }
+
+  Future<String> subirImagenPublicacion(File imagen, Publicacion pub) async {
+    DateTime now = new DateTime.now();
+    String time = now.toString();
+    final url = Uri.parse(
+        'http://54.197.83.249/PHP_REST_API/api/post/post_publications.php?user_email=${pub.correoUsuario}&business_ruc=${pub.negocio}&description=${pub.descripcion}&date_time=$time');
+
+    if (imagen != null) {
+      final mimeType = mime(imagen.path).split('/');
+      final imageUploadRequest = http.MultipartRequest('POST', url);
+      final file = await http.MultipartFile.fromPath('file', imagen.path,
+          contentType: MediaType(mimeType[0], mimeType[1]));
+      imageUploadRequest.files.add(file);
+      final streamResponse = await imageUploadRequest.send();
+      final resp = await http.Response.fromStream(streamResponse);
+      if (resp.statusCode != 200) {
+        print('ya valio barriga');
+        print(resp.body);
+        return null;
+      }
+      final respData = json.decode(resp.body);
+      print(respData);
+      return respData['respuesta_obtenida'];
+
+
+      
+    } else {
+      final resp1 = await http.get(url);
+      if (resp1.statusCode == 200) {
+        final decodedData = jsonDecode(resp1.body);
+        final publicacion =
+            Resp.fromJsonList(decodedData['respuesta_obtenida']);
+        return publicacion.items[0].idPublication; 
+        // return drougs.items;
+      } else {
+        print('F');
+        return 'F';
+      }
+    }
   }
 }
