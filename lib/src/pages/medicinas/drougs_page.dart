@@ -23,7 +23,7 @@ class DrougsPage extends StatelessWidget {
           CircleButton(
             icon: MdiIcons.pill,
             iconsize: 30.0,
-            onPressed: () => print('Search'),
+            onPressed: () => print('Search'), colorBorde: null, colorIcon: null,
           ),
         ],
       ),

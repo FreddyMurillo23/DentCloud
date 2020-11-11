@@ -88,8 +88,8 @@ class _StartUpPageState extends State<StartUpPage> {
           colorIcon: Colors.blue[600],
           colorBorde: Colors.lightBlue[50],
           onPressed: () => 
-          Navigator.pushNamed(context, 'registerbusiness', arguments: userinfo)
-         // Navigator.pushNamed(context, 'messenger', arguments: userinfo),
+         // Navigator.pushNamed(context, 'registerbusiness', arguments: userinfo)
+          Navigator.pushNamed(context, 'messenger', arguments: userinfo),
         )
       ],
     ),

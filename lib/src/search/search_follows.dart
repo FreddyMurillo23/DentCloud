@@ -54,7 +54,7 @@ class FollowsSearch extends SearchDelegate<Publicacion>
         if(snapshot.hasData)
         {
           if(snapshot.data.length!=0)
-        {
+         {
            return ListView.builder(
           itemCount: snapshot.data[0].usuariosSeguidos.length,
           itemBuilder: (BuildContext context, int index)

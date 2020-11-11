@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/publications_model.dart';
-import 'package:muro_dentcloud/src/pages/profiles/current_user_profile.dart';
 import 'package:muro_dentcloud/src/providers/data_provider.dart';
 import 'package:muro_dentcloud/src/widgets/circle_button.dart';
 import 'package:muro_dentcloud/src/widgets/profile_avatar.dart';
@@ -132,7 +131,7 @@ class CardWidgetPublicaciones extends StatelessWidget {
               iconsize: 25,
               onPressed: () {
                 print('options');
-              }),
+              }, colorBorde: null, colorIcon: null,),
         ],
       ),
     );
