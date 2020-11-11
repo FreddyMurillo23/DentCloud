@@ -25,17 +25,12 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
     if (form.validate()) {
       form.save();
     }
-
+  
     DataProvider.registrar_negocio(email, business_ruc, business_name, business_phone, province, canton, business_location, pathfoto).then((value) {
      if(value){
        Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
      }
     });
-  
-  
-  
-   
-
   }
 
   // numero de Ruc
@@ -45,6 +40,11 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
     } else {
       return true;
     }
+  }
+
+  bool validate(String value)
+  {
+     return true;
   }
 
   // Nombre de la empresa
@@ -144,7 +144,7 @@ bool validateLocalizcion(String value){
               child: Center(
                 child: RaisedButton(
                   child: Text("Registrar"),
-                  onPressed: validarregistrar,
+                  onPressed:validarregistrar,
                   color: Colors.lightBlue,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(18),
@@ -236,7 +236,7 @@ bool validateLocalizcion(String value){
           ),
           validator: (value) => value.isEmpty
               ? 'Este campo no puede estar vacío'
-              : !validateName(value)
+              : !validate(value)
                   ? 'Ingrese un localizacion válido'
                   : null,
           onSaved: (value) => this.business_location = value,
@@ -269,7 +269,7 @@ bool validateLocalizcion(String value){
           ),
           validator: (value) => value.isEmpty
               ? 'Este campo no puede estar vacío'
-              : !validateName(value)
+              : !validate(value)
                   ? 'Ingrese un nombre válido'
                   : null,
           onSaved: (value) => this.business_name = value,

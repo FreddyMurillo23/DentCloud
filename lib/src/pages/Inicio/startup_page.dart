@@ -84,8 +84,8 @@ class _StartUpPageState extends State<StartUpPage> {
           icon: MdiIcons.chatOutline,
           iconsize: 30.0,
           onPressed: () => 
-          Navigator.pushNamed(context, 'registerbusiness', arguments: userinfo)
-         // Navigator.pushNamed(context, 'messenger', arguments: userinfo),
+         // Navigator.pushNamed(context, 'registerbusiness', arguments: userinfo)
+          Navigator.pushNamed(context, 'messenger', arguments: userinfo),
         )
       ],
     ),

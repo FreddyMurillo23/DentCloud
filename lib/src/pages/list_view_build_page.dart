@@ -5,6 +5,7 @@ import 'package:muro_dentcloud/src/providers/data_provider.dart';
 import 'package:muro_dentcloud/src/search/search_delegate.dart';
 import 'package:muro_dentcloud/src/search/search_follows.dart';
 import 'package:muro_dentcloud/src/search/search_follows_business.dart';
+import 'package:muro_dentcloud/src/search/search_user_business.dart';
 import 'package:muro_dentcloud/src/widgets/circle_button.dart';
 import 'package:muro_dentcloud/src/widgets/list_build_contact.dart';
 
@@ -121,7 +122,8 @@ Widget barraBusqueda(BuildContext context, CurrentUsuario userinfo) {
             enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.grey.shade100))),
        onTap: (){
-         showSearch(context: context, delegate: ChatSearch(userinfo.correo),);
+         //showSearch(context: context, delegate: ChatSearch(userinfo.correo),);
+         showSearch(context: context, delegate: UserBusinessSearch());
        },
        readOnly: true,
       ),
