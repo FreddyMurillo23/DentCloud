@@ -213,56 +213,8 @@ class DataProvider {
       var pic = await http.MultipartFile.fromPath("archivo", fotopath);
       request.files.add(pic);
     }
-
-
-
- Future <List<UserData>> userSearch(String query)
- async {
-   String url='http://54.197.83.249/PHP_REST_API/api/get/get_user_by_like.php?user_name=$query';
-   final resp = await http.get(url);
-   if(resp.statusCode==200)
-   {
-    final decodedData = json.decode(resp.body);
-    final data =  UserDatas.fromJsonList(decodedData['usuarios']);
-    // print(decodedData);
-    // print(decodedData['usuario']);
-    return data.items;
-   }
- }
  
- 
-  Future <List<Negocio>> businesSearch(String query)
- async {
-   String url='http://54.197.83.249/PHP_REST_API/api/get/get_business_by_like.php?name=$query';
-   final resp = await http.get(url);
-   if(resp.statusCode==200)
-   {
-    final decodedData = json.decode(resp.body);
-    final data =  BusinesData.fromJsonList(decodedData['negocios']);
-    // print(decodedData);
-    // print(decodedData['usuario']);
-    return data.items;
-   }
- }
-
-
-  Future<List<Siguiendo>> follow_search(String emailUser, String query) async {
-    String url =
-        'http://54.197.83.249/PHP_REST_API/api/get/get_followers_by_like.php?user_email=$emailUser&name=$query';
-    final resp = await http.get(url);
-
-    if (resp.statusCode == 200) {
-      final decodedData = jsonDecode(resp.body);
-      // print(decodedData['siguiendo']);
-      final follows = Follow.fromJsonList(decodedData['siguiendo']);
-      // print('here');
-      // print(follows.items.length);
-      return follows.items;
-    } else {
-      return new List();
-    }
   }
-
   Future<String> subirImagenPublicacion(File imagen, Publicacion pub) async {
     DateTime now = new DateTime.now();
     String time = now.toString();
@@ -285,11 +237,6 @@ class DataProvider {
             Resp.fromJsonList(respData['respuesta_obtenida']);
       return publicacion.items[0].idPublication; 
       }
-      
-     
-
-
-      
     } else {
       final resp1 = await http.get(url);
       if (resp1.statusCode == 200) {
@@ -305,4 +252,5 @@ class DataProvider {
     }
   }
   
+ 
 }

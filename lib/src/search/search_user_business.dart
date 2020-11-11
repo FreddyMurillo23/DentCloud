@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:muro_dentcloud/src/models/search_model/business_data_search.dart';
 import 'package:muro_dentcloud/src/models/search_model/user_data_search.dart';
-import 'package:muro_dentcloud/src/providers/data_provider.dart';
+import 'package:muro_dentcloud/src/providers/data_provide1.dart';
 //import 'package:muro_dentcloud/src/providers/data_provider.dart';
 
 class UserBusinessSearch extends SearchDelegate {
-  final businessProvider = new DataProvider();
+  final businessProvider = new DataProvider1();
   String seleccion = " ";
   bool activar = true;
+
+  
+
+
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
@@ -57,37 +61,43 @@ class UserBusinessSearch extends SearchDelegate {
               children: [
                Positioned(
                  top: 5,
-                 left: 15,
+                 left: 5,
                  child: ButtonTheme(
-                   minWidth: sizescreen.width * 0.4,
-                  child: RaisedButton(
-                   child: Text('Usuario'),
-                   onPressed: (){},
-                   shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18))
+                   minWidth: sizescreen.width * 0.48,
+                  child: Opacity(
+                    opacity: 0.8,
+                    child: RaisedButton(
+                     child: Text('Usuario'),
+                     onPressed: (){},
+                     shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10))
                  ),
+                  ),
                )),
                Positioned(
                  top: 5,
-                 right: 15,
-                 child: ButtonTheme(
-                   minWidth: sizescreen.width * 0.4,
-                  child: RaisedButton(
-                   child: Text('Negocio'),
-                   onPressed: (){
-                     activar=false;
-                   },
-                   shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18))
-                 ),
-               )),
+                 right: 2,
+                 child: Opacity(
+                   opacity: 0.8,
+                                    child: ButtonTheme(
+                     minWidth: sizescreen.width * 0.48,
+                    child: RaisedButton(
+                     child: Text('Negocio'),
+                     onPressed: (){
+                       activar=false;
+                     },
+                     shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10))
+                   ),
+               ),
+                 )),
                Positioned(
                  top: 70,
-                 left: 70,
+                 left: 5,
                  child: Container(
                    decoration: BoxDecoration(
                    ),
-                   width: sizescreen.width*0.72,
+                   width: sizescreen.width*0.9,
                    height: sizescreen.height*0.75,
                    child: ListView.builder(
                      itemCount: userData.length,
@@ -121,18 +131,65 @@ class UserBusinessSearch extends SearchDelegate {
               ],
             );
           }
-          return Center(
-            child: SizedBox(
-              height: 30,
-              width: 30,
-              child: CircularProgressIndicator(),
-            ),
-          );
+          else
+          {
+             return Stack(
+              children: [
+               Positioned(
+                 top: 5,
+                 left: 5,
+                 child: ButtonTheme(
+                   minWidth: sizescreen.width * 0.48,
+                  child: Opacity(
+                    opacity: 0.8,
+                    child: RaisedButton(
+                     child: Text('Usuario'),
+                     onPressed: (){},
+                     shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10))
+                 ),
+                  ),
+               )),
+               Positioned(
+                 top: 5,
+                 right: 2,
+                 child: Opacity(
+                   opacity: 0.8,
+                                    child: ButtonTheme(
+                     minWidth: sizescreen.width * 0.48,
+                    child: RaisedButton(
+                     child: Text('Negocio'),
+                     onPressed: (){
+                       activar=false;
+                     },
+                     shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10))
+                   ),
+               ),
+                 )),
+               Positioned(
+                 top: 70,
+                 left: 5,
+                 child: Container(
+                   decoration: BoxDecoration(
+                   ),
+                   width: sizescreen.width*0.9,
+                   height: sizescreen.height*0.75,
+                   child:Center(
+                     child: SizedBox(
+                        height: 30,
+                        width: 30,
+                        child: CircularProgressIndicator(),
+                     ),
+                   )
+                   //color: Colors.green,
+                   )),
+
+              ],
+            );
+          }
         },
       );
-      /* return FutureBuilder(
-       builder: null
-       );*/
     } else {
       return FutureBuilder (
         future: businessProvider.businesSearch(query),
@@ -144,40 +201,45 @@ class UserBusinessSearch extends SearchDelegate {
               children: [
                Positioned(
                  top: 5,
-                 left: 15,
+                 left: 5,
                  child: ButtonTheme(
-                   minWidth: sizescreen.width * 0.4,
-                  child: RaisedButton(
-                   child: Text('Usuario'),
-                   onPressed: (){
-                     activar=true;
-                   },
-                   shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18))
+                   minWidth: sizescreen.width * 0.48,
+                  child: Opacity(
+                     opacity: 0.8,
+                     child: RaisedButton(
+                     child: Text('Usuario'),
+                     onPressed: (){
+                       activar=true;
+                     },
+                     shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10))
                  ),
+                  ),
                )),
                Positioned(
                  top: 5,
-                 right: 15,
+                 right: 2,
                  child: ButtonTheme(
-                   minWidth: sizescreen.width * 0.4,
-                  child: RaisedButton(
-                   child: Text('Negocio'),
-                   onPressed: (){
-                  
-                     activar=false;
-                   },
-                   shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18))
+                   minWidth: sizescreen.width * 0.48,
+                  child: Opacity(
+                    opacity: 0.8,
+                      child: RaisedButton(
+                     child: Text('Negocio'),
+                     onPressed: (){
+                       activar=false;
+                     },
+                     shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10))
                  ),
+                  ),
                )),
                Positioned(
                  top: 70,
-                 left: 70,
+                 left: 5,
                  child: Container(
                    decoration: BoxDecoration(
                    ),
-                   width: sizescreen.width*0.72,
+                   width: sizescreen.width*0.9,
                    height: sizescreen.height*0.75,
                    child: ListView.builder(
                      itemCount: businesData.length,
@@ -211,40 +273,65 @@ class UserBusinessSearch extends SearchDelegate {
               ],
             );
           }
-          return Center(
-            child: SizedBox(
-              height: 30,
-              width: 30,
-              child: CircularProgressIndicator(),
-            ),
-          );
+          else
+          {
+             return Stack(
+              children: [
+               Positioned(
+                 top: 5,
+                 left: 5,
+                 child: ButtonTheme(
+                   minWidth: sizescreen.width * 0.48,
+                  child: Opacity(
+                    opacity: 0.8,
+                    child: RaisedButton(
+                     child: Text('Usuario'),
+                     onPressed: (){},
+                     shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10))
+                 ),
+                  ),
+               )),
+               Positioned(
+                 top: 5,
+                 right: 2,
+                 child: Opacity(
+                   opacity: 0.8,
+                                    child: ButtonTheme(
+                     minWidth: sizescreen.width * 0.48,
+                    child: RaisedButton(
+                     child: Text('Negocio'),
+                     onPressed: (){
+                       activar=false;
+                     },
+                     shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10))
+                   ),
+               ),
+                 )),
+               Positioned(
+                 top: 70,
+                 left: 5,
+                 child: Container(
+                   decoration: BoxDecoration(
+                   ),
+                   width: sizescreen.width*0.9,
+                   height: sizescreen.height*0.75,
+                   child:Center(
+                     child: SizedBox(
+                        height: 30,
+                        width: 30,
+                        child: CircularProgressIndicator(),
+                     ),
+                   )
+                   //color: Colors.green,
+                   )),
+
+              ],
+            );
+          }
         },
       );
     }
-  }
-
-  Widget negocio(Size sizescreen) {
-    return Container(
-      width: sizescreen.width * 0.48,
-      child: Column(
-        children: [
-          Container(
-            width: sizescreen.width * 0.3,
-            child: ButtonTheme(
-              minWidth: sizescreen.width * 0.35,
-              child: Center(
-                child: RaisedButton(
-                  child: Text('Negocio'),
-                  onPressed: () {},
-                  color: Colors.lightBlue,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18)),
-                ),
-              ),
-            ),
-          )
-        ],
-      ),
-    );
   }
 }
