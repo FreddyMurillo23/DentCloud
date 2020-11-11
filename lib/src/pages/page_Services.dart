@@ -26,12 +26,12 @@ class BusinessServicePage extends StatelessWidget {
           CircleButton(
             icon: Icons.search,
             iconsize: 30.0,
-            onPressed: () => print('Search'),
+            onPressed: () => print('Search'), colorBorde: null, colorIcon: null,
           ),
           CircleButton(
             icon: MdiIcons.facebookMessenger,
             iconsize: 30.0,
-            onPressed: () => print('Messenger'),
+            onPressed: () => print('Messenger'), colorBorde: null, colorIcon: null,
           )
         ],
       ),

@@ -1,11 +1,10 @@
-
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' show Align, Alignment, AppBar, AssetImage, Axis, BorderRadius, BorderSide, BoxDecoration, BoxFit, BoxShape, Brightness, BuildContext, ButtonTheme, Center, ClipRRect, Color, Colors, Column, Container, DecorationImage, EdgeInsets, FadeInImage, FileImage, FontWeight, Form, FormState, GlobalKey, Icon, IconButton, Icons, Image, InputDecoration, Key, LinearGradient, Material, MediaQuery, ModalRoute, Navigator, Offset, OutlineInputBorder, Padding, Positioned, Radius, RaisedButton, RoundedRectangleBorder, Route, Row, Scaffold, SingleChildScrollView, Size, SizedBox, SlideTransition, Stack, State, StatefulWidget, Text, TextCapitalization, TextFormField, TextInputType, TextStyle, Tween, Widget, showGeneralDialog;
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:gradient_text/gradient_text.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/providers/data_provider.dart';
+
 
 class RegisterBusiness extends StatefulWidget {
   RegisterBusiness({Key key}) : super(key: key);
@@ -26,7 +25,7 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
       form.save();
     }
   
-    DataProvider.registrar_negocio(email, business_ruc, business_name, business_phone, province, canton, business_location, pathfoto).then((value) {
+    DataProvider.registrar_negocio(email, businessRuc, businessName, businessPhone, province, canton, businessLocation, pathfoto).then((value) {
      if(value){
        Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
      }
@@ -42,8 +41,7 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
     }
   }
 
-  bool validate(String value)
-  {
+  bool validate(String value){
      return true;
   }
 
@@ -71,8 +69,8 @@ bool validateLocalizcion(String value){
   }
 
 
-  String business_ruc, business_name, business_phone, province, canton;
-  String business_location,email;
+  String businessRuc, businessName, businessPhone, province, canton;
+  String businessLocation,email;
   @override
   Widget build(BuildContext context) {
     CurrentUsuario userinfo = ModalRoute.of(context).settings.arguments;
@@ -206,7 +204,7 @@ bool validateLocalizcion(String value){
               : !validateNumber(value)
                   ? 'Ingrese un Ruc correcto'
                   : null,
-          onSaved: (value) => this.business_ruc = value,
+          onSaved: (value) => this.businessRuc = value,
         ),
       ),
     );
@@ -239,7 +237,7 @@ bool validateLocalizcion(String value){
               : !validate(value)
                   ? 'Ingrese un localizacion válido'
                   : null,
-          onSaved: (value) => this.business_location = value,
+          onSaved: (value) => this.businessLocation = value,
         ),
       ),
     );
@@ -272,7 +270,7 @@ bool validateLocalizcion(String value){
               : !validate(value)
                   ? 'Ingrese un nombre válido'
                   : null,
-          onSaved: (value) => this.business_name = value,
+          onSaved: (value) => this.businessName = value,
         ),
       ),
     );
@@ -371,7 +369,7 @@ bool validateLocalizcion(String value){
               : !validatePhone(value)
                   ? 'Ingrese un telefono válido'
                   : null,
-          onSaved: (value) => this.business_phone = value,
+          onSaved: (value) => this.businessPhone = value,
         ),
       ),
     );

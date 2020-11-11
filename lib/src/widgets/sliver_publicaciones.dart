@@ -10,7 +10,8 @@ class SliverPublicaciones extends StatefulWidget {
 class _SliverPublicacionesState extends State<SliverPublicaciones> {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
+    // ignore: missing_return
+    return FutureBuilder(builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {  },
       // builder: ,
       // child: SliverList(
       //   delegate: SliverChildBuilderDelegate(

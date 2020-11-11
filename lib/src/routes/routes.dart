@@ -5,7 +5,7 @@ import 'package:muro_dentcloud/src/pages/agenda/agendaUser.dart';
 import 'package:muro_dentcloud/src/pages/agenda/doctor_pendients.dart';
 import 'package:muro_dentcloud/src/pages/agenda/receta_medica.dart';
 import 'package:muro_dentcloud/src/pages/agenda/view_eventDoctor.dart';
-import 'package:muro_dentcloud/src/pages/business/register_business.dart';
+import 'package:muro_dentcloud/src/pages/business/register_business1.dart';
 // import 'package:muro_dentcloud/src/pages/agenda/pruebaScaffol.dart';
 //import 'package:muro_dentcloud/src/pages/business_Services.dart';
 import 'package:muro_dentcloud/src/pages/details_Patients.dart';
@@ -35,7 +35,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'signup': (BuildContext context) => Signup(),
     'startuppage': (BuildContext context) => StartUpPage(),
     'gps': (BuildContext context) => ListaPage(),
-    'home': (BuildContext context) => HomePage(),
+    'home': (BuildContext context) => HomePage(currentuser: null,),
     'agenda': (BuildContext context) => AddEvent(),
     'currentPerfil': (BuildContext context) => CurrentUserProfile(),
     'currentBusiness': (BuildContext context) => CurrentBusinessProfile(),
