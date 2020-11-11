@@ -214,8 +214,8 @@ class DataProvider {
     }
 
 
- // ignore: missing_return
- Future <List<UserData>> userSearch(String query)
+
+ Future<List<UserData>>buscarUsuario(String query)
  async {
    String url='http://54.197.83.249/PHP_REST_API/api/get/get_user_by_like.php?user_name=$query';
    final resp = await http.get(url);
@@ -228,8 +228,9 @@ class DataProvider {
     return data.items;
    }
  }
-  // ignore: missing_return
-  Future <List<Negocio>> businesSearch(String query)
+
+ 
+  Future <List<Negocio>>businesSearch(String query)
  async {
    String url='http://54.197.83.249/PHP_REST_API/api/get/get_business_by_like.php?name=$query';
    final resp = await http.get(url);
