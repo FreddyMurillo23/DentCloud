@@ -215,7 +215,7 @@ class DataProvider {
     }
 
 
- // ignore: missing_return
+
  Future <List<UserData>> userSearch(String query)
  async {
    String url='http://54.197.83.249/PHP_REST_API/api/get/get_user_by_like.php?user_name=$query';
@@ -229,7 +229,8 @@ class DataProvider {
     return data.items;
    }
  }
-  // ignore: missing_return
+ 
+ 
   Future <List<Negocio>> businesSearch(String query)
  async {
    String url='http://54.197.83.249/PHP_REST_API/api/get/get_business_by_like.php?name=$query';
@@ -243,14 +244,6 @@ class DataProvider {
     return data.items;
    }
  }
-
-    var response = await request.send();
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      return false;
-    }
-  }
 
 
   Future<List<Siguiendo>> follow_search(String emailUser, String query) async {

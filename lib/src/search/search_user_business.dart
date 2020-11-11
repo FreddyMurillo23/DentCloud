@@ -1,11 +1,8 @@
-/*import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:muro_dentcloud/src/models/current_user_model.dart';
->>>>>>> parent of 22ffcbb... update
 import 'package:muro_dentcloud/src/models/search_model/business_data_search.dart';
 import 'package:muro_dentcloud/src/models/search_model/user_data_search.dart';
 import 'package:muro_dentcloud/src/providers/data_provider.dart';
+//import 'package:muro_dentcloud/src/providers/data_provider.dart';
 
 class UserBusinessSearch extends SearchDelegate {
   final businessProvider = new DataProvider();
@@ -13,7 +10,6 @@ class UserBusinessSearch extends SearchDelegate {
   bool activar = true;
   @override
   List<Widget> buildActions(BuildContext context) {
-    // TODO: implement buildActions
     return [
       IconButton(
           icon: Icon(Icons.clear),
@@ -138,7 +134,7 @@ class UserBusinessSearch extends SearchDelegate {
        builder: null
        );*/
     } else {
-      return FutureBuilder(
+      return FutureBuilder (
         future: businessProvider.businesSearch(query),
         builder:
             (BuildContext context, AsyncSnapshot<List<Negocio>> snapshot) {
@@ -251,4 +247,4 @@ class UserBusinessSearch extends SearchDelegate {
       ),
     );
   }
-}*/
+}
