@@ -284,6 +284,6 @@ class RespuestaObtenida {
 
   RespuestaObtenida.fromJsonMap(Map<String, dynamic> json){
     message = json['message'];
-    idPublication = json['id_publicacion'];
+    idPublication = json['id_publication'];
   }
 }

@@ -159,7 +159,6 @@ class DataProvider {
     return listachat.items;
   }
 
-  
   Future<List<BusquedaNombre>> buscar_chat(emailuser, String query) async {
     String url =
         'http://54.197.83.249/PHP_REST_API/api/get/get_contact_by_name.php?user_email=$emailuser&busqueda=$query';
@@ -214,35 +213,33 @@ class DataProvider {
       request.files.add(pic);
     }
 
+    // ignore: missing_return
+    Future<List<UserData>> userSearch(String query) async {
+      String url =
+          'http://54.197.83.249/PHP_REST_API/api/get/get_user_by_like.php?user_name=$query';
+      final resp = await http.get(url);
+      if (resp.statusCode == 200) {
+        final decodedData = json.decode(resp.body);
+        final data = UserDatas.fromJsonList(decodedData['usuarios']);
+        // print(decodedData);
+        // print(decodedData['usuario']);
+        return data.items;
+      }
+    }
 
- // ignore: missing_return
- Future <List<UserData>> userSearch(String query)
- async {
-   String url='http://54.197.83.249/PHP_REST_API/api/get/get_user_by_like.php?user_name=$query';
-   final resp = await http.get(url);
-   if(resp.statusCode==200)
-   {
-    final decodedData = json.decode(resp.body);
-    final data =  UserDatas.fromJsonList(decodedData['usuarios']);
-    // print(decodedData);
-    // print(decodedData['usuario']);
-    return data.items;
-   }
- }
-  // ignore: missing_return
-  Future <List<Negocio>> businesSearch(String query)
- async {
-   String url='http://54.197.83.249/PHP_REST_API/api/get/get_business_by_like.php?name=$query';
-   final resp = await http.get(url);
-   if(resp.statusCode==200)
-   {
-    final decodedData = json.decode(resp.body);
-    final data =  BusinesData.fromJsonList(decodedData['negocios']);
-    // print(decodedData);
-    // print(decodedData['usuario']);
-    return data.items;
-   }
- }
+    // ignore: missing_return
+    Future<List<Negocio>> businesSearch(String query) async {
+      String url =
+          'http://54.197.83.249/PHP_REST_API/api/get/get_business_by_like.php?name=$query';
+      final resp = await http.get(url);
+      if (resp.statusCode == 200) {
+        final decodedData = json.decode(resp.body);
+        final data = BusinesData.fromJsonList(decodedData['negocios']);
+        // print(decodedData);
+        // print(decodedData['usuario']);
+        return data.items;
+      }
+    }
 
     var response = await request.send();
     if (response.statusCode == 200) {
@@ -251,7 +248,6 @@ class DataProvider {
       return false;
     }
   }
-
 
   Future<List<Siguiendo>> follow_search(String emailUser, String query) async {
     String url =
@@ -278,7 +274,10 @@ class DataProvider {
 
     if (imagen != null) {
       final imageUploadRequest = http.MultipartRequest('POST', url);
-      final file = await http.MultipartFile.fromPath('archivo', imagen.path,);
+      final file = await http.MultipartFile.fromPath(
+        'archivo',
+        imagen.path,
+      );
       imageUploadRequest.files.add(file);
       final streamResponse = await imageUploadRequest.send();
       final resp = await http.Response.fromStream(streamResponse);
@@ -286,24 +285,19 @@ class DataProvider {
         print('ya valio barriga');
         print(resp.body);
         return null;
-      }else{
+      } else {
         final respData = json.decode(resp.body);
-      final publicacion =
-            Resp.fromJsonList(respData['respuesta_obtenida']);
-      return publicacion.items[0].idPublication; 
+        final publicacion = Resp.fromJsonList(respData['respuesta_obtenida']);
+        return publicacion.items[0].idPublication;
       }
-      
-     
-
-
-      
     } else {
       final resp1 = await http.get(url);
       if (resp1.statusCode == 200) {
         final decodedData = jsonDecode(resp1.body);
         final publicacion =
             Resp.fromJsonList(decodedData['respuesta_obtenida']);
-        return publicacion.items[0].idPublication; 
+        print(publicacion.items[0].idPublication);
+        return publicacion.items[0].idPublication;
         // return drougs.items;
       } else {
         print('F');
@@ -311,5 +305,21 @@ class DataProvider {
       }
     }
   }
-  
+
+  Future<bool> insertarEtiquetas(List<Etiquetas> etiq) async {
+    for (var item in etiq) {
+      print(item.correoEtiquetado);
+      String url2 =
+          'http://54.197.83.249/PHP_REST_API/api/post/post_tags.php?publication_id=${item.publicacionId}&user_email=${item.correoEtiquetado}';
+      final resp = await http.get(url2);
+      if (resp.statusCode != 200) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  Future<bool> getLikeStatus (String correo , String id) async {
+    
+  }
 }

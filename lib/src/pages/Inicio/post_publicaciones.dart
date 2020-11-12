@@ -176,6 +176,15 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
         String id = await publicacionesProvider.subirImagenPublicacion(
             foto, publicacion);
         print(id);
+        if (etiquetas.length > 0) {
+          for (var i = 0; i < etiquetas.length; i++) {
+            etiquetas[i].publicacionId = id;
+            print(etiquetas[i].correoEtiquetado);
+            print(etiquetas[i].publicacionId);
+            print(etiquetas[i].nombreUsuarioEtiquetado);
+          }
+          await publicacionesProvider.insertarEtiquetas(etiquetas);
+        }
         // Navigator.pushNamed(context, 'prueba');
       },
     );
