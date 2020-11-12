@@ -3,6 +3,9 @@ import 'package:flutter_full_pdf_viewer/flutter_full_pdf_viewer.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/event_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+import 'dart:io';
 
 class PdfPreviewScreen extends StatefulWidget {
   final String path;
@@ -19,6 +22,8 @@ class _PdfPreviewScreenState extends State<PdfPreviewScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    print(widget.path);
     
     Future uploadFile(CurrentUsuario currentUsuario, EventosModelo eventosModeloGlobal) async {
       String idcita = eventosModeloGlobal.idcita;
@@ -41,22 +46,38 @@ class _PdfPreviewScreenState extends State<PdfPreviewScreen> {
         print('ARCHIVO NO SUBIDA');
       }
   }
-
+  
     return PDFViewerScaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          tooltip: "Regresa a la descripción de la Cita",
+          onPressed: ()async{
+            
+            Directory documentDirectory = await getApplicationDocumentsDirectory();
+            String documentPath = documentDirectory.path;
+            File file = File(documentPath);
+            //file.delete(recursive: true);
+            bool prueba = await file.exists();
+            print(prueba);
+            print(documentPath);
+            Navigator.of(context).pop();
+            // Navigator.of(context).pop();
+          }, 
+          color: Colors.white,
+          ),
         actions: [
-          FloatingActionButton(
+          IconButton(
             onPressed: (){
-              print(widget.path);
-              print(widget.currentUsuario.correo);
-              print(widget.eventosModeloGlobal.idcita);
               uploadFile(widget.currentUsuario, widget.eventosModeloGlobal);
             },
-            child: Icon(Icons.upload_file),
+            icon: Icon(Icons.upload_file),
+            color: Colors.white,
           )
         ],
       ),
       path:widget.path,
+      
     );
   }
 }

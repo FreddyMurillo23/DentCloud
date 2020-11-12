@@ -21,6 +21,8 @@ class RecipeTest extends StatefulWidget {
   _RecipeTestState createState() => _RecipeTestState();
 }
 
+String ruta = '';
+
 String genero(CurrentUsuario userinfo){
   if(userinfo.sexo == 'M') {
     return 'Dr. ';
