@@ -6,7 +6,6 @@ import 'package:muro_dentcloud/src/controllers/apointment_ctrl.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/doctors_model.dart';
 import 'package:muro_dentcloud/src/models/event_model.dart';
-import 'package:muro_dentcloud/src/pages/agenda/agendaUser.dart';
 
 
 class ViewEventUser extends StatefulWidget {

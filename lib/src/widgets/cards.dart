@@ -127,11 +127,14 @@ class CardWidgetPublicaciones extends StatelessWidget {
             ),
           ),
           CircleButton(
-              icon: Icons.more_horiz,
-              iconsize: 25,
-              onPressed: () {
-                print('options');
-              }, colorBorde: null, colorIcon: null,),
+            icon: Icons.more_horiz,
+            iconsize: 25,
+            onPressed: () {
+              print('options');
+            },
+            colorBorde: null,
+            colorIcon: null,
+          ),
         ],
       ),
     );
@@ -193,21 +196,9 @@ class CardWidgetPublicaciones extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          FlatButton(
-            child: Row(
-              children: [
-                Icon(
-                  MdiIcons.thumbUpOutline,
-                  color: Colors.blue[400],
-                  size: screenSize.width * 0.05,
-                ),
-                Text(
-                  ' Me Gusta',
-                  style: TextStyle(fontSize: screenSize.width * 0.038),
-                ),
-              ],
-            ),
-            onPressed: () {},
+          meGustaButton(screenSize),
+          SizedBox(
+            width: screenSize.width * 0.15,
           ),
           FlatButton(
             child: Row(
@@ -225,22 +216,6 @@ class CardWidgetPublicaciones extends StatelessWidget {
             ),
             onPressed: () {},
           ),
-          FlatButton(
-            child: Row(
-              children: [
-                Icon(
-                  MdiIcons.shareOutline,
-                  color: Colors.blue[300],
-                  size: screenSize.width * 0.08,
-                ),
-                Text(
-                  'Compartir',
-                  style: TextStyle(fontSize: screenSize.width * 0.038),
-                ),
-              ],
-            ),
-            onPressed: () {},
-          )
         ],
       ),
     );
@@ -343,6 +318,30 @@ class CardWidgetPublicaciones extends StatelessWidget {
           }
         },
       ),
+    );
+  }
+
+  meGustaButton(Size screenSize) {
+    return FutureBuilder(
+      future: null,
+      builder: (context, snapshot) {
+        return FlatButton(
+          child: Row(
+            children: [
+              Icon(
+                MdiIcons.thumbUpOutline,
+                color: Colors.blue[400],
+                size: screenSize.width * 0.05,
+              ),
+              Text(
+                ' Me Gusta',
+                style: TextStyle(fontSize: screenSize.width * 0.038),
+              ),
+            ],
+          ),
+          onPressed: () {},
+        );
+      }
     );
   }
 }

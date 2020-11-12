@@ -1,4 +1,3 @@
-import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
 
 class PublicacionesByUser {
   List<Publicacion> items = new List();
@@ -285,6 +284,6 @@ class RespuestaObtenida {
 
   RespuestaObtenida.fromJsonMap(Map<String, dynamic> json){
     message = json['message'];
-    idPublication = json['id_publicacion'];
+    idPublication = json['id_publication'];
   }
 }
