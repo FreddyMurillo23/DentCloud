@@ -212,60 +212,8 @@ class DataProvider {
       var pic = await http.MultipartFile.fromPath("archivo", fotopath);
       request.files.add(pic);
     }
-
-    // ignore: missing_return
-    Future<List<UserData>> userSearch(String query) async {
-      String url =
-          'http://54.197.83.249/PHP_REST_API/api/get/get_user_by_like.php?user_name=$query';
-      final resp = await http.get(url);
-      if (resp.statusCode == 200) {
-        final decodedData = json.decode(resp.body);
-        final data = UserDatas.fromJsonList(decodedData['usuarios']);
-        // print(decodedData);
-        // print(decodedData['usuario']);
-        return data.items;
-      }
-    }
-
-    // ignore: missing_return
-    Future<List<Negocio>> businesSearch(String query) async {
-      String url =
-          'http://54.197.83.249/PHP_REST_API/api/get/get_business_by_like.php?name=$query';
-      final resp = await http.get(url);
-      if (resp.statusCode == 200) {
-        final decodedData = json.decode(resp.body);
-        final data = BusinesData.fromJsonList(decodedData['negocios']);
-        // print(decodedData);
-        // print(decodedData['usuario']);
-        return data.items;
-      }
-    }
-
-    var response = await request.send();
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      return false;
-    }
+ 
   }
-
-  Future<List<Siguiendo>> follow_search(String emailUser, String query) async {
-    String url =
-        'http://54.197.83.249/PHP_REST_API/api/get/get_followers_by_like.php?user_email=$emailUser&name=$query';
-    final resp = await http.get(url);
-
-    if (resp.statusCode == 200) {
-      final decodedData = jsonDecode(resp.body);
-      // print(decodedData['siguiendo']);
-      final follows = Follow.fromJsonList(decodedData['siguiendo']);
-      // print('here');
-      // print(follows.items.length);
-      return follows.items;
-    } else {
-      return new List();
-    }
-  }
-
   Future<String> subirImagenPublicacion(File imagen, Publicacion pub) async {
     DateTime now = new DateTime.now();
     String time = now.toString();

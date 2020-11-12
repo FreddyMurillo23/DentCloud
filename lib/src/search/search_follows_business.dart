@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:muro_dentcloud/src/models/publications_model.dart';
+import 'package:muro_dentcloud/src/providers/data_provide1.dart';
 import 'package:muro_dentcloud/src/providers/data_provider.dart';
 import 'package:muro_dentcloud/src/models/follows_model.dart';
 class FollowsBusinessSearch extends SearchDelegate<Publicacion>
@@ -10,7 +11,7 @@ class FollowsBusinessSearch extends SearchDelegate<Publicacion>
 
   FollowsBusinessSearch(this.useremail, this.negocio);
  
-  final followProvider = new DataProvider();
+  final followProvider = new DataProvider1();
     String seleccion=" ";
     
   @override
@@ -50,7 +51,7 @@ class FollowsBusinessSearch extends SearchDelegate<Publicacion>
     @override
     Widget buildSuggestions(BuildContext context) {
     return FutureBuilder(
-      future: followProvider.follow_search(useremail, query),
+      future: followProvider.followsearch(useremail, query),
       builder: (BuildContext context, AsyncSnapshot<List<Siguiendo>> snapshot) {
         if(snapshot.hasData)
         {
