@@ -228,20 +228,16 @@ class _ViewEventState extends State<ViewEvent> {
                             ),
                           ),
                           SizedBox(width: 5,),
-                          Container(                                    
-                            height: 60,
-                            width: 60,
-                            child: GestureDetector(
-                              child: Icon(Icons.receipt),
-                              onTap: () {
-                                Navigator.push(
+                          IconButton(
+                            icon: Icon(Icons.receipt),
+                            onPressed: (){
+                              Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (_) => RecetaMedica(
                                   eventosModeloGlobal: widget.eventosModeloGlobal, currentuser: widget.currentuser,)));
-                              },
-                            ),
-                          )
+                            }
+                          ),
                         ],
                       ),
                       SizedBox(height: 15,),
@@ -312,34 +308,6 @@ class _ViewEventState extends State<ViewEvent> {
                         ],
                       ),
                       SizedBox(height: 15,),        
-                      //Botones
-                      // Center(
-                      //   child: Row(
-                      //     mainAxisSize: MainAxisSize.max,
-                      //     mainAxisAlignment: MainAxisAlignment.start,
-                      //     crossAxisAlignment: CrossAxisAlignment.center,
-                      //     children: [
-                      //       Expanded(
-                      //         child: RaisedButton(
-                      //           onPressed: (){
-                      //             cupertinoDialog(widget.eventosModeloGlobal, context);
-                      //           },
-                      //           child: Text("Cancelar Cita"),
-                      //         ),
-                      //       ),
-                      //       SizedBox(width: 10,),
-                      //       Expanded(
-                      //         child: RaisedButton(
-                      //           onPressed: (){
-                                  
-                      //           },
-                      //           child: Text("Editar Cita"),
-                      //         ),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
-
                     ],
                   ),
                 ),
