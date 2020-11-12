@@ -53,16 +53,9 @@ class _PdfPreviewScreenState extends State<PdfPreviewScreen> {
           icon: Icon(Icons.arrow_back),
           tooltip: "Regresa a la descripción de la Cita",
           onPressed: ()async{
-            
-            Directory documentDirectory = await getApplicationDocumentsDirectory();
-            String documentPath = documentDirectory.path;
-            File file = File(documentPath);
-            //file.delete(recursive: true);
-            bool prueba = await file.exists();
-            print(prueba);
-            print(documentPath);
+          
             Navigator.of(context).pop();
-            // Navigator.of(context).pop();
+            Navigator.of(context).pop();
           }, 
           color: Colors.white,
           ),
