@@ -75,13 +75,7 @@ class _StartUpPageState extends State<StartUpPage> {
       centerTitle: false,
       // floa ting: true,
       actions: [
-        CircleButton(
-          icon: MdiIcons.accountSearchOutline,
-          iconsize: 30.0,
-          onPressed: () => print('Search'),
-          colorIcon: Colors.blue[600],
-          colorBorde: Colors.lightBlue[50],
-        ),
+
         CircleButton(
           icon: MdiIcons.chatOutline,
           iconsize: 30.0,
@@ -112,8 +106,8 @@ class _StartUpPageState extends State<StartUpPage> {
               title: Text('Inicio'),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.location_on),
-              title: Text('GPS'),
+              icon: Icon(Icons.search),
+              title: Text('Buscar'),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.location_on ,color: Colors.transparent,),

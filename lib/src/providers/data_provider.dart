@@ -11,6 +11,7 @@ import 'package:muro_dentcloud/src/models/publications_model.dart';
 import 'package:muro_dentcloud/src/models/search_contact_model.dart';
 import 'package:muro_dentcloud/src/models/search_model/business_data_search.dart';
 import 'package:muro_dentcloud/src/models/search_model/user_data_search.dart';
+import 'package:muro_dentcloud/src/models/statuslike.dart';
 import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
 import 'package:mime_type/mime_type.dart';
 import 'package:http_parser/http_parser.dart';
@@ -212,8 +213,8 @@ class DataProvider {
       var pic = await http.MultipartFile.fromPath("archivo", fotopath);
       request.files.add(pic);
     }
- 
   }
+
   Future<String> subirImagenPublicacion(File imagen, Publicacion pub) async {
     DateTime now = new DateTime.now();
     String time = now.toString();
@@ -267,7 +268,32 @@ class DataProvider {
     return true;
   }
 
-  Future<bool> getLikeStatus (String correo , String id) async {
-    
+  Future<bool> getLikeStatus(String correo, String id) async {
+    String url =
+        'http://54.197.83.249/PHP_REST_API/api/get/get_reactions_by_user.php?publication_id=$id&user_email=$correo';
+    final resp = await http.get(url);
+    if (resp.statusCode == 200) {
+      final decodedData = jsonDecode(resp.body);
+      final estado = LikeState.fromJsonList(decodedData['estado_reaccion']);
+      print(estado.items[0].estado);
+      if (estado.items[0].estado == 'A') {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  Future<bool> setLikeStatus(String correo, String id) async {
+    String url =
+        'http://54.197.83.249/PHP_REST_API/api/post/post_insert_reactions.php?publicacion_id=$id&user_email=$correo';
+    final resp = await http.get(url);
+    if (resp.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
