@@ -324,6 +324,7 @@ class _RecipeTestState extends State<RecipeTest> {
                     TextFormField(
                       controller: controladorRuta,
                       decoration: InputDecoration(
+                        enabled: false,
                         filled: true,
                         // fillColor: Colors.blueGrey[600],
                         labelText: "Nombre del Archivo",
