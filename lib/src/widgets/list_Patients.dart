@@ -18,7 +18,7 @@ class ListaPacientes extends StatelessWidget {
               radius: 30.0,
             ),*/
             title: Text(this.usuariosPacientes[index].paciente),
-            subtitle: Text(this.usuariosPacientes[index].correo),
+            subtitle: Text('${this.usuariosPacientes[index].correo}\n 19'),
             trailing: FlatButton(
               onPressed: () {
                 

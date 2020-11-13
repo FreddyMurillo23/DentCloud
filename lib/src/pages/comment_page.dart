@@ -25,7 +25,7 @@ class _CommentPageState extends State<CommentPage> {
         centerTitle: false,
 
       ),
-      body: ,
+      //body: ,
     );
   }
 }

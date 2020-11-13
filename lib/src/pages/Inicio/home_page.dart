@@ -4,6 +4,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:muro_dentcloud/palette.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
+import 'package:muro_dentcloud/src/search/search_user_business.dart';
 import 'package:muro_dentcloud/src/widgets/card_expansion_list.dart';
 import 'package:muro_dentcloud/src/widgets/circle_button.dart';
 import 'package:muro_dentcloud/src/widgets/create_post_container.dart';
@@ -22,8 +23,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final prefs = new PreferenciasUsuario();
-
     return Scaffold(
+
       body: Center(child: Image(image: AssetImage('assets/Monito_cool.gif'),)),
     );
   }
