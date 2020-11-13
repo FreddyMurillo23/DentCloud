@@ -214,22 +214,7 @@ class _CardWidgetPublicacionesState extends State<CardWidgetPublicaciones> {
           SizedBox(
             width: screenSize.width * 0.15,
           ),
-          FlatButton(
-            child: Row(
-              children: [
-                Icon(
-                  MdiIcons.commentOutline,
-                  color: Colors.blue[500],
-                  size: screenSize.width * 0.05,
-                ),
-                Text(
-                  ' Comentar',
-                  style: TextStyle(fontSize: screenSize.width * 0.038),
-                ),
-              ],
-            ),
-            onPressed: () {},
-          ),
+          comentButton(screenSize),
         ],
       ),
     );
@@ -367,10 +352,9 @@ class _CardWidgetPublicacionesState extends State<CardWidgetPublicaciones> {
                   ),
                 ],
               ),
-              onPressed: () async{
+              onPressed: () async {
                 await dataprovider.setLikeStatus(correo, id.idPublicacion);
-                setState((){
-                  
+                setState(() {
                   // statuslike = !statuslike;
                 });
               },
@@ -390,15 +374,35 @@ class _CardWidgetPublicacionesState extends State<CardWidgetPublicaciones> {
                   ),
                 ],
               ),
-              onPressed: () async{
+              onPressed: () async {
                 await dataprovider.setLikeStatus(correo, id.idPublicacion);
-                setState((){
-                  
+                setState(() {
                   // statuslike = !statuslike;
                 });
               },
             );
           }
         });
+  }
+
+  Widget comentButton(Size screenSize) {
+    return FlatButton(
+      child: Row(
+        children: [
+          Icon(
+            MdiIcons.commentOutline,
+            color: Colors.blue[500],
+            size: screenSize.width * 0.05,
+          ),
+          Text(
+            ' Comentar',
+            style: TextStyle(fontSize: screenSize.width * 0.038),
+          ),
+        ],
+      ),
+      onPressed: () {
+        Navigator.pushNamed(context, 'comentario', arguments: widget.publicaciones[widget.id]);
+      },
+    );
   }
 }
