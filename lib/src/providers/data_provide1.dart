@@ -65,11 +65,11 @@ class DataProvider1{
     }
   }
   Future <bool> ingresarMensajes(
-    String emisor,String receptor,String sala,String mensaje, String fotopath, String tipo)async
+    String emisor,String receptor,String mensaje, String fotopath)async
   {
      DateTime now = new DateTime.now();
     var url2 = Uri.parse(
-        "http://54.197.83.249/PHP_REST_API/api/post/post_insert_message.php?user_email=$emisor&user_email_emi=$receptor&message_content=$mensaje&message_date=$now&message_type=$tipo&message_url_content");
+        "http://54.197.83.249/PHP_REST_API/api/post/post_insert_message.php?user_email=$emisor&user_email_recep=$receptor&message_content=$mensaje&message_date=$now");
     var request = http.MultipartRequest('POST', url2);
     if (fotopath != null) {
       var pic = await http.MultipartFile.fromPath("archivo", fotopath);

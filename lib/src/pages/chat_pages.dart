@@ -35,7 +35,7 @@ class _ChatPageState extends State<ChatPage> {
       if(fotopath!=null)
       {
         
-        if(datos.ingresarMensajes(widget.loguiado,widget.correotro,widget.sala, mensaje, fotopath,'I') != true)
+        if(datos.ingresarMensajes(widget.loguiado,widget.correotro,mensaje, fotopath) != true)
         {
            print('Guardar datos ');
            _envioMensajeController.clear();
@@ -46,7 +46,7 @@ class _ChatPageState extends State<ChatPage> {
     else
     {
          
-         if(datos.ingresarMensajes(widget.loguiado,widget.correotro,widget.sala, mensaje, fotopath,'M') != true)
+         if(datos.ingresarMensajes(widget.loguiado,widget.correotro, mensaje, fotopath) != true)
         {
              print('Guardar datos ');
            _envioMensajeController.clear();
