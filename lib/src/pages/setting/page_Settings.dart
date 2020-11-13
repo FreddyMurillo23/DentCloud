@@ -30,14 +30,16 @@ class _SettingsPageState extends State<SettingsPage> {
      businessData1.actualizarBusines(businessRuc, businessName, businessPhone, province, canton, businessLocation, pathfoto,fotourl).then((value){
       if(value)
       {
-         Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+        _showDialog();
+        
+
+      }
+      else
+      {
+
       }
      });
-    /*DataProvider1. (email, businessRuc, businessName, businessPhone, province, canton, businessLocation, pathfoto).then((value) {
-     if(value){
-       Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
-     }
-    });*/
+   
   }
 
   // numero de Ruc
@@ -47,6 +49,30 @@ class _SettingsPageState extends State<SettingsPage> {
     } else {
       return true;
     }
+  }
+
+  void _showDialog() {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Actualizar Datos"),
+          content: new Text("Se actualizo correctamente su perfil "),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Cerrar"),
+              onPressed: () {
+                  Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+                //Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   bool validate(String value){
@@ -144,6 +170,7 @@ var foto;
       if(snapshot.hasData)
       {
           return Container(
+            height: sizeScreen.height*1,
          decoration: BoxDecoration(
           image: DecorationImage(image: AssetImage("assets/fondo.jpg"),
           fit: BoxFit.cover
