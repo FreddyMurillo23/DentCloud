@@ -8,6 +8,7 @@ import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/pages/agenda/agendaUser.dart';
 import 'package:muro_dentcloud/src/pages/Inicio/home_page.dart';
 import 'package:muro_dentcloud/src/pages/Inicio/post_publicaciones.dart';
+import 'package:muro_dentcloud/src/pages/agenda/doctor_agenda_with_provider.dart';
 import 'package:muro_dentcloud/src/pages/profiles/current_bussiness.dart';
 import 'package:muro_dentcloud/src/pages/profiles/current_user_profile.dart';
 import 'package:muro_dentcloud/src/providers/data_provider.dart';
@@ -47,7 +48,7 @@ class _StartUpPageState extends State<StartUpPage> {
       HomePage(currentuser: userinfo),
       PostPublicaciones(currentuser: userinfo,publicacion: new Publicacion(),),
       userinfo.tipoUsuario == 'D'
-      ?Agenda3(
+      ?AgendaWithProvider(
         currentuser: userinfo,
       )
       : AgendaUser(

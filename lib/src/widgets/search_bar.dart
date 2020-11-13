@@ -78,9 +78,8 @@ class EventSearchDelegate extends SearchDelegate<Doctores>{
     @override
     Widget buildSuggestions(BuildContext context) {
       Future<List<Doctores>> futureDoctor;
-      futureDoctor = DoctorCtrl.listarPrueba(query);
+      futureDoctor = DoctorCtrl.listarPrueba(query.toUpperCase());
       ServicioProvider servicioProvider = Provider.of<ServicioProvider>(context);
-      print(futureDoctor);
 
       return FutureBuilder(
         future: futureDoctor,
@@ -92,7 +91,7 @@ class EventSearchDelegate extends SearchDelegate<Doctores>{
           ? historial
           : datos.where((element) => datos == null
           ? []
-          : element.doctor.startsWith(query)).toList();
+          : element.doctor.startsWith(query.toUpperCase())).toList();
 
 
           if ( snapshot.hasError ) {
@@ -102,6 +101,7 @@ class EventSearchDelegate extends SearchDelegate<Doctores>{
 
           if ( snapshot.hasData ) {
           //  return _showDoctoresHistorial(suglist);
+          //print(snapshot.data);
             return _showDoctores(suglist, servicioProvider);
           }
           
