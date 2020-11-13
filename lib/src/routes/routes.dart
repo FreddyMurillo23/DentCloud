@@ -6,6 +6,7 @@ import 'package:muro_dentcloud/src/pages/agenda/doctor_pendients.dart';
 import 'package:muro_dentcloud/src/pages/agenda/receta_medica.dart';
 import 'package:muro_dentcloud/src/pages/agenda/view_eventDoctor.dart';
 import 'package:muro_dentcloud/src/pages/business/register_business1.dart';
+import 'package:muro_dentcloud/src/pages/comment_page.dart';
 // import 'package:muro_dentcloud/src/pages/agenda/pruebaScaffol.dart';
 //import 'package:muro_dentcloud/src/pages/business_Services.dart';
 import 'package:muro_dentcloud/src/pages/details_Patients.dart';
@@ -58,6 +59,8 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'pdfRecipes': (BuildContext context) => RecipeTest(),
     'pdfRecipes2': (BuildContext context) => RecipeTest(),
     'eventDoctor': (BuildContext context) => ViewEvent(),
+    'comentario': (BuildContext context) => CommentPage(),
+    
     // 'postPublicacion': (BuildContext context) => PostPublicacionPage(),
   };
 }
