@@ -87,6 +87,34 @@ class DataProvider1{
     
   }
 
+  Future<bool> actualizarBusines(
+     String businessRuc,
+      String businessName,
+      String businessPhone,
+      String province,
+      String canton,
+      String businessLocation,
+      String fotopath,
+      String fotourl
+  )
+  async {
+    var url=Uri.parse('http://54.197.83.249/PHP_REST_API/api/put/put_business_data.php?business_ruc=$businessRuc&business_name=$businessName&business_phone=$businessPhone&province=$province&canton=$canton&business_location=$businessLocation&business_photo=$fotourl');
+    var request = http.MultipartRequest('POST', url);
+    if (fotopath != null) {
+      var pic = await http.MultipartFile.fromPath("archivo", fotopath);
+      request.files.add(pic);
+    }
+    var response = await request.send();
+    if(response.statusCode==200)
+    {
+     return true;
+    }
+    else
+    {
+     return false;
+    }
+  }
+
    Future<List<ChatSeleccionado>> obtenerChat(
       String sala) async {
     String url =
