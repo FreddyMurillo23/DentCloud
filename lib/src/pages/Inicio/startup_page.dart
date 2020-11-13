@@ -8,6 +8,7 @@ import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/pages/agenda/agendaUser.dart';
 import 'package:muro_dentcloud/src/pages/Inicio/home_page.dart';
 import 'package:muro_dentcloud/src/pages/Inicio/post_publicaciones.dart';
+import 'package:muro_dentcloud/src/pages/list_view_build_page.dart';
 import 'package:muro_dentcloud/src/pages/profiles/current_bussiness.dart';
 import 'package:muro_dentcloud/src/pages/profiles/current_user_profile.dart';
 import 'package:muro_dentcloud/src/providers/data_provider.dart';
@@ -87,9 +88,14 @@ class _StartUpPageState extends State<StartUpPage> {
           iconsize: 30.0,
           colorIcon: Colors.blue[600],
           colorBorde: Colors.lightBlue[50],
-          onPressed: () => 
-         // Navigator.pushNamed(context, 'registerbusiness', arguments: userinfo)
-          Navigator.pushNamed(context, 'messenger', arguments: userinfo),
+          onPressed: () {
+            Navigator.pushNamed(context, 'messenger', arguments: userinfo);
+          // Navigator.pushNamed(context, 'registerbusiness', arguments: userinfo)
+          }
+         
+         
+          
+
         )
       ],
     ),

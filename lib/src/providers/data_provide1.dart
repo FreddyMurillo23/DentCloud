@@ -1,6 +1,9 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:muro_dentcloud/src/models/chat_model.dart';
 import 'package:muro_dentcloud/src/models/follows_model.dart';
+import 'package:muro_dentcloud/src/models/lista_chat_model.dart';
 import 'package:muro_dentcloud/src/models/search_model/business_data_search.dart';
 import 'package:muro_dentcloud/src/models/search_model/user_data_search.dart';
 
@@ -19,6 +22,17 @@ class DataProvider1{
     return data.items;
    }
  }
+
+ Future <List<UltimosMensaje>> getListaChat(String emailuser)
+  async {
+    
+    String url='http://54.197.83.249/PHP_REST_API/api/get/get_recent_message.php?user_email=$emailuser';
+    final resp = await http.get(url);
+    final decodedData = json.decode(resp.body);
+    final listachat = new ChatData.fromJsonList(decodedData['ultimos_mensajes']);
+    return listachat.items;
+  }
+
 
  Future <List<Negocio>> businesSearch(String query)
  async {
@@ -49,6 +63,32 @@ class DataProvider1{
     } else {
       return new List();
     }
+  }
+  Future <bool> ingresarMensajes(
+    String emisor,String receptor,String sala,String mensaje, String fotopath)async
+  {
+     DateTime now = new DateTime.now();
+    var url2 = Uri.parse(
+        "http://54.197.83.249/PHP_REST_API/api/post/post_insert_message.php?user_email=$emisor&user_email_emi=$receptor&message_content=$mensaje&message_date=$now&message_type=M&message_url_content");
+    var request = http.MultipartRequest('POST', url2);
+    if (fotopath != null) {
+      var pic = await http.MultipartFile.fromPath("archivo", fotopath);
+      request.files.add(pic);
+    }
+    return true;
+  }
+
+   Future<List<ChatSeleccionado>> obtenerChat(
+      String sala) async {
+    String url =
+        'http://54.197.83.249/PHP_REST_API/api/get/get_select_by_chat.php?room_id=$sala';
+    final resp = await http.get(url);
+    List<dynamic> items = new List();
+    items.add(resp.body);
+    final decodedData = json.decode(resp.body);
+    final mensaje =
+        new MensajeriaData.fromJsonList(decodedData['chat_seleccionado']);
+    return mensaje.items;
   }
 
 
