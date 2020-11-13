@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/publications_model.dart';
+import 'package:muro_dentcloud/src/models/statuslike.dart';
 import 'package:muro_dentcloud/src/providers/data_provider.dart';
+import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
 import 'package:muro_dentcloud/src/widgets/circle_button.dart';
 import 'package:muro_dentcloud/src/widgets/profile_avatar.dart';
 
-class CardWidgetPublicaciones extends StatelessWidget {
+class CardWidgetPublicaciones extends StatefulWidget {
   final int id;
   final List<Publicacion> publicaciones;
   final CurrentUsuario userinfo;
@@ -14,6 +16,16 @@ class CardWidgetPublicaciones extends StatelessWidget {
   const CardWidgetPublicaciones(
       {Key key, @required this.publicaciones, @required this.id, this.userinfo})
       : super(key: key);
+
+  @override
+  _CardWidgetPublicacionesState createState() =>
+      _CardWidgetPublicacionesState();
+}
+
+class _CardWidgetPublicacionesState extends State<CardWidgetPublicaciones> {
+  bool statuslike = false;
+  final dataprovider = new DataProvider();
+  final prefs = new PreferenciasUsuario();
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +53,7 @@ class CardWidgetPublicaciones extends StatelessWidget {
                 child: Column(
                   children: <Widget>[
                     publicacionCard(context, _screenSize, userDataProfile),
-                    publicaciones[id].imagenPublicacion == 'empty'
+                    widget.publicaciones[widget.id].imagenPublicacion == 'empty'
                         ? Divider(
                             height: 0,
                             thickness: 0,
@@ -64,7 +76,7 @@ class CardWidgetPublicaciones extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 5),
                             child: Text(
-                              '${publicaciones[id].descripcionPublicacion}',
+                              '${widget.publicaciones[widget.id].descripcionPublicacion}',
                               style: TextStyle(color: Colors.grey[700]),
                             ),
                           ),
@@ -97,7 +109,8 @@ class CardWidgetPublicaciones extends StatelessWidget {
       child: Row(
         children: <Widget>[
           ProfileAvatar(
-            imageUrl: publicaciones[id].fotoPerfilUsuarioPublicacion,
+            imageUrl:
+                widget.publicaciones[widget.id].fotoPerfilUsuarioPublicacion,
           ),
           const SizedBox(
             width: 8.0,
@@ -107,13 +120,13 @@ class CardWidgetPublicaciones extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  publicaciones[id].usuarioPublicacion,
+                  widget.publicaciones[widget.id].usuarioPublicacion,
                   style: TextStyle(fontWeight: FontWeight.w600),
                 ),
                 Row(
                   children: [
                     Text(
-                      '${publicaciones[id].timeAgo}',
+                      '${widget.publicaciones[widget.id].timeAgo}',
                       style: TextStyle(color: Colors.grey[600], fontSize: 12.0),
                     ),
                     Icon(
@@ -142,7 +155,7 @@ class CardWidgetPublicaciones extends StatelessWidget {
 
   Widget publicacionCard(
       BuildContext context, Size _screenSize, userDataProfile) {
-    if (publicaciones[id].imagenPublicacion == 'empty') {
+    if (widget.publicaciones[widget.id].imagenPublicacion == 'empty') {
       return Padding(
         padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
         // alignment: Alignment(-0.8, 1),
@@ -167,7 +180,8 @@ class CardWidgetPublicaciones extends StatelessWidget {
               children: <Widget>[
                 GestureDetector(
                   child: FadeInImage(
-                    image: NetworkImage(publicaciones[id].imagenPublicacion),
+                    image: NetworkImage(
+                        widget.publicaciones[widget.id].imagenPublicacion),
                     // image: NetworkImage(publicaciones[index].getImagenPublicacion),
                     placeholder: AssetImage('assets/jar-loading.gif'),
                     fadeInDuration: Duration(milliseconds: 200),
@@ -200,22 +214,7 @@ class CardWidgetPublicaciones extends StatelessWidget {
           SizedBox(
             width: screenSize.width * 0.15,
           ),
-          FlatButton(
-            child: Row(
-              children: [
-                Icon(
-                  MdiIcons.commentOutline,
-                  color: Colors.blue[500],
-                  size: screenSize.width * 0.05,
-                ),
-                Text(
-                  ' Comentar',
-                  style: TextStyle(fontSize: screenSize.width * 0.038),
-                ),
-              ],
-            ),
-            onPressed: () {},
-          ),
+          comentButton(screenSize),
         ],
       ),
     );
@@ -236,11 +235,11 @@ class CardWidgetPublicaciones extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               // crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Text('${publicaciones[id].comentariosCount}   ·'),
+                Text('${widget.publicaciones[widget.id].comentariosCount}   ·'),
                 SizedBox(
                   width: 10,
                 ),
-                Text('${publicaciones[id].likesCount}'),
+                Text('${widget.publicaciones[widget.id].likesCount}'),
               ],
             ),
             Divider(
@@ -262,7 +261,7 @@ class CardWidgetPublicaciones extends StatelessWidget {
           horizontal: 5,
         ),
         scrollDirection: Axis.horizontal,
-        itemCount: 1 + publicaciones[id].etiquetas.length,
+        itemCount: 1 + widget.publicaciones[widget.id].etiquetas.length,
         itemBuilder: (BuildContext context, int index) {
           if (index == 0) {
             return Row(
@@ -271,19 +270,21 @@ class CardWidgetPublicaciones extends StatelessWidget {
                     avatar: CircleAvatar(
                         backgroundColor: Colors.white,
                         child: Text(
-                          publicaciones[id].inicialNegocioPublicacion,
+                          widget.publicaciones[widget.id]
+                              .inicialNegocioPublicacion,
                           style: TextStyle(color: Colors.black),
                         )),
                     label: Text(
-                      publicaciones[id].negocioPublicacion,
+                      widget.publicaciones[widget.id].negocioPublicacion,
                       style: TextStyle(color: Colors.white),
                     ),
                     backgroundColor: Colors.lightBlue,
                     onPressed: () {
-                      print(publicaciones[id].negocioRuc);
+                      print(widget.publicaciones[widget.id].negocioRuc);
 
                       Navigator.pushNamed(context, 'outBusiness',
-                          arguments: publicaciones[id].negocioRuc);
+                          arguments:
+                              widget.publicaciones[widget.id].negocioRuc);
                     }),
                 SizedBox(
                   width: 6,
@@ -291,7 +292,7 @@ class CardWidgetPublicaciones extends StatelessWidget {
               ],
             );
           } else {
-            final data = publicaciones[id].etiquetas[index - 1];
+            final data = widget.publicaciones[widget.id].etiquetas[index - 1];
             return Row(
               children: [
                 Container(
@@ -322,26 +323,86 @@ class CardWidgetPublicaciones extends StatelessWidget {
   }
 
   meGustaButton(Size screenSize) {
+    String correo = prefs.currentCorreo;
+    final id = widget.publicaciones[widget.id];
+    print(correo);
+    print(id.idPublicacion);
     return FutureBuilder(
-      future: null,
-      builder: (context, snapshot) {
-        return FlatButton(
-          child: Row(
-            children: [
-              Icon(
-                MdiIcons.thumbUpOutline,
-                color: Colors.blue[400],
-                size: screenSize.width * 0.05,
+        future: dataprovider.getLikeStatus(correo, id.idPublicacion),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
+            statuslike = snapshot.data;
+            return FlatButton(
+              child: Row(
+                children: [
+                  statuslike
+                      ? Icon(
+                          MdiIcons.thumbUp,
+                          color: Colors.blue[400],
+                          size: screenSize.width * 0.05,
+                        )
+                      : Icon(
+                          MdiIcons.thumbUpOutline,
+                          color: Colors.blue[400],
+                          size: screenSize.width * 0.05,
+                        ),
+                  Text(
+                    ' Me Gusta',
+                    style: TextStyle(fontSize: screenSize.width * 0.038),
+                  ),
+                ],
               ),
-              Text(
-                ' Me Gusta',
-                style: TextStyle(fontSize: screenSize.width * 0.038),
+              onPressed: () async {
+                await dataprovider.setLikeStatus(correo, id.idPublicacion);
+                setState(() {
+                  // statuslike = !statuslike;
+                });
+              },
+            );
+          } else {
+            return FlatButton(
+              child: Row(
+                children: [
+                  Icon(
+                    MdiIcons.thumbUpOutline,
+                    color: Colors.blue[400],
+                    size: screenSize.width * 0.05,
+                  ),
+                  Text(
+                    ' Me Gusta',
+                    style: TextStyle(fontSize: screenSize.width * 0.038),
+                  ),
+                ],
               ),
-            ],
+              onPressed: () async {
+                await dataprovider.setLikeStatus(correo, id.idPublicacion);
+                setState(() {
+                  // statuslike = !statuslike;
+                });
+              },
+            );
+          }
+        });
+  }
+
+  Widget comentButton(Size screenSize) {
+    return FlatButton(
+      child: Row(
+        children: [
+          Icon(
+            MdiIcons.commentOutline,
+            color: Colors.blue[500],
+            size: screenSize.width * 0.05,
           ),
-          onPressed: () {},
-        );
-      }
+          Text(
+            ' Comentar',
+            style: TextStyle(fontSize: screenSize.width * 0.038),
+          ),
+        ],
+      ),
+      onPressed: () {
+        Navigator.pushNamed(context, 'comentario', arguments: widget.publicaciones[widget.id]);
+      },
     );
   }
 }

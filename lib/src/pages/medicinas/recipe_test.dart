@@ -2,12 +2,15 @@ import 'dart:io';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/event_model.dart';
 import 'package:muro_dentcloud/src/models/receta_model.dart';
+import 'package:muro_dentcloud/src/widgets/bottoms_fab.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'PdfPreviewScreen.dart';
+import 'package:http/http.dart' as http;
 
 class RecipeTest extends StatefulWidget {
 
@@ -22,6 +25,9 @@ class RecipeTest extends StatefulWidget {
 }
 
 String ruta = '';
+String nombreArchivo = '';
+String archivo = '';
+String path = '';
 
 String genero(CurrentUsuario userinfo){
   if(userinfo.sexo == 'M') {
@@ -84,11 +90,68 @@ String fechaCompleta(EventosModelo eventos) {
   return eventos.fecha.year.toString()+'-'+eventos.fecha.month.toString()+'-'+eventos.fecha.day.toString();
 }
 
+String fechaPDF(){
+  DateTime hoy = DateTime.now();
+  return hoy.year.toString()+'-'+hoy.month.toString()+'-'+hoy.day.toString()+'    '+hoy.hour.toString()+':'+hoy.minute.toString()+':'+hoy.second.toString();
+}
+
 const PdfColor green = PdfColor.fromInt(0xff9ce5d0);
 
 class _RecipeTestState extends State<RecipeTest> {
+
+  final formkey = new GlobalKey<FormState>();
+
+  TextEditingController controladorRuta = TextEditingController();
+  TextEditingController fechaDocumento = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    nombreArchivo = 'recipe';
+    archivo = widget.eventosModeloGlobal.nombrePaciente;
+    ruta = nombreArchivo+''+archivo;
+    controladorRuta.text = ruta;
+    fechaDocumento.text = fechaPDF();
+    rutaPDF().then((value) => path=value);
+  }
   
   final pdf = pw.Document();
+
+  Future<String> rutaPDF () async{
+    String rutaFuture = '';
+    
+    writeOnPdf();
+    await savePdf();
+
+    Directory documentDirectory = await getApplicationDocumentsDirectory();
+
+    String documentPath = documentDirectory.path;
+
+    String fullPath = "$documentPath/$nombreArchivo$archivo.pdf";
+    rutaFuture = fullPath;
+
+    return rutaFuture;
+    
+  }
+
+
+  void procesoChungo() async{
+      writeOnPdf();
+      await savePdf();
+
+      Directory documentDirectory = await getApplicationDocumentsDirectory();
+
+      String documentPath = documentDirectory.path;
+
+      String fullPath = "$documentPath/$nombreArchivo$archivo.pdf";
+      print(fullPath);
+
+      Navigator.push(context, MaterialPageRoute(
+        builder: (context) => PdfPreviewScreen(path: fullPath, currentUsuario: widget.currentuser, eventosModeloGlobal: widget.eventosModeloGlobal,)
+      ));
+  }
+
 
   writeOnPdf(){
     pdf.addPage(
@@ -220,60 +283,120 @@ class _RecipeTestState extends State<RecipeTest> {
   }
 
   Future savePdf() async{
-    String archivo = widget.eventosModeloGlobal.nombrePaciente;
     Directory documentDirectory = await getApplicationDocumentsDirectory();
 
     String documentPath = documentDirectory.path;
     print(documentPath);
 
-    File file = File("$documentPath/recipe_$archivo.pdf");
+    File file = File("$documentPath/$nombreArchivo$archivo.pdf");
     //File file = File("/storage/emulated/0/Android/data/example.pdf");
 
     file.writeAsBytesSync(pdf.save());
   }
 
   Widget build(BuildContext context) {
-    print(widget.receta[0].prescripcion);
-    return Scaffold(
 
-      appBar: AppBar(
-        title: Text("PDF Flutter"),
-      ),
+    
 
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-
-        child: Column(
-
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text("PDF TUTORIAL", style: TextStyle(fontSize: 34),),
-          ],
-        ),
-      ),
-
-      floatingActionButton: FloatingActionButton(
-        onPressed: ()async{
-          String archivo = widget.eventosModeloGlobal.nombrePaciente;
-
-          writeOnPdf();
-          await savePdf();
-
-          Directory documentDirectory = await getApplicationDocumentsDirectory();
-
-          String documentPath = documentDirectory.path;
-
-          String fullPath = "$documentPath/recipe_$archivo.pdf";
-          print(fullPath);
-
-          Navigator.push(context, MaterialPageRoute(
-            builder: (context) => PdfPreviewScreen(path: fullPath, currentUsuario: widget.currentuser, eventosModeloGlobal: widget.eventosModeloGlobal,)
-          ));
+    return GestureDetector(
+        onTap: (){
+          FocusScopeNode currentFocus = FocusScope.of(context);
+          if(!currentFocus.hasPrimaryFocus) {
+            currentFocus.unfocus();
+          }
         },
-        child: Icon(Icons.save),
-      ),
 
+        child: SafeArea(
+          child: Scaffold(
+          body: Center(
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(20)),            
+              ),
+              width: 300,
+              height: 200,
+
+              child: Form(
+                key: formkey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    TextFormField(
+                      controller: controladorRuta,
+                      decoration: InputDecoration(
+                        enabled: false,
+                        filled: true,
+                        // fillColor: Colors.blueGrey[600],
+                        labelText: "Nombre del Archivo",
+                        labelStyle: TextStyle(
+                          color: Colors.black,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        )
+                      ),
+                      onSaved: (value) {
+                        setState(() {
+                          controladorRuta.text = value;
+                        });
+                      },
+                    ),
+                    SizedBox(height: 5,),
+                    TextFormField(
+                      controller: fechaDocumento,
+                      decoration: InputDecoration(
+                        filled: true,
+                        // fillColor: Colors.blueGrey[600],
+                        enabled: false,
+                        labelText: "Fecha del Documento",
+                        labelStyle: TextStyle(
+                          color: Colors.black,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        )
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+
+          floatingActionButton: FancyFab(
+            onPressed: (){
+              procesoChungo();
+            }, 
+            currentUsuario: widget.currentuser,
+            eventosModeloGlobal: widget.eventosModeloGlobal,
+            path: path,
+          ),
+
+          // floatingActionButton: FloatingActionButton.extended(
+          //   onPressed: ()async{
+
+          //     writeOnPdf();
+          //     await savePdf();
+
+          //     Directory documentDirectory = await getApplicationDocumentsDirectory();
+
+          //     String documentPath = documentDirectory.path;
+
+          //     String fullPath = "$documentPath/$nombreArchivo$archivo.pdf";
+          //     print(fullPath);
+
+          //     Navigator.push(context, MaterialPageRoute(
+          //       builder: (context) => PdfPreviewScreen(path: fullPath, currentUsuario: widget.currentuser, eventosModeloGlobal: widget.eventosModeloGlobal,)
+          //     ));
+          //   },
+          //   icon: Icon(Icons.save),
+          //   label: Text('Vista Previa'),
+          // ),
+
+      ),
+        ),
     );
   }
 }
+
+

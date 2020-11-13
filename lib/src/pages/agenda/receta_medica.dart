@@ -147,13 +147,16 @@ class _RecetaMedicaState extends State<RecetaMedica> {
               return Dialog(
                 child: new Container(
                   height: 100,
-                  child: new Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      new CircularProgressIndicator(),
-                      new SizedBox(width: 10,),
-                      new Text(" Generando Documento"),
-                    ],
+                  child: Center(
+                    child: new Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        new SizedBox(width: 20,),
+                        Center(child: new CircularProgressIndicator()),
+                        new SizedBox(width: 10,),
+                        new Text(" Generando Documento"),
+                      ],
+                    ),
                   ),
                 ),
               );
@@ -806,49 +809,33 @@ class _RecetaMedicaState extends State<RecetaMedica> {
                                       );
                                     } else {
 
-                                      cupertinoDialog(context);
+                                      showDialog(
+                                        context: context,
+                                        barrierDismissible: false,
+                                        builder: (BuildContext context) {
+                                          return Dialog(
+                                            child: new Container(
+                                              height: 100,
+                                              child: new Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  new CircularProgressIndicator(),
+                                                  new SizedBox(width: 10,),
+                                                  new Text(" Generando Documento"),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      );
 
-                                      // String archivo = widget.eventosModeloGlobal.nombrePaciente;
-
-                                      // writeOnPdf();
-                                      // await savePdf();
-
-                                      // Directory documentDirectory = await getApplicationDocumentsDirectory();
-
-                                      // String documentPath = documentDirectory.path;
-
-                                      // String fullPath = "$documentPath/recipe2_$archivo.pdf";
-                                      // print(fullPath);
-
-                                      // ruta = fullPath;
-
-                                      // showDialog(
-                                      //   context: context,
-                                      //   barrierDismissible: false,
-                                      //   builder: (BuildContext context) {
-                                      //     return Dialog(
-                                      //       child: new Container(
-                                      //         height: 100,
-                                      //         child: new Row(
-                                      //           mainAxisSize: MainAxisSize.min,
-                                      //           children: [
-                                      //             new CircularProgressIndicator(),
-                                      //             new SizedBox(width: 10,),
-                                      //             new Text(" Generando Documento"),
-                                      //           ],
-                                      //         ),
-                                      //       ),
-                                      //     );
-                                      //   },
-                                      // );
-
-                                      // new Future.delayed(new Duration(milliseconds: 1500), () {
-                                      //   Navigator.of(context).pop();
-                                      //   Navigator.push(context, MaterialPageRoute(
-                                      //   builder: (context) => PdfPreviewScreen(path: ruta, currentUsuario: widget.currentuser, eventosModeloGlobal: widget.eventosModeloGlobal,)
-                                      //   ));
+                                      new Future.delayed(new Duration(milliseconds: 1500), () {
+                                        Navigator.of(context).pop();
+                                        Navigator.push(context, MaterialPageRoute(
+                                        builder: (context) => RecipeTest(currentuser: widget.currentuser, eventosModeloGlobal: widget.eventosModeloGlobal, receta: recetaLista,)
+                                        ));
                                       
-                                      // });
+                                      });
 
                                     }
                                   },
