@@ -6,10 +6,11 @@ import 'package:muro_dentcloud/src/providers/data_provide1.dart';
 import 'colors/colors.dart';
 class ChatPage extends StatefulWidget {
   final nombre;
+  final correotro;
   final loguiado;
   final foto;
   final sala;
-  ChatPage({Key key, this.nombre, this.foto, this.sala, this.loguiado}) : super(key: key);
+  ChatPage({Key key, this.nombre, this.foto, this.sala, this.loguiado, this.correotro}) : super(key: key);
 
   @override
   _ChatPageState createState() => _ChatPageState();
@@ -34,12 +35,23 @@ class _ChatPageState extends State<ChatPage> {
       if(fotopath!=null)
       {
         
+        if(datos.ingresarMensajes(widget.loguiado,widget.correotro,mensaje, fotopath) != true)
+        {
+           print('Guardar datos ');
+           _envioMensajeController.clear();
+           fotopath=null;
+        }
       }
     }
     else
     {
-      print('si funciona');
-      _envioMensajeController.clear();
+         
+         if(datos.ingresarMensajes(widget.loguiado,widget.correotro, mensaje, fotopath) != true)
+        {
+             print('Guardar datos ');
+           _envioMensajeController.clear();
+        }
+     
     }
   }
   bool validarMensaje(String valor)

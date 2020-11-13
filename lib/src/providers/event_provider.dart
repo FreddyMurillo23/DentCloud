@@ -18,14 +18,14 @@ class EventosProvider with ChangeNotifier{
 }
 
 class EventosHoldProvider with ChangeNotifier{
-  List<EventosModelo> eventosHold = List<EventosModelo>();
+  List<EventosModeloHold> eventosHold = List<EventosModeloHold>();
 
   void listarEventosonHold(String email){
     EventosCtrl.listarEventosPendientes(email).then((value){
       if(value!=null){
         this.eventosHold = value;
       } else{
-        this.eventosHold = List<EventosModelo>();       
+        this.eventosHold = List<EventosModeloHold>();       
       }
       notifyListeners();
     });

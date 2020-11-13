@@ -132,7 +132,6 @@ class DataProvider {
     final decodedData = json.decode(resp2.body);
     final data = Business.fromJsonList(decodedData['negocio_datos']);
     print(decodedData['negocio_datos']);
-    print(data.items);
     // print(decodedData['usuario']);
     return data.items;
   }
