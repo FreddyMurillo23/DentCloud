@@ -52,7 +52,8 @@ class ListWidgetChat extends StatelessWidget {
             MaterialPageRoute(
                 builder: (context) => ChatPage(
                       nombre: lista_chats[id].datosEmisor[0].emisorAbreviado,
-                     loguiado: email, 
+                     loguiado: email,
+                       correotro:lista_chats[id].datosEmisor[0].correoEmisor,
                       sala: lista_chats[id].sala,
                       foto:lista_chats[id].datosEmisor[0].fotoEmisor,
                     )));
@@ -98,6 +99,7 @@ class ListWidgetChat extends StatelessWidget {
                 builder: (context) => ChatPage(
                       nombre: lista_chats[id].datosReceptor[0].receptorAbreviado,
                       loguiado: email,
+                      correotro: lista_chats[id].datosReceptor[0].correoReceptor,
                       sala: lista_chats[id].sala,
                       foto: lista_chats[id].datosReceptor[0].fotoReceptor,
                     )));
