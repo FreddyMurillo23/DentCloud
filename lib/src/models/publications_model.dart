@@ -1,4 +1,3 @@
-
 class PublicacionesByUser {
   List<Publicacion> items = new List();
   PublicacionesByUser.fromJsonList(List<dynamic> jsonList) {
@@ -49,7 +48,7 @@ class Publicacion {
       {this.usuario = ' ',
       this.descripcion = ' ',
       this.fecha,
-      this.archivo ,
+      this.archivo,
       this.negocio = ' ',
       this.inicialusuario = ' ',
       this.inicialnegocio = ' ',
@@ -220,12 +219,14 @@ class Comentarios {
   String userEmail;
   DateTime comentaryDate;
   String comentaryDescription;
+  String fotoUser;
   Comentarios({
     this.publicationId,
     this.comentaryDate,
     this.comentaryDescription,
     this.comentaryId,
     this.userEmail,
+    this.fotoUser,
   });
   Comentarios.fromJsonMap(Map<String, dynamic> json) {
     publicationId = json['publication_id'];
@@ -233,6 +234,53 @@ class Comentarios {
     userEmail = json['user_email'];
     comentaryDate = DateTime.parse(json['commentary_date'].toString());
     comentaryDescription = json['commentary_description'];
+    fotoUser = json['foto_usuario'];
+  }
+  get timeAgo {
+    // print(fecha);
+    if (comentaryDate == null) {
+      return '404 ';
+    } else {
+      DateTime now = new DateTime.now();
+      final months = (now.difference(comentaryDate).inDays / 30).round();
+      final timeAgoDays = now.difference(comentaryDate).inDays;
+      final timeAgoHour = now.difference(comentaryDate).inHours;
+      final timeAgoMin = now.difference(comentaryDate).inMinutes;
+      final timeAgoSec = now.difference(comentaryDate).inSeconds;
+      if (months > 0 && timeAgoDays >= 31) {
+        if (months == 1) {
+          return 'Hace $months mes · ';
+        }
+        return 'Hace $months meses · ';
+      }
+      if (timeAgoDays > 0 && timeAgoDays < 31) {
+        if (timeAgoDays == 1) {
+          return 'Hace $timeAgoDays dia · ';
+        }
+        return 'Hace $timeAgoDays dias · ';
+      }
+      if (timeAgoHour > 0 && timeAgoDays == 0) {
+        if (timeAgoHour == 1) {
+          return 'Hace $timeAgoHour hora · ';
+        }
+        return 'Hace $timeAgoHour horas · ';
+      }
+      if (timeAgoMin > 0 && timeAgoHour == 0 && timeAgoDays == 0) {
+        if (timeAgoMin == 1) {
+          return 'Hace $timeAgoMin minuto · ';
+        }
+        return 'Hace $timeAgoMin minutos · ';
+      }
+      if (timeAgoSec > 0 &&
+          timeAgoMin == 0 &&
+          timeAgoDays == 0 &&
+          timeAgoHour == 0) {
+        if (timeAgoSec <= 10) {
+          return 'Justo ahora ·';
+        }
+        return 'Hace $timeAgoSec segundos ·';
+      }
+    }
   }
 }
 
@@ -282,7 +330,7 @@ class RespuestaObtenida {
     this.idPublication,
   });
 
-  RespuestaObtenida.fromJsonMap(Map<String, dynamic> json){
+  RespuestaObtenida.fromJsonMap(Map<String, dynamic> json) {
     message = json['message'];
     idPublication = json['id_publication'];
   }

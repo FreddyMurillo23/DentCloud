@@ -12,9 +12,10 @@ class CardWidgetPublicaciones extends StatefulWidget {
   final int id;
   final List<Publicacion> publicaciones;
   final CurrentUsuario userinfo;
+  final bool space;
 
   const CardWidgetPublicaciones(
-      {Key key, @required this.publicaciones, @required this.id, this.userinfo})
+      {Key key, @required this.publicaciones, @required this.id, this.userinfo, @required this.space})
       : super(key: key);
 
   @override
@@ -97,7 +98,7 @@ class _CardWidgetPublicacionesState extends State<CardWidgetPublicaciones> {
               ),
             ),
           ),
-          SizedBox(height: _screenSize.height * 0.05),
+          widget.space ? SizedBox(height: _screenSize.height * 0.05):Container() 
         ],
       ),
     );
@@ -401,7 +402,9 @@ class _CardWidgetPublicacionesState extends State<CardWidgetPublicaciones> {
         ],
       ),
       onPressed: () {
-        Navigator.pushNamed(context, 'comentario', arguments: widget.publicaciones[widget.id]);
+        print(widget.publicaciones[widget.id].idPublicacion);
+        Navigator.pushNamed(context, 'comentario',
+            arguments: widget.publicaciones[widget.id].idPublicacion);
       },
     );
   }

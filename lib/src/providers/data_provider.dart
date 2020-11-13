@@ -296,4 +296,22 @@ class DataProvider {
       return false;
     }
   }
+  Future<List<Publicacion>> getPublicacionesById(String id) async {
+  
+      // print(pub);
+      // print(pub.idPublicacion);
+      String url =
+          'http://54.197.83.249/PHP_REST_API/api/get/get_publications_by_id.php?id_publication=$id';
+      final resp = await http.get(url);
+      // print(resp);
+      //? decodificacion de la data json.decode
+      final decodedData = json.decode(resp.body);
+      final publicaciones =
+          new Publicaciones.fromJsonList(decodedData['publicaciones']);
+
+      // print(publicaciones.items[0]);
+    
+    // print(public);
+    return publicaciones.items;
+  }
 }

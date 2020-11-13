@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:muro_dentcloud/src/models/publications_model.dart';
+import 'package:muro_dentcloud/src/providers/data_provider.dart';
+import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
+import 'package:muro_dentcloud/src/widgets/cards.dart';
 import 'package:muro_dentcloud/src/widgets/circle_button.dart';
 
 class CommentPage extends StatefulWidget {
@@ -10,8 +14,10 @@ class CommentPage extends StatefulWidget {
 }
 
 class _CommentPageState extends State<CommentPage> {
+  final provider = new DataProvider();
   @override
   Widget build(BuildContext context) {
+    String id = ModalRoute.of(context).settings.arguments;
     final _screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -23,9 +29,66 @@ class _CommentPageState extends State<CommentPage> {
           fit: BoxFit.fill,
         ),
         centerTitle: false,
-
       ),
-      //body: ,
+      body: comentario(_screenSize, id),
+    );
+  }
+
+  comentario(Size screenSize, String id) {
+    final prefs = PreferenciasUsuario();
+    final currentuser = prefs.currentCorreo;
+    return FutureBuilder(
+        future: provider.getPublicacionesById(id),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          // final data = snapshot.data[0];
+          if (snapshot.hasData) {
+            final data = snapshot.data[0];
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  CardWidgetPublicaciones(
+                    publicaciones: snapshot.data,
+                    id: 0,
+                    space: false,
+                  ),
+                  listadoComentarios(screenSize, snapshot.data),
+                ],
+              ),
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        });
+  }
+
+  Widget listadoComentarios(Size screenSize, data) {
+    return Card(
+      child: ListView.builder(
+          shrinkWrap: true,
+          itemCount: data[0].comentarios.length,
+          itemBuilder: (BuildContext context, int i) {
+            if (data[0].comentarios.length == 0) {
+              print('valio');
+              return Container();
+            } else {
+              return Column(
+                children: [
+                  Card(
+                    elevation: 5,
+                    child: ListTile(
+                      leading: CircleAvatar(backgroundImage: NetworkImage(data[0].comentarios[i].fotoUser),),
+                      title: Text(data[0].comentarios[i].userEmail),
+                      subtitle: Text(data[0].comentarios[i].comentaryDescription),
+                      trailing: Text(data[0].comentarios[i].timeAgo),
+                    ),
+                  ),
+                  // Divider(),
+                ],
+              );
+            }
+          }),
     );
   }
 }
