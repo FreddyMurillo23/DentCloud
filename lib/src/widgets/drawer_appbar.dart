@@ -71,11 +71,7 @@ class _NavDrawerState extends State<NavDrawer> {
           )
           :Container(),
 
-          ListTile(
-            leading: Icon(Icons.input),
-            title: Text('Dashboard'),
-            onTap: () => {Navigator.pushNamed( context,'home')},
-          ),
+        
           // ListTile(
           //   leading: Icon(Icons.verified_user),
           //   title: Text('Agenda'),

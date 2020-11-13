@@ -9,7 +9,6 @@ class DrogSearch extends SearchDelegate {
   String seleccion = " ";
   @override
   List<Widget> buildActions(BuildContext context) {
-    // TODO: implement buildActions
     return [
       IconButton(
           icon: Icon(Icons.clear),
