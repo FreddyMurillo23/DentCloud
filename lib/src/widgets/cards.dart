@@ -390,7 +390,13 @@ class _CardWidgetPublicacionesState extends State<CardWidgetPublicaciones> {
                   ),
                 ],
               ),
-              onPressed: () {},
+              onPressed: () async{
+                await dataprovider.setLikeStatus(correo, id.idPublicacion);
+                setState((){
+                  
+                  // statuslike = !statuslike;
+                });
+              },
             );
           }
         });
