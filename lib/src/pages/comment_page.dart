@@ -65,30 +65,62 @@ class _CommentPageState extends State<CommentPage> {
 
   Widget listadoComentarios(Size screenSize, data) {
     return Card(
-      child: ListView.builder(
-          shrinkWrap: true,
-          itemCount: data[0].comentarios.length,
-          itemBuilder: (BuildContext context, int i) {
-            if (data[0].comentarios.length == 0) {
-              print('valio');
-              return Container();
-            } else {
-              return Column(
-                children: [
-                  Card(
-                    elevation: 5,
-                    child: ListTile(
-                      leading: CircleAvatar(backgroundImage: NetworkImage(data[0].comentarios[i].fotoUser),),
-                      title: Text(data[0].comentarios[i].userEmail),
-                      subtitle: Text(data[0].comentarios[i].comentaryDescription),
-                      trailing: Text(data[0].comentarios[i].timeAgo),
-                    ),
-                  ),
-                  // Divider(),
-                ],
-              );
-            }
-          }),
+      elevation: 5,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+      child: Column(
+        children: [
+          ListView.builder(
+              shrinkWrap: true,
+              itemCount: data[0].comentarios.length,
+              itemBuilder: (BuildContext context, int i) {
+                if (data[0].comentarios.length == 0) {
+                  print('valio');
+                  return Container();
+                } else {
+                  return Column(
+                    children: [
+                      Card(elevation: 30,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                        // elevation: 5,
+                        child: ListTile(
+                          leading: CircleAvatar(backgroundImage: NetworkImage(data[0].comentarios[i].fotoUser),),
+                          title: Text(data[0].comentarios[i].userEmail),
+                          subtitle: Text(data[0].comentarios[i].comentaryDescription),
+                          trailing: Text(data[0].comentarios[i].timeAgo),
+                        ),
+                      ),
+                      // Divider(),
+                    ],
+                  );
+                }
+              }),
+         Card(
+      elevation: 30,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+      child: Row(
+        children: [
+          Container(
+            padding: EdgeInsets.fromLTRB(12, 0, 12, 10),
+            height: screenSize.height * 0.1,
+            width: screenSize.width*0.71,
+            child: TextFormField(
+              // onSaved: (newValue) => publicacion.descripcion = newValue,
+              textCapitalization: TextCapitalization.sentences,
+              
+              decoration: InputDecoration(labelText: 'Escribe tu historia...'),
+              // expands: true,
+              maxLines: null,
+              minLines: null,
+              autocorrect: true,
+              autofocus: false,
+            ),
+          ),
+          FlatButton(onPressed: (){}, child: Icon(Icons.send,color: Colors.lightBlue,))
+        ],
+      ),
+    )
+        ],
+      ),
     );
   }
 }
