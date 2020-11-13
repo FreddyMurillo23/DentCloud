@@ -61,7 +61,7 @@ class _DoctorEventsPendientsState extends State<DoctorEventsPendients> {
   }
   
     //Cupertino Dialog
-    Future<void> cupertinoDialog(EventosModelo eventos, BuildContext context) async {
+    Future<void> cupertinoDialog(EventosModeloHold eventos, BuildContext context) async {
       switch (await showDialog(
         context: context,
         builder: (context) {
@@ -110,7 +110,7 @@ class _DoctorEventsPendientsState extends State<DoctorEventsPendients> {
       }
     }
   
-  _openPopup(context, EventosModelo eventos) {
+  _openPopup(context, EventosModeloHold eventos) {
     dia = DateTime(eventos.fecha.year, eventos.fecha.month, eventos.fecha.day);
     Alert(
         context: context,
@@ -263,7 +263,7 @@ class _DoctorEventsPendientsState extends State<DoctorEventsPendients> {
         )),
       ),
       body: SingleChildScrollView(
-          child: Selector<EventosHoldProvider, List<EventosModelo>>(
+          child: Selector<EventosHoldProvider, List<EventosModeloHold>>(
         selector: (context, model) => model.eventosHold,
         builder: (context, value, child) => Column(
           children: [
@@ -271,7 +271,7 @@ class _DoctorEventsPendientsState extends State<DoctorEventsPendients> {
               height: 10,
             ),
             if (value.length > 0) ...[
-              for (EventosModelo eventos in value)
+              for (EventosModeloHold eventos in value)
                 ExpansionTileCard(
                   leading: Container(
                     height: 60,

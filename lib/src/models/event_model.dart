@@ -49,3 +49,25 @@ class EventosModeloUsuario{
     );
   }
 }
+
+class EventosModeloHold{
+  String paciente;
+  DateTime fecha;
+  String servicio;
+  String descripcion;
+  String idcita;
+  String idservicio;
+
+  EventosModeloHold({this.paciente,this.fecha,this.servicio,this.descripcion,this.idcita,this.idservicio});
+
+  factory EventosModeloHold.fromJson(Map<String, dynamic> json) {
+    return EventosModeloHold(
+      paciente: json['paciente'],
+      fecha: DateTime.parse(json['fecha'].toString()),
+      servicio: json['nombre_servicio'],
+      descripcion: json['descripcion'],
+      idcita: json['id_cita'],
+      idservicio: json['id_servicio']
+    );
+  }
+}

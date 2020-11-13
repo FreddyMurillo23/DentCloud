@@ -9,11 +9,11 @@ import 'package:muro_dentcloud/src/pages/agenda/agendaUser.dart';
 import 'package:muro_dentcloud/src/pages/Inicio/home_page.dart';
 import 'package:muro_dentcloud/src/pages/Inicio/post_publicaciones.dart';
 import 'package:muro_dentcloud/src/pages/list_view_build_page.dart';
+import 'package:muro_dentcloud/src/pages/agenda/doctor_agenda_with_provider.dart';
 import 'package:muro_dentcloud/src/pages/profiles/current_bussiness.dart';
 import 'package:muro_dentcloud/src/pages/profiles/current_user_profile.dart';
 import 'package:muro_dentcloud/src/providers/data_provider.dart';
 import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
-import 'package:muro_dentcloud/src/search/search_user_business.dart';
 import 'package:muro_dentcloud/src/widgets/circle_button.dart';
 import 'package:muro_dentcloud/src/widgets/drawer_appbar.dart';
 import '../agenda/agendaDoctor.dart';
@@ -49,7 +49,7 @@ class _StartUpPageState extends State<StartUpPage> {
       HomePage(currentuser: userinfo),
       PostPublicaciones(currentuser: userinfo,publicacion: new Publicacion(),),
       userinfo.tipoUsuario == 'D'
-      ?Agenda3(
+      ?AgendaWithProvider(
         currentuser: userinfo,
       )
       : AgendaUser(
@@ -77,28 +77,16 @@ class _StartUpPageState extends State<StartUpPage> {
       centerTitle: false,
       // floa ting: true,
       actions: [
-        CircleButton(
-          icon: MdiIcons.accountSearchOutline,
-          iconsize: 30.0,
-          colorIcon: Colors.blue[600],
-          colorBorde: Colors.lightBlue[50],
-          onPressed: () {
-            showSearch(context: context, delegate: UserBusinessSearch());
-          // Navigator.pushNamed(context, 'registerbusiness', arguments: userinfo)
-          }
-        ),
 
         CircleButton(
           icon: MdiIcons.chatOutline,
           iconsize: 30.0,
           colorIcon: Colors.blue[600],
           colorBorde: Colors.lightBlue[50],
-          onPressed: () {
-            Navigator.pushNamed(context, 'messenger', arguments: userinfo);
-          // Navigator.pushNamed(context, 'registerbusiness', arguments: userinfo)
-          }
-        ),
-         
+          onPressed: () => 
+         // Navigator.pushNamed(context, 'registerbusiness', arguments: userinfo)
+          Navigator.pushNamed(context, 'messenger', arguments: userinfo),
+        )
       ],
     ),
       floatingActionButton: FloatingActionButton(
@@ -120,8 +108,8 @@ class _StartUpPageState extends State<StartUpPage> {
               title: Text('Inicio'),
             ),
             BottomNavigationBarItem(
-              icon: Icon(MdiIcons.mapMarker),
-              title: Text('GPS'),
+              icon: Icon(Icons.search),
+              title: Text('Buscar'),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.location_on ,color: Colors.transparent,),
