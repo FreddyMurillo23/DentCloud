@@ -34,7 +34,7 @@ class BurbujaChat extends StatelessWidget {
             ),
             Container(
               margin: EdgeInsets.symmetric(vertical: screenSize.height * 0.0035),
-              width: screenSize.width*0.45,
+              //width: screenSize.width*0.45,
               child: Expanded(
                             child: Container(
                   decoration: BoxDecoration(
