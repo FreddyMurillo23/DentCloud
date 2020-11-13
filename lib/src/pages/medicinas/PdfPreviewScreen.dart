@@ -49,25 +49,6 @@ class _PdfPreviewScreenState extends State<PdfPreviewScreen> {
   
     return PDFViewerScaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          tooltip: "Regresa a la descripción de la Cita",
-          onPressed: ()async{
-          
-            Navigator.of(context).pop();
-            Navigator.of(context).pop();
-          }, 
-          color: Colors.white,
-          ),
-        actions: [
-          IconButton(
-            onPressed: (){
-              uploadFile(widget.currentUsuario, widget.eventosModeloGlobal);
-            },
-            icon: Icon(Icons.upload_file),
-            color: Colors.white,
-          )
-        ],
       ),
       path:widget.path,
       
