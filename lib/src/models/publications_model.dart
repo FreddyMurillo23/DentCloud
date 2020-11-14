@@ -220,14 +220,15 @@ class Comentarios {
   DateTime comentaryDate;
   String comentaryDescription;
   String fotoUser;
-  Comentarios({
-    this.publicationId,
-    this.comentaryDate,
-    this.comentaryDescription,
-    this.comentaryId,
-    this.userEmail,
-    this.fotoUser,
-  });
+  String nombre;
+  Comentarios(
+      {this.publicationId,
+      this.comentaryDate,
+      this.comentaryDescription,
+      this.comentaryId,
+      this.userEmail,
+      this.fotoUser,
+      this.nombre});
   Comentarios.fromJsonMap(Map<String, dynamic> json) {
     publicationId = json['publication_id'];
     comentaryId = json['commentary_id'];
@@ -235,6 +236,7 @@ class Comentarios {
     comentaryDate = DateTime.parse(json['commentary_date'].toString());
     comentaryDescription = json['commentary_description'];
     fotoUser = json['foto_usuario'];
+    nombre = json['nombre_usuario'];
   }
   get timeAgo {
     // print(fecha);

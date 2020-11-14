@@ -84,7 +84,7 @@ class _CommentPageState extends State<CommentPage> {
                         // elevation: 5,
                         child: ListTile(
                           leading: CircleAvatar(backgroundImage: NetworkImage(data[0].comentarios[i].fotoUser),),
-                          title: Text(data[0].comentarios[i].userEmail),
+                          title: Text(data[0].comentarios[i].nombre),
                           subtitle: Text(data[0].comentarios[i].comentaryDescription),
                           trailing: Text(data[0].comentarios[i].timeAgo),
                         ),
