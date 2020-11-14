@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:muro_dentcloud/palette.dart';
+
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 // import 'package:muro_dentcloud/src/providers/doctores_provider.dart';
 // import 'package:muro_dentcloud/src/providers/event_provider.dart';

@@ -163,7 +163,9 @@ class UserBusinessSearch extends SearchDelegate {
                         child: RaisedButton(
             color: Colors.transparent,
                          child: Text('Usuario'),
-                         onPressed: (){},
+                         onPressed: (){
+                           activar=true;
+                         },
                          shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10))
                      ),
@@ -241,7 +243,9 @@ class UserBusinessSearch extends SearchDelegate {
                         child: RaisedButton(
             color: Colors.transparent,
                          child: Text('Usuario'),
-                         onPressed: (){},
+                         onPressed: (){
+                           activar=true;
+                         },
                          shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10))
                      ),
@@ -332,7 +336,9 @@ class UserBusinessSearch extends SearchDelegate {
                         child: RaisedButton(
             color: Colors.transparent,
                          child: Text('Usuario'),
-                         onPressed: (){},
+                         onPressed: (){
+                           activar=true;
+                         },
                          shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10))
                      ),

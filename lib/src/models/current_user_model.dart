@@ -86,14 +86,14 @@ class CurrentUsuario {
     cedula = json['cedula'];
     nombres = json['nombres'];
     apellidos = json['apellidos'];
-    fechaNacimiento = json['fecha-nacimiento'];
+    fechaNacimiento = json['fecha_nacimiento'];
     celular = json['celular'];
     sexo = json['sexo'];
     tipoUsuario = json['tipo_usuario'];
     fotoPerfil = json['foto_perfil'];
     ciudadResidencia = json['ciudad_residencia'];
     profesion = json['profesion'];
-    provinciaResidencia = json['ciudad_residencia'];  
+    provinciaResidencia = json['provincia_residencia'];  
 
     if (json['publicaciones'].length != 0) {
       for (var item in json['publicaciones']) {
