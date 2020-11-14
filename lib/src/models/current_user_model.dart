@@ -47,6 +47,7 @@ class ProfileUser {
 class CurrentUsuario {
   String correo;
   String cedula;
+  String userPassword;
   String nombres;
   String apellidos;
   String fechaNacimiento;
@@ -66,6 +67,7 @@ class CurrentUsuario {
   CurrentUsuario(
       {this.correo,
       this.cedula,
+      this.userPassword,
       this.nombres,
       this.apellidos,
       this.fechaNacimiento,
@@ -83,6 +85,7 @@ class CurrentUsuario {
       this.provinciaResidencia});
   CurrentUsuario.fromJsonMap(Map<String, dynamic> json) {
     correo = json['correo'];
+    userPassword=json['user_password'];
     cedula = json['cedula'];
     nombres = json['nombres'];
     apellidos = json['apellidos'];

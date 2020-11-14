@@ -25,12 +25,12 @@ class _SettingsPageState extends State<SettingsPage> {
   final formkey = new GlobalKey<FormState>();
   DataProvider businessData = new DataProvider();
   DataProvider1 businessData1 = new DataProvider1();
+
   void validarregistrar() {
     final form = formkey.currentState;
     if (form.validate()) {
       form.save();
-    }
-    businessData1
+       businessData1
         .actualizarBusines(businessRuc, businessName, businessPhone, province,
             canton, businessLocation, pathfoto, fotourl)
         .then((value) {
@@ -38,6 +38,8 @@ class _SettingsPageState extends State<SettingsPage> {
         _showDialog();
       } else {}
     });
+    }
+   
   }
 
   // numero de Ruc
@@ -101,15 +103,68 @@ class _SettingsPageState extends State<SettingsPage> {
     }
   }
 
+//  Usuario
+//
+//
+//
+//
+  bool validateNumber1(String value) {
+    if (value.length < 10) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  void validarregistrar1() {
+    final form = formkey.currentState;
+    if (form.validate()) {
+      form.save();
+      if (presiono == true) {
+      if (sexo == "Masculino") {
+        sexo = "M";
+      } else {
+        sexo = "F";
+      }
+    }
+    else
+    {
+      sexo=sexopresion;
+    }
+    businessData1
+        .actualizarUsuario(correo, contrasenia, nombres, apellidos, fecha,
+            telefono, sexo, profesion, provincia, ciudad, fotourl, pathfoto)
+        .then((value) {
+      if (value) {
+        _showDialog();
+      } else {}
+    });
+    }
+    
+  }
+
   String businessRuc, businessName, businessPhone, province, canton;
   String businessLocation, email;
   String fotourl;
   var foto;
   String pathfoto;
-// 
-// 
 //
-String sexo;   
+//
+//
+
+  String cedula,
+      nombres,
+      apellidos,
+      telefono,
+      correo,
+      sexo,
+      provincia,
+      ciudad,
+      profesion;
+  DateTime fecha;
+  bool _obscureText = false, presiono = false;
+  String sexopresion;
+  String contrasenia;
   @override
   Widget build(BuildContext context) {
     final String enviado = ModalRoute.of(context).settings.arguments;
@@ -223,67 +278,145 @@ String sexo;
         builder: (BuildContext context,
             AsyncSnapshot<List<CurrentUsuario>> snapshot) {
           if (snapshot.hasData) {
-            return Container(
-              height: sizeScreen.height * 1,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage("assets/fondo.jpg"), fit: BoxFit.cover),
-              ),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Column(
-                  children: [
-                    Form(
-                      key: formkey,
-                      child: Column(
-                        children: [
-                          mostrarfotoperfil1(sizeScreen, snapshot.data),
-                          //textFieldNombre(),
-                          textFieldcedula(sizeScreen, snapshot.data),
-                          SizedBox(
-                            height: 15,
-                          ),
-                           textFieldCorreo(sizeScreen, snapshot.data),
-                           SizedBox(
-                            height: 15,
-                          ),
-                          textFieldNombreUsuario(sizeScreen, snapshot.data),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          textFieldApellidoUsuario(sizeScreen, snapshot.data),
-                          SizedBox(
-                            height: 15,
-                          ),
-                        
-                          textFieldFechaUsuario(sizeScreen, snapshot.data),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          textFieldPhoneUsuario(sizeScreen, snapshot.data),
-                          SizedBox(
-                            height: 15,
-                          ),
-                           textFieldSexo(sizeScreen,snapshot.data),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          textFieldprovinciaUsuario(sizeScreen,snapshot.data),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          textFieldCiudadUsuario(sizeScreen,snapshot.data),
-                           SizedBox(
-                            height: 15,
-                          ),
-                          buttonRegistrar(sizeScreen),
-                        ],
-                      ),
-                    ),
-                  ],
+            if (snapshot.data[0].tipoUsuario == "D") {
+              return Container(
+                height: sizeScreen.height * 1,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage("assets/fondo.jpg"), fit: BoxFit.cover),
                 ),
-              ),
-            );
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Column(
+                    children: [
+                      Form(
+                        key: formkey,
+                        child: Column(
+                          children: [
+                            mostrarfotoperfil1(sizeScreen, snapshot.data),
+                            //textFieldNombre(),
+                            textFieldcedula(sizeScreen, snapshot.data),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            textFieldCorreo(sizeScreen, snapshot.data),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            textFieldNombreUsuario(sizeScreen, snapshot.data),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            textFieldApellidoUsuario(sizeScreen, snapshot.data),
+                            SizedBox(
+                              height: 15,
+                            ),
+
+                            textFieldFechaUsuario(sizeScreen, snapshot.data),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            textFieldPhoneUsuario(sizeScreen, snapshot.data),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            textFieldSexo(sizeScreen, snapshot.data),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            textFieldprovinciaUsuario(
+                                sizeScreen, snapshot.data),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            textFieldCiudadUsuario(sizeScreen, snapshot.data),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            textFielpassword(sizeScreen, snapshot.data),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            textFieldprofesion(sizeScreen, snapshot.data),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            buttonRegistrarUsuario(sizeScreen),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            } else {
+              return Container(
+                height: sizeScreen.height * 1,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage("assets/fondo.jpg"), fit: BoxFit.cover),
+                ),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Column(
+                    children: [
+                      Form(
+                        key: formkey,
+                        child: Column(
+                          children: [
+                            mostrarfotoperfil1(sizeScreen, snapshot.data),
+                            //textFieldNombre(),
+                            textFieldcedula(sizeScreen, snapshot.data),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            textFieldCorreo(sizeScreen, snapshot.data),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            textFieldNombreUsuario(sizeScreen, snapshot.data),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            textFieldApellidoUsuario(sizeScreen, snapshot.data),
+                            SizedBox(
+                              height: 15,
+                            ),
+
+                            textFieldFechaUsuario(sizeScreen, snapshot.data),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            textFieldPhoneUsuario(sizeScreen, snapshot.data),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            textFieldSexo(sizeScreen, snapshot.data),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            textFieldprovinciaUsuario(
+                                sizeScreen, snapshot.data),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            textFieldCiudadUsuario(sizeScreen, snapshot.data),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            textFielpassword(sizeScreen, snapshot.data),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            buttonRegistrarUsuario(sizeScreen),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }
           }
           return Center(
             child: SizedBox(
@@ -746,9 +879,11 @@ String sexo;
     // ignore: deprecated_member_use
     var picture = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
-      foto = picture;
-      Navigator.of(context).pop();
-      pathfoto = picture.path;
+      if (picture != null) {
+        foto = picture;
+        Navigator.of(context).pop();
+        pathfoto = picture.path;
+      }
     });
   }
 
@@ -756,9 +891,11 @@ String sexo;
     // ignore: deprecated_member_use
     var picture = await ImagePicker.pickImage(source: ImageSource.camera);
     setState(() {
-      foto = picture;
-      Navigator.of(context).pop();
-      pathfoto = picture.path;
+      if (picture != null) {
+        foto = picture;
+        Navigator.of(context).pop();
+        pathfoto = picture.path;
+      }
     });
   }
 
@@ -871,10 +1008,10 @@ String sexo;
           ),
           validator: (value) => value.isEmpty
               ? 'Este campo no puede estar vacío'
-              : !validateNumber(value)
+              : !validateNumber1(value)
                   ? 'Ingrese un Ruc correcto'
                   : null,
-          onSaved: (value) => this.businessRuc = value,
+          onSaved: (value) => this.cedula = value,
         ),
       ),
     );
@@ -908,7 +1045,7 @@ String sexo;
               : !validateName(value)
                   ? 'Ingrese un nombre válido'
                   : null,
-          onSaved: (value) => this.businessName = value,
+          onSaved: (value) => this.nombres = value,
         ),
       ),
     );
@@ -942,7 +1079,7 @@ String sexo;
               : !validateName(value)
                   ? 'Ingrese un nombre válido'
                   : null,
-          onSaved: (value) => this.businessName = value,
+          onSaved: (value) => this.apellidos = value,
         ),
       ),
     );
@@ -980,7 +1117,7 @@ String sexo;
           }
           return null;
         },
-        //onSaved: (DateTime dateTime) => this._fecha = dateTime,
+        onSaved: (DateTime dateTime) => this.fecha = dateTime,
       )),
     );
   }
@@ -1013,59 +1150,59 @@ String sexo;
               : !validatePhone(value)
                   ? 'Ingrese un telefono válido'
                   : null,
-          onSaved: (value) => this.businessPhone = value,
+          onSaved: (value) => this.telefono = value,
         ),
       ),
     );
   }
 
   Widget textFieldSexo(Size sizescreen, List<CurrentUsuario> datos) {
+    sexopresion = datos[0].sexo;
     return Container(
-      //color: Colors.white,
+        //color: Colors.white,
         width: sizescreen.width * 0.85,
-       
         child: Center(
-      child: DropdownButtonFormField(
-        style: new TextStyle(
-                    color: Colors.black,
-                    //fontSize: 18.0,
-                  ),
-        value: verificar(datos[0].sexo),
-        isExpanded: true,
-        items: <String>['Masculino', 'Femenino']
-            .map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            child: Text(value),
-            value: value,
-          );
-        }).toList(),
-        validator: (value) =>
-            value == null ? 'Este campo no puede estar vacío' : null,
-        onChanged: (value) {
-          this.sexo = value;
-          setState(() {
-            this.sexo = value;
-          });
-        },
-        decoration: InputDecoration(        
-                        labelText: "Sexo",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          borderSide: BorderSide(color: Colors.black),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          borderSide: BorderSide(color: Colors.black)
-                        ), 
-                        prefixIcon: Icon(Icons.accessibility),
-                        filled: true,
-                        fillColor: Colors.white,
-                      )
-      ),
-    ));
+          child: DropdownButtonFormField(
+              style: new TextStyle(
+                color: Colors.black,
+                //fontSize: 18.0,
+              ),
+              value: verificar(datos[0].sexo),
+              isExpanded: true,
+              items: <String>['Masculino', 'Femenino']
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  child: Text(value),
+                  value: value,
+                );
+              }).toList(),
+              validator: (value) =>
+                  value == null ? 'Este campo no puede estar vacío' : null,
+              onChanged: (value) {
+                this.sexo = value;
+                setState(() {
+                 
+                  presiono = true;
+                  this.sexo = value;
+                });
+              },
+              decoration: InputDecoration(
+                labelText: "Sexo",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  borderSide: BorderSide(color: Colors.black),
+                ),
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    borderSide: BorderSide(color: Colors.black)),
+                prefixIcon: Icon(Icons.accessibility),
+                filled: true,
+                fillColor: Colors.white,
+              )),
+        ));
   }
 
-Widget textFieldprovinciaUsuario(Size sizescreen, List<CurrentUsuario> datos) {
+  Widget textFieldprovinciaUsuario( Size sizescreen, List<CurrentUsuario> datos) {
     return Container(
       width: sizescreen.width * 0.85,
       //padding:EdgeInsets.all(3),
@@ -1093,13 +1230,13 @@ Widget textFieldprovinciaUsuario(Size sizescreen, List<CurrentUsuario> datos) {
               : !validateName(value)
                   ? 'Ingrese una Provincia válido'
                   : null,
-          onSaved: (value) => this.province = value,
+          onSaved: (value) => this.provincia = value,
         ),
       ),
     );
   }
 
-Widget textFieldCiudadUsuario(Size sizescreen, List<CurrentUsuario> datos) {
+  Widget textFieldCiudadUsuario(Size sizescreen, List<CurrentUsuario> datos) {
     return Container(
       width: sizescreen.width * 0.85,
       //padding:EdgeInsets.all(3),
@@ -1127,15 +1264,14 @@ Widget textFieldCiudadUsuario(Size sizescreen, List<CurrentUsuario> datos) {
               : !validateName(value)
                   ? 'Ingrese un Ciudad válido'
                   : null,
-          onSaved: (value) => this.canton = value,
+          onSaved: (value) => this.ciudad = value,
         ),
       ),
     );
   }
 
-Widget textFieldCorreo(Size sizescreen, List<CurrentUsuario> datos)
-{
-  return Container(
+  Widget textFieldCorreo(Size sizescreen, List<CurrentUsuario> datos) {
+    return Container(
       width: sizescreen.width * 0.85,
       //padding:EdgeInsets.all(3),
       child: Center(
@@ -1160,26 +1296,142 @@ Widget textFieldCorreo(Size sizescreen, List<CurrentUsuario> datos)
           ),
           validator: (value) => value.isEmpty
               ? 'Este campo no puede estar vacío'
-              : !validateName(value)
+              : !validate(value)
                   ? 'Ingrese un nombre válido'
                   : null,
-          onSaved: (value) => this.businessName = value,
+          onSaved: (value) => this.correo = value,
         ),
       ),
     );
+  }
 
+  Widget textFielpassword(Size sizescreen, List<CurrentUsuario> datos) {
+    return Container(
+      width: sizescreen.width * 0.85,
+      child: Center(
+        child: TextFormField(
+          initialValue: datos[0].userPassword,
+          autofocus: false,
+          obscureText: !this._obscureText,
+          keyboardType: TextInputType.visiblePassword,
+          decoration: InputDecoration(
+              labelText: "Contraseña",
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+                borderSide: BorderSide(color: Colors.black),
+              ),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  borderSide: BorderSide(color: Colors.black)),
+              prefixIcon: Icon(Icons.lock),
+              filled: true,
+              fillColor: Colors.white,
+              suffixIcon: IconButton(
+                icon: Icon(this._obscureText
+                    ? Icons.visibility
+                    : Icons.visibility_off),
+                onPressed: () {
+                  setState(() {
+                    this._obscureText = !this._obscureText;
+                  });
+                },
+              )),
+          onChanged: (value) => this.contrasenia = value,
+          onFieldSubmitted: (value) => this.contrasenia = value,
+          validator: (value) =>
+              value.isEmpty ? 'Este campo no puede estar vacío' : null,
+          onSaved: (value) => this.contrasenia = value,
+        ),
+      ),
+    );
+  }
 
-}
- String verificar(String dato)
- {
-   if(dato=="M")
-   {
-     return 'Masculino';
-   }
-   else
-   {
+  Widget buttonRegistrarUsuario(Size sizescreen) {
+    return Container(
+      width: sizescreen.width * 0.95,
+      child: Row(
+        children: [
+          Container(
+            width: sizescreen.width * 0.49,
+            child: ButtonTheme(
+              minWidth: sizescreen.width * 0.35,
+              //height: sizescreen.height*0.056,
+              child: Center(
+                child: RaisedButton(
+                  child: Text("Actualizar"),
+                  onPressed: validarregistrar1,
+                  color: Colors.lightBlue,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Container(
+            width: sizescreen.width * 0.45,
+            child: Center(
+              child: ButtonTheme(
+                minWidth: sizescreen.width * 0.36,
+                //height: sizescreen.height*0.056,
+                child: RaisedButton(
+                  child: Text("Cancelar"),
+                  onPressed: () => {
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        '/', (Route<dynamic> route) => false)
+                  },
+                  color: Colors.lightBlue,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget textFieldprofesion(Size sizescreen, List<CurrentUsuario> datos) {
+    return Container(
+      width: sizescreen.width * 0.85,
+      //padding:EdgeInsets.all(3),
+      child: Center(
+        child: TextFormField(
+          initialValue: datos[0].profesion,
+          autofocus: false,
+          keyboardType: TextInputType.text,
+          textCapitalization: TextCapitalization.words,
+          decoration: InputDecoration(
+            labelText: "Profesion",
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+              borderSide: BorderSide(color: Colors.black),
+            ),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+                borderSide: BorderSide(color: Colors.black)),
+            prefixIcon: Icon(Icons.text_fields),
+            filled: true,
+            fillColor: Colors.white,
+          ),
+          validator: (value) => value.isEmpty
+              ? 'Este campo no puede estar vacío'
+              : !validateName(value)
+                  ? 'Ingrese un nombre válido'
+                  : null,
+          onSaved: (value) => this.profesion = value,
+        ),
+      ),
+    );
+  }
+
+  String verificar(String dato) {
+    if (dato == "M") {
+      return 'Masculino';
+    } else {
       return 'Femenino';
-   }
-
- }
+    }
+  }
 }
