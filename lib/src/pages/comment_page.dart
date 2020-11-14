@@ -39,7 +39,8 @@ class _CommentPageState extends State<CommentPage> {
                   SliverToBoxAdapter(
                     child: publicacion(_screenSize, snapshot),
                   ),
-                  comentarios(_screenSize, snapshot)
+                  comentarios(_screenSize, snapshot),
+                  envioComentario(_screenSize, snapshot.data)
                 ],
               );
             } else {
@@ -72,6 +73,7 @@ class _CommentPageState extends State<CommentPage> {
                     space: false,
                   ),
                   listadoComentarios(screenSize, snapshot.data),
+                  
                 ],
               ),
             );
@@ -165,9 +167,73 @@ class _CommentPageState extends State<CommentPage> {
     );
   }
 
-  comentarios(Size screenSize, AsyncSnapshot snapshot) {
-    return SliverList(delegate: SliverChildBuilderDelegate((BuildContext context, int index){
-      
-    }));
+  Widget comentarios(Size screenSize, AsyncSnapshot snapshot) {
+    final data = snapshot.data[0];
+    if (snapshot.hasData) {
+      return SliverList(
+          delegate: SliverChildBuilderDelegate(
+        (BuildContext context, int i) {
+          return Card(
+            elevation: 5,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)),
+            // elevation: 5,
+            child: ListTile(
+              leading: CircleAvatar(
+                backgroundImage: NetworkImage(data.comentarios[i].fotoUser),
+              ),
+              title: Text(data.comentarios[i].nombre),
+              subtitle: Text(data.comentarios[i].comentaryDescription),
+              trailing: Text(data.comentarios[i].timeAgo),
+            ),
+          );
+        },
+        childCount: data.comentarios.length,
+      ));
+    } else {
+      return SliverToBoxAdapter(
+        child: Container(
+          height: screenSize.height * 4,
+          child: Center(
+            child: CircularProgressIndicator(),
+          ),
+        ),
+      );
+    }
+  }
+
+  envioComentario(Size screenSize, data) {
+    return SliverToBoxAdapter(
+      child: Card(
+        elevation: 30,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+        child: Row(
+          children: [
+            Container(
+              padding: EdgeInsets.fromLTRB(12, 0, 12, 10),
+              height: screenSize.height * 0.1,
+              width: screenSize.width * 0.71,
+              child: TextFormField(
+                // onSaved: (newValue) => publicacion.descripcion = newValue,
+                textCapitalization: TextCapitalization.sentences,
+
+                decoration: InputDecoration(labelText: 'Escribe tu historia...'),
+                // expands: true,
+                maxLines: null,
+                minLines: null,
+                autocorrect: true,
+                autofocus: false,
+              ),
+            ),
+            FlatButton(
+                onPressed: () {},
+                child: Icon(
+                  Icons.send,
+                  color: Colors.lightBlue,
+                ))
+          ],
+        ),
+      ),
+    );
   }
 }
