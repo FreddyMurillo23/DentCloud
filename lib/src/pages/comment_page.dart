@@ -33,21 +33,23 @@ class _CommentPageState extends State<CommentPage> {
         body: FutureBuilder(
           future: provider.getPublicacionesById(id),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if(snapshot.hasData){return CustomScrollView(
-              slivers: [
-                SliverToBoxAdapter(
-                  child: publicacion(_screenSize, snapshot),
-                )
-              ],
-            );}else{
-               return Container(
-              height: _screenSize.height * 0.4,
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
+            if (snapshot.hasData) {
+              return CustomScrollView(
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: publicacion(_screenSize, snapshot),
+                  ),
+                  comentarios(_screenSize, snapshot)
+                ],
+              );
+            } else {
+              return Container(
+                height: _screenSize.height * 0.4,
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
             }
-            
           },
         ));
   }
@@ -155,29 +157,17 @@ class _CommentPageState extends State<CommentPage> {
     );
   }
 
-  publicacionHeader(Size screenSize, AsyncSnapshot snapshot) {
-    return SliverAppBar(
-      elevation: 2,
-      // expandedHeight: screenSize.height * 0.55,
-      brightness: Brightness.dark,
-      backgroundColor: Colors.indigoAccent,
-      pinned: false,
-      flexibleSpace: FlexibleSpaceBar(
-        centerTitle: false,
-        title: CardWidgetPublicaciones(
-          publicaciones: snapshot.data,
-          id: 0,
-          space: false,
-        ),
-      ),
-    );
-  }
-
   Widget publicacion(Size _screenSize, AsyncSnapshot snapshot) {
     return CardWidgetPublicaciones(
       publicaciones: snapshot.data,
       id: 0,
       space: false,
     );
+  }
+
+  comentarios(Size screenSize, AsyncSnapshot snapshot) {
+    return SliverList(delegate: SliverChildBuilderDelegate((BuildContext context, int index){
+      
+    }));
   }
 }
