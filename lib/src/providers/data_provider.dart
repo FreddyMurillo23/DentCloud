@@ -295,22 +295,41 @@ class DataProvider {
       return false;
     }
   }
-  Future<List<Publicacion>> getPublicacionesById(String id) async {
-  
-      // print(pub);
-      // print(pub.idPublicacion);
-      String url =
-          'http://54.197.83.249/PHP_REST_API/api/get/get_publications_by_id.php?id_publication=$id';
-      final resp = await http.get(url);
-      // print(resp);
-      //? decodificacion de la data json.decode
-      final decodedData = json.decode(resp.body);
-      final publicaciones =
-          new Publicaciones.fromJsonList(decodedData['publicaciones']);
 
-      // print(publicaciones.items[0]);
-    
+  Future<List<Publicacion>> getPublicacionesById(String id) async {
+    // print(pub);
+    // print(pub.idPublicacion);
+    String url =
+        'http://54.197.83.249/PHP_REST_API/api/get/get_publications_by_id.php?id_publication=$id';
+    final resp = await http.get(url);
+    // print(resp);
+    //? decodificacion de la data json.decode
+    final decodedData = json.decode(resp.body);
+    final publicaciones =
+        new Publicaciones.fromJsonList(decodedData['publicaciones']);
+
+    // print(publicaciones.items[0]);
+
     // print(public);
     return publicaciones.items;
+  }
+
+  Future<bool> setComentario(
+    String content,
+    String idpub,
+    String useremail,
+  ) async {
+    DateTime now = new DateTime.now();
+    String time = now.toString();
+
+    String url =
+        'http://54.197.83.249/PHP_REST_API/api/post/post_commentary.php?publication_id=$idpub&user_email=$useremail&commentary_date=$time&commentary_description=$content';
+    final resp = await http.get(url);
+    if (resp.statusCode == 200) {
+      return true;
+    }
+    else{
+      return false;
+    }
   }
 }

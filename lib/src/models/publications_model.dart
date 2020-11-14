@@ -273,7 +273,7 @@ class Comentarios {
         }
         return 'Hace $timeAgoMin minutos · ';
       }
-      if (timeAgoSec > 0 &&
+      if (timeAgoSec >= 0 &&
           timeAgoMin == 0 &&
           timeAgoDays == 0 &&
           timeAgoHour == 0) {
