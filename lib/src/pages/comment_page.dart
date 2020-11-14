@@ -20,18 +20,36 @@ class _CommentPageState extends State<CommentPage> {
     String id = ModalRoute.of(context).settings.arguments;
     final _screenSize = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        brightness: Brightness.light,
-        backgroundColor: Colors.white,
-        title: Image(
-          image: AssetImage('assets/title.png'),
-          height: _screenSize.height * 0.1,
-          fit: BoxFit.fill,
+        appBar: AppBar(
+          brightness: Brightness.light,
+          backgroundColor: Colors.white,
+          title: Image(
+            image: AssetImage('assets/title.png'),
+            height: _screenSize.height * 0.1,
+            fit: BoxFit.fill,
+          ),
+          centerTitle: false,
         ),
-        centerTitle: false,
-      ),
-      body: comentario(_screenSize, id),
-    );
+        body: FutureBuilder(
+          future: provider.getPublicacionesById(id),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if(snapshot.hasData){return CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(
+                  child: publicacion(_screenSize, snapshot),
+                )
+              ],
+            );}else{
+               return Container(
+              height: _screenSize.height * 0.4,
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+            }
+            
+          },
+        ));
   }
 
   comentario(Size screenSize, String id) {
@@ -79,13 +97,19 @@ class _CommentPageState extends State<CommentPage> {
                 } else {
                   return Column(
                     children: [
-                      Card(elevation: 30,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                      Card(
+                        elevation: 30,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0)),
                         // elevation: 5,
                         child: ListTile(
-                          leading: CircleAvatar(backgroundImage: NetworkImage(data[0].comentarios[i].fotoUser),),
+                          leading: CircleAvatar(
+                            backgroundImage:
+                                NetworkImage(data[0].comentarios[i].fotoUser),
+                          ),
                           title: Text(data[0].comentarios[i].nombre),
-                          subtitle: Text(data[0].comentarios[i].comentaryDescription),
+                          subtitle:
+                              Text(data[0].comentarios[i].comentaryDescription),
                           trailing: Text(data[0].comentarios[i].timeAgo),
                         ),
                       ),
@@ -94,33 +118,66 @@ class _CommentPageState extends State<CommentPage> {
                   );
                 }
               }),
-         Card(
-      elevation: 30,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-      child: Row(
-        children: [
-          Container(
-            padding: EdgeInsets.fromLTRB(12, 0, 12, 10),
-            height: screenSize.height * 0.1,
-            width: screenSize.width*0.71,
-            child: TextFormField(
-              // onSaved: (newValue) => publicacion.descripcion = newValue,
-              textCapitalization: TextCapitalization.sentences,
-              
-              decoration: InputDecoration(labelText: 'Escribe tu historia...'),
-              // expands: true,
-              maxLines: null,
-              minLines: null,
-              autocorrect: true,
-              autofocus: false,
+          Card(
+            elevation: 30,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)),
+            child: Row(
+              children: [
+                Container(
+                  padding: EdgeInsets.fromLTRB(12, 0, 12, 10),
+                  height: screenSize.height * 0.1,
+                  width: screenSize.width * 0.71,
+                  child: TextFormField(
+                    // onSaved: (newValue) => publicacion.descripcion = newValue,
+                    textCapitalization: TextCapitalization.sentences,
+
+                    decoration:
+                        InputDecoration(labelText: 'Escribe tu historia...'),
+                    // expands: true,
+                    maxLines: null,
+                    minLines: null,
+                    autocorrect: true,
+                    autofocus: false,
+                  ),
+                ),
+                FlatButton(
+                    onPressed: () {},
+                    child: Icon(
+                      Icons.send,
+                      color: Colors.lightBlue,
+                    ))
+              ],
             ),
-          ),
-          FlatButton(onPressed: (){}, child: Icon(Icons.send,color: Colors.lightBlue,))
+          )
         ],
       ),
-    )
-        ],
+    );
+  }
+
+  publicacionHeader(Size screenSize, AsyncSnapshot snapshot) {
+    return SliverAppBar(
+      elevation: 2,
+      // expandedHeight: screenSize.height * 0.55,
+      brightness: Brightness.dark,
+      backgroundColor: Colors.indigoAccent,
+      pinned: false,
+      flexibleSpace: FlexibleSpaceBar(
+        centerTitle: false,
+        title: CardWidgetPublicaciones(
+          publicaciones: snapshot.data,
+          id: 0,
+          space: false,
+        ),
       ),
+    );
+  }
+
+  Widget publicacion(Size _screenSize, AsyncSnapshot snapshot) {
+    return CardWidgetPublicaciones(
+      publicaciones: snapshot.data,
+      id: 0,
+      space: false,
     );
   }
 }
