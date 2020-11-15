@@ -37,8 +37,9 @@ class _SignInState extends State<SignIn> {
           login.userData(_email).then((value) {
             if (value.isNotEmpty) {
               currentUserData.currentProfile = true;
-              currentUserData.profileID = value[0].cedula;
-              currentUserData.profileName = '${value[0].nombres} ${value[0].apellidos}';
+              currentUserData.profileID = value[0].correo;
+              currentUserData.profileName =
+                  '${value[0].nombres} ${value[0].apellidos}';
               Navigator.pushReplacementNamed(context, 'startuppage',
                   arguments: value[0]);
             } else {
@@ -85,7 +86,7 @@ class _SignInState extends State<SignIn> {
       body: new Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-              image: AssetImage("assets/fondo.jpg"),fit: BoxFit.cover),
+              image: AssetImage("assets/fondo.jpg"), fit: BoxFit.cover),
         ),
         child: new Center(
           child: new Container(

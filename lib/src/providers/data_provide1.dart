@@ -114,6 +114,37 @@ class DataProvider1{
      return false;
     }
   }
+  Future<bool> actualizarUsuario(
+   String email,
+   String password,
+   String nombre,
+   String apellido,
+   DateTime fecha,
+   String telefono,
+   String sexo,
+   String profesion,
+   String provincia,
+   String canton,
+   String fotourl,
+   String fotopath
+  )
+  async {
+    var url=Uri.parse('http://54.197.83.249/PHP_REST_API/api/put/put_update_user.php?user_email=$email&password=$password&user_names=$nombre&user_last_names=$apellido&birthdate=$fecha&cellphone=$telefono&sex=$sexo&doctor_profession=$profesion&province_resident=$provincia&city_resident=$canton&url_photo=$fotourl');
+    var request = http.MultipartRequest('POST', url);
+    if (fotopath != null) {
+      var pic = await http.MultipartFile.fromPath("archivo", fotopath);
+      request.files.add(pic);
+    }
+    var response = await request.send();
+    if(response.statusCode==200)
+    {
+     return true;
+    }
+    else
+    {
+     return false;
+    }
+  }
 
    Future<List<ChatSeleccionado>> obtenerChat(
       String sala) async {
