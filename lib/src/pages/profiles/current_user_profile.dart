@@ -62,7 +62,7 @@ class _CurrentUserProfileState extends State<CurrentUserProfile> {
           delegate:
               SliverChildBuilderDelegate((BuildContext context, int index) {
         // print(snapshot.data.length);
-        return CardWidgetPublicaciones(publicaciones: snapshot.data, id: index);
+        return CardWidgetPublicaciones(publicaciones: snapshot.data, id: index,space: true,);
       }, childCount: snapshot.data.length));
     } else {
       return SliverToBoxAdapter(
