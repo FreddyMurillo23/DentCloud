@@ -122,6 +122,7 @@ class _CommentPageState extends State<CommentPage> {
                 minLines: null,
                 autocorrect: true,
                 autofocus: true,
+                keyboardType: TextInputType.text,
               ),
             ),
             FlatButton(
@@ -145,6 +146,7 @@ class _CommentPageState extends State<CommentPage> {
 
   Widget userAvatarComentario(Size screenSize, AsyncSnapshot snapshot, int i) {
     final data = snapshot.data[0];
+    // print(data.comentarios[i].comentaryId);
     return Card(
       elevation: 5,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
@@ -187,79 +189,143 @@ class _CommentPageState extends State<CommentPage> {
                   ],
                 ),
               ),
-              CircleButton(
-                icon: Icons.more_horiz,
-                iconsize: 25,
-                onPressed: () {
-                  print('options');
-                },
-                colorBorde: null,
-                colorIcon: null,
-              ),
+              GestureDetector(
+              child: PopupOptionMenu(data, i),
+              onTap: () {
+                setState(() {
+                  
+                });
+              },),
             ],
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(12, 1, 12, 15),
-            child: Text(
-              '${data.comentarios[i].comentaryDescription}',
-              style: TextStyle(color: Colors.grey[700]),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                '${data.comentarios[i].comentaryDescription}',
+                textAlign: TextAlign.left,
+                style: TextStyle(color: Colors.grey[700]),
+              ),
             ),
           ),
         ],
       ),
     );
   }
+}
 
-  // Widget userAvatarComentario(Size _screenSize, AsyncSnapshot snapshot) {
-  //   final prefs = new PreferenciasUsuario();
-  //   final useremail = prefs.currentCorreo;
-  //   String content;
 
-  //   return Container(
-  //     // color: Colors.red,
-  //     child: Row(
-  //       children: <Widget>[
-  //         ProfileAvatar(
-  //           imageUrl: ' ',
-  //         ),
-  //         const SizedBox(
-  //           width: 8.0,
-  //         ),
-  //         Expanded(
-  //           child: Column(
-  //             crossAxisAlignment: CrossAxisAlignment.start,
-  //             children: [
-  //               Text(
-  //                 '${widget.publicaciones[widget.id].usuarioPublicacion}',
-  //                 style: TextStyle(fontWeight: FontWeight.w600),
-  //               ),
-  //               Row(
-  //                 children: [
-  //                   Text(
-  //                     '${widget.publicaciones[widget.id].timeAgo}',
-  //                     style: TextStyle(color: Colors.grey[600], fontSize: 12.0),
-  //                   ),
-  //                   Icon(
-  //                     Icons.public,
-  //                     color: Colors.grey[600],
-  //                     size: 12.0,
-  //                   ),
-  //                 ],
-  //               )
-  //             ],
-  //           ),
-  //         ),
-  //         CircleButton(
-  //           icon: Icons.more_horiz,
-  //           iconsize: 25,
-  //           onPressed: () {
-  //             print('options');
-  //           },
-  //           colorBorde: null,
-  //           colorIcon: null,
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
+
+
+
+
+
+
+enum MenuOption { Eliminar, Modificar }
+
+class PopupOptionMenu extends StatefulWidget {
+  Publicacion comentario;
+  int i;
+  PopupOptionMenu(
+    this.comentario,
+    this.i, {
+    Key key,
+  }) : super(key: key);
+
+  @override
+  _PopupOptionMenuState createState() => _PopupOptionMenuState();
+}
+
+class _PopupOptionMenuState extends State<PopupOptionMenu> {
+  final provider = new DataProvider();
+  @override
+  Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    return PopupMenuButton<MenuOption>(
+      onSelected: (MenuOption result) {
+        setState(() {
+          if (result == MenuOption.Eliminar) {
+            eliminar();
+            setState(() {
+              
+            });
+          }
+          if (result == MenuOption.Modificar) {
+            modificar();
+            setState(() {
+              
+            });
+          }
+        });
+      },
+      itemBuilder: (BuildContext context) {
+        // final menuotp = new MenuOption();
+        return <PopupMenuEntry<MenuOption>>[
+          PopupMenuItem(
+              height: 1,
+              child: Container(
+                  // height: screenSize.height*0.015,
+                  // width: screenSize.width*0.1,
+                  child: ListTile(
+                title: Text('Eliminar'),
+                leading: Icon(Icons.delete),
+              )),
+              value: MenuOption.Eliminar),
+          PopupMenuItem(
+              child: Container(
+                  // height: screenSize.height*0.015,
+                  // width: screenSize.width*0.1,
+                  child: ListTile(
+                title: Text('Modificar'),
+                leading: Icon(Icons.edit),
+              )),
+              value: MenuOption.Modificar),
+        ];
+      },
+    );
+  }
+
+  void eliminar() {
+    provider
+        .deleteComentario(widget.comentario.comentarios[widget.i].comentaryId);
+    print('valeskk');
+    print(widget.comentario.comentarios[widget.i].comentaryId);
+  }
+
+  void modificar() {
+    createAlerDialog(context);
+  }
+
+  createAlerDialog(BuildContext context) {
+    TextEditingController controller = new TextEditingController();
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Edite su comentario: '),
+            content: TextField(
+              controller: controller,
+            ),
+            actions: [
+              MaterialButton(
+                elevation: 5.0,
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('Cancelar'),
+              ),
+              MaterialButton(
+                elevation: 5.0,
+                onPressed: () async {
+                  provider.putComentario(controller.text.toString(),
+                      widget.comentario.comentarios[widget.i].comentaryId);
+                  Navigator.of(context).pop();
+                },
+                child: Text('Modificar'),
+              )
+            ],
+          );
+        });
+  }
 }

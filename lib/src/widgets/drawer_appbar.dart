@@ -73,7 +73,7 @@ class _NavDrawerState extends State<NavDrawer> {
 
         
           // ListTile(
-          //   leading: Icon(Icons.verified_user),
+          //   leading: Icon(Icons.verified_user),  
           //   title: Text('Agenda'),
           //   onTap: () => {
           //     eventHoldProv.listarEventosonHold('hvargc'),
