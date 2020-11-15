@@ -73,7 +73,7 @@ class _NavDrawerState extends State<NavDrawer> {
 
         
           // ListTile(
-          //   leading: Icon(Icons.verified_user),
+          //   leading: Icon(Icons.verified_user),  
           //   title: Text('Agenda'),
           //   onTap: () => {
           //     eventHoldProv.listarEventosonHold('hvargc'),
@@ -94,11 +94,13 @@ class _NavDrawerState extends State<NavDrawer> {
               Navigator.pushNamed(context, 'settings',arguments: prefs.profileID),
             },
           ),
-          ListTile(
+          widget.currentuser.tipoUsuario == 'D'
+          ?ListTile(
             leading: Icon(Icons.list),
             title: Text('Lista Pacientes'),
             onTap: () => Navigator.pushNamed(context, 'patients'),
-          ),
+          ):
+          Container(),
           ListTile(
             leading: Icon(Icons.exit_to_app),
             title: Text('Cerrar Sesión'),

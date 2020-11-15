@@ -327,8 +327,28 @@ class DataProvider {
     final resp = await http.get(url);
     if (resp.statusCode == 200) {
       return true;
+    } else {
+      return false;
     }
-    else{
+  }
+
+  Future<bool> putComentario(String comentario, String id,) async {
+    String url = 'http://54.197.83.249/PHP_REST_API/api/put/put_commentary.php?commentary_id=$id&commentary_description=$comentario';
+    final resp = await http.get(url);
+    if (resp.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> deleteComentario(String idComentario) async {
+    String url =
+        'http://54.197.83.249/PHP_REST_API/api/delete/delete_commentary.php?commentary_id=$idComentario';
+    final resp = await http.get(url);
+    if (resp.statusCode == 200) {
+      return true;
+    } else {
       return false;
     }
   }
