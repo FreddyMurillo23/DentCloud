@@ -60,9 +60,9 @@ class _SignInState extends State<SignIn> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: new Text("Datos Erroneos Onichan"),
+            title: new Text("Datos Erroneos"),
             content: new Image(
-              image: AssetImage("assets/fondo2.png"),
+              image: AssetImage("assets/logo.png"),
               width: 150,
               height: 200,
             ),

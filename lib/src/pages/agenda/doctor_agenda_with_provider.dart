@@ -43,7 +43,6 @@ class _AgendaWithProviderState extends State<AgendaWithProvider> {
 
   TextEditingController controladorFecha = TextEditingController();
   TextEditingController controladorHora = TextEditingController();
-  
 
   @override
   void initState() {
@@ -71,6 +70,21 @@ class _AgendaWithProviderState extends State<AgendaWithProvider> {
     return data;
   }
 
+  Map<DateTime, List<dynamic>> _eventsGetPrueba(List<EventosModelo> events) {
+    Map<DateTime, List<dynamic>> data = {};
+    events.forEach((event) {
+      DateTime date = DateTime(event.fecha.year, event.fecha.month,
+          event.fecha.day);
+      if(data.containsKey(date)){
+        data[date].add(event);
+      } else{
+        if (data[date] == null) data[date] = [];
+        data[date].add(event);
+      }
+    });
+    return data;
+  }
+
   List<EventosModelo> transormar(List<dynamic> dinamico) {
     var temporal2 = List<EventosModelo>.from(dinamico);
     return temporal2;
@@ -90,6 +104,16 @@ class _AgendaWithProviderState extends State<AgendaWithProvider> {
     return listServicio;
   }
 
+  String fechaString(DateTime selectDay){
+    String fecha = DateFormat('EEEE, d MMMM, yyyy', 'es').format(selectedDay).toString();
+    String cambio;
+
+    cambio=fecha[0].toUpperCase() + fecha.substring(1);
+
+    return cambio;
+  }
+
+
   @override
   Widget build(BuildContext context) {
 
@@ -97,9 +121,8 @@ class _AgendaWithProviderState extends State<AgendaWithProvider> {
     final _screenSize = MediaQuery.of(context).size;
     eventosProvider = Provider.of<EventosProvider>(context);
     eventosProvider.listarEventosHold(userinfo.correo);
-    Future<List<EventosModelo>> futureEvents;
     servicioProvider = Provider.of<ServicioProvider>(context);
-    servicioProvider.listarServicios(userinfo.cedula+'001');
+    servicioProvider.listarServicios(userinfo.cedula+'001');    
 
     void valideField(EventosModelo eventos){
     final form = formkey.currentState;
@@ -275,7 +298,7 @@ class _AgendaWithProviderState extends State<AgendaWithProvider> {
       backgroundColor: Colors.white,
       body: Selector<EventosProvider, List<EventosModelo>>(
         selector: (context, model) => model.eventos,
-        builder: (context, value, child) => 
+        builder: (context, value, child) =>
           SingleChildScrollView(
             child: Column(children: <Widget>[
               Card(
@@ -284,7 +307,8 @@ class _AgendaWithProviderState extends State<AgendaWithProvider> {
                   availableGestures: AvailableGestures.horizontalSwipe,
                   locale: 'es',
                   calendarController: _controller,
-                  events: _eventsGet(value),
+                  //!
+                  events: _eventsGetPrueba(value),
                   initialCalendarFormat: CalendarFormat.month,
                   calendarStyle: CalendarStyle(
                       canEventMarkersOverflow: true,
@@ -374,7 +398,7 @@ class _AgendaWithProviderState extends State<AgendaWithProvider> {
                     color: Colors.lightBlue,
                   ),
                   title: Text(
-                    selectedDay.year.toString()+' - '+selectedDay.month.toString()+' - '+selectedDay.day.toString(),
+                    fechaString(selectedDay),
                     style: TextStyle(color: Colors.grey.shade600),
                   ),
                   subtitle: Text('Usted tiene $countSelectedDay citas agendadas'),
@@ -490,7 +514,7 @@ class _AgendaWithProviderState extends State<AgendaWithProvider> {
                 height: 100,
               ),
             ]),
-          ) 
+          )
       ),
       floatingActionButton: floatingButon(userinfo),
     );
