@@ -73,8 +73,12 @@ class _AddEventState extends State<AddEvent> {
 
   List<DropdownMenuItem> getSelectOptions(List<Servicios> servicios){
     dropDownItemsMap = new Map();
-    listServicio.clear();
+    if(servicios.isEmpty || servicios == null || servicios == []) {
+      listServicio.clear();
+      return listServicio;
+    }
     servicios.forEach((servicios) { 
+      print(servicios.descripcion);
       int index = servicios.servicioid;
       dropDownItemsMap[index] = servicios;
       listServicio.add(new DropdownMenuItem(
@@ -302,6 +306,7 @@ class _AddEventState extends State<AddEvent> {
                               suffixIcon: GestureDetector(
                                 onTap: ()async{
                                 final seleccionDoctor = await showSearch(context: context, delegate: EventSearchDelegate('Buscar Doctores', historial));
+                                print(seleccionDoctor.celular);
                                 setState(() {
                                   doctorSeleccionado = seleccionDoctor;
                                   controlador.text = doctorSeleccionado.doctor;

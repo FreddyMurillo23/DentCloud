@@ -33,6 +33,30 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
 
   PreferenciasUsuario prefs = new PreferenciasUsuario();
   final publicacionesProvider = new DataProvider();
+  void _showDialog() {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Actualizar Datos"),
+          content: new Text("Se subio correctamente "),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Cerrar"),
+              onPressed: () {
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                    '/', (Route<dynamic> route) => false);
+                //Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
   var correo = ' ';
   File foto;
   @override
@@ -185,6 +209,7 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
           }
           await publicacionesProvider.insertarEtiquetas(etiquetas);
         }
+        _showDialog();
         // Navigator.pushNamed(context, 'prueba');
       },
     );

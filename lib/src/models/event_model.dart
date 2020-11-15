@@ -32,20 +32,28 @@ class EventosModelo{
 
 class EventosModeloUsuario{
   String doctor;
+  String nombreDoctor;
+  String apellidoDoctor;
   DateTime fecha;
   String servicio;
   String descripcion;
   String idcita;
+  String foto;
+  String idServicio;
 
-  EventosModeloUsuario({this.doctor,this.fecha,this.servicio,this.descripcion,this.idcita});
+  EventosModeloUsuario({this.doctor,this.fecha,this.servicio,this.descripcion,this.idcita, this.foto, this.apellidoDoctor, this.nombreDoctor, this.idServicio});
 
   factory EventosModeloUsuario.fromJson(Map<String, dynamic> json) {
     return EventosModeloUsuario(
       doctor: json['doctor'],
+      nombreDoctor: json['nombre_doctor'],
+      apellidoDoctor: json['apellido_doctor'],
       fecha: DateTime.parse(json['fecha'].toString()),
       servicio: json['nombre_servicio'],
       descripcion: json['descripcion'],
-      idcita: json['id_cita']
+      idcita: json['id_cita'],
+      foto:  json['foto_doctor'],
+      idServicio: json['id_servicio']
     );
   }
 }

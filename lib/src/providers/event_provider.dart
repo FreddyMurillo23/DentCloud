@@ -33,14 +33,14 @@ class EventosHoldProvider with ChangeNotifier{
 }
 
 class EventosUsuario with ChangeNotifier{
-  List<EventosModeloUsuario> eventosHold = List<EventosModeloUsuario>();
+  List<EventosModeloUsuario> eventosUsuario = List<EventosModeloUsuario>();
 
   void listarEventosUser(String email){
     EventosCtrl.listarEventosUsuarios(email).then((value){
       if(value!=null){
-        this.eventosHold = value;
+        this.eventosUsuario = value;
       } else{
-        this.eventosHold = List<EventosModeloUsuario>();       
+        this.eventosUsuario = List<EventosModeloUsuario>();       
       }
       notifyListeners();
     });
