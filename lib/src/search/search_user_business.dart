@@ -8,6 +8,7 @@ class UserBusinessSearch extends SearchDelegate {
   final businessProvider = new DataProvider1();
   String seleccion = " ";
   bool activar = true;
+  var activado=Colors.blue[200];
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -70,9 +71,11 @@ class UserBusinessSearch extends SearchDelegate {
                       child: Opacity(
                         opacity: 0.8,
                         child: RaisedButton(
-            color: Colors.transparent,
+                       color: activado,
                          child: Text('Usuario'),
-                         onPressed: (){},
+                         onPressed: (){
+                           activar=true;
+                         },
                          shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10))
                      ),
@@ -161,7 +164,7 @@ class UserBusinessSearch extends SearchDelegate {
                       child: Opacity(
                         opacity: 0.8,
                         child: RaisedButton(
-            color: Colors.transparent,
+            color: activado,
                          child: Text('Usuario'),
                          onPressed: (){
                            activar=true;
@@ -258,7 +261,7 @@ class UserBusinessSearch extends SearchDelegate {
              child: ButtonTheme(
              minWidth: sizescreen.width * 0.47,
              child: RaisedButton(
-                color: Colors.transparent,
+                color: activado,
              child: Text('Negocio'),
              onPressed: (){
                activar=false;
@@ -351,7 +354,7 @@ class UserBusinessSearch extends SearchDelegate {
              child: ButtonTheme(
              minWidth: sizescreen.width * 0.47,
              child: RaisedButton(
-                color: Colors.transparent,
+                color: activado,
              child: Text('Negocio'),
              onPressed: (){
                activar=false;

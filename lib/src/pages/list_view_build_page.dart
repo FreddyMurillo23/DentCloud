@@ -37,7 +37,7 @@ class _ListPageState extends State<ListPage> {
     _getlista(correo);
     timer = Timer.periodic(Duration(seconds: 5), (Timer t) => _getlista(correo));
     }
-
+  
   @override
   Widget build(BuildContext context) {
     CurrentUsuario userinfo = ModalRoute.of(context).settings.arguments;
