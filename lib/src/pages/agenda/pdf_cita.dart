@@ -1,37 +1,44 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:muro_dentcloud/src/controllers/PDFcita_ctrl.dart';
-import 'package:muro_dentcloud/src/models/pdf_apointments_model.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:muro_dentcloud/src/controllers/PDFService_ctrl.dart';
 
 class PDFCitas extends StatefulWidget {
 
+  final String idCita;
+  final String url;
+
+  const PDFCitas({Key key, this.idCita, this.url}) : super(key: key);
 
   @override
   _PDFCitasState createState() => _PDFCitasState();
-  
 }
 
 class _PDFCitasState extends State<PDFCitas> {
-
-  PDFModelApointment pdfModel;
-  PDFCitaCtrl pdfCtrol;
+  String localPath;
 
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
-    
+
+    ApiServiceProvider.loadPDF(widget.url).then((value) {
+      setState(() {
+        localPath = value;
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Text("Recetas", style: TextStyle(color: Colors.black, fontSize: 35),),
-        centerTitle: true,
       ),
+      body: localPath != null
+          ? PDFView(
+              filePath: localPath,
+            )
+          : Center(child: CircularProgressIndicator()),
     );
   }
-  
 }
