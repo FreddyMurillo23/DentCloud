@@ -6,20 +6,20 @@ import 'package:muro_dentcloud/src/pages/agenda/pdf_cita.dart';
 import 'package:muro_dentcloud/src/providers/pdf_provider.dart';
 import 'package:provider/provider.dart';
 
-class VistaPDF extends StatefulWidget {
+class Repositorio extends StatefulWidget {
 
   final String idCita;
 
-  const VistaPDF({Key key, this.idCita}) : super(key: key);
+  const Repositorio({Key key, this.idCita}) : super(key: key);
 
   @override
-  _VistaPDFState createState() => _VistaPDFState();
+  _RepositorioState createState() => _RepositorioState();
 }
 
 int count = 2;
 
 
-class _VistaPDFState extends State<VistaPDF> {
+class _RepositorioState extends State<Repositorio> {
   PDFProvider pdfProvider;
 
   @override

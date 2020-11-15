@@ -40,6 +40,10 @@ class MyApp extends StatelessWidget {
             create: (context) => EventosHoldProvider()),
         ChangeNotifierProvider<PDFProvider>(
             create: (context) => PDFProvider()),
+        ChangeNotifierProvider<EventosUsuario>(
+            create: (context) => EventosUsuario()),
+        ChangeNotifierProvider<PDFProviderPatients>(
+            create: (context) => PDFProviderPatients()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -241,18 +241,6 @@ class _RecipeTestState extends State<RecipeTest> {
                         ]
                       )
                     ),
-                    pw.Partition(
-                      child: pw.Column(
-                        crossAxisAlignment: pw.CrossAxisAlignment.end,
-                        children: [
-                          pw.Text('Aqui va algo: '+widget.eventosModeloGlobal.paciente,
-                          textScaleFactor: 1.2,
-                          style: pw.Theme.of(context)
-                              .defaultTextStyle
-                          ),
-                        ]
-                      )
-                    ),
                   ]),
 
                   pw.SizedBox(height: 10),
@@ -265,12 +253,6 @@ class _RecipeTestState extends State<RecipeTest> {
                     children: 
                       getTable(widget.receta),                    
                   ),
-
-                  pw.SizedBox(height: 50),
-                  pw.Footer(
-
-                    title: pw.Text('Aqui podria ir la firma del Dcotor')
-                  )
                 ]
               ),
             ),
@@ -371,27 +353,6 @@ class _RecipeTestState extends State<RecipeTest> {
             eventosModeloGlobal: widget.eventosModeloGlobal,
             path: path,
           ),
-
-          // floatingActionButton: FloatingActionButton.extended(
-          //   onPressed: ()async{
-
-          //     writeOnPdf();
-          //     await savePdf();
-
-          //     Directory documentDirectory = await getApplicationDocumentsDirectory();
-
-          //     String documentPath = documentDirectory.path;
-
-          //     String fullPath = "$documentPath/$nombreArchivo$archivo.pdf";
-          //     print(fullPath);
-
-          //     Navigator.push(context, MaterialPageRoute(
-          //       builder: (context) => PdfPreviewScreen(path: fullPath, currentUsuario: widget.currentuser, eventosModeloGlobal: widget.eventosModeloGlobal,)
-          //     ));
-          //   },
-          //   icon: Icon(Icons.save),
-          //   label: Text('Vista Previa'),
-          // ),
 
       ),
         ),

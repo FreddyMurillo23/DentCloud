@@ -84,7 +84,7 @@ class _NavDrawerState extends State<NavDrawer> {
           ListTile(
             leading: Icon(Icons.settings),
             title: Text('Repositorio'),
-            onTap: () => {Navigator.of(context).pushNamed('agenda')},
+            onTap: () => {Navigator.of(context).pushNamed('repositorio')},
           ),
           ListTile(
             leading: Icon(Icons.border_color),
