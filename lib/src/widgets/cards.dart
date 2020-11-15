@@ -518,6 +518,7 @@ class _PopupOptionMenuState extends State<PopupOptionMenu> {
         context: context,
         builder: (context) {
           return AlertDialog(
+
             title: Text('Va a eliminar esta publicacion. Esta seguro? '),
             actions: [
               MaterialButton(
