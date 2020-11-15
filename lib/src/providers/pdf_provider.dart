@@ -20,8 +20,8 @@ class PDFProvider with ChangeNotifier{
 class PDFProviderPatients with ChangeNotifier{
   List<PDFModelApointment> pdf = List<PDFModelApointment>();
 
-  void listarRecetas(String idCita){
-    PDFCitaCtrl.listarPDF(idCita).then((value){
+  void listarRecetasPacientes(String idCita){
+    PDFCitaCtrl.listarPDFPatients(idCita).then((value){
       if(value!=null){
         this.pdf = value;
       } else{
