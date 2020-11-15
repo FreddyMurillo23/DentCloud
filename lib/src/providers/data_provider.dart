@@ -332,8 +332,12 @@ class DataProvider {
     }
   }
 
-  Future<bool> putComentario(String comentario, String id,) async {
-    String url = 'http://54.197.83.249/PHP_REST_API/api/put/put_commentary.php?commentary_id=$id&commentary_description=$comentario';
+  Future<bool> putComentario(
+    String comentario,
+    String id,
+  ) async {
+    String url =
+        'http://54.197.83.249/PHP_REST_API/api/put/put_commentary.php?commentary_id=$id&commentary_description=$comentario';
     final resp = await http.get(url);
     if (resp.statusCode == 200) {
       return true;
@@ -345,6 +349,46 @@ class DataProvider {
   Future<bool> deleteComentario(String idComentario) async {
     String url =
         'http://54.197.83.249/PHP_REST_API/api/delete/delete_commentary.php?commentary_id=$idComentario';
+    final resp = await http.get(url);
+    if (resp.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> validarUsuarioComentario(String correo, String id) async {
+    String url = '';
+    final resp = await http.get(url);
+    if (resp.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> validarUsuarioPublicacion(String correo, String id) async {
+    String url = '';
+    final resp = await http.get(url);
+    if (resp.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> putPublicacion(
+      String id, String ruc, String descripcion, String useremail) async {
+    String url = 'http://54.197.83.249/PHP_REST_API/api/put/put_publications.php?business_ruc=$ruc&publication_id=$id&description=$descripcion&user_email=$useremail';
+    final resp = await http.get(url);
+    if (resp.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  Future<bool> deletePublicacion(String id)async{
+    String url = '';
     final resp = await http.get(url);
     if (resp.statusCode == 200) {
       return true;

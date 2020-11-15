@@ -17,8 +17,20 @@ class CommentPage extends StatefulWidget {
 }
 
 class _CommentPageState extends State<CommentPage> {
+  ScrollController scrollController = new ScrollController();
   final provider = new DataProvider();
   final formKey = GlobalKey<FormState>();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Timer(
+        Duration(seconds: 1),
+        () =>
+            scrollController.jumpTo(scrollController.position.maxScrollExtent));
+    // scrollController.jumpTo(scrollController.position.maxScrollExtent);
+  }
+
   @override
   Widget build(BuildContext context) {
     String id = ModalRoute.of(context).settings.arguments;
@@ -39,6 +51,7 @@ class _CommentPageState extends State<CommentPage> {
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
               return CustomScrollView(
+                controller: scrollController,
                 slivers: [
                   SliverToBoxAdapter(
                     child: publicacion(_screenSize, snapshot),
@@ -121,7 +134,7 @@ class _CommentPageState extends State<CommentPage> {
                 maxLines: null,
                 minLines: null,
                 autocorrect: true,
-                autofocus: true,
+                autofocus: false,
                 keyboardType: TextInputType.text,
               ),
             ),
@@ -190,12 +203,11 @@ class _CommentPageState extends State<CommentPage> {
                 ),
               ),
               GestureDetector(
-              child: PopupOptionMenu(data, i),
-              onTap: () {
-                setState(() {
-                  
-                });
-              },),
+                child: PopupOptionMenu(data, i),
+                onTap: () {
+                  setState(() {});
+                },
+              ),
             ],
           ),
           Padding(
@@ -214,13 +226,6 @@ class _CommentPageState extends State<CommentPage> {
     );
   }
 }
-
-
-
-
-
-
-
 
 enum MenuOption { Eliminar, Modificar }
 
@@ -247,15 +252,11 @@ class _PopupOptionMenuState extends State<PopupOptionMenu> {
         setState(() {
           if (result == MenuOption.Eliminar) {
             eliminar();
-            setState(() {
-              
-            });
+            setState(() {});
           }
           if (result == MenuOption.Modificar) {
             modificar();
-            setState(() {
-              
-            });
+            setState(() {});
           }
         });
       },
