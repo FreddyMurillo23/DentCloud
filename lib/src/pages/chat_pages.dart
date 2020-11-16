@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:muro_dentcloud/src/pages/chat/lista_chat.dart';
+import 'package:muro_dentcloud/src/pages/chat/lista_chat1.dart';
 import 'package:muro_dentcloud/src/providers/data_provide1.dart';
 
 import 'colors/colors.dart';
@@ -23,7 +24,7 @@ class _ChatPageState extends State<ChatPage> {
    var imageFile;
    String fotopath;
   String mensaje;
-
+  var verificar=0;
 
   void registrardatos(){
      final form = _formKey.currentState;
@@ -40,6 +41,7 @@ class _ChatPageState extends State<ChatPage> {
            print('Guardar datos ');
            _envioMensajeController.clear();
            fotopath=null;
+           verificar=1;
         }
       }
     }
@@ -68,14 +70,17 @@ class _ChatPageState extends State<ChatPage> {
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+   
+      return Scaffold(
       appBar: getAppBar(context),
-      body: GetBodyChat(
+      body: GetBodyChat1(
           email: widget.loguiado,
           sala: widget.sala,
+          verificacion: verificar,
          ),
       bottomSheet: getBottomSheet(context),
     );
+   
   }
    Widget getAppBar(BuildContext context) {
     
@@ -118,62 +123,64 @@ class _ChatPageState extends State<ChatPage> {
 
 
    Widget getBottomSheet(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 8),
-      height: 70,
-      color: Colors.white,
-      child: Row(
-        children: <Widget>[
-          IconButton(
-            icon: Icon(Icons.photo),
-            iconSize: 25,
-            color: primary,
-            onPressed: () {
-             _openGallery();
-            },
-          
-          ),
-          IconButton(
-            icon: Icon(Icons.note_add_rounded),
-            iconSize: 25,
-            color: primary,
-            onPressed: () {
-            },
-          ),
-          Expanded(
-            child: Form(
-              key: _formKey,
-              child: TextFormField(
-                validator: (value)=> value.isEmpty?
-                null : !validarMensaje(value)
-                  ? null
-                  : null,
-                onSaved: (value) => this.mensaje = value,
-                controller: _envioMensajeController,
-                decoration:
-                    InputDecoration.collapsed(hintText: 'Enviar mensaje..'),
-                textCapitalization: TextCapitalization.sentences,
+    return SingleChildScrollView(
+          child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 8),
+        height: 70,
+        color: Colors.white,
+        child: Row(
+          children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.photo),
+              iconSize: 25,
+              color: primary,
+              onPressed: () {
+               _openGallery();
+              },
+            
+            ),
+            IconButton(
+              icon: Icon(Icons.note_add_rounded),
+              iconSize: 25,
+              color: primary,
+              onPressed: () {
+              },
+            ),
+            Expanded(
+              child: Form(
+                key: _formKey,
+                child: TextFormField(
+                  validator: (value)=> value.isEmpty?
+                  null : !validarMensaje(value)
+                    ? null
+                    : null,
+                  onSaved: (value) => this.mensaje = value,
+                  controller: _envioMensajeController,
+                  decoration:
+                      InputDecoration.collapsed(hintText: 'Enviar mensaje..'),
+                  textCapitalization: TextCapitalization.sentences,
+                ),
               ),
             ),
-          ),
-          IconButton(
-            icon: Icon(Icons.camera_alt),
-            iconSize: 25,
-            color: primary,
-            onPressed: (){
-              _openCamera();
+            IconButton(
+              icon: Icon(Icons.camera_alt),
+              iconSize: 25,
+              color: primary,
+              onPressed: (){
+                _openCamera();
 
 
-          }),
-          IconButton(
-            icon: Icon(Icons.send),
-            iconSize: 25,
-            color: primary,
-            onPressed: () {
-               registrardatos();
-            },
-          ),
-        ],
+            }),
+            IconButton(
+              icon: Icon(Icons.send),
+              iconSize: 25,
+              color: primary,
+              onPressed: () {
+                 registrardatos();
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

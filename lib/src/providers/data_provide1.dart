@@ -6,6 +6,7 @@ import 'package:muro_dentcloud/src/models/follows_model.dart';
 import 'package:muro_dentcloud/src/models/lista_chat_model.dart';
 import 'package:muro_dentcloud/src/models/pacient_follows_model.dart';
 import 'package:muro_dentcloud/src/models/search_model/business_data_search.dart';
+import 'package:muro_dentcloud/src/models/search_model/contact_message.dart';
 import 'package:muro_dentcloud/src/models/search_model/user_data_search.dart';
 
 class DataProvider1{
@@ -24,6 +25,8 @@ class DataProvider1{
    }
  }
  
+
+
  Future<bool> deletePacienteSeguido(String correologueado,String eliminado)
 async {
   String url="http://54.197.83.249/PHP_REST_API/api/delete/delete_patient_followed.php?user_email_doctor=$correologueado&user_email_patient=$eliminado";
@@ -48,7 +51,7 @@ async {
  }
 
 
- Future <List<UltimosMensaje>> getListaChat(String emailuser)
+  Future <List<UltimosMensaje>> getListaChat(String emailuser)
   async {
     
     String url='http://54.197.83.249/PHP_REST_API/api/get/get_recent_message.php?user_email=$emailuser';
@@ -171,7 +174,7 @@ async {
     }
   }
 
-   Future<List<ChatSeleccionado>> obtenerChat(
+    Future<List<ChatSeleccionado>> obtenerChat(
       String sala) async {
     String url =
         'http://54.197.83.249/PHP_REST_API/api/get/get_select_by_chat.php?room_id=$sala';
@@ -182,6 +185,20 @@ async {
     final mensaje =
         new MensajeriaData.fromJsonList(decodedData['chat_seleccionado']);
     return mensaje.items;
+  }
+
+  Future<List< ContactoElement>> listaContactoSeguido(String email,String query)
+  async {
+     String url =
+        'http://54.197.83.249/PHP_REST_API/api/get/get_contact_by_like.php?user_email=$email&user_name=$query';
+    final resp = await http.get(url);
+    List<dynamic> items = new List();
+    items.add(resp.body);
+    final decodedData = json.decode(resp.body);
+    final mensaje =
+        new ContactoData.fromJsonList(decodedData['contactos']);
+    return mensaje.items;
+
   }
 
 

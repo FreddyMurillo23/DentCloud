@@ -30,8 +30,8 @@ class ListWidgetChat extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(40.0),
           child: FadeInImage(
-            height: size1.height * 0.07,
-            // width: size1.width*0.05,
+            height: size1.height * 0.05,
+             //width: size1.width*0.05,
             placeholder: AssetImage('assets/jar-loading.gif'),
             image: NetworkImage(lista_chats[id].datosEmisor[0].fotoEmisor),
             fit: BoxFit.cover,

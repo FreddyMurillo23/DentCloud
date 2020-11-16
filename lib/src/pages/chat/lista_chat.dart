@@ -7,7 +7,8 @@ import 'package:muro_dentcloud/src/providers/data_provide1.dart';
 class GetBodyChat extends StatefulWidget {
   final email;
   final sala;
-  GetBodyChat({Key key, this.sala, this.email}) : super(key: key);
+  final verificacion;
+  GetBodyChat({Key key, this.sala, this.email, this.verificacion}) : super(key: key);
 
   @override
   _GetBodyChatState createState() => _GetBodyChatState();
@@ -17,12 +18,21 @@ class _GetBodyChatState extends State<GetBodyChat> {
   Future<List<ChatSeleccionado>> mensajeslista;
   Timer timer;
   final mensajesData = new DataProvider1();
+  var verificar=0;
  ScrollController scrollController = new ScrollController();
   _getlista()
   {
     setState(() 
     {
-      mensajeslista=mensajesData.obtenerChat(widget.sala);
+      if(widget.sala==0)
+      {
+        mensajeslista=mensajesData.obtenerChat('0');
+      }
+      else
+      {
+        mensajeslista=mensajesData.obtenerChat(widget.sala);
+      }
+      
       
     });
 
@@ -34,7 +44,20 @@ class _GetBodyChatState extends State<GetBodyChat> {
   }
   @override
   Widget build(BuildContext context) {
+    if(verificar==0)
+    {
+      Timer(
+    Duration(seconds: 1),
+    () =>scrollController.jumpTo(scrollController.position.maxScrollExtent),
+    );
+    }
+    
+    
     final screenSize = MediaQuery.of(context).size;
+    if(widget.sala==0)
+    {
+      return Container();
+    }
     return Scaffold(
       body: Column(
         children: [
@@ -44,6 +67,7 @@ class _GetBodyChatState extends State<GetBodyChat> {
       //child: child,
     );
   }
+  
   Widget listaChat(Size screenSize,ScrollController scrollController) {
     return FutureBuilder(
       future:mensajeslista,
@@ -57,12 +81,13 @@ class _GetBodyChatState extends State<GetBodyChat> {
               padding: EdgeInsets.all(15),
               itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int index) {
-                
+                verificar=1;
                 return BurbujaChat(
                   id: index,
                   mensajitos: snapshot.data,
                   correoLoggeado: widget.email,
                 );
+
               },
             ),
           );

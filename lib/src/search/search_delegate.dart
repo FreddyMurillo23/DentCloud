@@ -6,6 +6,7 @@ class ChatSearch extends SearchDelegate
   @override
   final useremail;
   ChatSearch(this.useremail);
+  
   final chatProvider = new DataProvider();
    String seleccion=" ";
   @override

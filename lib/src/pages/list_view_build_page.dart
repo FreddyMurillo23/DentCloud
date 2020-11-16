@@ -6,6 +6,7 @@ import 'package:muro_dentcloud/src/models/chat_model.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/providers/data_provide1.dart';
 import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
+import 'package:muro_dentcloud/src/search/search_contact_message.dart';
 import 'package:muro_dentcloud/src/search/search_delegate.dart';
 import 'package:muro_dentcloud/src/widgets/circle_button.dart';
 import 'package:muro_dentcloud/src/widgets/list_build_contact.dart';
@@ -111,7 +112,10 @@ class _ListPageState extends State<ListPage> {
       CircleButton(
           icon: MdiIcons.forumOutline,
           iconsize: 30.0,
-          onPressed: (){}, colorBorde: null, colorIcon: null,
+          onPressed: (){
+
+           showSearch(context: context, delegate: ListaContactSeguidos(prefs.currentCorreo),);
+          }, colorBorde: null, colorIcon: null,
           // onPressed: () => Navigator.pushNamed(context, 'messenger', arguments: userinfo),
         )
     ],

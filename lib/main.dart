@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:muro_dentcloud/palette.dart';
 import 'package:muro_dentcloud/src/pages/sesion/signin.dart';
+import 'package:muro_dentcloud/src/providers/chat_provider.dart';
 import 'package:muro_dentcloud/src/providers/doctores_provider.dart';
 import 'package:muro_dentcloud/src/providers/event_provider.dart';
 import 'package:muro_dentcloud/src/providers/services_provider.dart';
@@ -37,6 +38,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => new UserPatient()),
         ChangeNotifierProvider<EventosHoldProvider>(
             create: (context) => EventosHoldProvider()),
+        ChangeNotifierProvider< ChatObtenidoProvider>(
+            create: (context) => ChatObtenidoProvider())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

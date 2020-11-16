@@ -142,7 +142,7 @@ class UserBusinessSearch extends SearchDelegate {
                     ),
 
                     ],
-                  ),
+            ),
                 ),
               );
           }

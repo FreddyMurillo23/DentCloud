@@ -22,73 +22,47 @@ class BurbujaChat extends StatelessWidget {
   Widget usuarionoLogeado(Size screenSize){
     if( mensajitos[id].messageContent!=null)
     {
-      return Padding(
-        padding: const EdgeInsets.only(bottom: 2),
-        child: Row(
-          children: <Widget>[
-            Container(
-              child: Text(mensajitos[id].timeHour),
-            ),
-            SizedBox(
-              width: screenSize.width * 0.025,
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(vertical: screenSize.height * 0.0035),
-              //width: screenSize.width*0.45,
-              child: Expanded(
-                            child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius:
-                          getBorderMessageType(mensajitos[id].messageMessageType),
-                      color: grey),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Text(
-                      mensajitos[id].messageContent,
-                      style: TextStyle(fontSize: 15),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
+      return Container( 
+       child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+         children: [
+           Text(mensajitos[id].timeHour),
+            SizedBox(height: 5.0,),
+           Text(mensajitos[id].messageContent),
+         ],
+       ),
+       padding: EdgeInsets.symmetric(horizontal: 25.0,vertical: 15),
+       margin: EdgeInsets.only(top: 8.0,bottom: 8.0,right: 80),
+       decoration: BoxDecoration(
+         color: grey,
+         borderRadius: BorderRadius.only(
+           topLeft: Radius.circular(15),
+           bottomRight: Radius.circular(15)
+         ),
+       ),
       );
     }
     else
     {
-      return Padding(
-        padding: const EdgeInsets.only(bottom: 2),
-        child: Row(
-          children: <Widget>[
-            Container(
-              child: Text(mensajitos[id].timeHour),
-            ),
-            SizedBox(
-              width: screenSize.width * 0.025,
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(vertical: screenSize.height * 0.0035),
-              width: screenSize.width*0.45,
-              child: Expanded(
-                            child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius:
-                          getBorderMessageType(mensajitos[id].messageMessageType),
-                      color: grey),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: FadeInImage(
-                          image: NetworkImage(mensajitos[id].messageUrlContent),
-                          placeholder: AssetImage('assets/jar-loading.gif'),
-                          fit: BoxFit.cover,
-                     ),
-                    ),
-                  ),
-                ),
-              ),
-          ],
-        ),
+      return Container( 
+       child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+         children: [
+           Text(mensajitos[id].timeHour),
+            SizedBox(height: 5.0,),
+
+            FadeInImage(placeholder: AssetImage('assets/loading.gif'), image:NetworkImage(mensajitos[id].messageUrlContent)),
+         ],
+       ),
+       padding: EdgeInsets.symmetric(horizontal: 25.0,vertical: 15),
+       margin: EdgeInsets.only(top: 8.0,bottom: 8.0,right: 80),
+       decoration: BoxDecoration(
+         color: grey,
+         borderRadius: BorderRadius.only(
+           topLeft: Radius.circular(15),
+           bottomRight: Radius.circular(15)
+         ),
+       ),
       );
 
     }
@@ -97,82 +71,54 @@ class BurbujaChat extends StatelessWidget {
   
   Widget usuarioLogeado(Size screenSize)
   {
-    if(mensajitos[id].messageContent!=null)
+    if( mensajitos[id].messageContent!=null)
     {
-      return Padding(
-        padding: const EdgeInsets.only(bottom: 2),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.symmetric(vertical: screenSize.height * 0.0035),
-              width: screenSize.width*0.45,
-              child: Expanded(
-                        child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius:
-                          getBorderMessageType(mensajitos[id].messageMessageType),
-                      color: primary),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Text(
-                      mensajitos[id].messageContent,
-                      style: TextStyle(fontSize: 15, color: white),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              width: screenSize.width * 0.025,
-            ),
-            Container(
-              child: Text(mensajitos[id].timeHour),
-            ),
-          ],
-        ),
+     return Container( 
+       child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+         children: [
+           Text(mensajitos[id].timeHour),
+           SizedBox(height: 5.0,),
+           Text(mensajitos[id].messageContent),
+         ],
+       ),
+       padding: EdgeInsets.symmetric(horizontal: 25.0,vertical: 10),
+       margin: EdgeInsets.only(top: 8.0,bottom: 8.0,left: 80),
+       decoration: BoxDecoration(
+         color: Colors.blue[100],
+         borderRadius: BorderRadius.only(
+           topLeft: Radius.circular(15),
+           bottomRight: Radius.circular(15)
+         ),
+
+       ),
       );
     }
     else
     {
-      return Padding(
-        padding: const EdgeInsets.only(bottom: 2),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.symmetric(vertical: screenSize.height * 0.0035),
-              width: screenSize.width*0.45,
-              child: Expanded(
-                        child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius:
-                          getBorderMessageType(mensajitos[id].messageMessageType),
-                      color: primary),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child:FadeInImage(
-                          image: NetworkImage(mensajitos[id].messageUrlContent),
-                          placeholder: AssetImage('assets/jar-loading.gif'),
-                          fit: BoxFit.cover,
-                     ),
-                    ),
-                  ),
-                ),
-              ),
-            SizedBox(
-              width: screenSize.width * 0.025,
-            ),
-            Container(
-              child: Text(mensajitos[id].timeHour),
-            ),
-          ],
-        ),
+      return Container( 
+       child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+         children: [
+           Text(mensajitos[id].timeHour),
+            SizedBox(height: 5.0,),
+
+            FadeInImage(placeholder: AssetImage('assets/loading.gif'), image:NetworkImage(mensajitos[id].messageUrlContent)),
+         ],
+       ),
+       padding: EdgeInsets.symmetric(horizontal: 25.0,vertical: 15),
+       margin: EdgeInsets.only(top: 8.0,bottom: 8.0,left:  80),
+       decoration: BoxDecoration(
+         color: grey,
+         borderRadius: BorderRadius.only(
+           topLeft: Radius.circular(15),
+           bottomRight: Radius.circular(15)
+         ),
+       ),
       );
     }
-
-
-
+    
+  
   }
   
   
