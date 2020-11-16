@@ -80,11 +80,10 @@ class ListaContactSeguidos extends SearchDelegate
                       nombre: snapshot.data[index].nombreContacto,
                      loguiado:useremail,
                        correotro:snapshot.data[index].emailContacto,
-                      sala: 0,
+                      sala: snapshot.data[index].sala,
                       foto:snapshot.data[index].fotoPerfilContacto,
                     )));
                     },
-
                   ),
                   Divider(),
                 ],

@@ -25,6 +25,7 @@ class ContactoElement {
   String provinciaContacto;
   String ciudadContacto;
   String fotoPerfilContacto;
+  String sala;
 
   ContactoElement({
     this.emailContacto,
@@ -36,6 +37,7 @@ class ContactoElement {
     this.provinciaContacto,
     this.ciudadContacto,
     this.fotoPerfilContacto,
+    this.sala,
   });
  ContactoElement.fromJsonMap(Map<String, dynamic> json) {
    emailContacto=json['email_contacto'];
@@ -47,6 +49,7 @@ class ContactoElement {
    provinciaContacto=json['provincia_contacto'];
    ciudadContacto=json['ciudad_contacto'];
    fotoPerfilContacto=json['foto_perfil_contacto'];
+   sala=json['sala'];
   }
 
 

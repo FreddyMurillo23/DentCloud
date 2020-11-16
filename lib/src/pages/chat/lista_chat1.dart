@@ -21,19 +21,22 @@ class _GetBodyChat1State extends State<GetBodyChat1> {
   ScrollController scrollController = new ScrollController();
    var verificar=0;
    Timer timer;
+   var salaactualizada;
    ChatObtenidoProvider chat;
   @override
   Widget build(BuildContext context) {
-     final screenSize = MediaQuery.of(context).size;
-     chat=Provider.of<ChatObtenidoProvider>(context);
-    chat.chatActual(widget.sala);
-    if(verificar==0)
+    if(widget.sala==null)
     {
-      Timer(
-    Duration(seconds: 1),
-    () =>scrollController.jumpTo(scrollController.position.maxScrollExtent),
-    );
+       return Scaffold(
+         body: Container(),
+       );
     }
+    else
+    {
+       final screenSize = MediaQuery.of(context).size;
+      salaactualizada=widget.sala;
+     chat=Provider.of<ChatObtenidoProvider>(context);
+    chat.chatActual(salaactualizada);
     return Scaffold(
      //appBar:AppBar() ,
       body: Selector<ChatObtenidoProvider,List<ChatSeleccionado>>(
@@ -46,6 +49,16 @@ class _GetBodyChat1State extends State<GetBodyChat1> {
         ),
       ),
     );
+    }
+    
+    if(verificar==0)
+    {
+      Timer(
+    Duration(seconds: 1),
+    () =>scrollController.jumpTo(scrollController.position.maxScrollExtent),
+    );
+    }
+    
   }
    Widget listaChat(Size screenSize,ScrollController scrollController, List<ChatSeleccionado> mensajeslista) {
     
