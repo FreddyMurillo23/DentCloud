@@ -12,4 +12,13 @@ class ServiciosCtrl{
     }
     return null;
   }
+
+  static Future<List<Servicios>> listarServiciosNuevo(String correo,String dni) async{
+    final response = await http.get("http://54.197.83.249/PHP_REST_API/api/get/get_doctors_services.php?user_email=$correo&business_ruc=$dni");
+    if (response.statusCode == 200) {
+      final parsed = json.decode(response.body).cast<String, dynamic>();
+      return parsed['servicios_doctor'].map<Servicios>((json) => Servicios.fromJson(json)).toList();
+    }
+    return null;
+  }
 }

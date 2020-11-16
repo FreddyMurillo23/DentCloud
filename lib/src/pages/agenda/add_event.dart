@@ -24,7 +24,7 @@ class _AddEventState extends State<AddEvent> {
   final formkey = new GlobalKey<FormState>();
   String doctor, email, descripcion, servicio, user;
   DateTime fecha;
-  ServicioProvider servicioProvider;
+  ServicioProviderNuevo servicioProvider;
   Servicios _selectedItem;
   TextEditingController controlador = TextEditingController();
   TextEditingController controladorCorreoUser = TextEditingController();
@@ -73,12 +73,12 @@ class _AddEventState extends State<AddEvent> {
 
   List<DropdownMenuItem> getSelectOptions(List<Servicios> servicios){
     dropDownItemsMap = new Map();
+    listServicio.clear();
     if(servicios.isEmpty || servicios == null || servicios == []) {
       listServicio.clear();
       return listServicio;
     }
     servicios.forEach((servicios) { 
-      print(servicios.descripcion);
       int index = servicios.servicioid;
       dropDownItemsMap[index] = servicios;
       listServicio.add(new DropdownMenuItem(
@@ -120,7 +120,7 @@ class _AddEventState extends State<AddEvent> {
   @override
   Widget build(BuildContext context) {
     CurrentUsuario userinfo = ModalRoute.of(context).settings.arguments;
-    servicioProvider = Provider.of<ServicioProvider>(context);
+    servicioProvider = Provider.of<ServicioProviderNuevo>(context);
     controladorCorreoUser.text = userinfo.correo;
     controladorNombreUser.text = userinfo.nombres;
     controladorApellidoUser.text = userinfo.apellidos;
@@ -268,11 +268,11 @@ class _AddEventState extends State<AddEvent> {
                                 _selectedItem = null;
                                 historial = [];
                                 final seleccionDoctor = await showSearch(context: context, delegate: EventSearchDelegate('Buscar Doctores', historial));
-                                servicioProvider.listarServicios(seleccionDoctor.cedula+"001");
+                                servicioProvider.listarServiciosNuevo(seleccionDoctor.correo, '1316024427001');
                                 setState(() {
                                   doctorSeleccionado = seleccionDoctor;
                                   controlador.text = doctorSeleccionado.doctor;
-                                  servicioProvider.listarServicios(doctorSeleccionado.cedula+"001");
+                                  servicioProvider.listarServiciosNuevo(seleccionDoctor.correo, '1316024427001');
                                   //if(seleccionDoctor !=null) {this.historial.insert(0, seleccionDoctor);}                        
                                 });
                               },
@@ -306,7 +306,6 @@ class _AddEventState extends State<AddEvent> {
                               suffixIcon: GestureDetector(
                                 onTap: ()async{
                                 final seleccionDoctor = await showSearch(context: context, delegate: EventSearchDelegate('Buscar Doctores', historial));
-                                print(seleccionDoctor.celular);
                                 setState(() {
                                   doctorSeleccionado = seleccionDoctor;
                                   controlador.text = doctorSeleccionado.doctor;
@@ -331,7 +330,7 @@ class _AddEventState extends State<AddEvent> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Expanded(
-                          child: Selector<ServicioProvider, List<Servicios>>(
+                          child: Selector<ServicioProviderNuevo, List<Servicios>>(
                             selector: (context, model) => model.servicios,
                             builder: (context, servicios, child) => Column(
                               children: <Widget>[
