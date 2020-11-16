@@ -74,14 +74,21 @@ class DrougSearchSelect extends SearchDelegate<Medicamento> {
                 children: medicamentos.map((medicamentobuscado) {
                   return Column(
                     children: [
-                      ListTile(
-                        title: Text(medicamentobuscado.drugName),
-                        subtitle: Text(medicamentobuscado.drugConcentration),
-                        leading: Icon(MdiIcons.pill),
-                        trailing: Icon(MdiIcons.arrowAll),
-                        onTap: () {
-                          this.close(context, medicamentobuscado);
-                        },  
+                      Card(
+                        margin: new EdgeInsets.only(
+                            left: 10.0, right: 10.0, top: 8.0, bottom: 5.0),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0)),
+                        elevation: 5,
+                        child: ListTile(
+                          title: Text(medicamentobuscado.drugName),
+                          subtitle: Text(medicamentobuscado.drugConcentration),
+                          leading: Icon(MdiIcons.pill),
+                          trailing: Icon(MdiIcons.arrowAll),
+                          onTap: () {
+                            this.close(context, medicamentobuscado);
+                          },
+                        ),
                       ),
                       // CardExpansionPanelDrougs(
                       //   headerData: medicamentobuscado.drugName,

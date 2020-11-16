@@ -18,53 +18,80 @@ class OutUserProfile extends StatefulWidget {
 
 class _OutUserProfileState extends State<OutUserProfile> {
   final prefs = new PreferenciasUsuario();
-  final publicacionesProvider = new DataProvider();
+  final provider = new DataProvider();
   @override
   Widget build(BuildContext context) {
     final _screenSize = MediaQuery.of(context).size;
-    CurrentUsuario userinfo = ModalRoute.of(context).settings.arguments;
-    // print(userinfo.publicaciones);
+    String correo = ModalRoute.of(context).settings.arguments;
+    print(correo);
     return Scaffold(
       drawer: NavDrawer(),
       body: FutureBuilder(
-          future: publicacionesProvider
-              .getPublicacionesByUser(userinfo.publicaciones),
-          builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
-            return CustomScrollView(
-              slivers: [
-                OutProfileAppBar(
-                  userinfo: userinfo,
-                ),
-                SliverPadding(
-                  padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 5.0),
-                  sliver: SliverToBoxAdapter(
-                    child: Rooms(
-                      userinfo: userinfo,
-                    ),
-                  ),
-                ),
-                SliverToBoxAdapter(
-                  child: Divider(
-                    height: 10,
-                  ),
-                ),
-                publicaciones(userinfo, _screenSize, snapshot),
+          future: provider.userData(correo),
+          builder: (context, AsyncSnapshot<List> user) {
+            if (user.hasData) {
+              print(user.data[0].publicaciones);
+              return FutureBuilder(
+                  future: provider
+                      .getPublicacionesByUser(user.data[0].publicaciones),
+                  builder:
+                      (BuildContext context, AsyncSnapshot publicacionesId) {
+                    if (publicacionesId.hasData) {
+                      // print();
+                      return CustomScrollView(
+                        slivers: [
+                          OutProfileAppBar(
+                            userinfo: user.data[0],
+                          ),
+                          SliverPadding(
+                            padding:
+                                const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 5.0),
+                            sliver: SliverToBoxAdapter(
+                              child: Rooms(
+                                userinfo: user.data[0],
+                              ),
+                            ),
+                          ),
+                          SliverToBoxAdapter(
+                            child: Divider(
+                              height: 10,
+                            ),
+                          ),
+                          publicacionesId.data.length != 0
+                              ? publicaciones(user.data[0], _screenSize,
+                                  publicacionesId.data[0])
+                              :SliverToBoxAdapter(child: Container(),),
 
-                // SliverPublicaciones(),
-              ],
-            );
+                          // SliverPublicaciones(),
+                        ],
+                      );
+                    } else {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                  });
+            } else {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
           }),
     );
   }
 
   Widget publicaciones(
-      CurrentUsuario userinfo, Size _screenSize, AsyncSnapshot snapshot) {
+      CurrentUsuario userinfo, Size _screenSize, dynamic snapshot) {
     if (snapshot.hasData) {
       return SliverList(
           delegate:
               SliverChildBuilderDelegate((BuildContext context, int index) {
         // print(snapshot.data.length);
-        return CardWidgetPublicaciones(publicaciones: snapshot.data, id: index);
+        return CardWidgetPublicaciones(
+          publicaciones: snapshot.data,
+          id: index,
+          space: true,
+        );
       }, childCount: snapshot.data.length));
     } else {
       return SliverToBoxAdapter(
