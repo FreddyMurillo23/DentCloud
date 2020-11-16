@@ -443,7 +443,7 @@ class _RecetaMedicaState extends State<RecetaMedica> {
         form.save();
         Medicamento prueba = medicamento;
         String prescri = prescripcion;
-        receta.dosificacion = prueba.drugKindOfProduct;
+        receta.dosificacion = prueba.drugConcentration;
         receta.medicina = prueba.drugName;
         receta.prescripcion = prescri;
         receta.presentacion = prueba.drugPharmaceuticalForm;
@@ -648,7 +648,7 @@ class _RecetaMedicaState extends State<RecetaMedica> {
                                     setState(() {
                                       medicamento = seleccionMedicina;
                                       controladorMedicina.text = medicamento.drugName;
-                                      controladorDosifiacion.text = medicamento.drugKindOfProduct;
+                                      controladorDosifiacion.text = medicamento.drugConcentration;
                                       controladorPresentacion.text = medicamento.drugPharmaceuticalForm;
                                       print(medicamento.drugAdministration);
                                     });  
