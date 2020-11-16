@@ -27,7 +27,7 @@ class _OutProfileAppBarState extends State<OutProfileAppBar> {
   //!false = RUC
   @override
   Widget build(BuildContext context) {
-    final CurrentUsuario userinfo = ModalRoute.of(context).settings.arguments;
+//  CurrentUsuario userinfo = ModalRoute.of(context).settings.arguments;
     final _screenSize = MediaQuery.of(context).size;
     return SliverAppBar(
       elevation: 2.0,
@@ -48,7 +48,7 @@ class _OutProfileAppBarState extends State<OutProfileAppBar> {
           // color: Colors.white,
           child: ClipRRect(
             child: Text(
-              '  ${userinfo.nombres} ${userinfo.apellidos} ',
+              '  ${widget.userinfo.nombres} ${widget.userinfo.apellidos} ',
               style: TextStyle(
                 color: Colors.grey[600],
                 fontSize: 16.0,

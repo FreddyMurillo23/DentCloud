@@ -15,7 +15,11 @@ class CardWidgetPublicaciones extends StatefulWidget {
   final bool space;
 
   const CardWidgetPublicaciones(
-      {Key key, @required this.publicaciones, @required this.id, this.userinfo, @required this.space})
+      {Key key,
+      @required this.publicaciones,
+      @required this.id,
+      this.userinfo,
+      @required this.space})
       : super(key: key);
 
   @override
@@ -32,86 +36,119 @@ class _CardWidgetPublicacionesState extends State<CardWidgetPublicaciones> {
   Widget build(BuildContext context) {
     final userDataProfile = new DataProvider();
     final _screenSize = MediaQuery.of(context).size;
-    return Container(
-      child: Column(
-        children: [
-          Container(
-            width: _screenSize.width * 0.999,
-            // height: _screenSize.height * 0.70,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30.0),
-                color: Colors.white,
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                      color: Colors.grey[500],
-                      blurRadius: 10.0,
-                      spreadRadius: 2.0,
-                      offset: Offset(2.0, 10.0))
-                ]),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(30.0),
-              child: Container(
-                child: Column(
-                  children: <Widget>[
-                    publicacionCard(context, _screenSize, userDataProfile),
-                    widget.publicaciones[widget.id].imagenPublicacion == 'empty'
-                        ? Divider(
-                            height: 0,
-                            thickness: 0,
-                            color: Colors.transparent,
-                          )
-                        : Divider(
-                            height: 10,
-                            thickness: 0,
-                            color: Colors.transparent,
-                          ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          userAvatar(context),
-                          SizedBox(
-                            height: 4.0,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 5),
-                            child: Text(
-                              '${widget.publicaciones[widget.id].descripcionPublicacion}',
-                              style: TextStyle(color: Colors.grey[700]),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          comentariosYMeGustas(),
+    return FutureBuilder(
+        future: dataprovider.validarUsuarioPublicacion(
+            prefs.currentCorreo, widget.publicaciones[widget.id].idPublicacion),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Container(
+              child: Column(
+                children: [
+                  Container(
+                    width: _screenSize.width * 0.999,
+                    // height: _screenSize.height * 0.70,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30.0),
+                        color: Colors.white,
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                              color: Colors.grey[500],
+                              blurRadius: 10.0,
+                              spreadRadius: 2.0,
+                              offset: Offset(2.0, 10.0))
+                        ]),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(30.0),
+                      child: Container(
+                        child: Column(
+                          children: <Widget>[
+                            publicacionCard(
+                                context, _screenSize, userDataProfile),
+                            widget.publicaciones[widget.id].imagenPublicacion ==
+                                    'empty'
+                                ? Divider(
+                                    height: 0,
+                                    thickness: 0,
+                                    color: Colors.transparent,
+                                  )
+                                : Divider(
+                                    height: 10,
+                                    thickness: 0,
+                                    color: Colors.transparent,
+                                  ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 12.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  userAvatar(context, snapshot),
+                                  SizedBox(
+                                    height: 4.0,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 5),
+                                    child: Text(
+                                      '${widget.publicaciones[widget.id].descripcionPublicacion}',
+                                      style: TextStyle(color: Colors.grey[700]),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  comentariosYMeGustas(),
 
-                          // publicaciones[id].getImagenPublicacion() != null
-                          // ? const SizedBox.shrink()
-                          // : const SizedBox(height: 6.0,)
-                        ],
+                                  // publicaciones[id].getImagenPublicacion() != null
+                                  // ? const SizedBox.shrink()
+                                  // : const SizedBox(height: 6.0,)
+                                ],
+                              ),
+                            ),
+                            bottonCard(_screenSize),
+                          ],
+                        ),
                       ),
                     ),
-                    bottonCard(_screenSize),
-                  ],
-                ),
+                  ),
+                  widget.space
+                      ? SizedBox(height: _screenSize.height * 0.05)
+                      : Container()
+                ],
               ),
-            ),
-          ),
-          widget.space ? SizedBox(height: _screenSize.height * 0.05):Container() 
-        ],
-      ),
-    );
+            );
+          } else {
+            return Column(
+              children: [
+                SizedBox(height: 20,),
+                Center(
+                  child: CircularProgressIndicator(),
+                ),
+                SizedBox(height: 20,),
+              ],
+            );
+          }
+        });
   }
 
-  Widget userAvatar(BuildContext context) {
+  Widget userAvatar(BuildContext context, snapshot) {
+    final provider = new DataProvider();
+    final prefs = new PreferenciasUsuario();
+    print(
+        '${prefs.currentCorreo}, ${widget.publicaciones[widget.id].idPublicacion}');
     return Container(
       // color: Colors.red,
       child: Row(
         children: <Widget>[
-          ProfileAvatar(
-            imageUrl:
-                widget.publicaciones[widget.id].fotoPerfilUsuarioPublicacion,
+          GestureDetector(
+            child: ProfileAvatar(
+              imageUrl:
+                  widget.publicaciones[widget.id].fotoPerfilUsuarioPublicacion,
+            ),
+            onTap: () {
+              Navigator.pushNamed(context, 'outPerfil',
+                            arguments: widget.publicaciones[widget.id].correoUsuario);
+            },
           ),
           const SizedBox(
             width: 8.0,
@@ -140,15 +177,14 @@ class _CardWidgetPublicacionesState extends State<CardWidgetPublicaciones> {
               ],
             ),
           ),
-          CircleButton(
-            icon: Icons.more_horiz,
-            iconsize: 25,
-            onPressed: () {
-              print('options');
-            },
-            colorBorde: null,
-            colorIcon: null,
-          ),
+          snapshot.data
+              ? GestureDetector(
+                  child: PopupOptionMenu(widget.publicaciones[widget.id], 0),
+                  onTap: () {
+                    setState(() {});
+                  },
+                )
+              : Container(),
         ],
       ),
     );
@@ -407,5 +443,152 @@ class _CardWidgetPublicacionesState extends State<CardWidgetPublicaciones> {
             arguments: widget.publicaciones[widget.id].idPublicacion);
       },
     );
+  }
+}
+
+enum MenuOption { Eliminar, Modificar }
+
+class PopupOptionMenu extends StatefulWidget {
+  Publicacion comentario;
+  int i;
+  PopupOptionMenu(
+    this.comentario,
+    this.i, {
+    Key key,
+  }) : super(key: key);
+
+  @override
+  _PopupOptionMenuState createState() => _PopupOptionMenuState();
+}
+
+class _PopupOptionMenuState extends State<PopupOptionMenu> {
+  final provider = new DataProvider();
+  @override
+  Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    return PopupMenuButton<MenuOption>(
+      onSelected: (MenuOption result) {
+        setState(() {
+          if (result == MenuOption.Eliminar) {
+            eliminar();
+            setState(() {});
+          }
+          if (result == MenuOption.Modificar) {
+            modificar();
+            setState(() {});
+          }
+        });
+      },
+      itemBuilder: (BuildContext context) {
+        final prefs = new PreferenciasUsuario();
+        // final menuotp = new MenuOption();
+        return <PopupMenuEntry<MenuOption>>[
+          PopupMenuItem(
+              height: 1,
+              child: Container(
+                  // height: screenSize.height*0.015,
+                  // width: screenSize.width*0.1,
+                  child: ListTile(
+                title: Text('Eliminar'),
+                leading: Icon(Icons.delete),
+              )),
+              value: MenuOption.Eliminar),
+          PopupMenuItem(
+              child: Container(
+                  // height: screenSize.height*0.015,
+                  // width: screenSize.width*0.1,
+                  child: ListTile(
+                title: Text('Modificar'),
+                leading: Icon(Icons.edit),
+              )),
+              value: MenuOption.Modificar),
+        ];
+      },
+    );
+  }
+
+  void eliminar() {
+    deleteAlerDialog(context);
+  }
+
+  void modificar() {
+    createAlerDialog(context);
+  }
+
+  createAlerDialog(BuildContext context) {
+    TextEditingController controller = new TextEditingController();
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Edite su Publicacion: '),
+            content: TextField(
+              controller: controller,
+            ),
+            actions: [
+              MaterialButton(
+                elevation: 5.0,
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('Cancelar'),
+              ),
+              MaterialButton(
+                elevation: 5.0,
+                onPressed: () async {
+                  if (widget.comentario.imagenPublicacion != 'empty') {
+                    bool si = await provider.putPublicacion(
+                        widget.comentario.idPublicacion,
+                        widget.comentario.negocioRuc,
+                        controller.text.toString(),
+                        widget.comentario.correoUsuario,
+                        widget.comentario.imagenPublicacion);
+                    print(si);
+                  } else {
+                    bool si = await provider.putPublicacion2(
+                        widget.comentario.idPublicacion,
+                        widget.comentario.negocioRuc,
+                        controller.text.toString(),
+                        widget.comentario.correoUsuario);
+                    print(si);
+                  }
+
+                  Navigator.of(context).pop();
+                },
+                child: Text('Modificar'),
+              )
+            ],
+          );
+        });
+  }
+
+  deleteAlerDialog(BuildContext context) {
+    TextEditingController controller = new TextEditingController();
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Va a eliminar esta publicacion. Esta seguro? '),
+            actions: [
+              MaterialButton(
+                elevation: 5.0,
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('Cancelar'),
+              ),
+              MaterialButton(
+                elevation: 5.0,
+                onPressed: () async {
+                  bool si = await provider
+                      .deletePublicacion(widget.comentario.idPublicacion);
+                  print(si);
+                  Navigator.of(context).pop(setState(() {}));
+                },
+                child: Text('Eliminar'),
+              )
+            ],
+          );
+        });
   }
 }

@@ -20,3 +20,22 @@ class ServicioProvider with ChangeNotifier{
     this.servicios = [];
   }
 }
+
+class ServicioProviderNuevo with ChangeNotifier{
+  List<Servicios> servicios = List<Servicios>();
+
+  void listarServiciosNuevo(String correo, String dni){
+    ServiciosCtrl.listarServiciosNuevo(correo, dni).then((value){
+      if(value!=null){
+        this.servicios = value;
+      } else{
+        this.servicios = List<Servicios>();
+      }
+      notifyListeners();
+    });
+  }
+
+  void disposeServicios(){
+    this.servicios = [];
+  }
+}

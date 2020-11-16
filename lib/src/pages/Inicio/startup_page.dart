@@ -8,6 +8,7 @@ import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/pages/agenda/agendaUser.dart';
 import 'package:muro_dentcloud/src/pages/Inicio/home_page.dart';
 import 'package:muro_dentcloud/src/pages/Inicio/post_publicaciones.dart';
+import 'package:muro_dentcloud/src/pages/agenda/paciente_agenda_with_provider.dart';
 import 'package:muro_dentcloud/src/pages/list_view_build_page.dart';
 import 'package:muro_dentcloud/src/pages/agenda/doctor_agenda_with_provider.dart';
 import 'package:muro_dentcloud/src/pages/profiles/current_bussiness.dart';
@@ -53,7 +54,7 @@ class _StartUpPageState extends State<StartUpPage> {
       ?AgendaWithProvider(
         currentuser: userinfo,
       )
-      : AgendaUser(
+      : AgendaUserWithProvider(
         currentuser: userinfo,
       ),
       prefs.currentProfile
@@ -118,8 +119,8 @@ class _StartUpPageState extends State<StartUpPage> {
               title: Text('Inicio'),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.search),
-              title: Text('Buscar'),
+              icon: Icon(Icons.location_on),
+              title: Text('Gps'),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.location_on ,color: Colors.transparent,),

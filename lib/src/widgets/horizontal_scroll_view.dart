@@ -38,7 +38,7 @@ class Rooms extends StatelessWidget {
             Container(
               alignment: Alignment(-0.80, -0.1),
               child: Text(
-                'Negocios Seguidos ',
+                'Consultorios',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
@@ -65,7 +65,7 @@ class Rooms extends StatelessWidget {
               ),
               scrollDirection: Axis.horizontal,
               // itemCount: 1 + onlineUsers.length,
-              itemCount: 1 + userinfo.negociosAsistidos.length,
+              itemCount: 1 + userinfo.userTrabajos.length,
               itemBuilder: (BuildContext context, int index) {
                 // print(userinfo.negociosAsistidos.length);
                 if (index == 0) {
@@ -91,14 +91,16 @@ class Rooms extends StatelessWidget {
                         child: FadeInImage(
                           // radius: _screenSize.width*0.1,
                           image: NetworkImage(
-                              'https://assets.umod.org/images/icons/plugin/5d3c47cfdd068.png'), //!Aqui va un dato
+                              userinfo.userTrabajos[index-1].imagenNegocio), //!Aqui va un dato
                           placeholder: AssetImage('assets/loading.gif'),
                           fit: BoxFit.cover,
                         ),
                       ),
                     ),
                     onTap: () {
-                      print('Hola Mundo');
+                      Navigator.pushNamed(context, 'outBusiness',
+                          arguments:
+                              userinfo.userTrabajos[index-1].idNegocio);
                     },
                   ),
                 );

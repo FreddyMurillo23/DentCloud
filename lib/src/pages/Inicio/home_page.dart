@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
     final prefs = new PreferenciasUsuario();
     return Scaffold(
 
-      body: Center(child: Image(image: AssetImage('assets/Monito_cool.gif'),)),
+      body: Center(child: Image(image: AssetImage('assets/1200px-SITIO-EN-CONSTRUCCION.jpg'),)),
     );
   }
 

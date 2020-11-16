@@ -7,6 +7,7 @@ import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/doctors_model.dart';
 import 'package:muro_dentcloud/src/models/event_model.dart';
 import 'package:muro_dentcloud/src/pages/agenda/pdf_cita.dart';
+import 'package:muro_dentcloud/src/pages/agenda/pdf_intermadiario.dart';
 import 'package:muro_dentcloud/src/pages/agenda/receta_medica.dart';
 
 
@@ -206,11 +207,11 @@ class _ViewEventState extends State<ViewEvent> {
                                       IconButton(
                                         icon: Icon(Icons.preview, color: Colors.white,), 
                                         onPressed: (){
-                                           Navigator.push(
+                                          Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  PDFCitas()));
+                                                  VistaPDF(idCita: widget.eventosModeloGlobal.idcita,)));
                                           print('object');
                                         }
                                       )

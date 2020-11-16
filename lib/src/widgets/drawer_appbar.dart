@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
+import 'package:muro_dentcloud/src/providers/pdf_provider.dart';
 // import 'package:muro_dentcloud/src/providers/doctores_provider.dart';
 // import 'package:muro_dentcloud/src/providers/event_provider.dart';
 import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
 import 'package:muro_dentcloud/src/widgets/card_expansion_list.dart';
+import 'package:provider/provider.dart';
 // import 'package:provider/provider.dart';
 
 class NavDrawer extends StatefulWidget {
@@ -23,6 +25,7 @@ class _NavDrawerState extends State<NavDrawer> {
     // DoctoresProvider docProv = Provider.of<DoctoresProvider>(context);
     // EventosProvider eventProv = Provider.of<EventosProvider>(context);
     // EventosHoldProvider eventHoldProv = Provider.of<EventosHoldProvider>(context);
+    PDFProviderPatients pdfProvider = Provider.of<PDFProviderPatients>(context);
     final currentUserData = new PreferenciasUsuario();
 
     return Drawer(
@@ -73,7 +76,7 @@ class _NavDrawerState extends State<NavDrawer> {
 
         
           // ListTile(
-          //   leading: Icon(Icons.verified_user),
+          //   leading: Icon(Icons.verified_user),  
           //   title: Text('Agenda'),
           //   onTap: () => {
           //     eventHoldProv.listarEventosonHold('hvargc'),
@@ -84,7 +87,10 @@ class _NavDrawerState extends State<NavDrawer> {
           ListTile(
             leading: Icon(Icons.settings),
             title: Text('Repositorio'),
-            onTap: () => {Navigator.of(context).pushNamed('agenda')},
+            onTap: () => {
+              pdfProvider.listarRecetasPacientes(prefs.currentCorreo),
+              Navigator.of(context).pushNamed('repositorio')
+            },
           ),
           ListTile(
             leading: Icon(Icons.border_color),
@@ -94,11 +100,13 @@ class _NavDrawerState extends State<NavDrawer> {
               Navigator.pushNamed(context, 'settings',arguments: prefs.profileID),
             },
           ),
-          ListTile(
+          widget.currentuser.tipoUsuario == 'D'
+          ?ListTile(
             leading: Icon(Icons.list),
             title: Text('Lista Pacientes'),
             onTap: () => Navigator.pushNamed(context, 'patients'),
-          ),
+          ):
+          Container(),
           ListTile(
             leading: Icon(Icons.exit_to_app),
             title: Text('Cerrar Sesión'),

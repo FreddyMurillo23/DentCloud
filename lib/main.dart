@@ -4,6 +4,7 @@ import 'package:muro_dentcloud/src/pages/sesion/signin.dart';
 import 'package:muro_dentcloud/src/providers/chat_provider.dart';
 import 'package:muro_dentcloud/src/providers/doctores_provider.dart';
 import 'package:muro_dentcloud/src/providers/event_provider.dart';
+import 'package:muro_dentcloud/src/providers/pdf_provider.dart';
 import 'package:muro_dentcloud/src/providers/services_provider.dart';
 import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
 import 'package:muro_dentcloud/src/routes/routes.dart';
@@ -30,6 +31,8 @@ class MyApp extends StatelessWidget {
             create: (context) => DoctoresProvider()),
         ChangeNotifierProvider<ServicioProvider>(
             create: (context) => ServicioProvider()),
+        ChangeNotifierProvider<ServicioProviderNuevo>(
+            create: (context) => ServicioProviderNuevo()),
         ChangeNotifierProvider<DoctoresProviderName>(
             create: (context) => DoctoresProviderName()),
         ChangeNotifierProvider<EventosProvider>(
@@ -38,8 +41,17 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => new UserPatient()),
         ChangeNotifierProvider<EventosHoldProvider>(
             create: (context) => EventosHoldProvider()),
+
         ChangeNotifierProvider< ChatObtenidoProvider>(
-            create: (context) => ChatObtenidoProvider())
+            create: (context) => ChatObtenidoProvider()),
+
+        ChangeNotifierProvider<PDFProvider>(
+            create: (context) => PDFProvider()),
+        ChangeNotifierProvider<EventosUsuario>(
+            create: (context) => EventosUsuario()),
+        ChangeNotifierProvider<PDFProviderPatients>(
+            create: (context) => PDFProviderPatients()),
+
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
