@@ -39,6 +39,12 @@ class _RepositorioState extends State<Repositorio> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final prefs = new PreferenciasUsuario();
     pdfProvider = Provider.of<PDFProviderPatients>(context);
@@ -49,6 +55,10 @@ class _RepositorioState extends State<Repositorio> {
       ),
       body: funcionPrueba(context),
     );
+  }
+
+  String fecha(DateTime fecha){
+    return fecha.year.toString()+'/'+fecha.month.toString()+'/'+fecha.day.toString();
   }
 
   funcionPrueba(BuildContext prueba) {
@@ -71,7 +81,8 @@ class _RepositorioState extends State<Repositorio> {
                             width: 30,
                             child: Image.asset('assets/pdf.png'),
                           ),
-                          title: Text(item.fechaCita.toIso8601String()),
+                          title: Text(fecha(item.fechaCarga)),
+                          subtitle: Text(item.url),
                           onTap: (){
                             Navigator.push(
                             context,
