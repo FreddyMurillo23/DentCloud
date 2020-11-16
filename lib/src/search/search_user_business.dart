@@ -131,7 +131,10 @@ class UserBusinessSearch extends SearchDelegate {
                         ),
                       ),
                       title: Text(userData[index].nombreUsuario),
-                      onTap: (){},
+                      onTap: (){
+                        Navigator.pushNamed(context, 'outPerfil',
+                            arguments: userData[index].emailUsuario);
+                      },
                   ),
                   Divider(),
                 ],
@@ -304,7 +307,11 @@ class UserBusinessSearch extends SearchDelegate {
                         ),
                       ),
                       title: Text(userData[index].nombreNegocio),
-                      onTap: (){},
+                      onTap: (){
+                        Navigator.pushNamed(context, 'outBusiness',
+                          arguments:
+                              userData[index].rucNegocio);
+                      },
                   ),
                   Divider(),
                 ],

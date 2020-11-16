@@ -38,7 +38,7 @@ class BusinessRooms extends StatelessWidget {
             Container(
               alignment: Alignment(-0.80, -0.1),
               child: Text(
-                'Negocios Seguidos ',
+                'Medicos',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
