@@ -119,8 +119,8 @@ class _StartUpPageState extends State<StartUpPage> {
               title: Text('Inicio'),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.search),
-              title: Text('Buscar'),
+              icon: Icon(Icons.location_on),
+              title: Text('Gps'),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.location_on ,color: Colors.transparent,),

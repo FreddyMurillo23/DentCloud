@@ -368,7 +368,7 @@ class DataProvider {
   }
 
   Future<bool> validarUsuarioPublicacion(String correo, String id) async {
-    String url = '';
+    String url = 'http://54.197.83.249/PHP_REST_API/api/put/validate_put_publications.php?publication_id=$id&user_email=$correo';
     final resp = await http.get(url);
     if (resp.statusCode == 200) {
       return true;
@@ -378,7 +378,17 @@ class DataProvider {
   }
 
   Future<bool> putPublicacion(
-      String id, String ruc, String descripcion, String useremail) async {
+      String id, String ruc, String descripcion, String useremail, String dir) async {
+    String url = 'http://54.197.83.249/PHP_REST_API/api/put/put_publications.php?business_ruc=$ruc&publication_id=$id&description=$descripcion&user_email=$useremail&multimedia_url=$dir';
+    final resp = await http.get(url);
+    if (resp.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  Future<bool> putPublicacion2(
+      String id, String ruc, String descripcion, String useremail,) async {
     String url = 'http://54.197.83.249/PHP_REST_API/api/put/put_publications.php?business_ruc=$ruc&publication_id=$id&description=$descripcion&user_email=$useremail';
     final resp = await http.get(url);
     if (resp.statusCode == 200) {
@@ -388,7 +398,7 @@ class DataProvider {
     }
   }
   Future<bool> deletePublicacion(String id)async{
-    String url = '';
+    String url = 'http://54.197.83.249/PHP_REST_API/api/delete/delete_publication.php?publication_id=$id';
     final resp = await http.get(url);
     if (resp.statusCode == 200) {
       return true;
