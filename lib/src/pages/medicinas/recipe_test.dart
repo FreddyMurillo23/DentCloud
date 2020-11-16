@@ -113,12 +113,12 @@ class _RecipeTestState extends State<RecipeTest> {
     ruta = nombreArchivo+''+archivo;
     controladorRuta.text = ruta;
     fechaDocumento.text = fechaPDF();
-    rutaPDF().then((value) => path=value);
+    rutaPDF(ruta).then((value) => path=value);
   }
   
   final pdf = pw.Document();
 
-  Future<String> rutaPDF () async{
+  Future<String> rutaPDF (String ruta) async{
     String rutaFuture = '';
     
     writeOnPdf();
@@ -128,7 +128,7 @@ class _RecipeTestState extends State<RecipeTest> {
 
     String documentPath = documentDirectory.path;
 
-    String fullPath = "$documentPath/$nombreArchivo$archivo.pdf";
+    String fullPath = "$documentPath/$ruta.pdf";
     rutaFuture = fullPath;
 
     return rutaFuture;
@@ -144,7 +144,7 @@ class _RecipeTestState extends State<RecipeTest> {
 
       String documentPath = documentDirectory.path;
 
-      String fullPath = "$documentPath/$nombreArchivo$archivo.pdf";
+      String fullPath = "$documentPath/$ruta.pdf";
       print(fullPath);
 
       Navigator.push(context, MaterialPageRoute(
@@ -270,7 +270,7 @@ class _RecipeTestState extends State<RecipeTest> {
     String documentPath = documentDirectory.path;
     print(documentPath);
 
-    File file = File("$documentPath/$nombreArchivo$archivo.pdf");
+    File file = File("$documentPath/$ruta.pdf");
     //File file = File("/storage/emulated/0/Android/data/example.pdf");
 
     file.writeAsBytesSync(pdf.save());
