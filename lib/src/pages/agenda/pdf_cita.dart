@@ -20,6 +20,7 @@ class _PDFCitasState extends State<PDFCitas> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    print(widget.url);
 
     ApiServiceProvider.loadPDF(widget.url).then((value) {
       setState(() {

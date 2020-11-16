@@ -39,7 +39,7 @@ class EventSearchDelegate extends SearchDelegate<Doctores>{
 
     @override
     Widget buildResults(BuildContext context) {
-      ServicioProvider servicioProvider = Provider.of<ServicioProvider>(context);
+      ServicioProviderNuevo servicioProvider = Provider.of<ServicioProviderNuevo>(context);
 
       if(query.trim().length == 0) {
         return Center(child: Text(''));
@@ -79,7 +79,7 @@ class EventSearchDelegate extends SearchDelegate<Doctores>{
     Widget buildSuggestions(BuildContext context) {
       Future<List<Doctores>> futureDoctor;
       futureDoctor = DoctorCtrl.listarPrueba(query.toUpperCase());
-      ServicioProvider servicioProvider = Provider.of<ServicioProvider>(context);
+      ServicioProviderNuevo servicioProvider = Provider.of<ServicioProviderNuevo>(context);
 
       return FutureBuilder(
         future: futureDoctor,
@@ -117,7 +117,7 @@ class EventSearchDelegate extends SearchDelegate<Doctores>{
     
   }
 
-  Widget _showDoctores(List<Doctores> doctores, ServicioProvider servicioProvider){
+  Widget _showDoctores(List<Doctores> doctores, ServicioProviderNuevo servicioProvider){
     
     return ListView.builder(
       itemCount: doctores.length,
@@ -128,8 +128,8 @@ class EventSearchDelegate extends SearchDelegate<Doctores>{
           leading: Image.network(doctor.foto, width: 45,),
           title: Text(doctor.doctor),
           onTap: (){
-            print('Wey');
-            servicioProvider.listarServicios(doctor.cedula+"001");
+            print(doctor.correo);
+            servicioProvider.listarServiciosNuevo(doctor.correo,"1316024427001");
             this.close(context, doctor);
           },
         );

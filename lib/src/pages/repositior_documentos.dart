@@ -42,17 +42,16 @@ class _RepositorioState extends State<Repositorio> {
   Widget build(BuildContext context) {
     final prefs = new PreferenciasUsuario();
     pdfProvider = Provider.of<PDFProviderPatients>(context);
-    pdfProvider.listarRecetasPacientes('hvargas@utm.ec');
-    print(prefs.currentCorreo);
+    pdfProvider.listarRecetasPacientes(prefs.currentCorreo);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
       ),
-      body: funcionPrueba(),
+      body: funcionPrueba(context),
     );
   }
 
-  funcionPrueba() {
+  funcionPrueba(BuildContext prueba) {
     return Selector<PDFProviderPatients, List<PDFModelApointment>>(
         selector: (context, model) => model.pdf,
         builder: (context, value, child) {
@@ -73,6 +72,14 @@ class _RepositorioState extends State<Repositorio> {
                             child: Image.asset('assets/pdf.png'),
                           ),
                           title: Text(item.fechaCita.toIso8601String()),
+                          onTap: (){
+                            Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    PDFCitas(url: item.url,)));
+                            
+                          },
                         )
                     ],
                   ),

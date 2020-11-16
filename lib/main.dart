@@ -30,6 +30,8 @@ class MyApp extends StatelessWidget {
             create: (context) => DoctoresProvider()),
         ChangeNotifierProvider<ServicioProvider>(
             create: (context) => ServicioProvider()),
+        ChangeNotifierProvider<ServicioProviderNuevo>(
+            create: (context) => ServicioProviderNuevo()),
         ChangeNotifierProvider<DoctoresProviderName>(
             create: (context) => DoctoresProviderName()),
         ChangeNotifierProvider<EventosProvider>(
