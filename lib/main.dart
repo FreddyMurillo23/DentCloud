@@ -45,6 +45,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider< ChatObtenidoProvider>(
             create: (context) => ChatObtenidoProvider()),
 
+        ChangeNotifierProvider<  ChatlistaProvider>(
+            create: (context) => ChatlistaProvider()),
+ 
         ChangeNotifierProvider<PDFProvider>(
             create: (context) => PDFProvider()),
         ChangeNotifierProvider<EventosUsuario>(
