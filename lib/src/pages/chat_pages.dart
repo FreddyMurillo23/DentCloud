@@ -41,7 +41,7 @@ class _ChatPageState extends State<ChatPage> {
            print('Guardar datos ');
            _envioMensajeController.clear();
            fotopath=null;
-           verificar=1;
+           verificar=0;
         }
       }
     }
@@ -52,6 +52,7 @@ class _ChatPageState extends State<ChatPage> {
         {
              print('Guardar datos ');
            _envioMensajeController.clear();
+           verificar=0;
         }
      
     }

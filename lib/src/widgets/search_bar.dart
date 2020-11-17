@@ -1,15 +1,19 @@
 
 import 'package:flutter/material.dart';
 import 'package:muro_dentcloud/src/controllers/doctors_ctrl.dart';
+import 'package:muro_dentcloud/src/controllers/negocios_ctrl.dart';
 import 'package:muro_dentcloud/src/models/doctors_model.dart';
+import 'package:muro_dentcloud/src/models/negocios_model.dart';
+import 'package:muro_dentcloud/src/pages/agenda/doctor_negocio.dart';
 import 'package:muro_dentcloud/src/providers/services_provider.dart';
 import 'package:provider/provider.dart';
 
-class EventSearchDelegate extends SearchDelegate<Doctores>{
+class EventSearchDelegate extends SearchDelegate<DoctoresNegocio>{
 
   @override
   final String searchFieldLabel;
   final List<Doctores> historial;
+  String seleccion = " ";
 
   EventSearchDelegate(this.searchFieldLabel,this.historial);
 
@@ -29,9 +33,19 @@ class EventSearchDelegate extends SearchDelegate<Doctores>{
       return IconButton(
         icon: Icon(Icons.arrow_back),
         onPressed: () {
+          DoctoresNegocio docsNegocio = DoctoresNegocio(
+            ceduladoctor: '',
+            celulardoctor: '',
+            correodoctor: '',
+            fotoperfil: '',
+            nombredoctor: '',
+            profesiondoctor: '',
+            roldoctor: '',
+            sexodoctor: ''
+          );
           Doctores docs = Doctores(cedula: "", correo: "", celular: "", doctor: "", fechanacimiento: DateTime.now(), foto: "");
           print(docs.cedula);
-          this.close(context, docs);
+          this.close(context, docsNegocio);
         },
       );
     }
@@ -39,138 +53,88 @@ class EventSearchDelegate extends SearchDelegate<Doctores>{
 
     @override
     Widget buildResults(BuildContext context) {
-      ServicioProviderNuevo servicioProvider = Provider.of<ServicioProviderNuevo>(context);
-
-      if(query.trim().length == 0) {
-        return Center(child: Text(''));
-      }
-
-      Future<List<Doctores>> futureDoctor;
-      futureDoctor = DoctorCtrl.listarPrueba(query);
-      print(futureDoctor);
-
-      return FutureBuilder(
-        future: futureDoctor,
-        builder: (BuildContext context, AsyncSnapshot snapshot) { 
-
-          if ( snapshot.hasData ) {
-            return _showDoctores( snapshot.data , servicioProvider);
-          }
-
-          if ( snapshot.hasError ) {
-            print(snapshot.data);
-            return ListTile( title: Text('No hay nada con ese Termino') );
-          }
-          
-          return Center(
-              child: SizedBox(
-                height: 30,
-                width: 30,
-                child: CircularProgressIndicator(),
-              ),
-          );
-        },
-      );
+      return Center(
+      child: Container(
+        height: 100,
+        width: 100,
+        color: Colors.blueAccent,
+        child: Text(seleccion),
+      ),
+    );
       
     }
   
 
     @override
     Widget buildSuggestions(BuildContext context) {
-      Future<List<Doctores>> futureDoctor;
-      futureDoctor = DoctorCtrl.listarPrueba(query.toUpperCase());
-      ServicioProviderNuevo servicioProvider = Provider.of<ServicioProviderNuevo>(context);
-
+      if (query.isEmpty) {
+        return Container(
+        );
+      }
       return FutureBuilder(
-        future: futureDoctor,
-        builder: (context, snapshot) {
-
-          List<Doctores> datos = snapshot.data;
-
-          List<Doctores> suglist = query.isEmpty
-          ? historial
-          : datos.where((element) => datos == null
-          ? []
-          : element.doctor.startsWith(query.toUpperCase())).toList();
-
-
-          if ( snapshot.hasError ) {
-            print("Wey No");
-            return ListTile( title: Text('No hay nada con ese Termino') );
+        future: NegociosCtrl.listarNegocios(query),
+        builder: (BuildContext context, AsyncSnapshot<List<NegociosSearch>> snapshot) {
+          if(snapshot.hasData) {
+            final negocios = snapshot.data;
+            return ListView(
+              children: negocios.map((negocio) {
+                return Column(
+                  children: [
+                    Card(
+                        margin: new EdgeInsets.only(
+                            left: 10.0, right: 10.0, top: 8.0, bottom: 5.0),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0)),
+                        elevation: 5,
+                        child: ListTile(
+                          leading: Container(
+                            width: 60,
+                            height: 60,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: NetworkImage(negocio.fotonegocio)
+                              )
+                            ),
+                          ),
+                          title: Text(negocio.nombrenegocio),
+                          subtitle: Text(negocio.provincia),
+                          onTap: (){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute<DoctoresNegocio>(
+                                  builder: (_) => DoctorNegocio(negociosSearch: negocio,
+                                      ))).then((value) => print(value.ceduladoctor));
+                            // this.close(context, null);
+                            //print(doctorInfo.ceduladoctor);
+                          },
+                        ),
+                      ),
+                      Divider(),
+                  ],
+                );
+              }).toList(),
+            );
+          } else {
+            return Center(
+                child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20.0),
+                      color: Colors.white,
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                            color: Colors.white30,
+                            blurRadius: 10.0,
+                            spreadRadius: 2.0,
+                            offset: Offset(2.0, 10.0))
+                      ]),
+                  height: 50,
+                  width: 50,
+                  child: CircularProgressIndicator(),
+                ),
+              );
           }
-
-          if ( snapshot.hasData ) {
-          //  return _showDoctoresHistorial(suglist);
-          //print(snapshot.data);
-            return _showDoctores(suglist, servicioProvider);
-          }
-          
-          return Center(
-              child: SizedBox(
-                height: 30,
-                width: 30,
-                child: CircularProgressIndicator(),
-              ),
-          );
         },
       );
-    
-  }
-
-  Widget _showDoctores(List<Doctores> doctores, ServicioProviderNuevo servicioProvider){
-    
-    return ListView.builder(
-      itemCount: doctores.length,
-      itemBuilder: (context, i){
-        final doctor = doctores[i];
-
-        return ListTile(
-          leading: Image.network(doctor.foto, width: 45,),
-          title: Text(doctor.doctor),
-          onTap: (){
-            print(doctor.correo);
-            servicioProvider.listarServiciosNuevo(doctor.correo,"1316024427001");
-            this.close(context, doctor);
-          },
-        );
-      },
-    );
-  }
-
-  Widget _showDoctoresHistorial(List<Doctores> doctores){
-
-    if (doctores == null) {
-      return Center(
-          child: SizedBox(
-            height: 30,
-            width: 30,
-            child: CircularProgressIndicator(),
-          ),
-      );
-    } else {
-      return ListView.builder(
-      itemCount: doctores.length,
-      itemBuilder: (context, i){
-        final doctor = doctores[i];
-
-        String fotoS;
-        if(doctor.foto == ""){
-          fotoS = "http://54.197.83.249/Contenido_ftp/Imagenes%20por%20defecto/Placeholder_male.png";
-        } else {
-          fotoS = doctor.foto;
-        }
-
-        return ListTile(
-          leading: Image.network(fotoS, width: 45,),
-          title: Text(doctor.doctor),
-          onTap: (){
-            this.close(context, doctor);
-          },
-        );
-      },
-    );
-
-    }   
   }
   
 }

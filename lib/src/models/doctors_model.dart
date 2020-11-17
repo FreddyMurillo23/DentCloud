@@ -19,3 +19,38 @@ class Doctores{
     );
   }
 }
+
+class DoctoresNegocio{
+  String correodoctor;
+  String ceduladoctor;
+  String nombredoctor;
+  String roldoctor;
+  String profesiondoctor;
+  String celulardoctor;
+  String sexodoctor;
+  String fotoperfil;
+
+  DoctoresNegocio({
+    this.ceduladoctor = '',
+    this.celulardoctor = '',
+    this.correodoctor = '',
+    this.fotoperfil = '',
+    this.nombredoctor = '',
+    this.profesiondoctor = '',
+    this.roldoctor = '',
+    this.sexodoctor = '',
+  });
+
+  factory DoctoresNegocio.fromJson(Map<String, dynamic> json) {
+    return DoctoresNegocio(
+      correodoctor:           json['correo_doctor'],
+      ceduladoctor:           json['cedula_doctor'],
+      celulardoctor:          json['celular_doctor'],
+      nombredoctor:           json['nombre_doctor'],
+      fotoperfil:             json['foto_perfil'],
+      profesiondoctor:        json['profesion_doctor'],
+      roldoctor:              json['rol_doctor'],
+      sexodoctor:             json['sexo_doctor'],
+    );
+  }
+}
