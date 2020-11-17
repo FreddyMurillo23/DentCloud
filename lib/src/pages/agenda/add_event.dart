@@ -36,6 +36,7 @@ class _AddEventState extends State<AddEvent> {
   final format = DateFormat("yyyy-MM-dd HH:mm");
 
   Doctores doctorSeleccionado;
+  DoctoresNegocio doctorSeleccionadoNegocio;
   List<Doctores> historial = [];
 
   void validateFields(){
@@ -249,7 +250,7 @@ class _AddEventState extends State<AddEvent> {
                         
 
                         //Con datos encontrados
-                        if(doctorSeleccionado != null)
+                        if(doctorSeleccionadoNegocio != null)
                         Expanded(
                           child: new TextFormField(
                             controller: controlador,
@@ -267,12 +268,12 @@ class _AddEventState extends State<AddEvent> {
                                 onTap: ()async{
                                 _selectedItem = null;
                                 historial = [];
-                                final seleccionDoctor = await showSearch(context: context, delegate: EventSearchDelegate('Buscar Doctores', historial));
-                                servicioProvider.listarServiciosNuevo(seleccionDoctor.correo, '1316024427001');
+                                final seleccionDoctor = await showSearch(context: context, delegate: EventSearchDelegate('Buscar Negocios', historial));
+                                // servicioProvider.listarServiciosNuevo(seleccionDoctor.correo, '1316024427001');
                                 setState(() {
-                                  doctorSeleccionado = seleccionDoctor;
-                                  controlador.text = doctorSeleccionado.doctor;
-                                  servicioProvider.listarServiciosNuevo(seleccionDoctor.correo, '1316024427001');
+                                  doctorSeleccionadoNegocio = seleccionDoctor;
+                                  controlador.text = doctorSeleccionadoNegocio.nombredoctor;
+                                  // servicioProvider.listarServiciosNuevo(seleccionDoctor.correo, '1316024427001');
                                   //if(seleccionDoctor !=null) {this.historial.insert(0, seleccionDoctor);}                        
                                 });
                               },
@@ -288,7 +289,7 @@ class _AddEventState extends State<AddEvent> {
                         ),
                         
                         //No trae datos de la busqueda o recien inicia la interfaz
-                        if(doctorSeleccionado == null)
+                        if(doctorSeleccionadoNegocio == null)
                         Expanded(
                           child: new TextFormField(
                             focusNode: FocusNode(),
@@ -307,9 +308,9 @@ class _AddEventState extends State<AddEvent> {
                                 onTap: ()async{
                                 final seleccionDoctor = await showSearch(context: context, delegate: EventSearchDelegate('Buscar Doctores', historial));
                                 setState(() {
-                                  doctorSeleccionado = seleccionDoctor;
-                                  controlador.text = doctorSeleccionado.doctor;
-                                  if(seleccionDoctor !=null) {this.historial.insert(0, seleccionDoctor);}                           
+                                  doctorSeleccionadoNegocio = seleccionDoctor;
+                                  controlador.text = doctorSeleccionadoNegocio.nombredoctor;
+                                  controlador.text = doctorSeleccionado.doctor;                      
                                 });
                               },
                                 child: Icon(Icons.search),

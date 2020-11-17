@@ -27,4 +27,15 @@ class DoctorCtrl{
       return noJodas;     
   }
 
+  static Future<List<DoctoresNegocio>> listarDoctoresNegocio(String dni) async {
+      List<DoctoresNegocio> doctoresNegocio = [];
+      final response =  await http.get('http://54.197.83.249/PHP_REST_API/api/get/get_doctors_by_business.php?business_ruc=$dni');
+      if(response.statusCode == 200){
+        final parsed = json.decode(response.body).cast<String, dynamic>();    
+        return parsed['doctores'].map<DoctoresNegocio>((json) => DoctoresNegocio.fromJson(json)).toList();
+      } 
+      print('No hay nada chamo');
+      return doctoresNegocio;     
+  }
+
 }
