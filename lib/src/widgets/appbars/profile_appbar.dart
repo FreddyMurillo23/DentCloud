@@ -144,7 +144,11 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
 
   Widget profileButton() {
     return current
-        ? editarPerfil()
+        ? 
+        
+        widget.userinfo.tipoUsuario == 'D'
+        ?editarPerfil():Container()
+
         : AnimatedSwitcher(
             duration: const Duration(seconds: 1),
             switchOutCurve: Curves.easeOutExpo,
@@ -195,7 +199,7 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
         onPressed: () {
           setState(() {});
         },
-        child: Text('Editar Perfil'),
+        child: Text('Gestionar Servicios'),
       ),
     );
   }
