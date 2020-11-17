@@ -51,7 +51,7 @@ async {
  }
 
 
-  Future <List<UltimosMensaje>> getListaChat(String emailuser)
+  static Future <List<UltimosMensaje>> getListaChat(String emailuser)
   async {
     
     String url='http://54.197.83.249/PHP_REST_API/api/get/get_recent_message.php?user_email=$emailuser';

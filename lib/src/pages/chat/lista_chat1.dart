@@ -25,6 +25,15 @@ class _GetBodyChat1State extends State<GetBodyChat1> {
    ChatObtenidoProvider chat;
   @override
   Widget build(BuildContext context) {
+     verificar=widget.verificacion;
+    if(verificar==0)
+    {
+      Timer(
+    Duration(seconds: 1),
+    () =>scrollController.jumpTo(scrollController.position.maxScrollExtent),
+    );
+    }
+   
     if(widget.sala==null)
     {
        return Scaffold(
@@ -51,13 +60,7 @@ class _GetBodyChat1State extends State<GetBodyChat1> {
     );
     }
     
-    if(verificar==0)
-    {
-      Timer(
-    Duration(seconds: 1),
-    () =>scrollController.jumpTo(scrollController.position.maxScrollExtent),
-    );
-    }
+    
     
   }
    Widget listaChat(Size screenSize,ScrollController scrollController, List<ChatSeleccionado> mensajeslista) {
