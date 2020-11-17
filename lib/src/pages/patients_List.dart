@@ -63,7 +63,7 @@ class _ListPatientsBuildState extends State<ListPatientsBuild> {
                         ),
                         title: Text(snapshot.data[index].nombrePaciente),
                         subtitle:
-                            Text('${snapshot.data[index].correoPaciente}\n ${snapshot.data[index].getTimeHour()}'),
+                            Text('${snapshot.data[index].correoPaciente}\n ${snapshot.data[index].getTimeHour()}\n ${snapshot.data[index].celularPaciente}'),
                         trailing: FlatButton(
                           onPressed: () {
                             mostrar(snapshot.data[index].correoPaciente);
