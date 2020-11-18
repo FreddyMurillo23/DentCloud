@@ -18,6 +18,7 @@ import 'package:muro_dentcloud/src/pages/medicinas/drougs_page.dart';
 import 'package:muro_dentcloud/src/pages/medicinas/recipe_test.dart';
 import 'package:muro_dentcloud/src/pages/page_Services.dart';
 import 'package:muro_dentcloud/src/pages/repositior_documentos.dart';
+import 'package:muro_dentcloud/src/pages/services/services_page.dart';
 import 'package:muro_dentcloud/src/pages/setting/page_Settings.dart';
 import 'package:muro_dentcloud/src/pages/patients_List.dart';
 import 'package:muro_dentcloud/src/pages/profiles/current_bussiness.dart';
@@ -62,6 +63,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'eventDoctor': (BuildContext context) => ViewEvent(),
     'comentario': (BuildContext context) => CommentPage(),
     'repositorio': (BuildContext context) => Repositorio(),
+    'servicesPages':(BuildContext context) =>ServicesPages(),
     
     // 'postPublicacion': (BuildContext context) => PostPublicacionPage(),
   };

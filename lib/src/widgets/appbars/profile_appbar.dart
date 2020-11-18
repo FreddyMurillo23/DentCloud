@@ -197,6 +197,7 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
           .createShader(rect),
       child: RaisedButton(
         onPressed: () {
+           Navigator.pushNamed(context, 'servicesPages');
           setState(() {});
         },
         child: Text('Gestionar Servicios'),

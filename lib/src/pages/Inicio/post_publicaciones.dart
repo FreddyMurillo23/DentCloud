@@ -40,8 +40,8 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
       builder: (BuildContext context) {
         // return object of type Dialog
         return AlertDialog(
-          title: new Text("Actualizar Datos"),
-          content: new Text("Se subio correctamente "),
+          title: new Text("Ingreso Publicacion"),
+          content: new Text("Se subio correctamente su publicacion "),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(
@@ -338,7 +338,6 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
 
   Widget _mostrarImagen(Size screenSize) {
     if (publicacion.imagenPublicacion != 'empty') {
-      //TODO: Tengo que hacer esto
       return Container();
     } else {
       if (foto != null) {
