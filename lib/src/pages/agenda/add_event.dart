@@ -5,9 +5,11 @@ import 'package:intl/intl.dart';
 import 'package:muro_dentcloud/src/controllers/apointment_ctrl.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/doctors_model.dart';
+import 'package:muro_dentcloud/src/models/negocios_model.dart';
 import 'package:muro_dentcloud/src/models/services_model.dart';
 import 'package:muro_dentcloud/src/providers/services_provider.dart';
 import 'package:muro_dentcloud/src/widgets/search_bar.dart';
+import 'package:muro_dentcloud/src/widgets/search_doctores.dart';
 import 'package:provider/provider.dart';
 
 class AddEvent extends StatefulWidget {
@@ -27,6 +29,7 @@ class _AddEventState extends State<AddEvent> {
   ServicioProviderNuevo servicioProvider;
   Servicios _selectedItem;
   TextEditingController controlador = TextEditingController();
+  TextEditingController controladorDoctor = TextEditingController();
   TextEditingController controladorCorreoUser = TextEditingController();
   TextEditingController controladorNombreUser = TextEditingController();
   TextEditingController controladorApellidoUser = TextEditingController();
@@ -37,6 +40,7 @@ class _AddEventState extends State<AddEvent> {
 
   Doctores doctorSeleccionado;
   DoctoresNegocio doctorSeleccionadoNegocio;
+  NegociosSearch negocioSeleccionado;
   List<Doctores> historial = [];
 
   void validateFields(){
@@ -47,16 +51,17 @@ class _AddEventState extends State<AddEvent> {
   if(form.validate()){
     form.save();
     print("Form is valid");
-    EventosCtrl.registrarEventos(doctorSeleccionado.cedula+'001', doctorSeleccionado.correo, user, servicio, descripcion, fecha).then((value){
+    EventosCtrl.registrarEventos(negocioSeleccionado.rucnegocio, doctorSeleccionadoNegocio.correodoctor, user, servicio, descripcion, fecha).then((value){
       if(value){
         servicioProvider.disposeServicios();
         Navigator.pop(context);
       } else{
+        _showDialog("No se pudo registrar su cita");
         print("No se pudo burro");
       }
     });
   } else{
-    _showDialog();
+    _showDialog("Faltan Datos Importantes");
     print('Form is invalid');
   }
   }
@@ -91,12 +96,12 @@ class _AddEventState extends State<AddEvent> {
   }
 
   //Alerta
-  void _showDialog() {
+  void _showDialog(String texto) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: new Text("Faltan Datos"),
+            title: new Text(texto),
             actions: <Widget>[
               new FlatButton(
                   onPressed: () => {
@@ -241,7 +246,7 @@ class _AddEventState extends State<AddEvent> {
                       ],
                     ),
                     SizedBox(height: 15,),
-                    //!Doctor
+                    //!Negocio
                     Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -250,7 +255,7 @@ class _AddEventState extends State<AddEvent> {
                         
 
                         //Con datos encontrados
-                        if(doctorSeleccionadoNegocio != null)
+                        if(negocioSeleccionado != null)
                         Expanded(
                           child: new TextFormField(
                             controller: controlador,
@@ -258,7 +263,7 @@ class _AddEventState extends State<AddEvent> {
                             readOnly: true,
                             enableInteractiveSelection: false,
                             decoration: InputDecoration(
-                              labelText: "Doctor",
+                              labelText: "Negocio",
                               filled: true,
                               fillColor: Colors.white,
                               border: OutlineInputBorder(
@@ -269,10 +274,10 @@ class _AddEventState extends State<AddEvent> {
                                 _selectedItem = null;
                                 historial = [];
                                 final seleccionDoctor = await showSearch(context: context, delegate: EventSearchDelegate('Buscar Negocios', historial));
-                                // servicioProvider.listarServiciosNuevo(seleccionDoctor.correo, '1316024427001');
+                                //servicioProvider.listarServiciosNuevo(seleccionDoctor.correo, '1316024427001');
                                 setState(() {
-                                  doctorSeleccionadoNegocio = seleccionDoctor;
-                                  controlador.text = doctorSeleccionadoNegocio.nombredoctor;
+                                  negocioSeleccionado = seleccionDoctor;
+                                  controlador.text = negocioSeleccionado.nombrenegocio;
                                   // servicioProvider.listarServiciosNuevo(seleccionDoctor.correo, '1316024427001');
                                   //if(seleccionDoctor !=null) {this.historial.insert(0, seleccionDoctor);}                        
                                 });
@@ -281,7 +286,7 @@ class _AddEventState extends State<AddEvent> {
                               )
                             ),
                             onTap: () {
-                              print(doctorSeleccionado.cedula);
+
                             },
                             validator: (value) => value.isEmpty ? 'Este campo no puede estar vacio' : null,
                             onSaved: (value) => doctor = value+"001",
@@ -289,7 +294,7 @@ class _AddEventState extends State<AddEvent> {
                         ),
                         
                         //No trae datos de la busqueda o recien inicia la interfaz
-                        if(doctorSeleccionadoNegocio == null)
+                        if(negocioSeleccionado == null)
                         Expanded(
                           child: new TextFormField(
                             focusNode: FocusNode(),
@@ -297,7 +302,7 @@ class _AddEventState extends State<AddEvent> {
                             enableInteractiveSelection: false,
                             initialValue: null,
                             decoration: InputDecoration(
-                              labelText: "Doctor",
+                              labelText: "Negocio",
                               filled: true,
                               fillColor: Colors.white,
                               hintText: null,
@@ -306,11 +311,10 @@ class _AddEventState extends State<AddEvent> {
                               ),
                               suffixIcon: GestureDetector(
                                 onTap: ()async{
-                                final seleccionDoctor = await showSearch(context: context, delegate: EventSearchDelegate('Buscar Doctores', historial));
+                                final seleccionDoctor = await showSearch(context: context, delegate: EventSearchDelegate('Buscar Negocios', historial));
                                 setState(() {
-                                  doctorSeleccionadoNegocio = seleccionDoctor;
-                                  controlador.text = doctorSeleccionadoNegocio.nombredoctor;
-                                  controlador.text = doctorSeleccionado.doctor;                      
+                                  negocioSeleccionado = seleccionDoctor;
+                                  controlador.text = negocioSeleccionado.nombrenegocio;                     
                                 });
                               },
                                 child: Icon(Icons.search),
@@ -324,6 +328,46 @@ class _AddEventState extends State<AddEvent> {
                       ],
                     ),
                     SizedBox(height: 15,),
+                    //!Doctor
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: new TextFormField(
+                            focusNode: FocusNode(),
+                            readOnly: true,
+                            controller: controladorDoctor,
+                            enableInteractiveSelection: false,
+                            initialValue: null,
+                            decoration: InputDecoration(
+                              enabled: negocioSeleccionado == null || negocioSeleccionado.rucnegocio.isEmpty? false : true,
+                              labelText: "Doctor",
+                              filled: true,
+                              fillColor: Colors.white,
+                              hintText: null,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(20)),
+                              ),
+                              suffixIcon: GestureDetector(
+                                onTap: ()async{
+                                final seleccionDoctor = await showSearch(context: context, delegate: DoctorSearchDelegate('Buscar Doctores en el Negocio', historial, negocioSeleccionado.rucnegocio));
+                                servicioProvider.listarServiciosNuevo(seleccionDoctor.correodoctor, '1316024427001');
+                                setState(() {
+                                  doctorSeleccionadoNegocio = seleccionDoctor;
+                                  controladorDoctor.text = doctorSeleccionadoNegocio.nombredoctor;                     
+                                });
+                              },
+                                child: Icon(Icons.search),
+                              )
+                            ),
+                            validator: (value) => value.isEmpty ? 'Este campo no puede estar vacio' : null,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 15,),   
                     //Servicio
                     Row(
                       mainAxisSize: MainAxisSize.max,

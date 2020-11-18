@@ -25,6 +25,7 @@ class _DoctorEventsPendientsState extends State<DoctorEventsPendients> {
   EventosHoldProvider eventosProvider;
   EventosCtrl eventosCtrl;
   ServicioProvider servicioProvider;
+  ServicioProviderNuevo servicioProviderNuevo;
   List<DropdownMenuItem> listServicio = List<DropdownMenuItem>();
   final formkey = new GlobalKey<FormState>();
   Map dropDownItemsMap;
@@ -42,6 +43,7 @@ class _DoctorEventsPendientsState extends State<DoctorEventsPendients> {
   Widget build(BuildContext context) {
     CurrentUsuario userinfo = ModalRoute.of(context).settings.arguments;
     eventosProvider = Provider.of<EventosHoldProvider>(context);
+    servicioProviderNuevo = Provider.of<ServicioProviderNuevo>(context);
     eventosProvider.listarEventosonHold(userinfo.correo);
     servicioProvider = Provider.of<ServicioProvider>(context);
     servicioProvider.listarServicios(userinfo.cedula+'001');
@@ -119,7 +121,7 @@ class _DoctorEventsPendientsState extends State<DoctorEventsPendients> {
           key: formkey,
           child: Column(
             children: <Widget>[
-              Selector<ServicioProvider, List<Servicios>>(
+              Selector<ServicioProviderNuevo, List<Servicios>>(
                 selector: (context, model) => model.servicios,
                 builder: (context, servicios, child) => Column(
                   children: <Widget>[
@@ -136,13 +138,16 @@ class _DoctorEventsPendientsState extends State<DoctorEventsPendients> {
                           onChanged: (selected) {
                             this._selectedItem = dropDownItemsMap[selected];
                             servicio = _selectedItem.servicioid.toString();
+                            print(servicio);
                             setState(() {
                               this._selectedItem = dropDownItemsMap[selected];
                               servicio = _selectedItem.servicioid.toString();
                             });
                           },
                           hint: new Text(
-                            _selectedItem != null ? _selectedItem.descripcion: "Servicios",
+                            _selectedItem != null 
+                            ? _selectedItem.descripcion 
+                            : "Servicios",
                           ),
                         ),
                       ),
@@ -390,6 +395,7 @@ class _DoctorEventsPendientsState extends State<DoctorEventsPendients> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(4.0)),
                           onPressed: () {
+                            servicioProviderNuevo.listarServiciosNuevo(userinfo.correo, eventos.ruc);
                             _openPopup(context, eventos);
                           },
                           child: Column(

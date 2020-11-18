@@ -7,14 +7,15 @@ import 'package:muro_dentcloud/src/models/negocios_model.dart';
 import 'package:muro_dentcloud/src/providers/services_provider.dart';
 import 'package:provider/provider.dart';
 
-class EventSearchDelegate extends SearchDelegate<NegociosSearch>{
+class DoctorSearchDelegate extends SearchDelegate<DoctoresNegocio>{
 
   @override
   final String searchFieldLabel;
   final List<Doctores> historial;
   String seleccion = " ";
+  final String ruc;
 
-  EventSearchDelegate(this.searchFieldLabel,this.historial);
+  DoctorSearchDelegate(this.searchFieldLabel,this.historial, this.ruc);
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -42,10 +43,9 @@ class EventSearchDelegate extends SearchDelegate<NegociosSearch>{
             roldoctor: '',
             sexodoctor: ''
           );
-          NegociosSearch negocios = NegociosSearch(
-            canton: '', direccionnegocio: '', fotonegocio: '', nombrenegocio: '', provincia: '', rucnegocio: '', telefononegocio: ''
-          );
-          this.close(context, negocios);
+          Doctores docs = Doctores(cedula: "", correo: "", celular: "", doctor: "", fechanacimiento: DateTime.now(), foto: "");
+          print(docs.cedula);
+          this.close(context, docsNegocio);
         },
       );
     }
@@ -67,17 +67,18 @@ class EventSearchDelegate extends SearchDelegate<NegociosSearch>{
 
     @override
     Widget buildSuggestions(BuildContext context) {
+      ServicioProviderNuevo serviciosNuevo = Provider.of<ServicioProviderNuevo>(context);
       if (query.isEmpty) {
         return Container(
         );
       }
       return FutureBuilder(
-        future: NegociosCtrl.listarNegocios(query),
-        builder: (BuildContext context, AsyncSnapshot<List<NegociosSearch>> snapshot) {
+        future: DoctorCtrl.listarDoctoresNegocio(ruc, query),
+        builder: (BuildContext context, AsyncSnapshot<List<DoctoresNegocio>> snapshot) {
           if(snapshot.hasData) {
-            final negocios = snapshot.data;
+            final doctores = snapshot.data;
             return ListView(
-              children: negocios.map((negocio) {
+              children: doctores.map((doctor) {
                 return Column(
                   children: [
                     Card(
@@ -92,15 +93,15 @@ class EventSearchDelegate extends SearchDelegate<NegociosSearch>{
                             height: 60,
                             decoration: BoxDecoration(
                               image: DecorationImage(
-                                image: NetworkImage(negocio.fotonegocio)
+                                image: NetworkImage(doctor.fotoperfil)
                               )
                             ),
                           ),
-                          title: Text(negocio.nombrenegocio),
-                          subtitle: Text(negocio.provincia),
+                          title: Text(doctor.nombredoctor),
                           onTap: (){
+                            serviciosNuevo.listarServiciosNuevo(ruc, doctor.correodoctor);
                             
-                            this.close(context, negocio);
+                            this.close(context, doctor);
                             //print(doctorInfo.ceduladoctor);
                           },
                         ),
