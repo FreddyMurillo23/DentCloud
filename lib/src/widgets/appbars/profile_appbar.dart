@@ -17,12 +17,12 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
   bool current = true;
   //*true = currentLoginProfile
   //!false = OutProfile
-  
+
   bool follow = true;
   //*true = U allready follow that profile
   //!false = u dont follow that profile
 
-  bool profileType = true;  
+  bool profileType = true;
   //*true = CORREO
   //!false = RUC
   @override
@@ -48,7 +48,11 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
           // color: Colors.white,
           child: ClipRRect(
             child: Text(
-              '  ${userinfo.nombres} ${userinfo.apellidos} ',
+              widget.userinfo.tipoUsuario == 'D'
+              ? widget.userinfo.sexo == 'F'
+                  ? ' Dra. ${widget.userinfo.nombres} ${widget.userinfo.apellidos}'
+                  : ' Dr.  ${widget.userinfo.nombres} ${widget.userinfo.apellidos}'
+              : ' ${widget.userinfo.nombres} ${widget.userinfo.apellidos}',
               style: TextStyle(
                 color: Colors.grey[600],
                 fontSize: 16.0,
@@ -79,7 +83,6 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
       ),
       centerTitle: false,
       floating: false,
-      
     );
   }
 
@@ -107,6 +110,7 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
               borderRadius: BorderRadius.circular(100.0),
             ),
           ),
+          profileData(screensize, context),
           profileButton(),
         ],
       ),
@@ -140,7 +144,11 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
 
   Widget profileButton() {
     return current
-        ? editarPerfil()
+        ? 
+        
+        widget.userinfo.tipoUsuario == 'D'
+        ?editarPerfil():Container()
+
         : AnimatedSwitcher(
             duration: const Duration(seconds: 1),
             switchOutCurve: Curves.easeOutExpo,
@@ -189,14 +197,15 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
           .createShader(rect),
       child: RaisedButton(
         onPressed: () {
+           Navigator.pushNamed(context, 'servicesPages');
           setState(() {});
         },
-        child: Text('Editar Perfil'),
+        child: Text('Gestionar Servicios'),
       ),
     );
   }
 
- Widget tilelist() {
+  Widget tilelist() {
     return profileType
         ? Text(
             'Recientes',
@@ -283,6 +292,20 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
                 );
               }
             }),
+      ),
+    );
+  }
+
+  profileData(Size screensize, context) {
+    return Card(
+      child: Column(
+        children: <Widget>[
+          widget.userinfo.tipoUsuario == 'D'
+              ? widget.userinfo.sexo == 'F'
+                  ? Text('Dra. ${widget.userinfo.nombres} ${widget.userinfo.apellidos}')
+                  : Text('Dr.  ${widget.userinfo.nombres} ${widget.userinfo.apellidos}')
+              : Text('${widget.userinfo.nombres} ${widget.userinfo.apellidos}'),
+        ],
       ),
     );
   }
