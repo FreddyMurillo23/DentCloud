@@ -8,17 +8,26 @@ import '../circle_button.dart';
 
 class BusinessAppBar extends StatefulWidget {
   final NegocioData userinfo;
-  BusinessAppBar({Key key, @required this.userinfo}) : super(key: key);
+  final CurrentUsuario usuario;
+  BusinessAppBar({Key key, @required this.userinfo, this.usuario}) : super(key: key);
 
   @override
   _BusinessAppBarState createState() => _BusinessAppBarState();
 }
 
 class _BusinessAppBarState extends State<BusinessAppBar> {
+
+  List normal= new List();
   bool current = true;
   //*true = currentLoginProfile
   //!false = OutProfile
 
+cargarDatos()
+{
+  normal.add(widget.userinfo.ruc);
+  normal.add(widget.usuario);
+
+}
   bool follow = true;
   //*true = U allready follow that profile
   //!false = u dont follow that profile
@@ -28,6 +37,7 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
   //!false = RUC
   @override
   Widget build(BuildContext context) {
+     
     // final NegocioData userinfo = ModalRoute.of(context).settings.arguments;
     final _screenSize = MediaQuery.of(context).size;
     return SliverAppBar(
@@ -141,8 +151,10 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
               ],
             ),
             onTap: () {
+             cargarDatos();
               Navigator.pushNamed(context, 'serviciosNegocios',
-                  arguments: widget.userinfo.ruc);
+                  arguments: normal);
+             
             },
           ),
         ));

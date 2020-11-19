@@ -30,8 +30,6 @@ class _ServiceDataWgState extends State<ServiceDataWg> {
                       '${this.widget.businessServices[index].descripcion}\n \n \n \n \n \n \n'),
                   cardListServices('duracion',
                       '${this.widget.businessServices[index].duracion} \n \n \n \n \n \n \n'),
-                  cardListServices('costo',
-                      '${this.widget.businessServices[index].costo}\n \n \n \n \n \n \n'),
                   cardQuestions('preguntas', 'Preguntas', context, index),
                 ],
               ),

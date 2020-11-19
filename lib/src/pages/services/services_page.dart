@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:muro_dentcloud/src/models/Services_models.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/widgets/circle_button.dart';
 
@@ -13,26 +15,22 @@ class ServicesPages extends StatefulWidget {
 class _ServicesPagesState extends State<ServicesPages> {
   final formkey = new GlobalKey<FormState>();
   final TextEditingController _controller = TextEditingController();
- 
+  List<PreguntasFrecuente> datos = [];
   File foto;
   String fotopath;
   String selectName;
   String descripcion, duracion;
   String businessRuc;
-
+  String pregunta;
   bool validate(String value) {
     return true;
   }
-  
- List<UserTrabajos> data;
 
- loadData(CurrentUsuario user)
- {
-  
-  data=user.userTrabajos;
- }
- 
-  @override
+  List<UserTrabajos> data;
+
+  loadData(CurrentUsuario user) {
+    data = user.userTrabajos;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,15 +51,23 @@ class _ServicesPagesState extends State<ServicesPages> {
                 SizedBox(
                   height: 15,
                 ),
-                 textFieldDescripcion(screenSize),
-                 SizedBox(
+                textFieldDescripcion(screenSize),
+                SizedBox(
                   height: 15,
                 ),
                 textFieldDuracion(screenSize),
-                 SizedBox(
+                SizedBox(
                   height: 15,
                 ),
                 selectBox(screenSize),
+                SizedBox(
+                  height: 15,
+                ),
+                preguntasFrecuentes(screenSize),
+                 SizedBox(
+                  height: 15,
+                ),
+
               ],
             ),
           ),
@@ -69,9 +75,6 @@ class _ServicesPagesState extends State<ServicesPages> {
       ),
     );
   }
-
-
-
 
 
   Widget textFieldDescripcion(Size sizescreen) {
@@ -104,6 +107,7 @@ class _ServicesPagesState extends State<ServicesPages> {
       ),
     );
   }
+
   Widget textFieldDuracion(Size sizescreen) {
     return Container(
       width: sizescreen.width * 0.85,
@@ -135,33 +139,33 @@ class _ServicesPagesState extends State<ServicesPages> {
     );
   }
 
- Widget selectBox(Size sizescreen){
+  Widget selectBox(Size sizescreen) {
     return Container(
         //color: Colors.white,
         width: sizescreen.width * 0.85,
         child: Center(
           child: DropdownButtonFormField(
-             value: selectName,
-             //hint: Text('Seleccione el negocio'),
+              value: selectName,
+              //hint: Text('Seleccione el negocio'),
               style: new TextStyle(
                 color: Colors.black,
                 //fontSize: 18.0,
               ),
               //value: verificar(datos[0].sexo),
               isExpanded: true,
-              items:data.map((list) {
-                 return DropdownMenuItem(child:
-                  Text(list.nombreNegocio),
-                  value: list.idNegocio,);
-
+              items: data.map((list) {
+                return DropdownMenuItem(
+                  child: Text(list.nombreNegocio),
+                  value: list.idNegocio,
+                );
               }).toList(),
               validator: (value) =>
                   value == null ? 'Este campo no puede estar vacío' : null,
               onChanged: (value) {
                 setState(() {
-                 // this.selectName=value;
+                  // this.selectName=value;
                   this.businessRuc = value;
-                  print( this.businessRuc);
+                  print(this.businessRuc);
                 });
               },
               decoration: InputDecoration(
@@ -178,19 +182,161 @@ class _ServicesPagesState extends State<ServicesPages> {
                 fillColor: Colors.white,
               )),
         ));
+  }
+
+  Widget preguntasFrecuentes(Size sizescreen) {
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10.0),
+          color: Colors.white,
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+                color: Colors.grey[500],
+                blurRadius: 10.0,
+                spreadRadius: 1.0,
+                offset: Offset(2.0, 10.0))
+          ]),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10.0),
+        child: Column(
+          children: [
+            Container(
+              alignment: Alignment(-0.80, -0.1),
+              child: Text(
+                'Preguntas Frecuentes ',
+                style: TextStyle(color: Colors.lightBlue),
+              ),
+            ),
+            cardNegocio(sizescreen),
+            Container(
+              height: 10,
+              width: 10,
+            ),
+            
+            //listaEtiquetados(screenSize)
+          ],
+        ),
+      ),
+    );
+  }
 
 
- }
-
-Widget preguntasFrecuentes(Size sizescreen)
-{
-  return Stack(
-    
-  );
-
-}
+  Widget cardListaPreguntas(Size screenSize)
+  {
 
 
+  }
+
+  Widget cardNegocio(Size sizescreen) {
+    return Card(
+      margin:
+          new EdgeInsets.only(left: 10.0, right: 10.0, top: 8.0, bottom: 5.0),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+      elevation: 4.0,
+      child: Column(
+        children: [
+          textfielPreguntas(sizescreen),
+          SizedBox(
+            height: 20,
+          ),
+          textfielRespuest(sizescreen),
+          SizedBox(
+            height: 20,
+          ),
+           buttonregistrar(sizescreen),
+        ],
+      ),
+    );
+  }
+
+  Widget buttonregistrar(Size sizescreen) {
+    return Row(
+      children: [
+        SizedBox(width: 20,),
+        ButtonTheme(
+          minWidth: sizescreen.width * 0.3,
+                  child: RaisedButton(
+            child: Text("Agregar"),
+            //onPressed:validarregistrar,
+            color: Colors.lightBlue,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18),
+            ),
+            onPressed: () {},
+          ),
+        ),
+        SizedBox(width: 50,),
+         ButtonTheme(
+           minWidth: sizescreen.width * 0.3,
+                    child: RaisedButton(
+            child: Text("Cancelar"),
+            //onPressed:validarregistrar,
+            color: Colors.lightBlue,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18),
+            ),
+            onPressed: () {},
+        ),
+         ),
+
+      ],
+    );
+  }
+
+  Widget textfielPreguntas(Size sizescreen) {
+    return TextFormField(
+      autofocus: false,
+      keyboardType: TextInputType.text,
+      textCapitalization: TextCapitalization.words,
+      decoration: InputDecoration(
+        labelText: "Localizacion",
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+          borderSide: BorderSide(color: Colors.black),
+        ),
+        focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+            borderSide: BorderSide(color: Colors.black)),
+        prefixIcon: Icon(Icons.text_fields),
+        filled: true,
+        fillColor: Colors.white,
+      ),
+      validator: (value) => value.isEmpty
+          ? 'Este campo no puede estar vacío'
+          : !validate(value)
+              ? 'Ingrese un localizacion válido'
+              : null,
+      onSaved: (value) => this.pregunta = value,
+    );
+  }
+
+  Widget textfielRespuest(Size sizescreen) {
+    return TextFormField(
+      autofocus: false,
+      keyboardType: TextInputType.text,
+      textCapitalization: TextCapitalization.words,
+      maxLines: 2,
+      decoration: InputDecoration(
+        labelText: "Respuesta",
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+          borderSide: BorderSide(color: Colors.black),
+        ),
+        focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+            borderSide: BorderSide(color: Colors.black)),
+        prefixIcon: Icon(Icons.text_fields),
+        filled: true,
+        fillColor: Colors.white,
+      ),
+      validator: (value) => value.isEmpty
+          ? 'Este campo no puede estar vacío'
+          : !validate(value)
+              ? 'Ingrese un localizacion válido'
+              : null,
+      onSaved: (value) => this.pregunta = value,
+    );
+  }
 
   Widget _mostrarImagen(Size screenSize) {
     if (foto != null) {
