@@ -38,7 +38,7 @@ class Rooms extends StatelessWidget {
             Container(
               alignment: Alignment(-0.80, -0.1),
               child: Text(
-                'Consultorios',
+                'Servicios',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
@@ -143,13 +143,13 @@ class _CreateRoomButton extends StatelessWidget {
               Color(0xFF1777F2)
             ]).createShader(rect),
             child: Icon(
-              Icons.business_center,
+              Icons.add_box,
               size: 35.0,
               color: Colors.white,
             ),
           ),
           const SizedBox(width: 4.0),
-          Text('Descubrir\nNegocios'), //! Aqui va un dato
+          Text('Agregar\nServicios',textAlign: TextAlign.center,), //! Aqui va un dato
         ],
       ),
     );

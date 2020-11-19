@@ -49,16 +49,17 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
           child: ClipRRect(
             child: Text(
               widget.userinfo.tipoUsuario == 'D'
-              ? widget.userinfo.sexo == 'F'
-                  ? ' Dra. ${widget.userinfo.nombres} ${widget.userinfo.apellidos}'
-                  : ' Dr.  ${widget.userinfo.nombres} ${widget.userinfo.apellidos}'
-              : ' ${widget.userinfo.nombres} ${widget.userinfo.apellidos}',
+                  ? widget.userinfo.sexo == 'F'
+                      ? ' Dra. ${widget.userinfo.nombres} ${widget.userinfo.apellidos}'
+                      : ' Dr.  ${widget.userinfo.nombres} ${widget.userinfo.apellidos}'
+                  : ' ${widget.userinfo.nombres} ${widget.userinfo.apellidos}',
               style: TextStyle(
                 color: Colors.grey[600],
                 fontSize: 16.0,
                 fontWeight: FontWeight.bold,
                 letterSpacing: -1.2,
               ),
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ),
@@ -89,7 +90,7 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
   Widget section1(Size screensize, context) {
     return Padding(
       padding: EdgeInsets.symmetric(
-          vertical: screensize.height * 0.089,
+          vertical: screensize.height * 0.065,
           horizontal: screensize.width * 0.04),
       child: Column(
         children: [
@@ -111,7 +112,7 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
             ),
           ),
           profileData(screensize, context),
-          profileButton(),
+          widget.userinfo.tipoUsuario == 'D' ? profileButton() : Container()
         ],
       ),
     );
@@ -119,7 +120,7 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
 
   Widget section2(Size screensize, context) {
     return Padding(
-        padding: EdgeInsets.symmetric(vertical: 50, horizontal: 2),
+        padding: EdgeInsets.symmetric(vertical: 50, horizontal: 25),
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(40.0),
@@ -142,34 +143,28 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
         ));
   }
 
+  // Widget profileButton() {
+  //   return current
+  //       ? widget.userinfo.tipoUsuario == 'D'
+  //           ? editarPerfil()
+  //           : Container()
+  //       : AnimatedSwitcher(
+  //           duration: const Duration(seconds: 1),
+  //           switchOutCurve: Curves.easeOutExpo,
+  //           switchInCurve: Curves.easeInExpo,
+  //           child: follow ? seguir() : seguido(),
+  //         );
+  //   // return editarPerfil();
+  // }
+
   Widget profileButton() {
-    return current
-        ? 
-        
-        widget.userinfo.tipoUsuario == 'D'
-        ?editarPerfil():Container()
-
-        : AnimatedSwitcher(
-            duration: const Duration(seconds: 1),
-            switchOutCurve: Curves.easeOutExpo,
-            switchInCurve: Curves.easeInExpo,
-            child: follow ? seguir() : seguido(),
-          );
-    // return editarPerfil();
-  }
-
-  Widget seguir() {
     return ShaderMask(
       shaderCallback: (rect) => LinearGradient(
-              colors: [Color(0xFF81D4FA), Color(0xFF29B6F6), Color(0xFF039BE5)])
+              colors: [Color(0xFFEEFF41), Color(0xFFB2FF59), Color(0xFF00E5FF)])
           .createShader(rect),
       child: RaisedButton(
-        onPressed: () {
-          setState(() {
-            follow = !follow;
-          });
-        },
-        child: Text('Seguir'),
+        onPressed: () {},
+        child: Text('Crear Consultorio'),
       ),
     );
   }
@@ -197,7 +192,7 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
           .createShader(rect),
       child: RaisedButton(
         onPressed: () {
-           Navigator.pushNamed(context, 'servicesPages');
+          Navigator.pushNamed(context, 'servicesPages');
           setState(() {});
         },
         child: Text('Gestionar Servicios'),
@@ -206,21 +201,11 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
   }
 
   Widget tilelist() {
-    return profileType
-        ? Text(
-            'Recientes',
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.lightBlue,
-                fontSize: 18),
-          )
-        : Text(
-            'Recientes',
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.lightBlue,
-                fontSize: 18),
-          );
+    return Text(
+      'Consultorios',
+      style: TextStyle(
+          fontWeight: FontWeight.bold, color: Colors.lightBlue, fontSize: 18),
+    );
   }
 
   Widget listContent(Size screensize) {
@@ -298,14 +283,23 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
 
   profileData(Size screensize, context) {
     return Card(
-      child: Column(
-        children: <Widget>[
-          widget.userinfo.tipoUsuario == 'D'
-              ? widget.userinfo.sexo == 'F'
-                  ? Text('Dra. ${widget.userinfo.nombres} ${widget.userinfo.apellidos}')
-                  : Text('Dr.  ${widget.userinfo.nombres} ${widget.userinfo.apellidos}')
-              : Text('${widget.userinfo.nombres} ${widget.userinfo.apellidos}'),
-        ],
+      elevation: 10,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+      child: Container(
+        width: screensize.width * 0.38,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: <Widget>[
+              Text(
+                widget.userinfo.tipoUsuario == 'D'
+                    ? '${widget.userinfo.profesion}\n\n${widget.userinfo.correo}\n${widget.userinfo.ciudadResidencia}\n${widget.userinfo.celular}'
+                    : '${widget.userinfo.correo}\n${widget.userinfo.ciudadResidencia}\n${widget.userinfo.celular}',
+                textAlign: TextAlign.center,
+              )
+            ],
+          ),
+        ),
       ),
     );
   }

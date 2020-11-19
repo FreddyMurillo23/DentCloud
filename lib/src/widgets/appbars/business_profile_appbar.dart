@@ -50,6 +50,8 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
           child: ClipRRect(
             child: Text(
               '   ${widget.userinfo.openNegocio}   ',
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.grey[600],
                 fontSize: 16.0,
@@ -80,14 +82,14 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
       ),
       centerTitle: false,
       floating: false,
-      
     );
   }
+
 
   Widget section1(Size screensize, context) {
     return Padding(
       padding: EdgeInsets.symmetric(
-          vertical: screensize.height * 0.089,
+          vertical: screensize.height * 0.065,
           horizontal: screensize.width * 0.04),
       child: Column(
         children: [
@@ -108,7 +110,8 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
               borderRadius: BorderRadius.circular(100.0),
             ),
           ),
-          profileButton(),
+          businessData(screensize, context),
+          // profileButton(),
         ],
       ),
     );
@@ -116,7 +119,7 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
 
   Widget section2(Size screensize, context) {
     return Padding(
-        padding: EdgeInsets.symmetric(vertical: 50, horizontal: 2),
+        padding: EdgeInsets.symmetric(vertical: 50, horizontal: 25),
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(40.0),
@@ -139,7 +142,7 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
             ),
             onTap: () {
               Navigator.pushNamed(context, 'serviciosNegocios',
-                            arguments: widget.userinfo.ruc);
+                  arguments: widget.userinfo.ruc);
             },
           ),
         ));
@@ -275,12 +278,47 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
                           borderRadius: BorderRadius.circular(40.0),
                         ),
                       ),
-                      Text('${widget.userinfo.openServicios[index].servicio}')
+                      Text('${widget.userinfo.openServicios[index].servicio}',
+                          textAlign: TextAlign.center)
                     ],
                   ),
                 );
               }
             }),
+      ),
+    );
+  }
+
+  businessData(Size screensize, context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Card(
+        elevation: 10,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+        child: Container(
+          // height: screensize.height*0.15,
+          width: screensize.width * 0.38,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Text('Ciudad:'),
+                Text(
+                  '${widget.userinfo.provincia}, ${widget.userinfo.canton}\n',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.blueGrey),
+                ),
+                Text('Direccion:'),
+                Text(
+                  '${widget.userinfo.ubicacion}',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.blueGrey),
+                )
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
