@@ -72,7 +72,7 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
             ),
             Row(
               children: <Widget>[
-                section1(_screenSize, context),
+                section1(_screenSize, context,userinfo),
                 section2(_screenSize, context),
               ],
             )
@@ -86,7 +86,7 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
     );
   }
 
-  Widget section1(Size screensize, context) {
+  Widget section1(Size screensize, context,CurrentUsuario userinfo) {
     return Padding(
       padding: EdgeInsets.symmetric(
           vertical: screensize.height * 0.089,
@@ -111,7 +111,7 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
             ),
           ),
           profileData(screensize, context),
-          profileButton(),
+          profileButton(userinfo),
         ],
       ),
     );
@@ -142,12 +142,12 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
         ));
   }
 
-  Widget profileButton() {
+  Widget profileButton(CurrentUsuario userinfo) {
     return current
         ? 
         
         widget.userinfo.tipoUsuario == 'D'
-        ?editarPerfil():Container()
+        ?editarPerfil(userinfo):Container()
 
         : AnimatedSwitcher(
             duration: const Duration(seconds: 1),
@@ -190,14 +190,14 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
     );
   }
 
-  Widget editarPerfil() {
+  Widget editarPerfil(CurrentUsuario userinfo) {
     return ShaderMask(
       shaderCallback: (rect) => LinearGradient(
               colors: [Color(0xFF81D4FA), Color(0xFF29B6F6), Color(0xFF039BE5)])
           .createShader(rect),
       child: RaisedButton(
         onPressed: () {
-           Navigator.pushNamed(context, 'servicesPages');
+           Navigator.pushNamed(context, 'servicesPages', arguments:userinfo);
           setState(() {});
         },
         child: Text('Gestionar Servicios'),

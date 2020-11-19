@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/widgets/circle_button.dart';
 
 class ServicesPages extends StatefulWidget {
@@ -12,26 +13,32 @@ class ServicesPages extends StatefulWidget {
 class _ServicesPagesState extends State<ServicesPages> {
   final formkey = new GlobalKey<FormState>();
   final TextEditingController _controller = TextEditingController();
+ 
   File foto;
   String fotopath;
-
+  String selectName;
   String descripcion, duracion;
   String businessRuc;
+
   bool validate(String value) {
     return true;
   }
   
+ List<UserTrabajos> data;
 
+ loadData(CurrentUsuario user)
+ {
+  
+  data=user.userTrabajos;
+ }
+ 
   @override
-  void initState() {
-    super.initState();
-
-  }
 
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-
+    final CurrentUsuario userinfo = ModalRoute.of(context).settings.arguments;
+    loadData(userinfo);
     return Scaffold(
       appBar: appMenu(screenSize),
       body: Container(
@@ -51,6 +58,10 @@ class _ServicesPagesState extends State<ServicesPages> {
                   height: 15,
                 ),
                 textFieldDuracion(screenSize),
+                 SizedBox(
+                  height: 15,
+                ),
+                selectBox(screenSize),
               ],
             ),
           ),
@@ -58,6 +69,10 @@ class _ServicesPagesState extends State<ServicesPages> {
       ),
     );
   }
+
+
+
+
 
   Widget textFieldDescripcion(Size sizescreen) {
     return Container(
@@ -121,9 +136,61 @@ class _ServicesPagesState extends State<ServicesPages> {
   }
 
  Widget selectBox(Size sizescreen){
+    return Container(
+        //color: Colors.white,
+        width: sizescreen.width * 0.85,
+        child: Center(
+          child: DropdownButtonFormField(
+             value: selectName,
+             //hint: Text('Seleccione el negocio'),
+              style: new TextStyle(
+                color: Colors.black,
+                //fontSize: 18.0,
+              ),
+              //value: verificar(datos[0].sexo),
+              isExpanded: true,
+              items:data.map((list) {
+                 return DropdownMenuItem(child:
+                  Text(list.nombreNegocio),
+                  value: list.idNegocio,);
 
+              }).toList(),
+              validator: (value) =>
+                  value == null ? 'Este campo no puede estar vacío' : null,
+              onChanged: (value) {
+                setState(() {
+                 // this.selectName=value;
+                  this.businessRuc = value;
+                  print( this.businessRuc);
+                });
+              },
+              decoration: InputDecoration(
+                labelText: "Negocio",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  borderSide: BorderSide(color: Colors.black),
+                ),
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    borderSide: BorderSide(color: Colors.black)),
+                prefixIcon: Icon(Icons.accessibility),
+                filled: true,
+                fillColor: Colors.white,
+              )),
+        ));
+
+
+ }
+
+Widget preguntasFrecuentes(Size sizescreen)
+{
+  return Stack(
+    
+  );
 
 }
+
+
 
   Widget _mostrarImagen(Size screenSize) {
     if (foto != null) {

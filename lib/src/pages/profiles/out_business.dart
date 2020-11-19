@@ -41,6 +41,7 @@ class _OutBusinessProfileState extends State<OutBusinessProfile> {
                   builder:
                       (BuildContext context, AsyncSnapshot<List> snapshot) {
                     return CustomScrollView(
+                     
                       slivers: [
                         OutBusinessAppBar(
                           userinfo: businessinfo.data[0],
