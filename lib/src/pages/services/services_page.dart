@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:muro_dentcloud/src/models/Services_models.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
+import 'package:muro_dentcloud/src/utils/icono_string_util.dart';
 import 'package:muro_dentcloud/src/widgets/circle_button.dart';
 
 class ServicesPages extends StatefulWidget {
@@ -186,6 +187,7 @@ class _ServicesPagesState extends State<ServicesPages> {
 
   Widget preguntasFrecuentes(Size sizescreen) {
     return Container(
+    
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.0),
           color: Colors.white,
@@ -212,8 +214,7 @@ class _ServicesPagesState extends State<ServicesPages> {
               height: 10,
               width: 10,
             ),
-            
-            //listaEtiquetados(screenSize)
+            cardListaPreguntas(sizescreen),
           ],
         ),
       ),
@@ -223,10 +224,64 @@ class _ServicesPagesState extends State<ServicesPages> {
 
   Widget cardListaPreguntas(Size screenSize)
   {
+   //if(datos.isEmpty)
+   //{
+     return Padding(padding: EdgeInsets.symmetric(vertical: 10),
+     child: Container(
+        height: screenSize.height * 0.20,
+        alignment: Alignment.center,
+        child: ListView.builder(
+          scrollDirection: Axis.vertical,
+          itemCount: 5,
+          itemBuilder: (BuildContext context, index){
+            return Column(
+             children: [
+               InputChip(
+                label: Card(
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                    elevation: 4.0,
+                    child: ExpansionTile(
+                      title: Container(
+                        child: Text('Preguntas1',style:
+                        TextStyle(
+                             color: Colors.black,
+                             fontWeight: FontWeight.bold,
+                            ),
+                        ),
+                      ),
+                    leading:getIcon('Pregunta') ,
+                    children: <Widget> [
+                      Text('Que tal estuvo')
+                    ],
+                    ),
+                ),
+                onDeleted: (){
+                  
+                },
+                deleteIcon:Icon(
+                        Icons.highlight_remove,
+                        color: Colors.white,
+                      ), 
+               ),
+             ],
+            );
+            
+          },
+          
+          ),
+     ),
+     
+     );
 
+  //  }
+  //  else
+  //  {
+  //    return Container();
+  //  }
 
   }
 
+  
   Widget cardNegocio(Size sizescreen) {
     return Card(
       margin:
