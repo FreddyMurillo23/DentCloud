@@ -15,20 +15,46 @@ class ServicesPages extends StatefulWidget {
 
 class _ServicesPagesState extends State<ServicesPages> {
   final formkey = new GlobalKey<FormState>();
-  final TextEditingController _controller = TextEditingController();
-  List<PreguntasFrecuente> datos = [];
+   final formkey1 = new GlobalKey<FormState>();
+  TextEditingController controllerText = TextEditingController();
+  TextEditingController controllerRespuesta = TextEditingController();
+  List<PreguntasFrecuente> datos = new List();
+  final datosanadido= new PreguntasFrecuente();
   File foto;
   String fotopath;
   String selectName;
   String descripcion, duracion;
   String businessRuc;
-  String pregunta;
+  String pregunta,respuesta;
   bool validate(String value) {
     return true;
   }
 
-  List<UserTrabajos> data;
+  void ingresarPreguntas()
+  {
+    final form=formkey1.currentState;
+    if(form.validate())
+    {
+      form.save();
+      datosanadido.descripcion=pregunta;
+      datosanadido.respuesta=respuesta;
+      datos.add(datosanadido);
+      controllerText.clear();
+      controllerRespuesta.clear();
+    }
+  }
 
+  void ingresarservicio()
+  {
+    final form=formkey.currentState;
+    if(form.validate())
+    {
+      form.save();
+    }
+
+  }
+
+  List<UserTrabajos> data;
   loadData(CurrentUsuario user) {
     data = user.userTrabajos;
   }
@@ -45,10 +71,14 @@ class _ServicesPagesState extends State<ServicesPages> {
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Form(
-            key: formkey,
             child: Column(
               children: [
-                _mostrarImagen(screenSize),
+                Form(
+                  key: formkey,
+                  child: 
+                Column(
+                  children: [
+                    _mostrarImagen(screenSize),
                 SizedBox(
                   height: 15,
                 ),
@@ -64,11 +94,16 @@ class _ServicesPagesState extends State<ServicesPages> {
                 SizedBox(
                   height: 15,
                 ),
-                preguntasFrecuentes(screenSize),
-                 SizedBox(
+                  ],
+                )   ),
+                 Form(
+                   key:formkey1  ,
+                   child: preguntasFrecuentes(screenSize),
+                 ),
+                SizedBox(
                   height: 15,
                 ),
-
+               buttonRegistrar(screenSize)
               ],
             ),
           ),
@@ -187,7 +222,6 @@ class _ServicesPagesState extends State<ServicesPages> {
 
   Widget preguntasFrecuentes(Size sizescreen) {
     return Container(
-    
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.0),
           color: Colors.white,
@@ -205,7 +239,7 @@ class _ServicesPagesState extends State<ServicesPages> {
             Container(
               alignment: Alignment(-0.80, -0.1),
               child: Text(
-                'Preguntas Frecuentes ',
+                'Preguntas Frecuentes',
                 style: TextStyle(color: Colors.lightBlue),
               ),
             ),
@@ -222,17 +256,16 @@ class _ServicesPagesState extends State<ServicesPages> {
   }
 
 
-  Widget cardListaPreguntas(Size screenSize)
-  {
-   //if(datos.isEmpty)
-   //{
+  Widget cardListaPreguntas(Size screenSize){
+   if(datos.length!=0)
+   {
      return Padding(padding: EdgeInsets.symmetric(vertical: 10),
      child: Container(
         height: screenSize.height * 0.20,
         alignment: Alignment.center,
         child: ListView.builder(
           scrollDirection: Axis.vertical,
-          itemCount: 5,
+          itemCount: datos.length,
           itemBuilder: (BuildContext context, index){
             return Column(
              children: [
@@ -240,22 +273,36 @@ class _ServicesPagesState extends State<ServicesPages> {
                 label: Card(
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
                     elevation: 4.0,
-                    child: ExpansionTile(
-                      title: Container(
-                        child: Text('Preguntas1',style:
-                        TextStyle(
-                             color: Colors.black,
-                             fontWeight: FontWeight.bold,
+                    child: SingleChildScrollView(
+                      child: ExpansionTile(
+                        title: Container(
+                          child: Text(
+                            datos[index].descripcion,style:
+                            TextStyle(
+                           color: Colors.black,
+                           fontWeight: FontWeight.bold,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                             ),
                         ),
+                      leading:getIcon('Pregunta') ,
+                      children: <Widget> [
+                         Text(datos[index].respuesta,
+                         //overflow: TextOverflow.ellipsis,
+                        ),
+                       
+                      ],
                       ),
-                    leading:getIcon('Pregunta') ,
-                    children: <Widget> [
-                      Text('Que tal estuvo')
-                    ],
                     ),
                 ),
+                onPressed: (){
+                  print('si funciona ');
+                },
                 onDeleted: (){
+                  setState(() {
+                    datos.removeAt(index);
+                    cardListaPreguntas(screenSize);
+                  });
                   
                 },
                 deleteIcon:Icon(
@@ -273,11 +320,11 @@ class _ServicesPagesState extends State<ServicesPages> {
      
      );
 
-  //  }
-  //  else
-  //  {
-  //    return Container();
-  //  }
+   }
+   else
+   {
+     return Container();
+   }
 
   }
 
@@ -290,6 +337,35 @@ class _ServicesPagesState extends State<ServicesPages> {
       elevation: 4.0,
       child: Column(
         children: [
+          
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                 
+                CircleButton(
+              icon: MdiIcons.read,
+              iconsize: 20,
+              colorIcon: Colors.blue[600],
+              colorBorde: Colors.lightBlue[50],
+              onPressed: () {
+                ingresarPreguntas();
+              setState(() {
+             cardListaPreguntas(sizescreen);
+          });
+              },
+            ),
+            CircleButton(
+              icon: MdiIcons.closeCircleOutline,
+              iconsize: 20,
+              colorIcon: Colors.blue[600],
+              colorBorde: Colors.lightBlue[50],
+              onPressed: () {
+                 controllerText.clear();
+               controllerRespuesta.clear();
+              },
+            ),
+              ],
+            ),
           textfielPreguntas(sizescreen),
           SizedBox(
             height: 20,
@@ -298,53 +374,73 @@ class _ServicesPagesState extends State<ServicesPages> {
           SizedBox(
             height: 20,
           ),
-           buttonregistrar(sizescreen),
+           //buttonregistrar(sizescreen),
         ],
       ),
     );
   }
 
-  Widget buttonregistrar(Size sizescreen) {
-    return Row(
-      children: [
-        SizedBox(width: 20,),
-        ButtonTheme(
-          minWidth: sizescreen.width * 0.3,
-                  child: RaisedButton(
-            child: Text("Agregar"),
-            //onPressed:validarregistrar,
-            color: Colors.lightBlue,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(18),
-            ),
-            onPressed: () {},
-          ),
-        ),
-        SizedBox(width: 50,),
-         ButtonTheme(
-           minWidth: sizescreen.width * 0.3,
-                    child: RaisedButton(
-            child: Text("Cancelar"),
-            //onPressed:validarregistrar,
-            color: Colors.lightBlue,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(18),
-            ),
-            onPressed: () {},
-        ),
-         ),
 
-      ],
+ Widget buttonRegistrar(Size sizescreen) {
+    return Container(
+      width: sizescreen.width*0.95,
+      child: Row(
+        children: [
+          Container(
+            width: sizescreen.width * 0.45,
+            child: ButtonTheme(
+             minWidth: sizescreen.width * 0.35,
+             //height: sizescreen.height*0.056,
+              child: Center(
+                child: RaisedButton(
+                  onPressed: (){
+                    ingresarservicio();
+                  },
+                  child: Text("Registrar"),
+                  //onPressed:validarregistrar,
+                  color: Colors.lightBlue,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          
+          Container(
+            width: sizescreen.width * 0.45,
+            child: Center(
+              child: ButtonTheme(
+                 minWidth: sizescreen.width * 0.36,
+                 //height: sizescreen.height*0.056,
+                            child: RaisedButton(
+                  child: Text("Cancelar"),
+                  onPressed: () => {
+                    Navigator.of(context).pop(false)
+                  },
+                  color: Colors.lightBlue,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 
+
   Widget textfielPreguntas(Size sizescreen) {
     return TextFormField(
+      maxLines: 2,
+      controller: controllerRespuesta,
       autofocus: false,
       keyboardType: TextInputType.text,
       textCapitalization: TextCapitalization.words,
       decoration: InputDecoration(
-        labelText: "Localizacion",
+        labelText: "Pregunta",
         border: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(20)),
           borderSide: BorderSide(color: Colors.black),
@@ -367,6 +463,7 @@ class _ServicesPagesState extends State<ServicesPages> {
 
   Widget textfielRespuest(Size sizescreen) {
     return TextFormField(
+      controller: controllerText,
       autofocus: false,
       keyboardType: TextInputType.text,
       textCapitalization: TextCapitalization.words,
@@ -389,7 +486,7 @@ class _ServicesPagesState extends State<ServicesPages> {
           : !validate(value)
               ? 'Ingrese un localizacion válido'
               : null,
-      onSaved: (value) => this.pregunta = value,
+      onSaved: (value) => this.respuesta = value,
     );
   }
 

@@ -154,7 +154,6 @@ cargarDatos()
              cargarDatos();
               Navigator.pushNamed(context, 'serviciosNegocios',
                   arguments: normal);
-             
             },
           ),
         ));
