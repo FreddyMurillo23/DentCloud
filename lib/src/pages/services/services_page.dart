@@ -5,7 +5,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:muro_dentcloud/src/models/Services_models.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
-import 'package:muro_dentcloud/src/utils/icono_string_util.dart';
 import 'package:muro_dentcloud/src/widgets/circle_button.dart';
 
 class ServicesPages extends StatefulWidget {
@@ -258,6 +257,50 @@ class _ServicesPagesState extends State<ServicesPages> {
   }
 
 
+
+Future mostrarPreguntas(int index){
+       return showDialog(
+               context: context,
+               builder: (_)=>
+                  AlertDialog(
+                  content: Builder(
+                    builder: (context){
+                      var height = MediaQuery.of(context).size.height;
+                      var width = MediaQuery.of(context).size.width;
+                      return Container(
+                              height: height*0.12,
+                              width: width*0.45,
+                              child: SingleChildScrollView(
+                                                              child: Column(
+                                  children: [
+                                    Container(
+                                       child: Text(datos[index].respuesta,
+                                       //style: TextStyle(fontSize: 10),
+                                       ),
+                                    ),
+                                   
+                                  ],
+                                ),
+                              ),
+                              //color: Colors.green,
+                        );
+                    },
+                  ),
+                  title: Text(datos[index].descripcion,
+                   style: TextStyle(fontSize: 20)
+                  ),
+                  actions: [
+                    TextButton(
+                       child: Text('Aceptar'),
+                      onPressed: (){
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                ),
+      );
+  }
+
   Widget cardListaPreguntas(Size screenSize){
    if(datos.length!=0)
    {
@@ -276,24 +319,21 @@ class _ServicesPagesState extends State<ServicesPages> {
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
                     elevation: 4.0,
                     child: SingleChildScrollView(
-                      child: ExpansionTile(
-                        title: Container(
-                          child: Text(
-                            datos[index].descripcion,style:
-                            TextStyle(
+                      child: Container(
+                        child: ListTile(
+                          trailing: Icon(MdiIcons.play),
+                          title: Text(datos[index].descripcion,
+                          style: TextStyle(
                            color: Colors.black,
                            fontWeight: FontWeight.bold,
                           ),
                           overflow: TextOverflow.ellipsis,
-                            ),
+                          
+                          ),
+                          onTap: (){
+                             mostrarPreguntas(index);
+                          },
                         ),
-                      leading:getIcon('Pregunta') ,
-                      children: <Widget> [
-                         Text(datos[index].respuesta,
-                         //overflow: TextOverflow.ellipsis,
-                        ),
-                       
-                      ],
                       ),
                     ),
                 ),
@@ -351,6 +391,7 @@ class _ServicesPagesState extends State<ServicesPages> {
               onPressed: () {
                 ingresarPreguntas();
               setState(() {
+
              cardListaPreguntas(sizescreen);
           });
               },
