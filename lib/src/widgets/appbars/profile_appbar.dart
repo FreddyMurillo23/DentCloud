@@ -163,7 +163,10 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
               colors: [Color(0xFFEEFF41), Color(0xFFB2FF59), Color(0xFF00E5FF)])
           .createShader(rect),
       child: RaisedButton(
-        onPressed: () {},
+        onPressed: () {
+           Navigator.pushNamed(context, 'registerbusiness',
+                  arguments: widget.userinfo);
+        },
         child: Text('Crear Consultorio'),
       ),
     );

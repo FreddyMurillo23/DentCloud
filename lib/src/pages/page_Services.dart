@@ -28,16 +28,7 @@ class BusinessServicePage extends StatelessWidget {
         centerTitle: false,
         // floa ting: true,
         actions: [
-          CircleButton(
-            icon: MdiIcons.plusCircle,
-            iconsize: 30.0,
-             colorIcon: Colors.blue[600],
-              colorBorde: Colors.lightBlue[50],
-            onPressed: () {
-            Navigator.pushNamed(context,'servicesPages',arguments: objeto[1]);
-            },
-
-          ),
+          
           CircleButton(
             icon: MdiIcons.leadPencil,
             iconsize: 30.0,

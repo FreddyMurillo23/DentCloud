@@ -71,7 +71,7 @@ class Rooms extends StatelessWidget {
                 if (index == 0) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                    child: _CreateRoomButton(),
+                    child: _CreateRoomButton(userinfo: userinfo,),
                   );
                 }
                 // final User user = onlineUsers[index - 1];
@@ -121,10 +121,16 @@ class Rooms extends StatelessWidget {
 }
 
 class _CreateRoomButton extends StatelessWidget {
+  final CurrentUsuario userinfo;
+
+  const _CreateRoomButton({Key key, this.userinfo}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return OutlineButton(
-      onPressed: () => print('Create Room'), //! aqui va Tu wevada >:) Zurita ♥
+      onPressed: () {
+         Navigator.pushNamed(context, 'servicesPages',
+                  arguments:userinfo );
+      }, //! aqui va Tu wevada >:) Zurita ♥
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30.0),
       ),

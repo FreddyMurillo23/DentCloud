@@ -329,7 +329,6 @@ Future mostrarPreguntas(int index){
                            fontWeight: FontWeight.bold,
                           ),
                           overflow: TextOverflow.ellipsis,
-                          
                           ),
                           onTap: (){
                              mostrarPreguntas(index);
