@@ -425,52 +425,53 @@ Future mostrarPreguntas(int index){
 
  Widget buttonRegistrar(Size sizescreen) {
     return Container(
-      width: sizescreen.width*0.95,
-      child: Row(
-        children: [
-          Container(
-            width: sizescreen.width * 0.45,
-            child: ButtonTheme(
-             minWidth: sizescreen.width * 0.35,
-             //height: sizescreen.height*0.056,
-              child: Center(
-                child: RaisedButton(
-                  onPressed: (){
-                    ingresarservicio();
-                  },
-                  child: Text("Registrar"),
-                  //onPressed:validarregistrar,
-                  color: Colors.lightBlue,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18),
-                  ),
-                ),
+        width: sizescreen.width*0.95,
+        child: Row(
+    children: [
+      SizedBox(width: sizescreen.width*0.05,),
+      Container(
+        //width: sizescreen.width * 0.45,
+        child: ButtonTheme(
+         minWidth: sizescreen.width * 0.35,
+         //height: sizescreen.height*0.056,
+          child: Center(
+            child: RaisedButton(
+              onPressed: (){
+                ingresarservicio();
+              },
+              child: Text("Registrar"),
+              //onPressed:validarregistrar,
+              color: Colors.lightBlue,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18),
               ),
             ),
           ),
-          
-          Container(
-            width: sizescreen.width * 0.45,
-            child: Center(
-              child: ButtonTheme(
-                 minWidth: sizescreen.width * 0.36,
-                 //height: sizescreen.height*0.056,
-                            child: RaisedButton(
-                  child: Text("Cancelar"),
-                  onPressed: () => {
-                    Navigator.of(context).pop(false)
-                  },
-                  color: Colors.lightBlue,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18),
-                  ),
-                ),
+        ),
+      ),
+      SizedBox(width: sizescreen.width*0.05,),
+      Container(
+        //width: sizescreen.width * 0.45,
+        child: Center(
+          child: ButtonTheme(
+             minWidth: sizescreen.width * 0.36,
+             //height: sizescreen.height*0.056,
+                        child: RaisedButton(
+              child: Text("Cancelar"),
+              onPressed: () => {
+                Navigator.of(context).pop(false)
+              },
+              color: Colors.lightBlue,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18),
               ),
             ),
-          )
-        ],
-      ),
-    );
+          ),
+        ),
+      )
+    ],
+        ),
+      );
   }
 
 
