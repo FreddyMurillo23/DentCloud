@@ -18,7 +18,7 @@ class _ServicesPagesState extends State<ServicesPages> {
   TextEditingController controllerText = TextEditingController();
   TextEditingController controllerRespuesta = TextEditingController();
   List<PreguntasFrecuente> datos = new List();
-  final datosanadido= new PreguntasFrecuente();
+  
   File foto;
   String fotopath;
   String selectName;
@@ -31,6 +31,7 @@ class _ServicesPagesState extends State<ServicesPages> {
 
   void ingresarPreguntas()
   {
+    final datosanadido= new PreguntasFrecuente();
     final form=formkey1.currentState;
     if(form.validate())
     {

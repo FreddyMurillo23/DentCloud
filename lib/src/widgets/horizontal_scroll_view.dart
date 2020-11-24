@@ -42,14 +42,14 @@ class Rooms extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
-            listadoDoctores(_screenSize),
+            listadoServicios(_screenSize),
           ],
         ),
       ),
     );
   }
 
-  Widget listadoDoctores(Size _screenSize) {
+  Widget listadoServicios(Size _screenSize) {
     final negociosProvider = new DataProvider();
     return FutureBuilder(
       future: negociosProvider.getPublicaciones(),
@@ -124,7 +124,7 @@ class _CreateRoomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OutlineButton(
-      onPressed: () => print('Create Room'), //! aqui va un Navigator
+      onPressed: () => print('Create Room'), //! aqui va Tu wevada >:) Zurita ♥
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30.0),
       ),
@@ -149,7 +149,7 @@ class _CreateRoomButton extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 4.0),
-          Text('Agregar\nServicios',textAlign: TextAlign.center,), //! Aqui va un dato
+          Text('Agregar\nServicios',textAlign: TextAlign.center,), 
         ],
       ),
     );
