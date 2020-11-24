@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:muro_dentcloud/src/models/Services_models.dart';
 import 'package:muro_dentcloud/src/models/chat_model.dart';
 import 'package:muro_dentcloud/src/models/follows_model.dart';
 import 'package:muro_dentcloud/src/models/lista_chat_model.dart';
@@ -185,6 +186,26 @@ async {
     final mensaje =
         new MensajeriaData.fromJsonList(decodedData['chat_seleccionado']);
     return mensaje.items;
+  }
+  
+  Future <String> ingresarServicios(String ruc, String descripcion, String duration,String fotopath)
+  async {
+    var url=Uri.parse('http://54.197.83.249/PHP_REST_API/api/post/post_business_services.php?service_business_ruc=$ruc&service_description=$descripcion&service_duration=$duration');
+    var request = http.MultipartRequest('POST', url);
+    var pic = await http.MultipartFile.fromPath("archivo", fotopath);
+    request.files.add(pic);
+    final streamResponse = await request.send();
+    final resp = await http.Response.fromStream(streamResponse);
+    if(resp.statusCode!=200)
+    {
+      return null;
+    }
+    else
+    {
+      final respData = json.decode(resp.body);
+      final service=RespIdService.fromJsonList(respData['respuesta_obtenida']);
+      return service.items[0].idServicio;
+    }
   }
 
   Future<List< ContactoElement>> listaContactoSeguido(String email,String query)

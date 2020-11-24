@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:muro_dentcloud/src/models/Services_models.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
+import 'package:muro_dentcloud/src/providers/data_provide1.dart';
 import 'package:muro_dentcloud/src/widgets/circle_button.dart';
 
 class ServicesPages extends StatefulWidget {
@@ -15,6 +16,7 @@ class ServicesPages extends StatefulWidget {
 class _ServicesPagesState extends State<ServicesPages> {
   final formkey = new GlobalKey<FormState>();
    final formkey1 = new GlobalKey<FormState>();
+   DataProvider1 servicesProvider= new DataProvider1();
   TextEditingController controllerText = TextEditingController();
   TextEditingController controllerRespuesta = TextEditingController();
   List<PreguntasFrecuente> datos = new List();
@@ -44,14 +46,63 @@ class _ServicesPagesState extends State<ServicesPages> {
     }
   }
   
+  Future mensajesFoto(){
+       return showDialog(
+               context: context,
+               builder: (_)=>
+                  AlertDialog(
+                  content: Builder(
+                    builder: (context){
+                      var height = MediaQuery.of(context).size.height;
+                      var width = MediaQuery.of(context).size.width;
+                      return Container(
+                              height: height*0.12,
+                              width: width*0.45,
+                              child: SingleChildScrollView(
+                                                              child: Column(
+                                  children: [
+                                    Container(
+                                       child: Text('Se debe subir una foto para continuar',
+                                       //style: TextStyle(fontSize: 10),
+                                       ),
+                                    ),
+                                   
+                                  ],
+                                ),
+                              ),
+                              //color: Colors.green,
+                        );
+                    },
+                  ),
+                  title: Text('Foto del servicio',
+                   style: TextStyle(fontSize: 20)
+                  ),
+                  actions: [
+                    TextButton(
+                       child: Text('Aceptar'),
+                      onPressed: (){
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                ),
+      );
+  }
 
   void ingresarservicio()
-  {
+  async {
     final form=formkey.currentState;
     if(form.validate())
     {
       form.save();
-      
+      if(fotopath!=null)
+      {
+       //String id=await servicesProvider.ingresarServicios(businessRuc, descripcion, duracion, fotopath);
+      }
+      else
+      {
+        mensajesFoto();
+      }
     }
 
   }
@@ -97,7 +148,7 @@ class _ServicesPagesState extends State<ServicesPages> {
                   height: 15,
                 ),
                   ],
-                )   ),
+                )),
                  Form(
                    key:formkey1  ,
                    child: preguntasFrecuentes(screenSize),
