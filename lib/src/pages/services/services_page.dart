@@ -74,8 +74,10 @@ class _ServicesPagesState extends State<ServicesPages> {
                         );
                     },
                   ),
-                  title: Text('Foto del servicio',
-                   style: TextStyle(fontSize: 20)
+                  title: Center(
+                    child: Text('Foto del servicio',
+                     style: TextStyle(fontSize: 20)
+                    ),
                   ),
                   actions: [
                     TextButton(
@@ -97,7 +99,13 @@ class _ServicesPagesState extends State<ServicesPages> {
       form.save();
       if(fotopath!=null)
       {
-       //String id=await servicesProvider.ingresarServicios(businessRuc, descripcion, duracion, fotopath);
+       String id=await servicesProvider.ingresarServicios(businessRuc, descripcion, duracion, fotopath);
+       if(datos.length!=0)
+       {
+         servicesProvider.ingresarPreguntas(datos, id);
+          Navigator.of(context).pop();
+       }
+       
       }
       else
       {

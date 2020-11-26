@@ -140,7 +140,9 @@ class _CreateRoomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OutlineButton(
-      onPressed: () => print('Create Room'), //! aqui va un Navigator
+      onPressed: () {
+        
+      }, //! aqui va un Navigator
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30.0),
       ),

@@ -188,6 +188,23 @@ async {
     return mensaje.items;
   }
   
+
+  Future <bool> ingresarPreguntas(List<PreguntasFrecuente> lista, String id)
+  async {
+    for(var item in lista)
+    {
+      String url ="http://54.197.83.249/PHP_REST_API/api/post/post_frequent_questions.php?frequent_questions_service_id=$id&frequent_questions_description=${item.descripcion}&frequent_questions_reply=${item.respuesta}";
+    final resp = await http.get(url);
+    if(resp.statusCode!=200)
+    {
+      return false;
+    }
+    }
+    return true;
+   
+
+  }
+
   Future <String> ingresarServicios(String ruc, String descripcion, String duration,String fotopath)
   async {
     var url=Uri.parse('http://54.197.83.249/PHP_REST_API/api/post/post_business_services.php?service_business_ruc=$ruc&service_description=$descripcion&service_duration=$duration');
