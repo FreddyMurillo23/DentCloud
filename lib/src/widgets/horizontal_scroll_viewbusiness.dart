@@ -146,7 +146,6 @@ class _CreateRoomButton extends StatelessWidget {
       onPressed: () {
         Navigator.pushNamed(context, 'registerEmploye',
                           arguments:business);
-         print(business);
       }, //! aqui va un Navigator
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30.0),
