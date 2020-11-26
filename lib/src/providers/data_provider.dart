@@ -407,8 +407,14 @@ class DataProvider {
     }
   }
 
-  Future<ServiciosNegocio> cargarServicios(String ruc) async{
-    
-
-  }
+  // Future<ServiciosNegocio> cargarServicios(String ruc) async{
+  //   String url2 =
+  //       'http://54.197.83.249/PHP_REST_API/api/get/get_business_data_by_ruc.php?business_ruc=$ruc';
+  //   final resp2 = await http.get(url2);
+  //   final decodedData = json.decode(resp2.body);
+  //   final data = Business.fromJsonList(decodedData['negocio_datos']);
+  //   print(decodedData['negocio_datos']);
+  //   // print(decodedData['usuario']);
+  //   return data.items;
+  // }
 }

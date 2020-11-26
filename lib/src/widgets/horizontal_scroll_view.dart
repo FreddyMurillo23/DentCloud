@@ -57,11 +57,11 @@ class _RoomsState extends State<Rooms> {
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
-              SizedBox(height: _screenSize.height*0.01),
+              SizedBox(height: _screenSize.height * 0.01),
               selectBox(_screenSize),
               businessRuc != null
                   ? listadoServicios(_screenSize)
-                  : SizedBox(height: _screenSize.height*0.02),
+                  : SizedBox(height: _screenSize.height * 0.02),
             ],
           ),
         ),
@@ -72,65 +72,73 @@ class _RoomsState extends State<Rooms> {
   Widget listadoServicios(Size _screenSize) {
     final negociosProvider = new DataProvider();
     return FutureBuilder(
-      future: negociosProvider.getPublicaciones(),
+      future: negociosProvider.businessData(businessRuc),
       builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
         if (snapshot.hasData) {
-          return Container(
-            height: _screenSize.height * 0.1,
-            color: Colors.white,
-            child: ListView.builder(
-              padding: const EdgeInsets.symmetric(
-                vertical: 10.0,
-                horizontal: 4.0,
-              ),
-              scrollDirection: Axis.horizontal,
-              // itemCount: 1 + onlineUsers.length,
-              itemCount: 1 + widget.userinfo.userTrabajos.length,
-              itemBuilder: (BuildContext context, int index) {
-                // print(userinfo.negociosAsistidos.length);
-                if (index == 0) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                    child: _CreateRoomButton(
-                      userinfo: widget.userinfo,
-                    ),
-                  );
-                }
-                // final User user = onlineUsers[index - 1];
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: GestureDetector(
-                    child: Container(
-                      height: _screenSize.height * 0.01,
-                      width: _screenSize.width * 0.165,
-                      decoration: BoxDecoration(
-                        border: Border.all(width: 5, color: Colors.blueAccent),
-                        borderRadius: BorderRadius.circular(100.0),
-                        color: Colors.white,
+          if (snapshot.data[0].servicios.length != 0) {
+            return Container(
+              height: _screenSize.height * 0.1,
+              color: Colors.white,
+              child: ListView.builder(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10.0,
+                  horizontal: 4.0,
+                ),
+                scrollDirection: Axis.horizontal,
+                // itemCount: 1 + onlineUsers.length,
+                itemCount: 1 + widget.userinfo.userTrabajos.length,
+                itemBuilder: (BuildContext context, int index) {
+                  // print(userinfo.negociosAsistidos.length);
+                  if (index == 0) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                      child: _CreateRoomButton(
+                        userinfo: widget.userinfo,
                       ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(100.0),
-                        child: FadeInImage(
-                          // radius: _screenSize.width*0.1,
-                          image: NetworkImage(widget
-                              .userinfo
-                              .userTrabajos[index - 1]
-                              .imagenNegocio), //!Aqui va un dato
-                          placeholder: AssetImage('assets/loading.gif'),
-                          fit: BoxFit.cover,
+                    );
+                  }
+                  // final User user = onlineUsers[index - 1];
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: GestureDetector(
+                      child: Container(
+                        height: _screenSize.height * 0.01,
+                        width: _screenSize.width * 0.165,
+                        decoration: BoxDecoration(
+                          border:
+                              Border.all(width: 5, color: Colors.blueAccent),
+                          borderRadius: BorderRadius.circular(100.0),
+                          color: Colors.white,
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(100.0),
+                          child: FadeInImage(
+                            // radius: _screenSize.width*0.1,
+                            image: NetworkImage(widget
+                                .userinfo
+                                .userTrabajos[index - 1]
+                                .imagenNegocio), //!Aqui va un dato
+                            placeholder: AssetImage('assets/loading.gif'),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
+                      onTap: () {
+                        Navigator.pushNamed(context, 'outBusiness',
+                            arguments: widget
+                                .userinfo.userTrabajos[index - 1].idNegocio);
+                      },
                     ),
-                    onTap: () {
-                      Navigator.pushNamed(context, 'outBusiness',
-                          arguments: widget
-                              .userinfo.userTrabajos[index - 1].idNegocio);
-                    },
-                  ),
-                );
-              },
-            ),
-          );
+                  );
+                },
+              ),
+            );
+          } else {
+            Container(
+              child:
+              Center(child: Text('No tienes servicios en este negocio.'),)
+            );
+          }
         } else {
           return Container(
             height: _screenSize.height * 4,
