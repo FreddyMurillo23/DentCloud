@@ -24,34 +24,38 @@ class _CurrentUserProfileState extends State<CurrentUserProfile> {
     CurrentUsuario userinfo = ModalRoute.of(context).settings.arguments;
     // print(userinfo.publicaciones);
     return Scaffold(
-      body: FutureBuilder(
-          future: publicacionesProvider
-              .getPublicacionesByUser(userinfo.publicaciones),
-          builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
-            return CustomScrollView(
-              slivers: [
-                ProfileAppBar(
-                  userinfo: userinfo,
-                ),
-                SliverPadding(
-                  padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 5.0),
-                  sliver: SliverToBoxAdapter(
-                    child: Rooms(
-                      userinfo: userinfo,
+
+      body: Container(
+        color: Colors.white,
+        child: FutureBuilder(
+            future: publicacionesProvider
+                .getPublicacionesByUser(userinfo.publicaciones),
+            builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
+              return CustomScrollView(
+                slivers: [
+                  ProfileAppBar(
+                    userinfo: userinfo,
+                  ),
+                  SliverPadding(
+                    padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 5.0),
+                    sliver: SliverToBoxAdapter(
+                      child: Rooms(
+                        userinfo: userinfo,
+                      ),
                     ),
                   ),
-                ),
-                SliverToBoxAdapter(
-                  child: Divider(
-                    height: 10,
+                  SliverToBoxAdapter(
+                    child: Divider(
+                      height: 10,
+                    ),
                   ),
-                ),
-                publicaciones(userinfo, _screenSize, snapshot),
+                  publicaciones(userinfo, _screenSize, snapshot),
 
-                // SliverPublicaciones(),
-              ],
-            );
-          }),
+                  // SliverPublicaciones(),
+                ],
+              );
+            }),
+      ),
     );
   }
 
