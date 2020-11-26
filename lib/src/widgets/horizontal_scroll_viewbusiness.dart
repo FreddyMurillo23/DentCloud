@@ -69,7 +69,7 @@ class BusinessRooms extends StatelessWidget {
                 if (index == 0) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                    child: _CreateRoomButton(),
+                    child: _CreateRoomButton(business:businessinfo),
                   );
                 }
                 // final User user = onlineUsers[index - 1];
@@ -137,11 +137,16 @@ class BusinessRooms extends StatelessWidget {
 }
 
 class _CreateRoomButton extends StatelessWidget {
+  final NegocioData business;
+
+  const _CreateRoomButton({Key key, this.business}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return OutlineButton(
       onPressed: () {
-        
+        Navigator.pushNamed(context, 'registerEmploye',
+                          arguments:business);
+         print(business);
       }, //! aqui va un Navigator
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30.0),

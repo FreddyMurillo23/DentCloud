@@ -162,8 +162,7 @@ bool validateLocalizcion(String value){
                             child: RaisedButton(
                   child: Text("Cancelar"),
                   onPressed: () => {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                        '/', (Route<dynamic> route) => false)
+                    Navigator.of(context).pop()
                   },
                   color: Colors.lightBlue,
                   shape: RoundedRectangleBorder(
