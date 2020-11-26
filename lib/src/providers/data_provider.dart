@@ -406,4 +406,9 @@ class DataProvider {
       return false;
     }
   }
+
+  Future<ServiciosNegocio> cargarServicios(String ruc) async{
+    
+
+  }
 }

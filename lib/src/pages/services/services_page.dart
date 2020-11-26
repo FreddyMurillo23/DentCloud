@@ -15,104 +15,92 @@ class ServicesPages extends StatefulWidget {
 
 class _ServicesPagesState extends State<ServicesPages> {
   final formkey = new GlobalKey<FormState>();
-   final formkey1 = new GlobalKey<FormState>();
-   DataProvider1 servicesProvider= new DataProvider1();
+  final formkey1 = new GlobalKey<FormState>();
+  DataProvider1 servicesProvider = new DataProvider1();
   TextEditingController controllerText = TextEditingController();
   TextEditingController controllerRespuesta = TextEditingController();
   List<PreguntasFrecuente> datos = new List();
-  
+
   File foto;
   String fotopath;
   String selectName;
   String descripcion, duracion;
   String businessRuc;
-  String pregunta,respuesta;
+  String pregunta, respuesta;
   bool validate(String value) {
     return true;
   }
 
-  void ingresarPreguntas()
-  {
-    final datosanadido= new PreguntasFrecuente();
-    final form=formkey1.currentState;
-    if(form.validate())
-    {
+  void ingresarPreguntas() {
+    final datosanadido = new PreguntasFrecuente();
+    final form = formkey1.currentState;
+    if (form.validate()) {
       form.save();
-      datosanadido.descripcion=pregunta;
-      datosanadido.respuesta=respuesta;
+      datosanadido.descripcion = pregunta;
+      datosanadido.respuesta = respuesta;
       datos.add(datosanadido);
       controllerText.clear();
       controllerRespuesta.clear();
     }
   }
-  
-  Future mensajesFoto(){
-       return showDialog(
-               context: context,
-               builder: (_)=>
-                  AlertDialog(
-                  content: Builder(
-                    builder: (context){
-                      var height = MediaQuery.of(context).size.height;
-                      var width = MediaQuery.of(context).size.width;
-                      return Container(
-                              height: height*0.12,
-                              width: width*0.45,
-                              child: SingleChildScrollView(
-                                                              child: Column(
-                                  children: [
-                                    Container(
-                                       child: Text('Se debe subir una foto para continuar',
-                                       //style: TextStyle(fontSize: 10),
-                                       ),
-                                    ),
-                                   
-                                  ],
-                                ),
-                              ),
-                              //color: Colors.green,
-                        );
-                    },
-                  ),
-                  title: Center(
-                    child: Text('Foto del servicio',
-                     style: TextStyle(fontSize: 20)
-                    ),
-                  ),
-                  actions: [
-                    TextButton(
-                       child: Text('Aceptar'),
-                      onPressed: (){
-                        Navigator.of(context).pop();
-                      },
+
+  Future mensajesFoto() {
+    return showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        content: Builder(
+          builder: (context) {
+            var height = MediaQuery.of(context).size.height;
+            var width = MediaQuery.of(context).size.width;
+            return Container(
+              height: height * 0.12,
+              width: width * 0.45,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Container(
+                      child: Text(
+                        'Se debe subir una foto para continuar',
+                        //style: TextStyle(fontSize: 10),
+                      ),
                     ),
                   ],
                 ),
-      );
+              ),
+              //color: Colors.green,
+            );
+          },
+        ),
+        title: Center(
+          child: Text('Foto del servicio', style: TextStyle(fontSize: 20)),
+        ),
+        actions: [
+          TextButton(
+            child: Text('Aceptar'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      ),
+    );
   }
 
-  void ingresarservicio()
-  async {
-    final form=formkey.currentState;
-    if(form.validate())
-    {
+  void ingresarservicio() async {
+    final form = formkey.currentState;
+    if (form.validate()) {
       form.save();
-      if(fotopath!=null)
-      {
-       String id=await servicesProvider.ingresarServicios(businessRuc, descripcion, duracion, fotopath);
-       if(datos.length!=0)
-       {
-         servicesProvider.ingresarPreguntas(datos, id);
+      if (fotopath != null) {
+        String id = await servicesProvider.ingresarServicios(
+            businessRuc, descripcion, duracion, fotopath);
+        if (datos.length != 0) {
+          servicesProvider.ingresarPreguntas(datos, id);
           Navigator.of(context).pop();
-       }
-       
-      }
-      else
-      {
+        }
+      } else {
         mensajesFoto();
       }
     }
-
   }
 
   List<UserTrabajos> data;
@@ -135,36 +123,35 @@ class _ServicesPagesState extends State<ServicesPages> {
             child: Column(
               children: [
                 Form(
-                  key: formkey,
-                  child: 
-                Column(
-                  children: [
-                    _mostrarImagen(screenSize),
+                    key: formkey,
+                    child: Column(
+                      children: [
+                        _mostrarImagen(screenSize),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        textFieldDescripcion(screenSize),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        textFieldDuracion(screenSize),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        selectBox(screenSize),
+                        SizedBox(
+                          height: 15,
+                        ),
+                      ],
+                    )),
+                Form(
+                  key: formkey1,
+                  child: preguntasFrecuentes(screenSize),
+                ),
                 SizedBox(
                   height: 15,
                 ),
-                textFieldDescripcion(screenSize),
-                SizedBox(
-                  height: 15,
-                ),
-                textFieldDuracion(screenSize),
-                SizedBox(
-                  height: 15,
-                ),
-                selectBox(screenSize),
-                SizedBox(
-                  height: 15,
-                ),
-                  ],
-                )),
-                 Form(
-                   key:formkey1  ,
-                   child: preguntasFrecuentes(screenSize),
-                 ),
-                SizedBox(
-                  height: 15,
-                ),
-               buttonRegistrar(screenSize)
+                buttonRegistrar(screenSize)
               ],
             ),
           ),
@@ -172,7 +159,6 @@ class _ServicesPagesState extends State<ServicesPages> {
       ),
     );
   }
-
 
   Widget textFieldDescripcion(Size sizescreen) {
     return Container(
@@ -316,120 +302,108 @@ class _ServicesPagesState extends State<ServicesPages> {
     );
   }
 
-
-
-Future mostrarPreguntas(int index){
-       return showDialog(
-               context: context,
-               builder: (_)=>
-                  AlertDialog(
-                  content: Builder(
-                    builder: (context){
-                      var height = MediaQuery.of(context).size.height;
-                      var width = MediaQuery.of(context).size.width;
-                      return Container(
-                              height: height*0.12,
-                              width: width*0.45,
-                              child: SingleChildScrollView(
-                                                              child: Column(
-                                  children: [
-                                    Container(
-                                       child: Text(datos[index].respuesta,
-                                       //style: TextStyle(fontSize: 10),
-                                       ),
-                                    ),
-                                   
-                                  ],
-                                ),
-                              ),
-                              //color: Colors.green,
-                        );
-                    },
-                  ),
-                  title: Text(datos[index].descripcion,
-                   style: TextStyle(fontSize: 20)
-                  ),
-                  actions: [
-                    TextButton(
-                       child: Text('Aceptar'),
-                      onPressed: (){
-                        Navigator.of(context).pop();
-                      },
+  Future mostrarPreguntas(int index) {
+    return showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        content: Builder(
+          builder: (context) {
+            var height = MediaQuery.of(context).size.height;
+            var width = MediaQuery.of(context).size.width;
+            return Container(
+              height: height * 0.12,
+              width: width * 0.45,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Container(
+                      child: Text(
+                        datos[index].respuesta,
+                        //style: TextStyle(fontSize: 10),
+                      ),
                     ),
                   ],
                 ),
-      );
+              ),
+              //color: Colors.green,
+            );
+          },
+        ),
+        title: Text(datos[index].descripcion, style: TextStyle(fontSize: 20)),
+        actions: [
+          TextButton(
+            child: Text('Aceptar'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      ),
+    );
   }
 
-  Widget cardListaPreguntas(Size screenSize){
-   if(datos.length!=0)
-   {
-     return Padding(padding: EdgeInsets.symmetric(vertical: 10),
-     child: Container(
-        height: screenSize.height * 0.20,
-        alignment: Alignment.center,
-        child: ListView.builder(
-          scrollDirection: Axis.vertical,
-          itemCount: datos.length,
-          itemBuilder: (BuildContext context, index){
-            return Column(
-             children: [
-               InputChip(
-                label: Card(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-                    elevation: 4.0,
-                    child: SingleChildScrollView(
-                      child: Container(
-                        child: ListTile(
-                          trailing: Icon(MdiIcons.play),
-                          title: Text(datos[index].descripcion,
-                          style: TextStyle(
-                           color: Colors.black,
-                           fontWeight: FontWeight.bold,
+  Widget cardListaPreguntas(Size screenSize) {
+    if (datos.length != 0) {
+      return Padding(
+        padding: EdgeInsets.symmetric(vertical: 10),
+        child: Container(
+          height: screenSize.height * 0.20,
+          alignment: Alignment.center,
+          child: ListView.builder(
+            scrollDirection: Axis.vertical,
+            itemCount: datos.length,
+            itemBuilder: (BuildContext context, index) {
+              return Column(
+                children: [
+                  InputChip(
+                    label: Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0)),
+                      elevation: 4.0,
+                      child: SingleChildScrollView(
+                        child: Container(
+                          child: ListTile(
+                            trailing: Icon(MdiIcons.play),
+                            title: Text(
+                              datos[index].descripcion,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            onTap: () {
+                              mostrarPreguntas(index);
+                            },
                           ),
-                          overflow: TextOverflow.ellipsis,
-                          ),
-                          onTap: (){
-                             mostrarPreguntas(index);
-                          },
                         ),
                       ),
                     ),
-                ),
-                onPressed: (){
-                  print('si funciona ');
-                },
-                onDeleted: (){
-                  setState(() {
-                    datos.removeAt(index);
-                    cardListaPreguntas(screenSize);
-                  });
-                  
-                },
-                deleteIcon:Icon(
-                        Icons.highlight_remove,
-                        color: Colors.white,
-                      ), 
-               ),
-             ],
-            );
-            
-          },
-          
+                    onPressed: () {
+                      print('si funciona ');
+                    },
+                    onDeleted: () {
+                      setState(() {
+                        datos.removeAt(index);
+                        cardListaPreguntas(screenSize);
+                      });
+                    },
+                    deleteIcon: Icon(
+                      Icons.highlight_remove,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
-     ),
-     
-     );
-
-   }
-   else
-   {
-     return Container();
-   }
-
+        ),
+      );
+    } else {
+      return Container();
+    }
   }
 
-  
   Widget cardNegocio(Size sizescreen) {
     return Card(
       margin:
@@ -438,35 +412,33 @@ Future mostrarPreguntas(int index){
       elevation: 4.0,
       child: Column(
         children: [
-          
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                CircleButton(
-              icon: MdiIcons.read,
-              iconsize: 20,
-              colorIcon: Colors.blue[600],
-              colorBorde: Colors.lightBlue[50],
-              onPressed: () {
-                ingresarPreguntas();
-              setState(() {
-
-             cardListaPreguntas(sizescreen);
-          });
-              },
-            ),
-            CircleButton(
-              icon: MdiIcons.closeCircleOutline,
-              iconsize: 20,
-              colorIcon: Colors.blue[600],
-              colorBorde: Colors.lightBlue[50],
-              onPressed: () {
-                 controllerText.clear();
-               controllerRespuesta.clear();
-              },
-            ),
-              ],
-            ),
+            children: [
+              CircleButton(
+                icon: MdiIcons.read,
+                iconsize: 20,
+                colorIcon: Colors.blue[600],
+                colorBorde: Colors.lightBlue[50],
+                onPressed: () {
+                  ingresarPreguntas();
+                  setState(() {
+                    cardListaPreguntas(sizescreen);
+                  });
+                },
+              ),
+              CircleButton(
+                icon: MdiIcons.closeCircleOutline,
+                iconsize: 20,
+                colorIcon: Colors.blue[600],
+                colorBorde: Colors.lightBlue[50],
+                onPressed: () {
+                  controllerText.clear();
+                  controllerRespuesta.clear();
+                },
+              ),
+            ],
+          ),
           textfielPreguntas(sizescreen),
           SizedBox(
             height: 20,
@@ -475,64 +447,64 @@ Future mostrarPreguntas(int index){
           SizedBox(
             height: 20,
           ),
-           //buttonregistrar(sizescreen),
+          //buttonregistrar(sizescreen),
         ],
       ),
     );
   }
 
-
- Widget buttonRegistrar(Size sizescreen) {
+  Widget buttonRegistrar(Size sizescreen) {
     return Container(
-        width: sizescreen.width*0.95,
-        child: Row(
-    children: [
-      SizedBox(width: sizescreen.width*0.05,),
-      Container(
-        //width: sizescreen.width * 0.45,
-        child: ButtonTheme(
-         minWidth: sizescreen.width * 0.35,
-         //height: sizescreen.height*0.056,
-          child: Center(
-            child: RaisedButton(
-              onPressed: (){
-                ingresarservicio();
-              },
-              child: Text("Registrar"),
-              //onPressed:validarregistrar,
-              color: Colors.lightBlue,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18),
+      width: sizescreen.width * 0.95,
+      child: Row(
+        children: [
+          SizedBox(
+            width: sizescreen.width * 0.05,
+          ),
+          Container(
+            //width: sizescreen.width * 0.45,
+            child: ButtonTheme(
+              minWidth: sizescreen.width * 0.35,
+              //height: sizescreen.height*0.056,
+              child: Center(
+                child: RaisedButton(
+                  onPressed: () {
+                    ingresarservicio();
+                  },
+                  child: Text("Registrar"),
+                  //onPressed:validarregistrar,
+                  color: Colors.lightBlue,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                ),
               ),
             ),
           ),
-        ),
+          SizedBox(
+            width: sizescreen.width * 0.05,
+          ),
+          Container(
+            //width: sizescreen.width * 0.45,
+            child: Center(
+              child: ButtonTheme(
+                minWidth: sizescreen.width * 0.36,
+                //height: sizescreen.height*0.056,
+                child: RaisedButton(
+                  child: Text("Cancelar"),
+                  onPressed: () => {Navigator.of(context).pop(false)},
+                  color: Colors.lightBlue,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                ),
+              ),
+            ),
+          )
+        ],
       ),
-      SizedBox(width: sizescreen.width*0.05,),
-      Container(
-        //width: sizescreen.width * 0.45,
-        child: Center(
-          child: ButtonTheme(
-             minWidth: sizescreen.width * 0.36,
-             //height: sizescreen.height*0.056,
-                        child: RaisedButton(
-              child: Text("Cancelar"),
-              onPressed: () => {
-                Navigator.of(context).pop(false)
-              },
-              color: Colors.lightBlue,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18),
-              ),
-            ),
-          ),
-        ),
-      )
-    ],
-        ),
-      );
+    );
   }
-
 
   Widget textfielPreguntas(Size sizescreen) {
     return TextFormField(

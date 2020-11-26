@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:muro_dentcloud/src/models/business_model.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/providers/data_provider.dart';
@@ -8,42 +9,61 @@ import 'package:muro_dentcloud/src/providers/data_provider.dart';
 
 import '../../palette.dart';
 
-class Rooms extends StatelessWidget {
+class Rooms extends StatefulWidget {
   final CurrentUsuario userinfo;
   final NegocioData businessinfo;
-  const Rooms({
-    Key key,
-    this.userinfo,this.businessinfo
-  }) : super(key: key);
+  const Rooms({Key key, this.userinfo, this.businessinfo}) : super(key: key);
+
+  @override
+  _RoomsState createState() => _RoomsState();
+}
+
+class _RoomsState extends State<Rooms> {
+  final formkey = new GlobalKey<FormState>();
+  List<UserTrabajos> data;
+  String businessRuc;
+  String selectName;
+  loadData(CurrentUsuario userinfo) {
+    data = userinfo.userTrabajos;
+    print(data.length);
+  }
 
   @override
   Widget build(BuildContext context) {
+    loadData(widget.userinfo);
     final _screenSize = MediaQuery.of(context).size;
     // final bool isDesktop = Responsive.isDesktop(context);
-    return Container(
-      decoration: BoxDecoration(
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30.0),
+            color: Colors.white,
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                  color: Colors.grey[500],
+                  blurRadius: 10.0,
+                  spreadRadius: 2.0,
+                  offset: Offset(2.0, 10.0))
+            ]),
+        child: ClipRRect(
           borderRadius: BorderRadius.circular(30.0),
-          color: Colors.white,
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-                color: Colors.grey[500],
-                blurRadius: 10.0,
-                spreadRadius: 2.0,
-                offset: Offset(2.0, 10.0))
-          ]),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(30.0),
-        child: Column(
-          children: [
-            Container(
-              alignment: Alignment(-0.80, -0.1),
-              child: Text(
-                'Servicios',
-                style: TextStyle(fontWeight: FontWeight.bold),
+          child: Column(
+            children: [
+              Container(
+                alignment: Alignment(-0.80, -0.1),
+                child: Text(
+                  'Servicios',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-            listadoServicios(_screenSize),
-          ],
+              SizedBox(height: _screenSize.height*0.01),
+              selectBox(_screenSize),
+              businessRuc != null
+                  ? listadoServicios(_screenSize)
+                  : SizedBox(height: _screenSize.height*0.02),
+            ],
+          ),
         ),
       ),
     );
@@ -65,13 +85,15 @@ class Rooms extends StatelessWidget {
               ),
               scrollDirection: Axis.horizontal,
               // itemCount: 1 + onlineUsers.length,
-              itemCount: 1 + userinfo.userTrabajos.length,
+              itemCount: 1 + widget.userinfo.userTrabajos.length,
               itemBuilder: (BuildContext context, int index) {
                 // print(userinfo.negociosAsistidos.length);
                 if (index == 0) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                    child: _CreateRoomButton(userinfo: userinfo,),
+                    child: _CreateRoomButton(
+                      userinfo: widget.userinfo,
+                    ),
                   );
                 }
                 // final User user = onlineUsers[index - 1];
@@ -90,8 +112,10 @@ class Rooms extends StatelessWidget {
                         borderRadius: BorderRadius.circular(100.0),
                         child: FadeInImage(
                           // radius: _screenSize.width*0.1,
-                          image: NetworkImage(
-                              userinfo.userTrabajos[index-1].imagenNegocio), //!Aqui va un dato
+                          image: NetworkImage(widget
+                              .userinfo
+                              .userTrabajos[index - 1]
+                              .imagenNegocio), //!Aqui va un dato
                           placeholder: AssetImage('assets/loading.gif'),
                           fit: BoxFit.cover,
                         ),
@@ -99,8 +123,8 @@ class Rooms extends StatelessWidget {
                     ),
                     onTap: () {
                       Navigator.pushNamed(context, 'outBusiness',
-                          arguments:
-                              userinfo.userTrabajos[index-1].idNegocio);
+                          arguments: widget
+                              .userinfo.userTrabajos[index - 1].idNegocio);
                     },
                   ),
                 );
@@ -118,6 +142,56 @@ class Rooms extends StatelessWidget {
       },
     );
   }
+
+  Widget selectBox(Size sizescreen) {
+    print(businessRuc);
+    return Container(
+        //color: Colors.white,
+        width: sizescreen.width * 0.95,
+        child: Center(
+          child: DropdownButtonFormField(
+              value: selectName,
+              //hint: Text('Seleccione el negocio'),
+              style: new TextStyle(
+                color: Colors.black,
+                //fontSize: 18.0,
+              ),
+
+              //value: verificar(datos[0].sexo),
+              isExpanded: true,
+              items: data.map((list) {
+                return DropdownMenuItem(
+                  child: Text(list.nombreNegocio),
+                  value: list.idNegocio,
+                );
+              }).toList(),
+              validator: (value) =>
+                  value == null ? 'Este campo no puede estar vacío' : null,
+              onChanged: (value) {
+                setState(() {
+                  // this.selectName=value;
+                  this.businessRuc = value;
+                });
+              },
+              decoration: InputDecoration(
+                labelText: "Seleccione un Consultorio",
+                hoverColor: Colors.lightBlue,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                  borderSide: BorderSide(color: Colors.lightBlue),
+                ),
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    borderSide: BorderSide(color: Colors.lightBlue)),
+                prefixIcon: Icon(
+                  MdiIcons.stethoscope,
+                  color: Colors.lightBlue,
+                ),
+                filled: true,
+                fillColor: Colors.white,
+              )),
+        ));
+  }
 }
 
 class _CreateRoomButton extends StatelessWidget {
@@ -128,8 +202,7 @@ class _CreateRoomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return OutlineButton(
       onPressed: () {
-         Navigator.pushNamed(context, 'servicesPages',
-                  arguments:userinfo );
+        Navigator.pushNamed(context, 'servicesPages', arguments: userinfo);
       },
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30.0),
@@ -155,7 +228,10 @@ class _CreateRoomButton extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 4.0),
-          Text('Agregar\nServicios',textAlign: TextAlign.center,), 
+          Text(
+            'Agregar\nServicios',
+            textAlign: TextAlign.center,
+          ),
         ],
       ),
     );
