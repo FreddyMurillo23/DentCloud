@@ -99,6 +99,10 @@ class _ServicesPagesState extends State<ServicesPages> {
           servicesProvider.ingresarPreguntas(datos, id);
           Navigator.of(context).pop();
         }
+        else
+        {
+          Navigator.of(context).pop();
+        }
       } else {
         mensajesFoto();
       }

@@ -8,6 +8,7 @@ import 'package:muro_dentcloud/src/models/lista_chat_model.dart';
 import 'package:muro_dentcloud/src/models/pacient_follows_model.dart';
 import 'package:muro_dentcloud/src/models/search_model/business_data_search.dart';
 import 'package:muro_dentcloud/src/models/search_model/contact_message.dart';
+import 'package:muro_dentcloud/src/models/search_model/user_data_doctor.dart';
 import 'package:muro_dentcloud/src/models/search_model/user_data_search.dart';
 
 class DataProvider1{
@@ -204,6 +205,23 @@ async {
    
 
   }
+
+  Future <List<DoctorDato>> doctorSearch( String query)
+  async {
+     String url =
+        'http://54.197.83.249/PHP_REST_API/api/get/get_doctor_by_name.php?doctor_names=$query';
+    final resp = await http.get(url);
+
+    if (resp.statusCode == 200) {
+      final decodedData = jsonDecode(resp.body);
+      // print(decodedData['siguiendo']);
+      final follows = DoctorDataPrincipal.fromJsonList(decodedData['doctor_datos']);
+      return follows.items;
+    } else {
+      return new List();
+    }
+
+  } 
 
   Future <String> ingresarServicios(String ruc, String descripcion, String duration,String fotopath, String correo)
   async {
