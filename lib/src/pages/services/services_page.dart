@@ -6,6 +6,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:muro_dentcloud/src/models/Services_models.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/providers/data_provide1.dart';
+import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
 import 'package:muro_dentcloud/src/widgets/circle_button.dart';
 
 class ServicesPages extends StatefulWidget {
@@ -20,6 +21,7 @@ class _ServicesPagesState extends State<ServicesPages> {
   TextEditingController controllerText = TextEditingController();
   TextEditingController controllerRespuesta = TextEditingController();
   List<PreguntasFrecuente> datos = new List();
+  PreferenciasUsuario presf = new PreferenciasUsuario();
 
   File foto;
   String fotopath;
@@ -92,7 +94,7 @@ class _ServicesPagesState extends State<ServicesPages> {
       form.save();
       if (fotopath != null) {
         String id = await servicesProvider.ingresarServicios(
-            businessRuc, descripcion, duracion, fotopath);
+            businessRuc, descripcion, duracion, fotopath,presf.currentCorreo);
         if (datos.length != 0) {
           servicesProvider.ingresarPreguntas(datos, id);
           Navigator.of(context).pop();

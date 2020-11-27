@@ -205,9 +205,9 @@ async {
 
   }
 
-  Future <String> ingresarServicios(String ruc, String descripcion, String duration,String fotopath)
+  Future <String> ingresarServicios(String ruc, String descripcion, String duration,String fotopath, String correo)
   async {
-    var url=Uri.parse('http://54.197.83.249/PHP_REST_API/api/post/post_business_services.php?service_business_ruc=$ruc&service_description=$descripcion&service_duration=$duration');
+    var url=Uri.parse('http://54.197.83.249/PHP_REST_API/api/post/post_business_services.php?service_business_ruc=$ruc&service_description=$descripcion&service_duration=$duration&doctor_email=$correo');
     var request = http.MultipartRequest('POST', url);
     var pic = await http.MultipartFile.fromPath("archivo", fotopath);
     request.files.add(pic);

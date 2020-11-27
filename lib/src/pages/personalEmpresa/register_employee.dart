@@ -2,10 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:muro_dentcloud/src/models/business_model.dart';
-import 'package:muro_dentcloud/src/widgets/circle_button.dart';
+import 'package:muro_dentcloud/src/models/search_model/user_data_doctor.dart';
+
 
 class RegisterEmployee extends StatefulWidget {
   RegisterEmployee({Key key}) : super(key: key);
+
 
   @override
   _RegisterEmployeeState createState() => _RegisterEmployeeState();
@@ -13,6 +15,7 @@ class RegisterEmployee extends StatefulWidget {
 
 class _RegisterEmployeeState extends State<RegisterEmployee> {
    final formkey = new GlobalKey<FormState>();
+   DoctorDato doctor;
    File foto;
   @override
   Widget build(BuildContext context) {
@@ -40,7 +43,7 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
   }
   
  Widget _mostrarImagen(Size screenSize) {
-    if (foto != null) {
+    if (doctor!= null) {
       return Stack(
         alignment: Alignment(0.95, 0.99),
         children: <Widget>[
@@ -52,13 +55,14 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
             elevation: 30.0,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10.0),
-              child: Image.file(
-                foto,
-                fit: BoxFit.cover,
+              child: FadeInImage(
+               image: NetworkImage(doctor.fotoPerfil),
+               placeholder: AssetImage('assets/placeholder.png'),
+              )
                 // height: 300.0,
               ),
             ),
-          ),
+          
           
         ],
       );
