@@ -73,7 +73,7 @@ class DoctorDataSearch extends SearchDelegate<DoctorDato>{
                     onTap: (){
                        doctor.correo=snapshot.data[index].correo;
                        doctor.doctor=snapshot.data[index].doctor;
-                       doctor.celular=snapshot.data[index].cedula;
+                       doctor.celular=snapshot.data[index].celular;
                        doctor.fotoPerfil=snapshot.data[index].fotoPerfil;
                        doctor.profesion=snapshot.data[index].profesion;
                        doctor.cedula=snapshot.data[index].cedula;

@@ -20,8 +20,10 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
    TextEditingController texto=TextEditingController();
    TextEditingController textoNombre=TextEditingController();
    TextEditingController textoCelular=TextEditingController();
+    TextEditingController textoProfesion=TextEditingController();
    DoctorDato doctor = new DoctorDato();
    File foto;
+   String rolDoctor;
     bool validate(String value) {
     return true;
   }
@@ -36,8 +38,7 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
     );
   }
 
-Widget fomText()
-{
+Widget fomText(){
   final screenSize = MediaQuery.of(context).size;
    return Container(
           padding: EdgeInsets.all(20),
@@ -64,14 +65,103 @@ Widget fomText()
                 height: screenSize.height * 0.03,
                 ),
                 textFieldtelefono(screenSize),
+                SizedBox(
+                height: screenSize.height * 0.03,
+                ),
+                textFieldProfesion(screenSize),
+                SizedBox(
+                height: screenSize.height * 0.03,
+                ),
+                selectbox(),
+                SizedBox(
+                height: screenSize.height * 0.025,
+                ),
+                buttonRegistrar(screenSize),
                ],
              ),
            ),
          ),
        );
 
+}
+
+
+Widget selectbox(){
+  return Container(
+    child: DropdownButtonFormField(
+       style: new TextStyle(
+                color: Colors.black,
+                //fontSize: 18.0,
+             ),
+      isExpanded: true,
+       items: <String>['Owner','Secretary', 'Doctor']
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  child: Text(value),
+                  value: value,
+                );
+              }).toList(),
+      validator: (value) =>
+                  value == null ? 'Este campo no puede estar vacío' : null,
+              onChanged: (value) {
+                this.rolDoctor = value;
+                setState(() {
+                 
+                
+                  this.rolDoctor = value;
+                });
+              },
+      decoration: InputDecoration(
+                labelText: "Roles Doctor",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  borderSide: BorderSide(color: Colors.black),
+                ),
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    borderSide: BorderSide(color: Colors.black)),
+                prefixIcon: Icon(MdiIcons.doctor),
+                filled: true,
+                fillColor: Colors.white,
+              )
+    ),
+  );
 
 }
+
+Widget textFieldProfesion(Size sizescreen) {
+    return Container(
+      child: new TextFormField(
+        controller: textoProfesion,
+        //initialValue: hearData,
+         readOnly: true,
+        autofocus: false,
+        keyboardType: TextInputType.text,
+        textCapitalization: TextCapitalization.words,
+        decoration: InputDecoration(
+          labelText: "Profesion",
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+            borderSide: BorderSide(color: Colors.black),
+          ),
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+              borderSide: BorderSide(color: Colors.black)),
+          prefixIcon: Icon(MdiIcons.professionalHexagon),
+          filled: true,
+          fillColor: Colors.white,
+        ),
+        //maxLines: 2,
+        validator: (value) => value.isEmpty
+            ? 'Este campo no puede estar vacío'
+            : !validate(value)
+                ? 'Ingrese un localizacion válido'
+                : null,
+        onSaved: (value) => this.doctor.profesion = value,
+      ),
+    );
+}
+
 
  Widget textFieldCedula(Size sizescreen) {
     return Container(
@@ -91,7 +181,7 @@ Widget fomText()
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(20)),
               borderSide: BorderSide(color: Colors.black)),
-          prefixIcon: Icon(Icons.text_fields),
+          prefixIcon: Icon(MdiIcons.alphaCBoxOutline),
           filled: true,
           fillColor: Colors.white,
         ),
@@ -155,7 +245,7 @@ Widget textFieldtelefono(Size sizescreen) {
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(20)),
               borderSide: BorderSide(color: Colors.black)),
-          prefixIcon: Icon(Icons.text_fields),
+          prefixIcon: Icon(MdiIcons.deskphone),
           filled: true,
           fillColor: Colors.white,
         ),
@@ -197,7 +287,7 @@ Widget textFieldtelefono(Size sizescreen) {
       );
     }
     return Stack(
-      alignment: Alignment(1, 0.99),
+      alignment: Alignment(0.95, 0.99),
       children: <Widget>[
         Card(
             margin: new EdgeInsets.only(
@@ -275,6 +365,7 @@ Widget buscarempleado(){
                       texto.text=doctor.cedula;
                       textoNombre.text=doctor.doctor;
                       textoCelular.text=doctor.celular;
+                      textoProfesion.text=doctor.profesion;
                     }
                   });
 
@@ -288,7 +379,46 @@ Widget buscarempleado(){
   );
 }
 
-
+Widget buttonRegistrar(Size sizescreen){
+  return Row(
+    children: [
+      SizedBox(
+        width: sizescreen.width*0.045,
+      ),
+      ButtonTheme(
+        minWidth: sizescreen.width * 0.35,
+        //height: sizescreen.height*0.056,
+        child: Center(
+          child: RaisedButton(
+            child: Text("Registrar"),
+            onPressed: (){},
+            color: Colors.lightBlue,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18),
+            ),
+          ),
+        ),
+      ),
+      SizedBox(
+        width: sizescreen.width*0.1,
+      ),
+      ButtonTheme(
+        minWidth: sizescreen.width * 0.36,
+        //height: sizescreen.height*0.056,
+        child: RaisedButton(
+          child: Text("Cancelar"),
+          onPressed: () => {
+            Navigator.of(context).pop()
+          },
+          color: Colors.lightBlue,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18),
+          ),
+        ),
+      )
+    ],
+  );
+}
 
 
 Widget appMenu(Size _screenSize) {
