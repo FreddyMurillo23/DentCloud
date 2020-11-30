@@ -17,6 +17,9 @@ class RegisterEmployee extends StatefulWidget {
 
 class _RegisterEmployeeState extends State<RegisterEmployee> {
    final formkey = new GlobalKey<FormState>();
+   TextEditingController texto=TextEditingController();
+   TextEditingController textoNombre=TextEditingController();
+   TextEditingController textoCelular=TextEditingController();
    DoctorDato doctor = new DoctorDato();
    File foto;
     bool validate(String value) {
@@ -29,7 +32,14 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
      
     return Scaffold(
        appBar: appMenu(screenSize),
-       body: Container(
+       body: fomText(),
+    );
+  }
+
+Widget fomText()
+{
+  final screenSize = MediaQuery.of(context).size;
+   return Container(
           padding: EdgeInsets.all(20),
          child: SingleChildScrollView(
            scrollDirection: Axis.vertical,
@@ -58,24 +68,16 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
              ),
            ),
          ),
-       ),
-    );
-  }
+       );
 
+
+}
 
  Widget textFieldCedula(Size sizescreen) {
-   String hearData;
-   if(doctor.cedula==null)
-   {
-     hearData="";
-   }
-   else
-   {
-     hearData=doctor.cedula;
-   }
     return Container(
       child: new TextFormField(
-        initialValue: hearData,
+        controller: texto,
+        //initialValue: hearData,
          readOnly: true,
         autofocus: false,
         keyboardType: TextInputType.text,
@@ -105,24 +107,15 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
 }
 
 Widget textFieldNombre(Size sizescreen) {
-   String hearData;
-   if(doctor.doctor==null)
-   {
-     hearData="";
-   }
-   else
-   {
-     hearData=doctor.doctor;
-   }
     return Container(
       child: new TextFormField(
-        initialValue: hearData,
+       controller: textoNombre,
          readOnly: true,
         autofocus: false,
         keyboardType: TextInputType.text,
         textCapitalization: TextCapitalization.words,
         decoration: InputDecoration(
-          labelText: "Nombre",
+          labelText: "Nombre",  
           border: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(20)),
             borderSide: BorderSide(color: Colors.black),
@@ -146,18 +139,9 @@ Widget textFieldNombre(Size sizescreen) {
 }
 
 Widget textFieldtelefono(Size sizescreen) {
-   String hearData;
-   if(doctor.celular==null)
-   {
-     hearData="";
-   }
-   else
-   {
-     hearData=doctor.celular;
-   }
     return Container(
       child: new TextFormField(
-        initialValue: hearData,
+        controller: textoCelular,
          readOnly: true,
         autofocus: false,
         keyboardType: TextInputType.text,
@@ -288,6 +272,9 @@ Widget buscarempleado(){
                       doctor.correo=resultado.correo;
                       doctor.doctor=resultado.doctor;
                       doctor.celular=resultado.celular;
+                      texto.text=doctor.cedula;
+                      textoNombre.text=doctor.doctor;
+                      textoCelular.text=doctor.celular;
                     }
                   });
 
