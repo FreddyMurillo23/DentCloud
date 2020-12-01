@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:muro_dentcloud/src/models/business_model.dart';
 import 'package:muro_dentcloud/src/models/search_model/user_data_doctor.dart';
+import 'package:muro_dentcloud/src/providers/data_provide1.dart';
 import 'package:muro_dentcloud/src/search/search_data_doctor.dart';
 
 
@@ -17,6 +18,7 @@ class RegisterEmployee extends StatefulWidget {
 
 class _RegisterEmployeeState extends State<RegisterEmployee> {
    final formkey = new GlobalKey<FormState>();
+   DataProvider1 doctorProvider= new DataProvider1();
    TextEditingController texto=TextEditingController();
    TextEditingController textoNombre=TextEditingController();
    TextEditingController textoCelular=TextEditingController();
@@ -24,19 +26,99 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
    DoctorDato doctor = new DoctorDato();
    File foto;
    String rolDoctor;
+   NegocioData business= new NegocioData();
     bool validate(String value) {
     return true;
   }
   @override
   Widget build(BuildContext context) {
      final screenSize = MediaQuery.of(context).size;
-     final NegocioData businessinfo = ModalRoute.of(context).settings.arguments;
-     
+     NegocioData businessinfo = ModalRoute.of(context).settings.arguments;
+     business=businessinfo;
     return Scaffold(
        appBar: appMenu(screenSize),
        body: fomText(),
     );
   }
+
+void ingresarEmpleado()
+{
+  final form=formkey.currentState;
+  if(form.validate())
+  {
+    form.save();
+   if(doctor!=null)
+   {
+     doctorProvider.ingresarempleado(doctor, business.ruc, rolDoctor).then((value) {
+       if(value)
+       {
+         showDialogExito();
+       }
+       else
+       {
+        showDialogNopermito();
+       }
+     });
+     
+   }
+   else
+   {
+
+   }
+
+  }
+  
+}
+
+void showDialogNopermito() {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Ingresar Datos"),
+          content: new Text("Doctor ya existente en este consultario ingresar otro"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Cerrar"),
+              onPressed: () {
+                Navigator.of(context).pop();
+                //Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+}
+
+void showDialogExito() {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Ingresar Datos"),
+          content: new Text("Ingresado con exito el Doctor al establecimiento ${business.negocio}"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Cerrar"),
+              onPressed: () {
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                    '/', (Route<dynamic> route) => false);
+                //Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+}
+
 
 Widget fomText(){
   final screenSize = MediaQuery.of(context).size;
@@ -106,8 +188,6 @@ Widget selectbox(){
               onChanged: (value) {
                 this.rolDoctor = value;
                 setState(() {
-                 
-                
                   this.rolDoctor = value;
                 });
               },
@@ -391,7 +471,9 @@ Widget buttonRegistrar(Size sizescreen){
         child: Center(
           child: RaisedButton(
             child: Text("Registrar"),
-            onPressed: (){},
+            onPressed: (){
+             ingresarEmpleado();
+            },
             color: Colors.lightBlue,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(18),

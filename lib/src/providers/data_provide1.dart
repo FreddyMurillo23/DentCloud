@@ -202,10 +202,19 @@ async {
     }
     }
     return true;
-   
 
   }
 
+  Future<bool> ingresarempleado(DoctorDato doctor,String businessruc,String rol)
+  async {
+   String url='http://54.197.83.249/PHP_REST_API/api/post/post_doctor_works.php?user_data=${doctor.correo}&business_ruc=$businessruc&role=$rol';
+  final resp = await http.get(url);
+  if(resp.statusCode==200){
+   return true;
+  }
+  return false;
+
+  }
   Future <List<DoctorDato>> doctorSearch( String query)
   async {
      String url =
