@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:muro_dentcloud/src/models/Services_models.dart';
+import 'package:muro_dentcloud/src/models/business_model.dart';
 import 'package:muro_dentcloud/src/utils/icono_string_util.dart';
 
 class ServiceDataWg extends StatefulWidget {
-  final List<Servicio> businessServices;
+  final List<ServiciosNegocio> businessServices;
   const ServiceDataWg(this.businessServices);
 
   @override
@@ -21,7 +22,7 @@ class _ServiceDataWgState extends State<ServiceDataWg> {
       child: ListView.builder(
           itemCount: this.widget.businessServices.length,
           itemBuilder: (BuildContext context, int index) {
-            datita = this.widget.businessServices[index].preguntasFrecuentes;
+            datita = widget.businessServices[index].preguntas;
 
             return Container(
               child: Column(

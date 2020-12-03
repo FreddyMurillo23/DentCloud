@@ -194,22 +194,71 @@ class PublicacionesNegocio {
   }
 }
 
+class ServiciosDoctorNegocio {
+  List<ServiciosNegocio> items = new List();
+
+  ServiciosDoctorNegocio.fromJsonList(List<dynamic> jsonList) {
+    if (jsonList == null) return;
+    for (var item in jsonList) {
+      final servicio = new ServiciosNegocio.fromJsonMap(item);
+      items.add(servicio);
+    }
+  }
+}
+
 class ServiciosNegocio {
   String idServicio;
   String servicio;
   String duracion;
   String imagenServicio;
+  String rucNegocio;
+  String nombreNegocio;
+  String fotoNegocio;
+  String telefonoNegocio;
+  List<PreguntasServicios> preguntas = new List();
 
   ServiciosNegocio({
     this.idServicio,
     this.servicio,
     this.duracion,
-    this.imagenServicio
+    this.imagenServicio,
+    this.nombreNegocio,
+    this.rucNegocio,
+    this.fotoNegocio,
+    this.telefonoNegocio,
   });
   ServiciosNegocio.fromJsonMap(Map<String, dynamic> json) {
-    idServicio = json ['id_servicio'];
-    servicio = json ['servicio'];
-    duracion = json ['duracion'];
-    imagenServicio = json ['imagen_servicio'];
+    idServicio = json['id_servicio'];
+    servicio = json['servicio'];
+    duracion = json['duracion'];
+    imagenServicio = json['imagen_servicio'];
+    rucNegocio = json['ruc_negocio'];
+    nombreNegocio = json['nombre_negocio'];
+    fotoNegocio = json['foto_negocio'];
+    telefonoNegocio = json['telefono_negocio'];
+    if (json['preguntas_frecuentes'].length != 0) {
+      for (var item in json['preguntas_frecuentes']) {
+        final preg = new PreguntasServicios.fromJsonMap(item);
+        preguntas.add(preg);
+      }
+    }
+  }
+}
+
+class PreguntasServicios {
+  PreguntasServicios({
+    this.preguntasFrecuenteId,
+    this.descripcion,
+    this.respuesta,
+  });
+
+  String preguntasFrecuenteId;
+  String descripcion;
+  String respuesta;
+
+  PreguntasServicios.fromJsonMap(Map<String, dynamic> json) {
+    preguntasFrecuenteId = json["frequent_questions_id"];
+    descripcion = json["frequent_questions_description"];
+    respuesta = json["frequient_questions_reply"];
   }
 }

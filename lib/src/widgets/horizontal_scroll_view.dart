@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:muro_dentcloud/src/models/business_Services_models.dart';
 import 'package:muro_dentcloud/src/models/business_model.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/providers/data_provider.dart';
@@ -72,10 +73,11 @@ class _RoomsState extends State<Rooms> {
   Widget listadoServicios(Size _screenSize) {
     final negociosProvider = new DataProvider();
     return FutureBuilder(
-      future: negociosProvider.businessData(businessRuc),
+      future:
+          negociosProvider.cargarServicios(businessRuc, widget.userinfo.correo),
       builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
         if (snapshot.hasData) {
-          if (snapshot.data[0].servicios.length != 0) {
+          if (snapshot.data.length != 0) {
             return Container(
               height: _screenSize.height * 0.1,
               color: Colors.white,
@@ -86,7 +88,7 @@ class _RoomsState extends State<Rooms> {
                 ),
                 scrollDirection: Axis.horizontal,
                 // itemCount: 1 + onlineUsers.length,
-                itemCount: 1 + widget.userinfo.userTrabajos.length,
+                itemCount: 1 + snapshot.data.length,
                 itemBuilder: (BuildContext context, int index) {
                   // print(userinfo.negociosAsistidos.length);
                   if (index == 0) {
@@ -94,6 +96,7 @@ class _RoomsState extends State<Rooms> {
                       padding: const EdgeInsets.symmetric(horizontal: 5.0),
                       child: _CreateRoomButton(
                         userinfo: widget.userinfo,
+                        services: snapshot.data,
                       ),
                     );
                   }
@@ -114,20 +117,18 @@ class _RoomsState extends State<Rooms> {
                           borderRadius: BorderRadius.circular(100.0),
                           child: FadeInImage(
                             // radius: _screenSize.width*0.1,
-                            image: NetworkImage(widget
-                                .userinfo
-                                .userTrabajos[index - 1]
-                                .imagenNegocio), //!Aqui va un dato
+                            image: NetworkImage(snapshot.data[index - 1]
+                                .imagenServicio), //!Aqui va un dato
                             placeholder: AssetImage('assets/loading.gif'),
                             fit: BoxFit.cover,
                           ),
                         ),
                       ),
-                      onTap: () {
-                        Navigator.pushNamed(context, 'outBusiness',
-                            arguments: widget
-                                .userinfo.userTrabajos[index - 1].idNegocio);
-                      },
+                      // onTap: () {
+                      //   Navigator.pushNamed(context, 'outBusiness',
+                      //       arguments: widget
+                      //           .userinfo.userTrabajos[index - 1].idNegocio);
+                      // },
                     ),
                   );
                 },
@@ -135,9 +136,9 @@ class _RoomsState extends State<Rooms> {
             );
           } else {
             Container(
-              child:
-              Center(child: Text('No tienes servicios en este negocio.'),)
-            );
+                child: Center(
+              child: Text('No tienes servicios '),
+            ));
           }
         } else {
           return Container(
@@ -204,13 +205,13 @@ class _RoomsState extends State<Rooms> {
 
 class _CreateRoomButton extends StatelessWidget {
   final CurrentUsuario userinfo;
-
-  const _CreateRoomButton({Key key, this.userinfo}) : super(key: key);
+  final List<ServiciosNegocio> services;
+  const _CreateRoomButton({Key key, this.userinfo,@required this.services}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return OutlineButton(
       onPressed: () {
-        Navigator.pushNamed(context, 'servicesPages', arguments: userinfo);
+        Navigator.pushNamed(context, 'serviciosDoctor', arguments: this.services);
       },
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30.0),
@@ -230,14 +231,14 @@ class _CreateRoomButton extends StatelessWidget {
               Color(0xFF1777F2)
             ]).createShader(rect),
             child: Icon(
-              Icons.add_box,
+              Icons.search_outlined,
               size: 35.0,
               color: Colors.white,
             ),
           ),
           const SizedBox(width: 4.0),
           Text(
-            'Agregar\nServicios',
+            'Ver\nServicios',
             textAlign: TextAlign.center,
           ),
         ],

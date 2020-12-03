@@ -109,23 +109,6 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
       child: Center(
         child: Column(
           children: [
-            Container(
-              height: screensize.height * 0.2,
-              width: screensize.width * 0.4,
-              decoration: BoxDecoration(
-                border: Border.all(width: 5, color: Colors.lightBlue.shade300),
-                borderRadius: BorderRadius.circular(100.0),
-                color: Colors.white,
-              ),
-              child: ClipRRect(
-                child: FadeInImage(
-                  image: NetworkImage(widget.userinfo.fotoPerfil),
-                  placeholder: AssetImage('assets/loading.gif'),
-                  fit: BoxFit.cover,
-                ),
-                borderRadius: BorderRadius.circular(100.0),
-              ),
-            ),
             profileData(screensize, context),
             widget.userinfo.tipoUsuario == 'D' ? profileButton() : Container()
           ],
@@ -141,12 +124,16 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
       shaderCallback: (rect) => LinearGradient(
               colors: [Color(0xFFEEFF41), Color(0xFFB2FF59), Color(0xFF00E5FF)])
           .createShader(rect),
-      child: RaisedButton(
-        onPressed: () {
-           Navigator.pushNamed(context, 'registerbusiness',
-                  arguments: widget.userinfo);
-        },
-        child: Text('Crear Consultorio'),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(80),
+        child: RaisedButton(
+          
+          onPressed: () {
+             Navigator.pushNamed(context, 'registerbusiness',
+                    arguments: widget.userinfo);
+          },
+          child: Text('Crear Consultorio'),
+        ),
       ),
     );
   }
@@ -184,13 +171,31 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
     profileData(Size screensize, context) {
     return Card(
       elevation: 10,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
       child: Container(
-        width: screensize.width * 0.38,
+        width: screensize.width * 0.40,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: <Widget>[
+              Container(
+              height: screensize.height * 0.2,
+              width: screensize.width * 0.4,
+              decoration: BoxDecoration(
+                border: Border.all(width: 5, color: Colors.lightBlue.shade300),
+                borderRadius: BorderRadius.circular(100.0),
+                color: Colors.white,
+              ),
+              child: ClipRRect(
+                child: FadeInImage(
+                  image: NetworkImage(widget.userinfo.fotoPerfil),
+                  placeholder: AssetImage('assets/loading.gif'),
+                  fit: BoxFit.cover,
+                ),
+                borderRadius: BorderRadius.circular(100.0),
+              ),
+            ),
+            SizedBox(height: screensize.height*0.015,),
               Text(
                 widget.userinfo.tipoUsuario == 'D'
                     ? '${widget.userinfo.profesion}\n\n${widget.userinfo.correo}\n${widget.userinfo.ciudadResidencia}\n${widget.userinfo.celular}'
