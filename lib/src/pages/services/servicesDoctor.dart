@@ -88,9 +88,9 @@ class DoctorServicePage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 10),
-            Container(
-              child: ServiceDataWg(services[index])
-            ),
+            // Container(
+            //   child: ServiceDataWg(services[index])
+            // ),
           ],
         );
       },

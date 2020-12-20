@@ -18,24 +18,24 @@ class _ServiceDataWgState extends State<ServiceDataWg> {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     return Container(
-      height: screenSize.height * 0.6,
-      child: ListView.builder(
-          itemCount: this.widget.businessServices.length,
-          itemBuilder: (BuildContext context, int index) {
-            datita = widget.businessServices[index].preguntas;
+      // height: screenSize.height * 0.6,
+      // child: ListView.builder(
+      //     itemCount: this.widget.businessServices.length,
+      //     itemBuilder: (BuildContext context, int index) {
+      //       datita = widget.businessServices[index].preguntas;
 
-            return Container(
-              child: Column(
-                children: [
-                  cardListServices('descripcion',
-                      '${this.widget.businessServices[index].descripcion}\n \n \n \n \n \n \n'),
-                  cardListServices('duracion',
-                      '${this.widget.businessServices[index].duracion} \n \n \n \n \n \n \n'),
-                  cardQuestions('preguntas', 'Preguntas', context, index),
-                ],
-              ),
-            );
-          }),
+      //       return Container(
+      //         child: Column(
+      //           children: [
+      //             cardListServices('descripcion',
+      //                 '${this.widget.businessServices[index].descripcion}\n \n \n \n \n \n \n'),
+      //             cardListServices('duracion',
+      //                 '${this.widget.businessServices[index].duracion} \n \n \n \n \n \n \n'),
+      //             cardQuestions('preguntas', 'Preguntas', context, index),
+      //           ],
+      //         ),
+      //       );
+      //     }),
     );
   }
 

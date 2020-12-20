@@ -10,7 +10,10 @@
 
 	<key>NSMicrophoneUsageDescription</key>
     <string>Quiero escucharte</string>
-	
+
+	<key>io.flutter.embedded_views_preview</key>
+	<true/>
+
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
