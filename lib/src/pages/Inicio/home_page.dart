@@ -24,6 +24,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final LatLng fromPoint=LatLng(-0.336994,-78.543437);
   CameraPosition _initialPosition=CameraPosition(target: LatLng(-0.336994,-78.543437), zoom: 16 );
   Completer<GoogleMapController> _controller=Completer();
 
@@ -43,9 +44,19 @@ class _HomePageState extends State<HomePage> {
   Widget body(){
     return GoogleMap(onMapCreated: _onMapCreated,
     initialCameraPosition: _initialPosition,
-  
+    markers: createMarkers(),
      
     );
+  }
+  Set<Marker> createMarkers(){
+    var tmp=Set<Marker>();
+
+    tmp.add(Marker(
+      markerId: MarkerId('MyPosition'),
+      position: fromPoint,
+      infoWindow: InfoWindow(title: "My Location")
+    ));
+    return tmp;
   }
 
 
