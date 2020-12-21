@@ -27,9 +27,16 @@ class _HomePageState extends State<HomePage> {
   final LatLng fromPoint=LatLng(-0.336994,-78.543437);
   CameraPosition _initialPosition=CameraPosition(target: LatLng(-0.336994,-78.543437), zoom: 16 );
   Completer<GoogleMapController> _controller=Completer();
+  GoogleMapController controlador;
 
   void _onMapCreated(GoogleMapController controller){
     _controller.complete(controller);
+    controlador=controller;
+    //centerView();
+  }
+
+  centerView() async {
+    await controlador.getVisibleRegion();
   }
   @override
   Widget build(BuildContext context) {
