@@ -50,6 +50,7 @@ class DoctorServicePage extends StatelessWidget {
   Widget _swiperServ(List<ServiciosNegocio> services,
       HttpServiceData httpService, Size _screeSize) {
     print(services.length);
+    print('Helllooooo');
     return Swiper(
       itemWidth: _screeSize.width,
       itemHeight: _screeSize.height * 0.99,
@@ -88,9 +89,7 @@ class DoctorServicePage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 10),
-            Container(
-              child: ServiceDataWg(services[index])
-            ),
+            Container(child: ServiceDataWg(services[index])),
           ],
         );
       },

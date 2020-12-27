@@ -8,7 +8,8 @@ final _icons = <String, IconData>{
   'person': Icons.person,
   'descripcion': Icons.description,
   'duracion': Icons.timer,
-  'costo': Icons.monetization_on
+  'costo': Icons.monetization_on,
+  'preguntas' : Icons.help_center,
 };
 
 Icon getIcon(String nombreIcono) {

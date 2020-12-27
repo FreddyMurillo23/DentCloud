@@ -4,7 +4,7 @@ import 'package:muro_dentcloud/src/models/business_model.dart';
 import 'package:muro_dentcloud/src/utils/icono_string_util.dart';
 
 class ServiceDataWg extends StatefulWidget {
-  final List<ServiciosNegocio> businessServices;
+  final ServiciosNegocio businessServices;
   const ServiceDataWg(this.businessServices);
 
   @override
@@ -12,26 +12,28 @@ class ServiceDataWg extends StatefulWidget {
 }
 
 class _ServiceDataWgState extends State<ServiceDataWg> {
-  List<PreguntasFrecuente> datita = [];
+  List<PreguntasServicios> datita = [];
 
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     return Container(
-      height: screenSize.height * 0.6,
+      height: screenSize.height * 0.58,
       child: ListView.builder(
-          itemCount: this.widget.businessServices.length,
+          itemCount: 1,
           itemBuilder: (BuildContext context, int index) {
-            datita = widget.businessServices[index].preguntas;
+            datita = widget.businessServices.preguntas;
 
             return Container(
               child: Column(
                 children: [
                   cardListServices('descripcion',
-                      '${this.widget.businessServices[index].descripcion}\n \n \n \n \n \n \n'),
+                      '${this.widget.businessServices.servicio}'),
                   cardListServices('duracion',
-                      '${this.widget.businessServices[index].duracion} \n \n \n \n \n \n \n'),
-                  cardQuestions('preguntas', 'Preguntas', context, index),
+                      '${this.widget.businessServices.duracion}'),
+                datita.length>0
+                ?cardQuestions('preguntas', 'Preguntas', context)
+                :Container(),
                 ],
               ),
             );
@@ -40,7 +42,7 @@ class _ServiceDataWgState extends State<ServiceDataWg> {
   }
 
   Widget cardQuestions(
-      String headerData, String valueData, BuildContext context, int index) {
+      String headerData, String valueData, BuildContext context) {
     return Card(
       margin:
           new EdgeInsets.only(left: 20.0, right: 20.0, top: 8.0, bottom: 5.0),

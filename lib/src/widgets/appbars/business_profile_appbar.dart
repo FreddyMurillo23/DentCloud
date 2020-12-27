@@ -81,8 +81,8 @@ cargarDatos()
             ),
             Row(
               children: <Widget>[
-                section1(_screenSize, context),
-                section2(_screenSize, context),
+                // section1(_screenSize, context),
+                // section2(_screenSize, context),
               ],
             )
           ],
