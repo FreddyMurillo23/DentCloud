@@ -11,10 +11,8 @@ import '../../palette.dart';
 class BusinessRooms extends StatelessWidget {
   final CurrentUsuario userinfo;
   final NegocioData businessinfo;
-  const BusinessRooms({
-    Key key,
-    this.userinfo,this.businessinfo
-  }) : super(key: key);
+  const BusinessRooms({Key key, this.userinfo, this.businessinfo})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +54,7 @@ class BusinessRooms extends StatelessWidget {
       builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
         if (snapshot.hasData) {
           return Container(
-            height: _screenSize.height * 0.1,
+            height: _screenSize.height * 0.15,
             color: Colors.white,
             child: ListView.builder(
               padding: const EdgeInsets.symmetric(
@@ -65,13 +63,13 @@ class BusinessRooms extends StatelessWidget {
               ),
               scrollDirection: Axis.horizontal,
               // itemCount: 1 + onlineUsers.length,
-              itemCount: 1 + businessinfo.servicios.length,
+              itemCount: 1 + businessinfo.personal.length,
               itemBuilder: (BuildContext context, int index) {
                 // print(userinfo.negociosAsistidos.length);
                 if (index == 0) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                    child: _CreateRoomButton(),
+                    child: _CreateRoomButton(business:businessinfo),
                   );
                 }
                 // final User user = onlineUsers[index - 1];
@@ -79,26 +77,46 @@ class BusinessRooms extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: GestureDetector(
                     child: Container(
-                      height: _screenSize.height * 0.01,
-                      width: _screenSize.width * 0.165,
-                      decoration: BoxDecoration(
-                        border: Border.all(width: 5, color: Colors.blueAccent),
-                        borderRadius: BorderRadius.circular(100.0),
-                        color: Colors.white,
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(100.0),
-                        child: FadeInImage(
-                          // radius: _screenSize.width*0.1,
-                          image: NetworkImage(
-                              'https://assets.umod.org/images/icons/plugin/5d3c47cfdd068.png'), //!Aqui va un dato
-                          placeholder: AssetImage('assets/loading.gif'),
-                          fit: BoxFit.cover,
-                        ),
+                      width: _screenSize.width * 0.18,
+                      child: Column(
+                        children: [
+                          Container(
+                            height: _screenSize.height * 0.09,
+                            width: _screenSize.width * 0.2,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                  width: 5, color: Colors.blueAccent),
+                              borderRadius: BorderRadius.circular(100.0),
+                              color: Colors.white,
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(100.0),
+                              child: FadeInImage(
+                                // radius: _screenSize.width*0.1,
+                                image: NetworkImage(
+                                    '${businessinfo.personal[index - 1].fotoPerfil}'), //!Aqui va un dato
+                                placeholder: AssetImage('assets/loading.gif'),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 4),
+                            child: businessinfo.personal[index - 1].sexoDoctor == 'F'
+                                ? Text(
+                                    'Dra. ${businessinfo.personal[index - 1].nombreDoctor}',
+                                    overflow: TextOverflow.ellipsis)
+                                : Text(
+                                    'Dr.  ${businessinfo.personal[index - 1].nombreDoctor}',
+                                    overflow: TextOverflow.ellipsis),
+                          ),
+                        ],
                       ),
                     ),
                     onTap: () {
-                      print('Hola Mundo');
+                      Navigator.pushNamed(context, 'outPerfil',
+                          arguments:
+                              businessinfo.personal[index - 1].correoDoctor);
                     },
                   ),
                 );
@@ -119,10 +137,16 @@ class BusinessRooms extends StatelessWidget {
 }
 
 class _CreateRoomButton extends StatelessWidget {
+  final NegocioData business;
+
+  const _CreateRoomButton({Key key, this.business}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return OutlineButton(
-      onPressed: () => print('Create Room'), //! aqui va un Navigator
+      onPressed: () {
+        Navigator.pushNamed(context, 'registerEmploye',
+                          arguments:business);
+      }, //! aqui va un Navigator
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30.0),
       ),
@@ -141,13 +165,16 @@ class _CreateRoomButton extends StatelessWidget {
               Color(0xFF1777F2)
             ]).createShader(rect),
             child: Icon(
-              Icons.business_center,
+              Icons.add_box,
               size: 35.0,
               color: Colors.white,
             ),
           ),
           const SizedBox(width: 4.0),
-          Text('Descubrir\nNegocios'), //! Aqui va un dato
+          Text(
+            'Agregar\npersonal',
+            textAlign: TextAlign.center,
+          ), //! Aqui va un dato
         ],
       ),
     );

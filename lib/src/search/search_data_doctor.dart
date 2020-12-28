@@ -1,22 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:muro_dentcloud/src/models/publications_model.dart';
+import 'package:muro_dentcloud/src/models/search_model/user_data_doctor.dart';
 import 'package:muro_dentcloud/src/providers/data_provide1.dart';
-import 'package:muro_dentcloud/src/providers/data_provider.dart';
-import 'package:muro_dentcloud/src/models/follows_model.dart';
-class FollowsBusinessSearch extends SearchDelegate<Publicacion>
-{
-   @override
-  final useremail;
-  final Publicacion negocio;
-
-  FollowsBusinessSearch(this.useremail, this.negocio);
- 
-  final followProvider = new DataProvider1();
-    String seleccion=" ";
-    
+class DoctorDataSearch extends SearchDelegate<DoctorDato>{
+  final DoctorDato doctor;
   @override
+  DataProvider1 doctorProvider = new DataProvider1();
+    String seleccion="Cargando Datos ";
+
+  DoctorDataSearch(this.doctor);
   List<Widget> buildActions(BuildContext context) {
-      return [
+       return [
         IconButton(icon: Icon(Icons.clear), 
         onPressed: (){
          query='';
@@ -24,7 +17,7 @@ class FollowsBusinessSearch extends SearchDelegate<Publicacion>
         }),
       ];
     }
-  
+   
     @override
     Widget buildLeading(BuildContext context) {
       return IconButton(icon: AnimatedIcon(icon: AnimatedIcons.menu_arrow,
@@ -51,14 +44,14 @@ class FollowsBusinessSearch extends SearchDelegate<Publicacion>
     @override
     Widget buildSuggestions(BuildContext context) {
     return FutureBuilder(
-      future: followProvider.followsearch(useremail, query),
-      builder: (BuildContext context, AsyncSnapshot<List<Siguiendo>> snapshot) {
+      future: doctorProvider.doctorSearch(query),
+      builder: (BuildContext context, AsyncSnapshot<List<DoctorDato>> snapshot) {
         if(snapshot.hasData)
         {
           if(snapshot.data.length!=0)
         {
            return ListView.builder(
-          itemCount: snapshot.data[0].negociosSeguidos.length,
+          itemCount: snapshot.data.length,
           itemBuilder: (BuildContext context, int index)
           {
             if(index==null)
@@ -71,16 +64,20 @@ class FollowsBusinessSearch extends SearchDelegate<Publicacion>
                 children: [
                   ListTile(
                     leading:FadeInImage(
-                  image: NetworkImage(snapshot.data[0].negociosSeguidos[index].fotoNegocio),
+                  image: NetworkImage(snapshot.data[index].fotoPerfil),
                   placeholder: AssetImage('assets/jar-loading.gif'),
                   width: 50,
                   fit: BoxFit.contain,
                 ), 
-                    title: Text(snapshot.data[0].negociosSeguidos[index].nombreNegocio),
+                    title: Text(snapshot.data[index].doctor),
                     onTap: (){
-                       negocio.negocioRuc=snapshot.data[0].negociosSeguidos[index].negocioSeguido;
-                       negocio.negocio=snapshot.data[0].negociosSeguidos[index].nombreNegocio;
-                       this.close(context, negocio);
+                       doctor.correo=snapshot.data[index].correo;
+                       doctor.doctor=snapshot.data[index].doctor;
+                       doctor.celular=snapshot.data[index].celular;
+                       doctor.fotoPerfil=snapshot.data[index].fotoPerfil;
+                       doctor.profesion=snapshot.data[index].profesion;
+                       doctor.cedula=snapshot.data[index].cedula;
+                       this.close(context, doctor);
                     },
 
                   ),
@@ -110,4 +107,5 @@ class FollowsBusinessSearch extends SearchDelegate<Publicacion>
       },
     );
   }
+
 }

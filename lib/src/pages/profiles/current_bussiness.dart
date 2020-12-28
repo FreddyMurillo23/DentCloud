@@ -6,8 +6,6 @@ import 'package:muro_dentcloud/src/providers/data_provider.dart';
 import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
 import 'package:muro_dentcloud/src/widgets/appbars/business_profile_appbar.dart';
 import 'package:muro_dentcloud/src/widgets/cards.dart';
-import 'package:muro_dentcloud/src/widgets/drawer_appbar.dart';
-import 'package:muro_dentcloud/src/widgets/horizontal_scroll_view.dart';
 import 'package:muro_dentcloud/src/widgets/horizontal_scroll_viewBusiness.dart';
 import 'package:muro_dentcloud/src/widgets/appbars/profile_appbar.dart';
 
@@ -44,6 +42,7 @@ class _CurrentBusinessProfileState extends State<CurrentBusinessProfile> {
                       slivers: [
                         BusinessAppBar(
                           userinfo: businessinfo.data[0],
+                          usuario: widget.currentuser,
                         ),
                         SliverPadding(
                           padding:

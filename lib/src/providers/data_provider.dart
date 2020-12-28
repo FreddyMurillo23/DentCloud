@@ -406,4 +406,16 @@ class DataProvider {
       return false;
     }
   }
+
+  Future<List<ServiciosNegocio>> cargarServicios(String ruc,String correo) async{
+    String url2 =
+        'http://54.197.83.249/PHP_REST_API/api/get/get_doctors_services.php?user_email=$correo&business_ruc=$ruc';
+    final resp2 = await http.get(url2);
+    final decodedData = json.decode(resp2.body);
+    print(decodedData['servicios_doctor']);
+    final data = ServiciosDoctorNegocio.fromJsonList(decodedData['servicios_doctor']);
+    
+    // print(decodedData['usuario']);
+    return data.items;
+  }
 }

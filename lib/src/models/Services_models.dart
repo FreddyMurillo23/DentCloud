@@ -99,3 +99,31 @@ class PreguntasFrecuente {
         "respuesta": respuesta,
       };
 }
+
+class RespIdService{
+  List<RespuestaObtenida> items = new List();
+   RespIdService.fromJsonList(List<dynamic> jsonList) {
+    if (jsonList == null) return;
+    //? Por cada item que recibe los va enviando al metodo que extrae los datos del json y retorna el mapa luego los agrega a una lista de items de tipo publicacion.
+    for (var item in jsonList) {
+      final publicacion = new RespuestaObtenida.fromJsonMap(item);
+      items.add(publicacion);
+      // print(publicacion.comentarios.length);
+    }
+  }
+}
+
+class RespuestaObtenida {
+  String message;
+  String idServicio;
+
+  RespuestaObtenida({
+    this.message,
+    this.idServicio,
+  });
+
+  RespuestaObtenida.fromJsonMap(Map<String, dynamic> json) {
+    message = json['message'];
+    idServicio = json['id_service'];
+  }
+}

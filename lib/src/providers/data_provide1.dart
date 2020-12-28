@@ -1,12 +1,14 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:muro_dentcloud/src/models/Services_models.dart';
 import 'package:muro_dentcloud/src/models/chat_model.dart';
 import 'package:muro_dentcloud/src/models/follows_model.dart';
 import 'package:muro_dentcloud/src/models/lista_chat_model.dart';
 import 'package:muro_dentcloud/src/models/pacient_follows_model.dart';
 import 'package:muro_dentcloud/src/models/search_model/business_data_search.dart';
 import 'package:muro_dentcloud/src/models/search_model/contact_message.dart';
+import 'package:muro_dentcloud/src/models/search_model/user_data_doctor.dart';
 import 'package:muro_dentcloud/src/models/search_model/user_data_search.dart';
 
 class DataProvider1{
@@ -185,6 +187,69 @@ async {
     final mensaje =
         new MensajeriaData.fromJsonList(decodedData['chat_seleccionado']);
     return mensaje.items;
+  }
+  
+
+  Future <bool> ingresarPreguntas(List<PreguntasFrecuente> lista, String id)
+  async {
+    for(var item in lista)
+    {
+      String url ="http://54.197.83.249/PHP_REST_API/api/post/post_frequent_questions.php?frequent_questions_service_id=$id&frequent_questions_description=${item.descripcion}&frequent_questions_reply=${item.respuesta}";
+    final resp = await http.get(url);
+    if(resp.statusCode!=200)
+    {
+      return false;
+    }
+    }
+    return true;
+
+  }
+
+  Future<bool> ingresarempleado(DoctorDato doctor,String businessruc,String rol)
+  async {
+   String url='http://54.197.83.249/PHP_REST_API/api/post/post_doctor_works.php?user_data=${doctor.correo}&business_ruc=$businessruc&role=$rol';
+  final resp = await http.get(url);
+  if(resp.statusCode==200){
+   return true;
+  }
+  return false;
+
+  }
+  Future <List<DoctorDato>> doctorSearch( String query)
+  async {
+     String url =
+        'http://54.197.83.249/PHP_REST_API/api/get/get_doctor_by_name.php?doctor_names=$query';
+    final resp = await http.get(url);
+
+    if (resp.statusCode == 200) {
+      final decodedData = jsonDecode(resp.body);
+      // print(decodedData['siguiendo']);
+      final follows = DoctorDataPrincipal.fromJsonList(decodedData['doctor_datos']);
+      return follows.items;
+    } else {
+      return new List();
+    }
+
+  } 
+
+  Future <String> ingresarServicios(String ruc, String descripcion, String duration,String fotopath, String correo)
+  async {
+    var url=Uri.parse('http://54.197.83.249/PHP_REST_API/api/post/post_business_services.php?service_business_ruc=$ruc&service_description=$descripcion&service_duration=$duration&doctor_email=$correo');
+    var request = http.MultipartRequest('POST', url);
+    var pic = await http.MultipartFile.fromPath("archivo", fotopath);
+    request.files.add(pic);
+    final streamResponse = await request.send();
+    final resp = await http.Response.fromStream(streamResponse);
+    if(resp.statusCode!=200)
+    {
+      return null;
+    }
+    else
+    {
+      final respData = json.decode(resp.body);
+      final service=RespIdService.fromJsonList(respData['respuesta_obtenida']);
+      return service.items[0].idServicio;
+    }
   }
 
   Future<List< ContactoElement>> listaContactoSeguido(String email,String query)

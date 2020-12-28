@@ -8,17 +8,26 @@ import '../circle_button.dart';
 
 class BusinessAppBar extends StatefulWidget {
   final NegocioData userinfo;
-  BusinessAppBar({Key key, @required this.userinfo}) : super(key: key);
+  final CurrentUsuario usuario;
+  BusinessAppBar({Key key, @required this.userinfo, this.usuario}) : super(key: key);
 
   @override
   _BusinessAppBarState createState() => _BusinessAppBarState();
 }
 
 class _BusinessAppBarState extends State<BusinessAppBar> {
+
+  List normal= new List();
   bool current = true;
   //*true = currentLoginProfile
   //!false = OutProfile
 
+cargarDatos()
+{
+  normal.add(widget.userinfo.ruc);
+  normal.add(widget.usuario);
+
+}
   bool follow = true;
   //*true = U allready follow that profile
   //!false = u dont follow that profile
@@ -28,6 +37,7 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
   //!false = RUC
   @override
   Widget build(BuildContext context) {
+     
     // final NegocioData userinfo = ModalRoute.of(context).settings.arguments;
     final _screenSize = MediaQuery.of(context).size;
     return SliverAppBar(
@@ -50,6 +60,8 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
           child: ClipRRect(
             child: Text(
               '   ${widget.userinfo.openNegocio}   ',
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.grey[600],
                 fontSize: 16.0,
@@ -69,8 +81,8 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
             ),
             Row(
               children: <Widget>[
-                section1(_screenSize, context),
-                section2(_screenSize, context),
+                // section1(_screenSize, context),
+                // section2(_screenSize, context),
               ],
             )
           ],
@@ -80,14 +92,14 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
       ),
       centerTitle: false,
       floating: false,
-      
     );
   }
+
 
   Widget section1(Size screensize, context) {
     return Padding(
       padding: EdgeInsets.symmetric(
-          vertical: screensize.height * 0.089,
+          vertical: screensize.height * 0.065,
           horizontal: screensize.width * 0.04),
       child: Column(
         children: [
@@ -108,7 +120,8 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
               borderRadius: BorderRadius.circular(100.0),
             ),
           ),
-          profileButton(),
+          businessData(screensize, context),
+          // profileButton(),
         ],
       ),
     );
@@ -116,7 +129,7 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
 
   Widget section2(Size screensize, context) {
     return Padding(
-        padding: EdgeInsets.symmetric(vertical: 50, horizontal: 2),
+        padding: EdgeInsets.symmetric(vertical: 50, horizontal: 25),
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(40.0),
@@ -138,8 +151,9 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
               ],
             ),
             onTap: () {
+             cargarDatos();
               Navigator.pushNamed(context, 'serviciosNegocios',
-                            arguments: widget.userinfo.ruc);
+                  arguments: normal);
             },
           ),
         ));
@@ -275,12 +289,47 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
                           borderRadius: BorderRadius.circular(40.0),
                         ),
                       ),
-                      Text('${widget.userinfo.openServicios[index].servicio}')
+                      Text('${widget.userinfo.openServicios[index].servicio}',
+                          textAlign: TextAlign.center)
                     ],
                   ),
                 );
               }
             }),
+      ),
+    );
+  }
+
+  businessData(Size screensize, context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Card(
+        elevation: 10,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+        child: Container(
+          // height: screensize.height*0.15,
+          width: screensize.width * 0.38,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Text('Ciudad:'),
+                Text(
+                  '${widget.userinfo.provincia}, ${widget.userinfo.canton}\n',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.blueGrey),
+                ),
+                Text('Direccion:'),
+                Text(
+                  '${widget.userinfo.ubicacion}',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.blueGrey),
+                )
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
