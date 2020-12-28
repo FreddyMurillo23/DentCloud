@@ -229,7 +229,7 @@ class ServiciosNegocio {
   });
   ServiciosNegocio.fromJsonMap(Map<String, dynamic> json) {
     idServicio = json['id_servicio'];
-    servicio = json['servicio'];
+    servicio = json['descripcion'];
     duracion = json['duracion'];
     imagenServicio = json['imagen_servicio'];
     rucNegocio = json['ruc_negocio'];
@@ -259,6 +259,6 @@ class PreguntasServicios {
   PreguntasServicios.fromJsonMap(Map<String, dynamic> json) {
     preguntasFrecuenteId = json["frequent_questions_id"];
     descripcion = json["frequent_questions_description"];
-    respuesta = json["frequient_questions_reply"];
+    respuesta = json["frequent_questions_reply"];
   }
 }
