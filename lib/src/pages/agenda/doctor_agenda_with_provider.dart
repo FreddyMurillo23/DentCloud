@@ -6,6 +6,7 @@ import 'package:muro_dentcloud/src/controllers/apointment_ctrl.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/event_model.dart';
 import 'package:muro_dentcloud/src/models/services_model.dart';
+import 'package:muro_dentcloud/src/pages/agenda/edit_evento_accepted.dart';
 import 'package:muro_dentcloud/src/pages/agenda/view_eventDoctor.dart';
 import 'package:muro_dentcloud/src/providers/event_provider.dart';
 import 'package:muro_dentcloud/src/providers/services_provider.dart';
@@ -427,7 +428,13 @@ class _AgendaWithProviderState extends State<AgendaWithProvider> {
                             controladorFecha.text=eventos.fecha.year.toString()+"/"+eventos.fecha.month.toString()+"/"+eventos.fecha.day.toString();
                             controladorHora.text=eventos.fecha.hour.toString()+':'+eventos.fecha.minute.toString();
                           });
-                          _openPopup(context, eventos);
+                          Servicios nuevo = new Servicios(descripcion: eventos.servicio, servicioid: int.parse(eventos.idservicio));
+                          //_openPopup(context, eventos);
+                          Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => EditEventAccepted(
+                                  eventosModeloGlobal: eventos, currentuser: userinfo, nuevo: nuevo)));
                         },
                       ),
                       direction: DismissDirection.startToEnd,

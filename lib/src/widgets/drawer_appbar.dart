@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:muro_dentcloud/src/controllers/PDFcita_ctrl.dart';
 
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/providers/pdf_provider.dart';
@@ -89,6 +90,7 @@ class _NavDrawerState extends State<NavDrawer> {
             title: Text('Repositorio'),
             onTap: () => {
               pdfProvider.listarRecetasPacientes(prefs.currentCorreo),
+              PDFCitaCtrl.listarPDFPatients(prefs.currentCorreo),
               Navigator.of(context).pushNamed('repositorio')
             },
           ),

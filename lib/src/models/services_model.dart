@@ -2,7 +2,7 @@ class Servicios{
   int servicioid;
   String descripcion;
 
-  Servicios({this.descripcion, this.servicioid});
+  Servicios({this.descripcion = '', this.servicioid});
 
   factory Servicios.fromJson(Map<String, dynamic> json) {
     return Servicios(

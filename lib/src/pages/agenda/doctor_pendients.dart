@@ -6,6 +6,7 @@ import 'package:muro_dentcloud/src/controllers/apointment_ctrl.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/event_model.dart';
 import 'package:muro_dentcloud/src/models/services_model.dart';
+import 'package:muro_dentcloud/src/pages/agenda/edit_event.dart';
 import 'package:muro_dentcloud/src/providers/event_provider.dart';
 import 'package:muro_dentcloud/src/providers/services_provider.dart';
 import 'package:provider/provider.dart';
@@ -138,18 +139,15 @@ class _DoctorEventsPendientsState extends State<DoctorEventsPendients> {
                           onChanged: (selected) {
                             this._selectedItem = dropDownItemsMap[selected];
                             servicio = _selectedItem.servicioid.toString();
-                            print(servicio);
                             setState(() {
                               this._selectedItem = dropDownItemsMap[selected];
                               servicio = _selectedItem.servicioid.toString();
                             });
                           },
                           hint: new Text(
-                            _selectedItem != null 
-                            ? _selectedItem.descripcion 
-                            : "Servicios",
+                            _selectedItem != null ? _selectedItem.descripcion: "Servicios",
                           ),
-                        ),
+                        ),                                
                       ),
                     ),
                     SizedBox(height: 5,),
@@ -235,7 +233,7 @@ class _DoctorEventsPendientsState extends State<DoctorEventsPendients> {
                   }
                 });
                 Navigator.pop(context);
-              }   
+              }
             },
             child: Text(
               "Actualizar",
@@ -285,7 +283,7 @@ class _DoctorEventsPendientsState extends State<DoctorEventsPendients> {
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       image: DecorationImage(
                           image: NetworkImage(
-                              "http://54.197.83.249/Contenido_ftp/Imagenes%20por%20defecto/Placeholder_male.png"),
+                              eventos.image),
                           fit: BoxFit.fill),
                     ),
                   ),
@@ -395,8 +393,17 @@ class _DoctorEventsPendientsState extends State<DoctorEventsPendients> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(4.0)),
                           onPressed: () {
+                            Servicios nuevo = new Servicios(descripcion: eventos.servicio, servicioid: int.parse(eventos.idservicio));
+                            print(nuevo.servicioid);
+                            print(nuevo.descripcion);
                             servicioProviderNuevo.listarServiciosNuevo(userinfo.correo, eventos.ruc);
-                            _openPopup(context, eventos);
+                            this._selectedItem = nuevo;
+                            Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => EditEvent(
+                                    eventosModeloGlobal: eventos, currentuser: userinfo, nuevo: nuevo,)));
+                            //_openPopup(context, eventos);
                           },
                           child: Column(
                             children: <Widget>[
@@ -420,7 +427,7 @@ class _DoctorEventsPendientsState extends State<DoctorEventsPendients> {
                   ],
                 )
             ] else ...[
-              
+        
             ]
           ],
         ),
