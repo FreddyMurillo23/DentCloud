@@ -29,27 +29,41 @@ class _HomePageState extends State<HomePage> {
   bool isvisible=true;
   bool darkMode=false;
   bool swichValue=false;
-  StreamSubscription _streamSubscription;
-  Location _tracker=Location();
+ // StreamSubscription _streamSubscription;
+  Location tracker=Location();
   Marker marker;
   Circle circle;
   GoogleMapController controlador;
-
+  
   final LatLng fromPoint=LatLng(-0.336994,-78.543437);
-  CameraPosition _initialPosition=CameraPosition(target: LatLng(-0.336994,-78.543437), zoom: 16 );
-  Completer<GoogleMapController> _controller=Completer();
+  CameraPosition _initialPosition= CameraPosition(target: LatLng(-1.055747, -80.452173),zoom: 12);
 
+  Completer<GoogleMapController> _controller=Completer();
+  
+  
+void getLocation() async {
+    var location = await tracker.getLocation();
+     LatLng latlng = LatLng(location.latitude, location.longitude);
+    if (controlador != null) {
+          controlador
+              .animateCamera(CameraUpdate.newCameraPosition(new CameraPosition(
+                  bearing: 100,
+                  target: LatLng(location.latitude, location.longitude),
+                  //tilt: 0,
+                  zoom: 16.00)));
+        }
+}
 
   // transformacion de json a string 
   changeMapMode(){
     setState(() {
-      if(darkMode==true)
+      if(darkMode==false)
       {
-        getJsonFile("assets/json_googlemap/light.json").then(setMapStyle);
+        getJsonFile("data/light.json").then(setMapStyle);
       }
       else
       {
-        getJsonFile("assets/json_googlemap/dark.json").then(setMapStyle);
+        getJsonFile("data/dark.json").then(setMapStyle);
       }
     });
   }
@@ -73,10 +87,18 @@ void setMapStyle(String mapStyle){
   centerView() async {
     await controlador.getVisibleRegion();
   }
+
+  
   @override
   Widget build(BuildContext context) {
     final sizecreen= MediaQuery.of(context).size;
     final prefs = new PreferenciasUsuario();
+    if(darkMode==false)
+    {
+    setState((){
+      changeMapMode();
+    });
+    }
     return Scaffold(      
       body: bodyMap(sizecreen), 
       //Center(child: Image(image: AssetImage('assets/1200px-SITIO-EN-CONSTRUCCION.jpg'),)),
@@ -84,63 +106,69 @@ void setMapStyle(String mapStyle){
   }
 
   Widget bodyMap(Size sizecreen){
-  
   return Stack(
     children: [
       GoogleMap(initialCameraPosition: _initialPosition,
+      markers: Set.of((marker != null) ? [marker] : []),
       zoomGesturesEnabled: true,
       onMapCreated: _onMapCreated,
       ),
-      Visibility(
-        visible: true,
-        child: Container(
-          margin: EdgeInsets.only(top: 0,left: 50),
-          alignment: Alignment.centerLeft,
-          color: Color(0xFF808080).withOpacity(0.5),
-          height: sizecreen.height*0.07,
-          width: sizecreen.width*0.8,
-          child: Row(
-             children: [
-               SizedBox(width: 10,),
-               Switch(
-                 activeColor: Colors.black87,
-                 onChanged: (newValue){
-                  setState(() {
-                   this.darkMode=newValue;
-                  });
-                 }, value: darkMode,
-               ),
-               SizedBox(width: 10,),
-               Padding(
-                 padding: const EdgeInsets.all(8.0),
-                 child: FloatingActionButton(
-                   child: Icon(Icons.directions_bike),
-                   elevation: 5,
-                   backgroundColor: Colors.greenAccent,
-                   onPressed: (){},
+      Positioned(
+        right: 0,
+              child: Visibility(
+          visible: true,
+          child: Container(
+            margin: EdgeInsets.only(top: 0,right:0),
+            alignment: Alignment.centerLeft,
+            color: Color(0xFF808080).withOpacity(0.5),
+            height: 70,
+            width: 148,
+            child: Row(
+               children: [
+                 SizedBox(width: 10,),
+                 Switch(
+                   activeColor: Colors.black87,
+                   onChanged: (newValue){
+                    setState(() {
+                     this.darkMode=newValue;
+                     changeMapMode();
+                    });
+                   }, value: darkMode,
                  ),
-                 ),
-               SizedBox(width: 10,),
-                Padding(
-                 padding: const EdgeInsets.all(8.0),
-                 child: FloatingActionButton(
-                   child: Icon(Icons.location_on_sharp),
-                   elevation: 5,
-                   backgroundColor: Colors.blueAccent,
-                   onPressed: (){},
-                 ),
-                 ),
-               SizedBox(width: 10,),
-                Padding(
-                 padding: const EdgeInsets.all(8.0),
-                 child: FloatingActionButton(
-                   child: Icon(Icons.local_taxi_outlined),
-                   elevation: 5,
-                   backgroundColor: Colors.blueAccent,
-                   onPressed: (){},
-                 ),
-                ),
-             ],
+                // SizedBox(width: 5,),
+                //  Padding(
+                //    padding: const EdgeInsets.all(4.0),
+                //    child: FloatingActionButton(
+                //      child: Icon(Icons.directions_bike),
+                //      elevation: 5,
+                //      backgroundColor: Colors.greenAccent,
+                //      onPressed: (){},
+                //    ),
+                //    ),
+                 SizedBox(width: 5,),
+                  Padding(
+                   padding: const EdgeInsets.all(4.0),
+                   child: FloatingActionButton(
+                     child: Icon(Icons.location_on_sharp,),
+                     elevation: 5,
+                     backgroundColor: Colors.blueAccent,
+                     onPressed: (){
+                       getLocation();
+                     },
+                   ),
+                   ),
+                 SizedBox(width: 10,),
+                  // Padding(
+                  //  padding: const EdgeInsets.all(4.0),
+                  //  child: FloatingActionButton(
+                  //    child: Icon(Icons.local_taxi_outlined),
+                  //    elevation: 5,
+                  //    backgroundColor: Colors.blueAccent,
+                  //    onPressed: (){},
+                  //  ),
+                  // ),
+               ],
+            ),
           ),
         ),
       ),
@@ -155,16 +183,16 @@ void setMapStyle(String mapStyle){
      
   //   );
   // }
-  Set<Marker> createMarkers(){
-    var tmp=Set<Marker>();
+  // Set<Marker> createMarkers(){
+  //   var tmp=Set<Marker>();
 
-    tmp.add(Marker(
-      markerId: MarkerId('MyPosition'),
-      position: fromPoint,
-      infoWindow: InfoWindow(title: "My Location")
-    ));
-    return tmp;
-  }
+  //   tmp.add(Marker(
+  //     markerId: MarkerId('MyPosition'),
+  //     position: fromPoint,
+  //     infoWindow: InfoWindow(title: "My Location")
+  //   ));
+  //   return tmp;
+  // }
 
 
   // Widget listaPerfiles(CurrentUsuario userinfo, PreferenciasUsuario prefs) {
