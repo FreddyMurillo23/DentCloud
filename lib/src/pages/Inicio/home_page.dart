@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:location/location.dart';
@@ -29,18 +29,21 @@ class _HomePageState extends State<HomePage> {
   bool isvisible=true;
   bool darkMode=false;
   bool swichValue=false;
+  String busqueda;
+  TextEditingController texto=TextEditingController();
  // StreamSubscription _streamSubscription;
   Location tracker=Location();
   Marker marker;
   Circle circle;
   GoogleMapController controlador;
-  
+  final formkey = new GlobalKey<FormState>();
   final LatLng fromPoint=LatLng(-0.336994,-78.543437);
   CameraPosition _initialPosition= CameraPosition(target: LatLng(-1.055747, -80.452173),zoom: 12);
 
   Completer<GoogleMapController> _controller=Completer();
   
   
+
 void getLocation() async {
     var location = await tracker.getLocation();
      LatLng latlng = LatLng(location.latitude, location.longitude);
@@ -93,12 +96,12 @@ void setMapStyle(String mapStyle){
   Widget build(BuildContext context) {
     final sizecreen= MediaQuery.of(context).size;
     final prefs = new PreferenciasUsuario();
-    if(darkMode==false)
-    {
-    setState((){
-      changeMapMode();
-    });
-    }
+    // if(darkMode==false)
+    // {
+    // setState((){
+    //   changeMapMode();
+    // });
+    // }
     return Scaffold(      
       body: bodyMap(sizecreen), 
       //Center(child: Image(image: AssetImage('assets/1200px-SITIO-EN-CONSTRUCCION.jpg'),)),
@@ -122,7 +125,7 @@ void setMapStyle(String mapStyle){
             alignment: Alignment.centerLeft,
             color: Color(0xFF808080).withOpacity(0.5),
             height: 70,
-            width: 148,
+            width: 215,
             child: Row(
                children: [
                  SizedBox(width: 10,),
@@ -158,15 +161,17 @@ void setMapStyle(String mapStyle){
                    ),
                    ),
                  SizedBox(width: 10,),
-                  // Padding(
-                  //  padding: const EdgeInsets.all(4.0),
-                  //  child: FloatingActionButton(
-                  //    child: Icon(Icons.local_taxi_outlined),
-                  //    elevation: 5,
-                  //    backgroundColor: Colors.blueAccent,
-                  //    onPressed: (){},
-                  //  ),
-                  // ),
+                  Padding(
+                   padding: const EdgeInsets.all(4.0),
+                   child: FloatingActionButton(
+                     child: Icon(Icons.search_off_outlined),
+                     elevation: 5,
+                     backgroundColor: Colors.blueAccent,
+                     onPressed: (){
+                       mostrarDireccion();
+                     },
+                   ),
+                  ),
                ],
             ),
           ),
@@ -194,85 +199,138 @@ void setMapStyle(String mapStyle){
   //   return tmp;
   // }
 
+bool validartextbusqueda(){
+  final form=formkey.currentState;
+  if(form.validate())
+  {
+    form.save();
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
 
-  // Widget listaPerfiles(CurrentUsuario userinfo, PreferenciasUsuario prefs) {
-  //   return ListView.builder(
-  //       shrinkWrap: true,
-  //       itemCount: 1 + widget.currentuser.openUserTrabajos.length,
-  //       itemBuilder: (context, int index) {
-  //         // print('${widget.currentuser.openUserTrabajos}');
-  //         final data = widget.currentuser.openUserTrabajos;
-  //         if (widget.currentuser.openUserTrabajos.length == 0) {
-  //           return Column(
-  //             children: [
-  //               ListTile(
-  //                 title: Text(
-  //                     '${widget.currentuser.nombres} ${widget.currentuser.apellidos}'),
-  //                 subtitle: Text(
-  //                     '${widget.currentuser.correo} \n${widget.currentuser.cedula}'),
-  //                 trailing: Icon(Icons.business),
-  //                 onTap: () {
-  //                   prefs.currentProfile = true;
-  //                   print(userinfo.correo);
-  //                   prefs.profileID = userinfo.correo;
-  //                   prefs.profileName =
-  //                       '${userinfo.nombres} ${userinfo.apellidos}';
-  //                   print('Tap in that sheet');
-  //                 },
-  //               ),
-  //               Divider(
-  //                 color: Colors.grey,
-  //               )
-  //             ],
-  //           );
-  //         } else if (index == 0) {
-  //           return Column(
-  //             children: [
-  //               ListTile(
-  //                 title: Text(
-  //                     '${widget.currentuser.nombres} ${widget.currentuser.apellidos}'),
-  //                 subtitle: Text(
-  //                     '${widget.currentuser.correo} \n${widget.currentuser.cedula}'),
-  //                 trailing: Icon(Icons.person),
-  //                 onTap: () {
-  //                   print(userinfo.correo);
-  //                   prefs.currentProfile = true;
-  //                   prefs.profileID = userinfo.correo;
-  //                   prefs.profileName =
-  //                       '${userinfo.nombres} ${userinfo.apellidos}';
-  //                   Navigator.of(context).pushNamedAndRemoveUntil(
-  //                       '/', (Route<dynamic> route) => false);
-  //                   print('Im that bitch');
-  //                 },
-  //               ),
-  //               Divider(
-  //                 color: Colors.grey,
-  //               )
-  //             ],
-  //           );
-  //         } else {
-  //           return Column(
-  //             children: [
-  //               ListTile(
-  //                 title: Text(data[index - 1].nombreNegocio),
-  //                 subtitle: Text(
-  //                     '${data[index - 1].idNegocio} \n${data[index - 1].rolDoctor}'),
-  //                 trailing: Icon(Icons.business),
-  //                 onTap: () {
-  //                   print('Last Hore');
-  //                   prefs.currentProfile = false;
-  //                   prefs.profileID = data[index - 1].idNegocio;
-  //                   prefs.profileName = data[index - 1].nombreNegocio;
-  //                   Navigator.of(context).pushNamedAndRemoveUntil(
-  //                       '/', (Route<dynamic> route) => false);
-  //                 },
-  //               ),
-  //               Divider(
-  //                 color: Colors.grey,
-  //               )
-  //             ],
-  //           );
-  //         }
-  //       });
-  // }
+ Future mostrarDireccion(){
+       return showDialog(
+               context: context,
+               builder: (_)=>
+                  AlertDialog(
+                  content: Builder(
+                    builder: (context){
+                      //var height = MediaQuery.of(context).size.height;
+                      //var width = MediaQuery.of(context).size.width;
+                      return Container(
+                        height: 90,
+                        width: 100,
+                        child: Column(
+                          children: [
+                             TextFieldBusqueda(formkey: formkey,texto: texto,busqueda: busqueda,),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                  title: Text("Busqueda direccion",
+                   style: TextStyle(fontSize: 20)
+                  ),
+                  actions: [
+                    TextButton(
+                      child: Text('Cancelar'),
+                      onPressed: ()  {
+                        texto.clear();
+                        Navigator.of(context).pop();
+                      },
+                      
+                    ),
+                    TextButton(
+                       child: Text('Aceptar'),
+                      onPressed: (){
+                         if(validartextbusqueda()==true)
+                         {
+                           //searchandNavigate();
+                           texto.clear();
+                           Navigator.of(context).pop();
+                         }
+                         else
+                         {
+                           texto.clear();
+                         }
+                        setState(() {
+                         
+                          //  patient.deletePacienteSeguido(prefs.currentCorreo, eliminado);
+                          //  lista = patient.getPacienteSeguido(prefs.currentCorreo);
+                                });
+                        
+                      },
+                    ),
+                  ],
+                ),
+        );
+  }
+  searchandNavigate(){
+    Geolocator().placemarkFromAddress(busqueda).then((value){
+      controlador
+              .animateCamera(CameraUpdate.newCameraPosition(new CameraPosition(
+                  bearing: 100,
+                   target: LatLng(value[0].position.latitude, value[0].position.longitude),
+                  //tilt: 0,
+                  zoom: 16.00)));
+    });
+  }
+}
+
+class TextFieldBusqueda extends StatefulWidget {
+  String  busqueda;
+ final TextEditingController texto;
+ final formkey;
+  TextFieldBusqueda({Key key, this.texto, this.formkey, this.busqueda}) : super(key: key);
+
+  @override
+  _TextFieldBusquedaState createState() => _TextFieldBusquedaState();
+}
+
+class _TextFieldBusquedaState extends State<TextFieldBusqueda> {
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+                               key: widget.formkey,
+                                                            child: Container(
+                            child: new TextFormField(
+                                controller: widget.texto,
+                                //initialValue: hearData,
+                                //readOnly: true,
+                                autofocus: false,
+                                keyboardType: TextInputType.text,
+                                textCapitalization: TextCapitalization.words,
+                                decoration: InputDecoration(
+                                  labelText: "Ingresar direccion",
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                                    borderSide: BorderSide(color: Colors.black),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                                      borderSide: BorderSide(color: Colors.black)),
+                                  prefixIcon: Icon(MdiIcons.city),
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                ),
+                                //maxLines: 2,
+                                validator: (value) => value.isEmpty
+                                    ? 'Este campo no puede estar vacío'
+                                    : !validate(value)
+                                        ? 'Ingrese un localizacion válido'
+                                        : null,
+                                onSaved: (value) => widget.busqueda = value,
+                            ),
+                          ),
+                             );
+  }
+   bool validate(String value) {
+     Pattern pattern = r'(^[a-zA-Z ]*$)';
+    RegExp regExp = new RegExp(pattern);
+    return (!regExp.hasMatch(value)) ? false : true;
+  }
 }

@@ -75,8 +75,7 @@ class _ListPatientsBuildState extends State<ListPatientsBuild> {
                           color: Colors.deepPurpleAccent[200],
                         ),
                         onTap: () {
-                          //Freddo aqui va tu interfaz de usuario
-                          //Navigator.pushNamed(context, 'pruebaUser');
+                          mostrar(snapshot.data[index].correoPaciente);
                         },
                       ),
                       Divider()

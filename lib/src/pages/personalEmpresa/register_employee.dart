@@ -235,7 +235,7 @@ Widget textFieldProfesion(Size sizescreen) {
         validator: (value) => value.isEmpty
             ? 'Este campo no puede estar vacío'
             : !validate(value)
-                ? 'Ingrese un localizacion válido'
+                ? 'Ingrese un profesion válido'
                 : null,
         onSaved: (value) => this.doctor.profesion = value,
       ),
@@ -269,7 +269,7 @@ Widget textFieldProfesion(Size sizescreen) {
         validator: (value) => value.isEmpty
             ? 'Este campo no puede estar vacío'
             : !validate(value)
-                ? 'Ingrese un localizacion válido'
+                ? 'Ingrese una cedula válido'
                 : null,
         onSaved: (value) => this.doctor.cedula = value,
       ),
@@ -301,7 +301,7 @@ Widget textFieldNombre(Size sizescreen) {
         validator: (value) => value.isEmpty
             ? 'Este campo no puede estar vacío'
             : !validate(value)
-                ? 'Ingrese un localizacion válido'
+                ? 'Ingrese un Nombre válido'
                 : null,
         onSaved: (value) => this.doctor.doctor = value,
       ),
@@ -333,7 +333,7 @@ Widget textFieldtelefono(Size sizescreen) {
         validator: (value) => value.isEmpty
             ? 'Este campo no puede estar vacío'
             : !validate(value)
-                ? 'Ingrese un localizacion válido'
+                ? 'Ingrese un telefono válido'
                 : null,
         onSaved: (value) => this.doctor.doctor = value,
       ),
