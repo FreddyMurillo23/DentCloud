@@ -1,10 +1,8 @@
 import 'dart:async';
-import 'dart:html';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:location/location.dart';
-import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:muro_dentcloud/palette.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -237,8 +235,6 @@ class _HomePageState extends State<HomePage> {
     RegExp regExp = new RegExp(pattern);
     return (!regExp.hasMatch(value)) ? false : true;
   }
-
-  
 
   searchandNavigate() {
     Geolocator().placemarkFromAddress(busqueda).then((value) {
