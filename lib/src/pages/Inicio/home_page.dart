@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:html';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -41,11 +42,18 @@ class _HomePageState extends State<HomePage> {
   CameraPosition _initialPosition =
       CameraPosition(target: LatLng(-1.055747, -80.452173), zoom: 12);
 
-  Completer<GoogleMapController> _controller = Completer();
 
   void getLocation() async {
-    var location = await tracker.getLocation();
+    final location = await Geolocator().getCurrentPosition();
     LatLng latlng = LatLng(location.latitude, location.longitude);
+    setState(() {
+      marker = Marker(
+      markerId: MarkerId('MyPosition'),
+      position: latlng,
+      infoWindow: InfoWindow(title: "My Location")
+    );
+    });
+     
     if (controlador != null) {
       controlador
           .animateCamera(CameraUpdate.newCameraPosition(new CameraPosition(
@@ -118,7 +126,6 @@ class _HomePageState extends State<HomePage> {
           padding: EdgeInsets.all(12.0),
           child: TextFormField(
             onFieldSubmitted:(value){
-
               validartextbusqueda();
                searchandNavigate();
                texto.clear();
@@ -204,16 +211,16 @@ class _HomePageState extends State<HomePage> {
 
   //   );
   // }
-  // Set<Marker> createMarkers(){
-  //   var tmp=Set<Marker>();
+  Set<Marker> createMarkers(){
+    var tmp=Set<Marker>();
 
-  //   tmp.add(Marker(
-  //     markerId: MarkerId('MyPosition'),
-  //     position: fromPoint,
-  //     infoWindow: InfoWindow(title: "My Location")
-  //   ));
-  //   return tmp;
-  // }
+    tmp.add(Marker(
+      markerId: MarkerId('MyPosition'),
+      position: fromPoint,
+      infoWindow: InfoWindow(title: "My Location")
+    ));
+    return tmp;
+  }
 
   bool validartextbusqueda() {
     final form = formkey.currentState;
