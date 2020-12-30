@@ -230,8 +230,6 @@ class _HomePageState extends State<HomePage> {
     return (!regExp.hasMatch(value)) ? false : true;
   }
 
-  
-
   searchandNavigate() {
     Geolocator().placemarkFromAddress(busqueda).then((value) {
       controlador.animateCamera(CameraUpdate.newCameraPosition(
