@@ -6,12 +6,8 @@ import 'package:location/location.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
-import 'package:muro_dentcloud/src/search/search_user_business.dart';
-import 'package:muro_dentcloud/src/widgets/card_expansion_list.dart';
 import 'package:muro_dentcloud/src/widgets/circle_button.dart';
-import 'package:muro_dentcloud/src/widgets/create_post_container.dart';
 // import 'package:muro_dentcloud/src/providers/menu_providers.dart';
-import 'package:muro_dentcloud/src/widgets/drawer_appbar.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class HomePage extends StatefulWidget {

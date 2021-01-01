@@ -63,9 +63,6 @@ class _EditEventAcceptedState extends State<EditEventAccepted> {
 
   @override
   Widget build(BuildContext context) {
-    ServicioProviderNuevo servicioProviderNuevo = Provider.of<ServicioProviderNuevo>(context);
-    
-
     return Scaffold(
        appBar: AppBar(
          backgroundColor: Colors.white,
