@@ -53,9 +53,10 @@ dependencies:
   google_maps_flutter: ^1.0.6
   location: ^3.1.0
   permission_handler: ^5.0.1
-  url_launcher: ^5.7.10
   geolocator: ^5.3.1
   floating_search_bar: ^0.3.0
+  google_maps_webservice: ^0.0.6
+  flutter_google_places: ^0.2.6
   
 dev_dependencies:
   flutter_test:

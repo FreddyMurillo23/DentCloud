@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:location/location.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:muro_dentcloud/palette.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
 import 'package:muro_dentcloud/src/search/search_user_business.dart';
@@ -236,6 +234,7 @@ class _HomePageState extends State<HomePage> {
     return (!regExp.hasMatch(value)) ? false : true;
   }
 
+  
   searchandNavigate() {
     Geolocator().placemarkFromAddress(busqueda).then((value) {
       controlador.animateCamera(CameraUpdate.newCameraPosition(
@@ -248,3 +247,4 @@ class _HomePageState extends State<HomePage> {
     });
   }
 }
+
