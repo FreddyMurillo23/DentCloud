@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:muro_dentcloud/src/controllers/apointment_ctrl.dart';
+import 'package:muro_dentcloud/src/firebase/notifications.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/event_model.dart';
 import 'package:muro_dentcloud/src/models/services_model.dart';
@@ -55,6 +56,8 @@ class _AgendaWithProviderState extends State<AgendaWithProvider> {
     selectedDay = DateTime.now();
     eventosModel2 = [];
     countList = 0;
+    final pushProvider = PushNotificationsProvider();
+    pushProvider.initNotifications();
   }
   
   static DateTime combine(DateTime date, TimeOfDay time) => DateTime(

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "100834968621",
+    "project_id": "dentcloud-vinculacion",
+    "storage_bucket": "dentcloud-vinculacion.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:100834968621:android:7ea17f9ea56528bf4fa4a4",
+        "android_client_info": {
+          "package_name": "com.example.muro_dentcloud"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "100834968621-g423ute7drit4aeb2ioteq3uh7s2joiu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.muro_dentcloud",
+            "certificate_hash": "cb441cdc0f6834a7be5f9c03cc02e7f557cee4ff"
+          }
+        },
+        {
+          "client_id": "100834968621-mhpkior4olm4hv3fcmtssbcvcrak4cjh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrtCmYJNoIqtaw653_5WIo_2XxBOmD2nY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "100834968621-mhpkior4olm4hv3fcmtssbcvcrak4cjh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

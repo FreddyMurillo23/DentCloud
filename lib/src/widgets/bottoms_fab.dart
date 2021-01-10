@@ -77,6 +77,7 @@ class _FancyFabState extends State<FancyFab>
       var pic = await http.MultipartFile.fromPath("archivo", widget.path);
       request.files.add(pic);
       var response = await request.send();
+      print("");
 
       if (response.statusCode == 200) {
         print('ARCHIVO SUBIDA');
