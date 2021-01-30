@@ -33,120 +33,149 @@ class _OutProfileAppBarState extends State<OutProfileAppBar> {
       elevation: 2.0,
       expandedHeight: _screenSize.height * 0.55,
       brightness: Brightness.dark,
-      backgroundColor: Colors.indigoAccent,
-      pinned: false,
-      flexibleSpace: FlexibleSpaceBar(
-        centerTitle: false,
-        titlePadding: EdgeInsets.fromLTRB(10, 50, 100, 5),
-        title: Container(
+      backgroundColor: Colors.white,
+      pinned: true,
+      centerTitle: true,
+      title: Container(
           decoration: BoxDecoration(
-              border: Border.all(width: 3, color: Colors.blueGrey.shade100),
-              borderRadius: BorderRadius.circular(50.0),
+              border: Border.all(width: 3, color: Colors.blueGrey.shade100,),
+              borderRadius: BorderRadius.circular(10.0),
               color: Colors.white),
-          width: _screenSize.width * 1,
-          height: _screenSize.height * 0.035,
+          // width: _screenSize.width * 1,
+          height: _screenSize.height * 0.045,
           // color: Colors.white,
           child: ClipRRect(
+            borderRadius: 
+        BorderRadius.vertical(bottom: Radius.circular(80)),
             child: Text(
-              '  ${widget.userinfo.nombres} ${widget.userinfo.apellidos} ',
+              widget.userinfo.tipoUsuario == 'D'
+                  ? widget.userinfo.sexo == 'F'
+                      ? '  Dra. ${widget.userinfo.nombres} ${widget.userinfo.apellidos}  '
+                      : '  Dr.  ${widget.userinfo.nombres} ${widget.userinfo.apellidos}  '
+                  : '  ${widget.userinfo.nombres} ${widget.userinfo.apellidos}  ',
               style: TextStyle(
                 color: Colors.grey[600],
-                fontSize: 16.0,
+                fontSize: 25.0,
                 fontWeight: FontWeight.bold,
                 letterSpacing: -1.2,
               ),
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ),
-        background: Container(
-            child: Stack(
-          fit: StackFit.expand,
-          children: [
-            Image(
-              image: AssetImage('assets/fondo.jpg'),
-              fit: BoxFit.cover,
+      flexibleSpace: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          decoration: BoxDecoration(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(80)),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+                // color: Colors.grey[500],
+                color: Colors.lightBlue,
+                blurRadius: 15.0,
+                spreadRadius: 1.0,
+                offset: Offset(0.0, 0.0))
+          ]
+        ),
+          child: ClipRRect(
+            borderRadius: 
+            BorderRadius.vertical(bottom: Radius.circular(80)),
+            child: FlexibleSpaceBar(
+              centerTitle: true,
+              titlePadding: EdgeInsets.fromLTRB(10, 50, 100, 5),
+              background: Container(
+                  child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  Image(
+                    image: AssetImage('assets/fondo.jpg'),
+                    fit: BoxFit.cover,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: section1(_screenSize, context),
+                  )
+                ],
+              )
+                  //
+                  ),
             ),
-            Row(
-              children: <Widget>[
-                section1(_screenSize, context),
-                section2(_screenSize, context),
-              ],
-            )
-          ],
-        )
-            //
-            ),
+          ),
+        ),
       ),
-      centerTitle: false,
       floating: false,
       
     );
   }
 
-  Widget section1(Size screensize, context) {
+   Widget section1(Size screensize, context) {
     return Padding(
-      padding: EdgeInsets.symmetric(
-          vertical: screensize.height * 0.089,
-          horizontal: screensize.width * 0.04),
-      child: Column(
-        children: [
-          Container(
-            height: screensize.height * 0.2,
-            width: screensize.width * 0.4,
-            decoration: BoxDecoration(
-              border: Border.all(width: 5, color: Colors.blueGrey.shade100),
-              borderRadius: BorderRadius.circular(100.0),
-              color: Colors.white,
-            ),
-            child: ClipRRect(
-              child: FadeInImage(
-                image: NetworkImage(widget.userinfo.fotoPerfil),
-                placeholder: AssetImage('assets/loading.gif'),
-                fit: BoxFit.cover,
+      padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
+      child: Center(
+        child: Column(
+          children: [
+            profileData(screensize, context),
+            profileButton()
+          ],
+        ),
+      ),
+    );
+  }
+     profileData(Size screensize, context) {
+    return Card(
+      elevation: 10,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+      child: Container(
+        width: screensize.width * 0.40,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: <Widget>[
+              Container(
+              height: screensize.height * 0.2,
+              width: screensize.width * 0.4,
+              decoration: BoxDecoration(
+                border: Border.all(width: 5, color: Colors.lightBlue.shade300),
+                borderRadius: BorderRadius.circular(100.0),
+                color: Colors.white,
               ),
-              borderRadius: BorderRadius.circular(100.0),
+              child: ClipRRect(
+                child: FadeInImage(
+                  image: NetworkImage(widget.userinfo.fotoPerfil),
+                  placeholder: AssetImage('assets/loading.gif'),
+                  fit: BoxFit.cover,
+                ),
+                borderRadius: BorderRadius.circular(100.0),
+              ),
             ),
+            SizedBox(height: screensize.height*0.015,),
+              Text(
+                widget.userinfo.tipoUsuario == 'D'
+                    ? '${widget.userinfo.profesion}\n\n${widget.userinfo.correo}\n${widget.userinfo.ciudadResidencia}\n${widget.userinfo.celular}'
+                    : '${widget.userinfo.correo}\n${widget.userinfo.ciudadResidencia}\n${widget.userinfo.celular}',
+                textAlign: TextAlign.center,
+              )
+            ],
           ),
-          profileButton(),
-        ],
+        ),
       ),
     );
   }
 
-  Widget section2(Size screensize, context) {
-    return Padding(
-        padding: EdgeInsets.symmetric(vertical: 50, horizontal: 2),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(40.0),
-            color: Colors.white,
-            border: Border.all(
-                width: screensize.width * 0.01,
-                color: Colors.blueGrey.shade100),
-          ),
-          child: Column(
-            children: [
-              tilelist(),
-              Divider(
-                height: 3,
-                color: Colors.grey,
-                thickness: 10,
-              ),
-              listContent(screensize),
-            ],
-          ),
-        ));
-  }
-
   Widget profileButton() {
-    return current
-        ? editarPerfil()
-        : AnimatedSwitcher(
-            duration: const Duration(seconds: 1),
-            switchOutCurve: Curves.easeOutExpo,
-            switchInCurve: Curves.easeInExpo,
-            child: follow ? seguir() : seguido(),
-          );
+    return 
+    // current
+    //     ? editarPerfil()
+        // : 
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: AnimatedSwitcher(
+              duration: const Duration(seconds: 1),
+              switchOutCurve: Curves.easeOutExpo,
+              switchInCurve: Curves.easeInExpo,
+              child: follow ? seguir() : seguido(),
+            ),
+        );
     // return editarPerfil();
   }
 

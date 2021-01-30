@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
+import 'package:muro_dentcloud/src/models/publications_model.dart';
 import 'package:muro_dentcloud/src/providers/data_provider.dart';
 import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
 import 'package:muro_dentcloud/src/widgets/appbars/external/out_profile_appbar.dart';
@@ -24,13 +25,14 @@ class _OutUserProfileState extends State<OutUserProfile> {
     final _screenSize = MediaQuery.of(context).size;
     String correo = ModalRoute.of(context).settings.arguments;
     print(correo);
-    return Scaffold(
-      drawer: NavDrawer(),
+    return Scaffold( 
+      
+      backgroundColor: Colors.white,
+      // drawer: NavDrawer(),
       body: FutureBuilder(
           future: provider.userData(correo),
           builder: (context, AsyncSnapshot<List> user) {
             if (user.hasData) {
-              print(user.data[0].publicaciones);
               return FutureBuilder(
                   future: provider
                       .getPublicacionesByUser(user.data[0].publicaciones),
@@ -59,7 +61,7 @@ class _OutUserProfileState extends State<OutUserProfile> {
                           ),
                           publicacionesId.data.length != 0
                               ? publicaciones(user.data[0], _screenSize,
-                                  publicacionesId.data[0])
+                                  publicacionesId.data)
                               :SliverToBoxAdapter(child: Container(),),
 
                           // SliverPublicaciones(),
@@ -81,18 +83,18 @@ class _OutUserProfileState extends State<OutUserProfile> {
   }
 
   Widget publicaciones(
-      CurrentUsuario userinfo, Size _screenSize, dynamic snapshot) {
-    if (snapshot.hasData) {
+      CurrentUsuario userinfo, Size _screenSize, List<Publicacion> snapshot) {
+    if (snapshot.length > 0) {
       return SliverList(
           delegate:
               SliverChildBuilderDelegate((BuildContext context, int index) {
         // print(snapshot.data.length);
         return CardWidgetPublicaciones(
-          publicaciones: snapshot.data,
+          publicaciones: snapshot,
           id: index,
           space: true,
         );
-      }, childCount: snapshot.data.length));
+      }, childCount: snapshot.length));
     } else {
       return SliverToBoxAdapter(
         child: Container(

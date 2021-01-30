@@ -65,7 +65,8 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
             ),
           ),
         ),
-      flexibleSpace: Container(decoration: BoxDecoration(
+      flexibleSpace: Container(
+        decoration: BoxDecoration(
         borderRadius: BorderRadius.vertical(bottom: Radius.circular(80)),
         boxShadow: <BoxShadow>[
           BoxShadow(
@@ -208,127 +209,5 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
       ),
     );
   }
-  
-  // Widget section2(Size screensize, context) {
-  //   return Padding(
-  //       padding: EdgeInsets.symmetric(vertical: 50, horizontal: 25),
-  //       child: Container(
-  //         decoration: BoxDecoration(
-  //           borderRadius: BorderRadius.circular(40.0),
-  //           color: Colors.white,
-  //           border: Border.all(
-  //               width: screensize.width * 0.01,
-  //               color: Colors.blueGrey.shade100),
-  //         ),
-  //         child: Column(
-  //           children: [
-  //             tilelist(),
-  //             Divider(
-  //               height: 3,
-  //               color: Colors.grey,
-  //               thickness: 10,
-  //             ),
-  //             listContent(screensize),
-  //           ],
-  //         ),
-  //       ));
-  // }
-
-  // Widget tilelist() {
-  //   return Text(
-  //     'Consultorios',
-  //     style: TextStyle(
-  //         fontWeight: FontWeight.bold, color: Colors.lightBlue, fontSize: 18),
-  //   );
-  // }
-
-  // Widget listContent(Size screensize) {
-  //   return Expanded(
-  //     child: Container(
-  //       alignment: Alignment.topCenter,
-  //       // height: screensize.height * 0.30,
-  //       width: screensize.width * 0.36,
-  //       color: Colors.transparent,
-  //       child: ListView.builder(
-  //           padding: const EdgeInsets.symmetric(
-  //             horizontal: 5,
-  //           ),
-  //           itemCount: widget.userinfo.serviciosRecientes.length,
-  //           itemBuilder: (BuildContext context, int index) {
-  //             if (widget.userinfo.serviciosRecientes.length == 0) {
-  //               return Container(
-  //                 child: Column(
-  //                   children: [
-  //                     Container(
-  //                       // height: screensize.height * 0.14,
-  //                       decoration: BoxDecoration(
-  //                         borderRadius: BorderRadius.circular(40.0),
-  //                         color: Colors.white,
-  //                         border: Border.all(
-  //                             width: screensize.width * 0.01,
-  //                             color: Colors.blueGrey.shade100),
-  //                       ),
-  //                       child: ClipRRect(
-  //                         child: FadeInImage(
-  //                           image: AssetImage('assets/logo.png'),
-  //                           placeholder: AssetImage('assets/loading.gif'),
-  //                           fit: BoxFit.cover,
-  //                         ),
-  //                         borderRadius: BorderRadius.circular(40.0),
-  //                       ),
-  //                     ),
-  //                     Text('No hay recientes')
-  //                   ],
-  //                 ),
-  //               );
-  //             } else {
-  //               return Container(
-  //                 child: Column(
-  //                   children: [
-  //                     Container(
-  //                       height: screensize.height * 0.14,
-  //                       decoration: BoxDecoration(
-  //                         borderRadius: BorderRadius.circular(40.0),
-  //                         color: Colors.white,
-  //                         border: Border.all(
-  //                             width: screensize.width * 0.01,
-  //                             color: Colors.blueGrey.shade100),
-  //                       ),
-  //                       child: ClipRRect(
-  //                         child: FadeInImage(
-  //                           image: NetworkImage(
-  //                               'https://www.clinicablancohungria.es/wp-content/uploads/2018/05/extraccion.jpg'),
-  //                           placeholder: AssetImage('assets/loading.gif'),
-  //                           fit: BoxFit.cover,
-  //                         ),
-  //                         borderRadius: BorderRadius.circular(40.0),
-  //                       ),
-  //                     ),
-  //                     Text(
-  //                         '${widget.userinfo.serviciosRecientes[index].idServicio}')
-  //                   ],
-  //                 ),
-  //               );
-  //             }
-  //           }),
-  //     ),
-  //   );
-  // }
-
-  
-  // Widget profileButton() {
-  //   return current
-  //       ? widget.userinfo.tipoUsuario == 'D'
-  //           ? editarPerfil()
-  //           : Container()
-  //       : AnimatedSwitcher(
-  //           duration: const Duration(seconds: 1),
-  //           switchOutCurve: Curves.easeOutExpo,
-  //           switchInCurve: Curves.easeInExpo,
-  //           child: follow ? seguir() : seguido(),
-  //         );
-  //   // return editarPerfil();
-  // }
-
 
 }

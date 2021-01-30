@@ -121,6 +121,7 @@ class DataProvider {
     final decodedData = json.decode(resp2.body);
     final data = CurrentUsuarios.fromJsonList(decodedData['usuario']);
     // print(decodedData);
+    print(data.items);
     // print(decodedData['usuario']);
     return data.items;
   }
@@ -368,7 +369,8 @@ class DataProvider {
   }
 
   Future<bool> validarUsuarioPublicacion(String correo, String id) async {
-    String url = 'http://54.197.83.249/PHP_REST_API/api/put/validate_put_publications.php?publication_id=$id&user_email=$correo';
+    String url =
+        'http://54.197.83.249/PHP_REST_API/api/put/validate_put_publications.php?publication_id=$id&user_email=$correo';
     final resp = await http.get(url);
     if (resp.statusCode == 200) {
       return true;
@@ -377,9 +379,10 @@ class DataProvider {
     }
   }
 
-  Future<bool> putPublicacion(
-      String id, String ruc, String descripcion, String useremail, String dir) async {
-    String url = 'http://54.197.83.249/PHP_REST_API/api/put/put_publications.php?business_ruc=$ruc&publication_id=$id&description=$descripcion&user_email=$useremail&multimedia_url=$dir';
+  Future<bool> putPublicacion(String id, String ruc, String descripcion,
+      String useremail, String dir) async {
+    String url =
+        'http://54.197.83.249/PHP_REST_API/api/put/put_publications.php?business_ruc=$ruc&publication_id=$id&description=$descripcion&user_email=$useremail&multimedia_url=$dir';
     final resp = await http.get(url);
     if (resp.statusCode == 200) {
       return true;
@@ -387,18 +390,15 @@ class DataProvider {
       return false;
     }
   }
+
   Future<bool> putPublicacion2(
-      String id, String ruc, String descripcion, String useremail,) async {
-    String url = 'http://54.197.83.249/PHP_REST_API/api/put/put_publications.php?business_ruc=$ruc&publication_id=$id&description=$descripcion&user_email=$useremail';
-    final resp = await http.get(url);
-    if (resp.statusCode == 200) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-  Future<bool> deletePublicacion(String id)async{
-    String url = 'http://54.197.83.249/PHP_REST_API/api/delete/delete_publication.php?publication_id=$id';
+    String id,
+    String ruc,
+    String descripcion,
+    String useremail,
+  ) async {
+    String url =
+        'http://54.197.83.249/PHP_REST_API/api/put/put_publications.php?business_ruc=$ruc&publication_id=$id&description=$descripcion&user_email=$useremail';
     final resp = await http.get(url);
     if (resp.statusCode == 200) {
       return true;
@@ -407,14 +407,27 @@ class DataProvider {
     }
   }
 
-  Future<List<ServiciosNegocio>> cargarServicios(String ruc,String correo) async{
+  Future<bool> deletePublicacion(String id) async {
+    String url =
+        'http://54.197.83.249/PHP_REST_API/api/delete/delete_publication.php?publication_id=$id';
+    final resp = await http.get(url);
+    if (resp.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<List<ServiciosNegocio>> cargarServicios(
+      String ruc, String correo) async {
     String url2 =
         'http://54.197.83.249/PHP_REST_API/api/get/get_doctors_services.php?user_email=$correo&business_ruc=$ruc';
     final resp2 = await http.get(url2);
     final decodedData = json.decode(resp2.body);
     print(decodedData['servicios_doctor']);
-    final data = ServiciosDoctorNegocio.fromJsonList(decodedData['servicios_doctor']);
-    
+    final data =
+        ServiciosDoctorNegocio.fromJsonList(decodedData['servicios_doctor']);
+
     // print(decodedData['usuario']);
     return data.items;
   }
