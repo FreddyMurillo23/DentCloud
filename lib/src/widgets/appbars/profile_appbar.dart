@@ -30,9 +30,6 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
     final CurrentUsuario userinfo = ModalRoute.of(context).settings.arguments;
     final _screenSize = MediaQuery.of(context).size;
     return SliverAppBar(
-
-      // forceElevated: true,
-      // elevation: 5.0,
       expandedHeight: _screenSize.height * 0.50,
       brightness: Brightness.dark,
       backgroundColor: Colors.white,

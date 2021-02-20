@@ -48,31 +48,35 @@ class NegocioData {
   });
 
   NegocioData.fromJsonMap(Map<String, dynamic> json) {
-    inicialNegocio = json['inicial_negocio'];
-    ruc = json['ruc'];
-    negocio = json['negocio'];
-    telefono = json['telefono'];
-    provincia = json['provincia'];
-    canton = json['canton'];
-    ubicacion = json['ubicacion'];
-    foto = json['foto'];
-    if (json['servicios'].length != 0) {
-      for (var item in json['servicios']) {
-        final serv = new ServiciosNegocio.fromJsonMap(item);
-        servicios.add(serv);
+    try {
+      inicialNegocio = json['inicial_negocio'];
+      ruc = json['ruc'];
+      negocio = json['negocio'];
+      telefono = json['telefono'];
+      provincia = json['provincia'];
+      canton = json['canton'];
+      ubicacion = json['ubicacion'];
+      foto = json['foto'];
+      if (json['servicios'].length != 0) {
+        for (var item in json['servicios']) {
+          final serv = new ServiciosNegocio.fromJsonMap(item);
+          servicios.add(serv);
+        }
       }
-    }
-    if (json['personal'].length != 0) {
-      for (var item in json['personal']) {
-        final per = new Personal.fromJsonMap(item);
-        personal.add(per);
+      if (json['personal'].length != 0) {
+        for (var item in json['personal']) {
+          final per = new Personal.fromJsonMap(item);
+          personal.add(per);
+        }
       }
-    }
-    if (json['publicaciones_negocio'].length != 0) {
-      for (var item in json['publicaciones_negocio']) {
-        final pub = new PublicacionesNegocio.fromJsonMap(item);
-        publicacionesNegocio.add(pub);
+      if (json['publicaciones_negocio'].length != 0) {
+        for (var item in json['publicaciones_negocio']) {
+          final pub = new PublicacionesNegocio.fromJsonMap(item);
+          publicacionesNegocio.add(pub);
+        }
       }
+    } catch (e) {
+      print(e);
     }
   }
   get openInicialNegocio {
@@ -236,12 +240,15 @@ class ServiciosNegocio {
     nombreNegocio = json['nombre_negocio'];
     fotoNegocio = json['foto_negocio'];
     telefonoNegocio = json['telefono_negocio'];
-    if (json['preguntas_frecuentes'].length != 0) {
+    if(json.containsKey('preguntas_frecuentes')){
+      if (json['preguntas_frecuentes'].length != 0) {
       for (var item in json['preguntas_frecuentes']) {
         final preg = new PreguntasServicios.fromJsonMap(item);
         preguntas.add(preg);
       }
     }
+    }
+    
   }
 }
 

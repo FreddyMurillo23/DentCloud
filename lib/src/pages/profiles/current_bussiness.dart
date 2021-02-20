@@ -12,8 +12,8 @@ import 'package:muro_dentcloud/src/widgets/appbars/profile_appbar.dart';
 class CurrentBusinessProfile extends StatefulWidget {
   final CurrentUsuario currentuser;
   final String currentBusiness;
-  const CurrentBusinessProfile({Key key,  this.currentBusiness,
-  this.currentuser})
+  const CurrentBusinessProfile(
+      {Key key, @required this.currentBusiness, this.currentuser})
       : super(key: key);
 
   @override
@@ -26,52 +26,52 @@ class _CurrentBusinessProfileState extends State<CurrentBusinessProfile> {
   @override
   Widget build(BuildContext context) {
     final _screenSize = MediaQuery.of(context).size;
-
     final login = new DataProvider();
     return FutureBuilder(
         future: login.businessData(widget.currentBusiness),
         builder: (BuildContext context, AsyncSnapshot<List> businessinfo) {
           if (businessinfo.hasData) {
             return Scaffold(
+              backgroundColor: Colors.white,
               body: FutureBuilder(
                   future: publicacionesProvider.getPublicacionesByRuc(
                       businessinfo.data[0].openPublicacionesNegocio),
                   builder:
                       (BuildContext context, AsyncSnapshot<List> snapshot) {
-                    return CustomScrollView(
-                      slivers: [
-                        BusinessAppBar(
-                          userinfo: businessinfo.data[0],
-                          usuario: widget.currentuser,
-                        ),
-                        SliverPadding(
-                          padding:
-                              const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 5.0),
-                          sliver: SliverToBoxAdapter(
-                            child: BusinessRooms(
-                              businessinfo: businessinfo.data[0],
+                      return CustomScrollView(
+                        slivers: [
+                          BusinessAppBar(
+                            userinfo: businessinfo.data[0],
+                            usuario: widget.currentuser,
+                          ),
+                          SliverPadding(
+                            padding:
+                                const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 5.0),
+                            sliver: SliverToBoxAdapter(
+                              child: BusinessRooms(
+                                businessinfo: businessinfo.data[0],
+                              ),
                             ),
                           ),
-                        ),
-                        SliverToBoxAdapter(
-                          child: Divider(
-                            height: 10,
+                          SliverToBoxAdapter(
+                            child: Divider(
+                              height: 10,
+                            ),
                           ),
-                        ),
-                        publicaciones(_screenSize, snapshot),
+                          publicaciones(_screenSize, snapshot),
 
-                        // SliverPublicaciones(),
-                      ],
-                    );
+                          // SliverPublicaciones(),
+                        ],
+                      );
                   }),
             );
           } else {
-            return  Container(
-            height: _screenSize.height * 0.4,
-            child: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
+            return Container(
+              height: _screenSize.height * 0.4,
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
           }
         });
   }
@@ -82,7 +82,11 @@ class _CurrentBusinessProfileState extends State<CurrentBusinessProfile> {
           delegate:
               SliverChildBuilderDelegate((BuildContext context, int index) {
         // print(snapshot.data.length);
-        return CardWidgetPublicaciones(publicaciones: snapshot.data, id: index,space: true,);
+        return CardWidgetPublicaciones(
+          publicaciones: snapshot.data,
+          id: index,
+          space: true,
+        );
       }, childCount: snapshot.data.length));
     } else {
       return SliverToBoxAdapter(
