@@ -159,10 +159,10 @@ class DataProvider {
 
   Future<bool> isFollowingBusiness(String userEmail, String otro) async {
     Uri uri = Uri.parse(
-        'http://54.197.83.249/PHP_REST_API/api/put/put_followed_user.php?');
+        'http://54.197.83.249/PHP_REST_API/api/put/put_business_followed.php?');
     Map<String, dynamic> _queryParams = {};
-    _queryParams['user_email'] = userEmail;
-    _queryParams['user_email_people'] = otro;
+    _queryParams['business_ruc'] = otro;
+    _queryParams['user_email_people'] = userEmail;
     _queryParams['followers_date'] = DateTime.now().toString();
     uri = uri.replace(queryParameters: _queryParams);
     print(uri);
