@@ -40,7 +40,7 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
     final _screenSize = MediaQuery.of(context).size;
     return SliverAppBar(
       // elevation: 2.0,
-      expandedHeight: _screenSize.height * 0.50,
+      expandedHeight: _screenSize.height * 0.55,
       brightness: Brightness.dark,
       backgroundColor: Colors.white,
       centerTitle: true,
@@ -71,35 +71,38 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
           ),
         ),
       ),
-      flexibleSpace: Container(
-        decoration: BoxDecoration(
+      flexibleSpace: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.vertical(bottom: Radius.circular(80)),
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                    // color: Colors.grey[500],
+                    color: Colors.lightBlue,
+                    blurRadius: 15.0,
+                    spreadRadius: 1.0,
+                    offset: Offset(0.0, 0.0))
+              ]),
+          child: ClipRRect(
             borderRadius: BorderRadius.vertical(bottom: Radius.circular(80)),
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                  // color: Colors.grey[500],
-                  color: Colors.lightBlue,
-                  blurRadius: 15.0,
-                  spreadRadius: 1.0,
-                  offset: Offset(0.0, 0.0))
-            ]),
-        child: ClipRRect(
-          borderRadius: BorderRadius.vertical(bottom: Radius.circular(80)),
-          child: FlexibleSpaceBar(
-            centerTitle: true,
-            titlePadding: EdgeInsets.fromLTRB(10, 50, 100, 5),
-            background: Container(
-                child: Stack(
-              fit: StackFit.expand,
-              children: [
-                Image(
-                  image: AssetImage('assets/fondo.jpg'),
-                  fit: BoxFit.cover,
-                ),
-                section1(_screenSize, context)
-              ],
-            )
-                //
-                ),
+            child: FlexibleSpaceBar(
+              centerTitle: true,
+              titlePadding: EdgeInsets.fromLTRB(10, 50, 100, 5),
+              background: Container(
+                  child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  Image(
+                    image: AssetImage('assets/fondo.jpg'),
+                    fit: BoxFit.cover,
+                  ),
+                  section1(_screenSize, context)
+                ],
+              )
+                  //
+                  ),
+            ),
           ),
         ),
       ),
@@ -108,11 +111,18 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
 
   Widget section1(Size screensize, context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
+      padding: EdgeInsets.only(
+        top: screensize.height * 0.089,
+        left:screensize.width * 0.04 ,
+        right: screensize.width * 0.04,
+        bottom: 10
+          ),
       child: Center(
         child: Column(
           children: [
             businessData(screensize, context),
+          profileButton(),
+
             // widget.userinfo.tipoUsuario == 'D' ? profileButton() : Container()
           ],
         ),
@@ -143,7 +153,7 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
             ),
           ),
           businessData(screensize, context),
-          // profileButton(),
+          profileButton(),
         ],
       ),
     );
@@ -181,49 +191,49 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
   //       ));
   // }
 
-  // Widget profileButton() {
-  //   return current
-  //       ? editarPerfil()
-  //       : AnimatedSwitcher(
-  //           duration: const Duration(seconds: 1),
-  //           switchOutCurve: Curves.easeOutExpo,
-  //           switchInCurve: Curves.easeInExpo,
-  //           child: follow ? seguir() : seguido(),
-  //         );
-  //   // return editarPerfil();
-  // }
+  Widget profileButton() {
+    return current
+        ? editarPerfil()
+        : AnimatedSwitcher(
+            duration: const Duration(seconds: 1),
+            switchOutCurve: Curves.easeOutExpo,
+            switchInCurve: Curves.easeInExpo,
+            child: follow ? seguir() : seguido(),
+          );
+    // return editarPerfil();
+  }
 
-  // Widget seguir() {
-  //   return ShaderMask(
-  //     shaderCallback: (rect) => LinearGradient(
-  //             colors: [Color(0xFF81D4FA), Color(0xFF29B6F6), Color(0xFF039BE5)])
-  //         .createShader(rect),
-  //     child: RaisedButton(
-  //       onPressed: () {
-  //         setState(() {
-  //           follow = !follow;
-  //         });
-  //       },
-  //       child: Text('Seguir'),
-  //     ),
-  //   );
-  // }
+  Widget seguir() {
+    return ShaderMask(
+      shaderCallback: (rect) => LinearGradient(
+              colors: [Color(0xFF81D4FA), Color(0xFF29B6F6), Color(0xFF039BE5)])
+          .createShader(rect),
+      child: RaisedButton(
+        onPressed: () {
+          setState(() {
+            follow = !follow;
+          });
+        },
+        child: Text('Seguir'),
+      ),
+    );
+  }
 
-  // Widget seguido() {
-  //   return ShaderMask(
-  //     shaderCallback: (rect) => LinearGradient(
-  //             colors: [Color(0xFF81D4FA), Color(0xFF29B6F6), Color(0xFF039BE5)])
-  //         .createShader(rect),
-  //     child: RaisedButton(
-  //       onPressed: () {
-  //         setState(() {
-  //           follow = !follow;
-  //         });
-  //       },
-  //       child: Text('Seguido'),
-  //     ),
-  //   );
-  // }
+  Widget seguido() {
+    return ShaderMask(
+      shaderCallback: (rect) => LinearGradient(
+              colors: [Color(0xFF81D4FA), Color(0xFF29B6F6), Color(0xFF039BE5)])
+          .createShader(rect),
+      child: RaisedButton(
+        onPressed: () {
+          setState(() {
+            follow = !follow;
+          });
+        },
+        child: Text('Seguido'),
+      ),
+    );
+  }
 
   Widget editarPerfil() {
     return ShaderMask(
@@ -234,7 +244,7 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
         onPressed: () {
           setState(() {});
         },
-        child: Text('Editar Perfil'),
+        child: Text('Editar Consultorio'),
       ),
     );
   }
