@@ -86,8 +86,8 @@ class _StartUpPageState extends State<StartUpPage> {
           colorBorde: Colors.lightBlue[50],
           onPressed: () => 
          // Navigator.pushNamed(context, 'registerbusiness', arguments: userinfo)
-          Navigator.pushNamed(context, 'messenger', arguments: userinfo),
-          //showSearch(context: context, delegate: UserBusinessSearch())
+          //Navigator.pushNamed(context, 'messenger', arguments: userinfo),
+          showSearch(context: context, delegate: UserBusinessSearch()),
         ),
         CircleButton(
           icon: MdiIcons.chatOutline,

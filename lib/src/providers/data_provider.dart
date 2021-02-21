@@ -132,7 +132,7 @@ class DataProvider {
     final resp2 = await http.get(url2);
     final decodedData = json.decode(resp2.body);
     final data = Business.fromJsonList(decodedData['negocio_datos']);
-    print(decodedData['negocio_datos']);
+    //print(decodedData['negocio_datos']);
     // print(decodedData['usuario']);
     return data.items;
   }
@@ -205,13 +205,26 @@ class DataProvider {
       String province,
       String canton,
       String businessLocation,
-      String fotopath) async {
+      String fotopath,
+      double latitud,
+      double longitud) async {
+    var url2='http://54.197.83.249/PHP_REST_API/api/post/post_business.php?business_ruc=$businessRuc&business_name=$businessName&business_phone=$businessPhone&province=$province&canton=$canton&business_location=$businessLocation&user_email=$usermail&length=$longitud&latitude=$latitud';    
     var url = Uri.parse(
-        'http://54.197.83.249/PHP_REST_API/api/post/post_business.php?business_ruc=$businessRuc&business_name=$businessName&business_phone=$businessPhone&province=$province&canton=$canton&business_location=$businessLocation&user_email=$usermail');
+        'http://54.197.83.249/PHP_REST_API/api/post/post_business.php?business_ruc=$businessRuc&business_name=$businessName&business_phone=$businessPhone&province=$province&canton=$canton&business_location=$businessLocation&user_email=$usermail&length=$longitud&latitude=$latitud');
     var request = http.MultipartRequest('POST', url);
     if (fotopath != null) {
       var pic = await http.MultipartFile.fromPath("archivo", fotopath);
       request.files.add(pic);
+    }
+    final streamResponse = await request.send();
+      final resp = await http.Response.fromStream(streamResponse);
+    if(resp.statusCode==200)
+    {
+      return true;
+    }
+    else
+    {
+    return false;
     }
   }
 

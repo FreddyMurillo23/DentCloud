@@ -10,6 +10,9 @@ import 'package:muro_dentcloud/src/providers/data_provide1.dart';
 import 'package:muro_dentcloud/src/providers/data_provider.dart';
 import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
 import 'package:muro_dentcloud/src/services/bServices_service.dart';
+import 'package:geocoder/model.dart';
+import 'package:geocoder/geocoder.dart';
+import 'package:google_map_location_picker/google_map_location_picker.dart';
 
 class SettingsPage extends StatefulWidget {
   SettingsPage({Key key}) : super(key: key);
@@ -25,6 +28,8 @@ class _SettingsPageState extends State<SettingsPage> {
   final formkey = new GlobalKey<FormState>();
   DataProvider businessData = new DataProvider();
   DataProvider1 businessData1 = new DataProvider1();
+  TextEditingController controladorlocation=TextEditingController();
+  double latitud,longitud;
 
   void validarregistrar() {
     final form = formkey.currentState;
@@ -32,14 +37,13 @@ class _SettingsPageState extends State<SettingsPage> {
       form.save();
        businessData1
         .actualizarBusines(businessRuc, businessName, businessPhone, province,
-            canton, businessLocation, pathfoto, fotourl)
+            canton, businessLocation, pathfoto, fotourl,latitud,longitud)
         .then((value) {
       if (value) {
         _showDialog();
       } else {}
     });
     }
-   
   }
 
   // numero de Ruc
@@ -148,10 +152,11 @@ class _SettingsPageState extends State<SettingsPage> {
   String fotourl;
   var foto;
   String pathfoto;
+  bool verificarlocation=false;
 //
 //
 //
-
+List<Address> addresses;
   String cedula,
       nombres,
       apellidos,
@@ -511,12 +516,19 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Widget textFieldLocation(Size sizescreen, List<NegocioData> datos) {
+    if(verificarlocation==false)
+    {
+      controladorlocation.text=datos[0].ubicacion;
+    }
+   
     return Container(
       width: sizescreen.width * 0.85,
       //padding:EdgeInsets.all(3),
       child: Center(
         child: TextFormField(
-          initialValue: datos[0].ubicacion,
+          readOnly: true,
+          controller: controladorlocation,
+          //initialValue: datos[0].ubicacion,
           autofocus: false,
           keyboardType: TextInputType.text,
           textCapitalization: TextCapitalization.words,
@@ -533,6 +545,48 @@ class _SettingsPageState extends State<SettingsPage> {
             filled: true,
             fillColor: Colors.white,
           ),
+          onTap: () async {
+            LocationResult result=await showLocationPicker(
+                      context,
+                      'AIzaSyCDn9vfwQb0jtuzYp3ycFXgANvrTbmzwig',
+                      //initialCenter: LatLng(31.1975844, 29.9598339),
+//                      automaticallyAnimateToCurrentLocation: true,
+//                      mapStylePath: 'assets/mapStyle.json',
+                      myLocationButtonEnabled: false,
+                      requiredGPS: true,
+                      resultCardConfirmIcon: Icon(Icons.check),
+                      automaticallyAnimateToCurrentLocation: true,
+                      layersButtonEnabled: false,
+                      initialZoom: 16.0,
+                      //countries: ['AE', 'NG'],
+                      // searchBarBoxDecoration: BoxDecoration(
+                      //   color:Colors.white,
+                      //   image: DecorationImage(
+                      //     image: AssetImage('assets/title.png'),
+                      //     fit: BoxFit.fill,
+                      //     scale:sizescreen.height * 0.1
+                      //   ),
+                      //),
+                     resultCardAlignment: Alignment.bottomCenter,
+                      //desiredAccuracy: LocationAccuracy.best,
+                     
+                    );
+                    if(result!=null)
+                    {
+                       final coordinates = new Coordinates(result.latLng.latitude, result.latLng.longitude);
+                       addresses=await Geocoder.local.findAddressesFromCoordinates(coordinates);
+                       var first = addresses.first;
+                       setState(() {
+                         verificarlocation=true;
+                         //controladorlocation.text="";
+                         controladorlocation.text=first.addressLine;
+                         latitud=result.latLng.latitude;
+                         longitud=result.latLng.longitude;
+                       });
+
+                      
+                    }
+          },
           validator: (value) => value.isEmpty
               ? 'Este campo no puede estar vacío'
               : !validate(value)

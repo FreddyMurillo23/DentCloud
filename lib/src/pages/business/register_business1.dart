@@ -1,9 +1,16 @@
-import 'package:flutter/material.dart' show Align, Alignment, AppBar, AssetImage, Axis, BorderRadius, BorderSide, BoxDecoration, BoxFit, BoxShape, Brightness, BuildContext, ButtonTheme, Center, ClipRRect, Color, Colors, Column, Container, DecorationImage, EdgeInsets, FadeInImage, FileImage, FontWeight, Form, FormState, GlobalKey, Icon, IconButton, Icons, Image, InputDecoration, Key, LinearGradient, Material, MediaQuery, ModalRoute, Navigator, Offset, OutlineInputBorder, Padding, Positioned, Radius, RaisedButton, RoundedRectangleBorder, Route, Row, Scaffold, SingleChildScrollView, Size, SizedBox, SlideTransition, Stack, State, StatefulWidget, Text, TextCapitalization, TextFormField, TextInputType, TextStyle, Tween, Widget, showGeneralDialog;
+import 'dart:ffi';
+
+import 'package:flutter/material.dart' show Align, Alignment, AppBar, AssetImage, Axis, BorderRadius, BorderSide, BoxDecoration, BoxFit, BoxShape, Brightness, BuildContext, ButtonTheme, Center, ClipRRect, Color, Colors, Column, Container, DecorationImage, EdgeInsets, FadeInImage, FileImage, FontWeight, Form, FormState, GlobalKey, Icon, IconButton, Icons, Image, InputDecoration, Key, LinearGradient, Material, MediaQuery, ModalRoute, Navigator, Offset, OutlineInputBorder, Padding, Positioned, Radius, RaisedButton, RoundedRectangleBorder, Route, Row, Scaffold, SingleChildScrollView, Size, SizedBox, SlideTransition, Stack, State, StatefulWidget, Text, TextCapitalization, TextEditingController, TextFormField, TextInputType, TextStyle, Tween, Widget, showGeneralDialog;
+//import 'package:geocoder/geocoder.dart';
+import 'package:geocoder/model.dart';
+import 'package:geocoder/geocoder.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:gradient_text/gradient_text.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/providers/data_provider.dart';
+import 'package:google_map_location_picker/google_map_location_picker.dart';
+
 
 
 class RegisterBusiness extends StatefulWidget {
@@ -16,7 +23,7 @@ class RegisterBusiness extends StatefulWidget {
 class _RegisterBusinessState extends State<RegisterBusiness> {
   final formkey = new GlobalKey<FormState>();
    DataProvider businessData= new DataProvider();
-
+   TextEditingController controladorlocation=TextEditingController();
   var foto;
   String pathfoto;
   void validarregistrar() {
@@ -26,7 +33,7 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
       form.save();
     }
   
-    DataProvider.registrar_negocio(email, businessRuc, businessName, businessPhone, province, canton, businessLocation, pathfoto).then((value) {
+    DataProvider.registrar_negocio(email, businessRuc, businessName, businessPhone, province, canton, businessLocation, pathfoto,latitud,longitud).then((value) {
      if(value){
        Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
      }
@@ -71,7 +78,10 @@ bool validateLocalizcion(String value){
 
 
   String businessRuc, businessName, businessPhone, province, canton;
+  double latitud,longitud;
   String businessLocation,email;
+
+  List<Address> addresses;
   @override
   Widget build(BuildContext context) {
     CurrentUsuario userinfo = ModalRoute.of(context).settings.arguments;
@@ -216,11 +226,59 @@ bool validateLocalizcion(String value){
       //padding:EdgeInsets.all(3),
       child: Center(
         child: TextFormField(
+           controller: controladorlocation,
+           readOnly: true,
           autofocus: false,
+          onTap: () async {
+              LocationResult result=await showLocationPicker(
+                      context,
+                      'AIzaSyCDn9vfwQb0jtuzYp3ycFXgANvrTbmzwig',
+                      //initialCenter: LatLng(31.1975844, 29.9598339),
+//                      automaticallyAnimateToCurrentLocation: true,
+//                      mapStylePath: 'assets/mapStyle.json',
+                      myLocationButtonEnabled: false,
+                      requiredGPS: true,
+                      resultCardConfirmIcon: Icon(Icons.check),
+                      automaticallyAnimateToCurrentLocation: true,
+                      layersButtonEnabled: false,
+                      initialZoom: 16.0,
+                      //countries: ['AE', 'NG'],
+                      // searchBarBoxDecoration: BoxDecoration(
+                      //   color:Colors.white,
+                      //   image: DecorationImage(
+                      //     image: AssetImage('assets/title.png'),
+                      //     fit: BoxFit.fill,
+                      //     scale:sizescreen.height * 0.1
+                      //   ),
+                      //),
+                     resultCardAlignment: Alignment.bottomCenter,
+                      //desiredAccuracy: LocationAccuracy.best,
+                     
+                    );
+                    if(result!=null)
+                    {
+                      
+                       final coordinates = new Coordinates(result.latLng.latitude, result.latLng.longitude);
+                       addresses=await Geocoder.local.findAddressesFromCoordinates(coordinates);
+                       var first = addresses.first;
+                       setState(() {
+                         controladorlocation.text=first.addressLine;
+                         latitud=result.latLng.latitude;
+                         longitud=result.latLng.longitude;
+                       });
+
+                      
+                    }
+    
+            //PermissionStatus permission = await LocationPermissions().requestPermissions();
+           
+                   
+                
+          },
           keyboardType: TextInputType.text,
           textCapitalization: TextCapitalization.words,
           decoration: InputDecoration(
-            labelText: "Localizacion",
+            labelText: "Seleccione una Localizacion",
             border: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(20)),
               borderSide: BorderSide(color: Colors.black),
@@ -374,8 +432,6 @@ bool validateLocalizcion(String value){
       ),
     );
   }
-
-  
 
   Widget _mostrarfotoperfil(Size sizescreen) {
     if (foto != null) {
