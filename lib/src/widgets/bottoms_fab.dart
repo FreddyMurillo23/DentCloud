@@ -1,3 +1,4 @@
+import 'package:ars_progress_dialog/ars_progress_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
@@ -9,8 +10,9 @@ class FancyFab extends StatefulWidget {
   final String path;
   final CurrentUsuario currentUsuario;
   final EventosModelo eventosModeloGlobal;
+  BuildContext contextHered;
 
-  FancyFab({this.onPressed, this.path, this.currentUsuario, this.eventosModeloGlobal, });
+  FancyFab({this.onPressed, this.path, this.currentUsuario, this.eventosModeloGlobal, this.contextHered});
 
   @override
   _FancyFabState createState() => _FancyFabState();
@@ -69,6 +71,8 @@ class _FancyFabState extends State<FancyFab>
       String tipo = "pdf";
       DateTime fecha = DateTime.now();
       String correo = currentUsuario.correo;
+      String path = await widget.path;
+      print(widget.path);
 
       final uri =
           Uri.parse("http://54.197.83.249/PHP_REST_API/api/post/post_documents.php?appointment_id=$idcita&document_description=$descripcion&document_type=$tipo&document_date=$fecha&user_email_doctor=$correo");
@@ -80,7 +84,7 @@ class _FancyFabState extends State<FancyFab>
       print("");
 
       if (response.statusCode == 200) {
-        print('ARCHIVO SUBIDA');
+        print('ARCHIVO SUBIDO');
         showDialog(
             context: context,
             barrierDismissible: false,

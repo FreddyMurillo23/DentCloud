@@ -58,6 +58,7 @@ dependencies:
   google_maps_webservice: ^0.0.6
   flutter_google_places: ^0.2.6
   firebase_messaging: ^7.0.3
+  ars_progress_dialog: ^0.1.2
   
 dev_dependencies:
   flutter_test:
