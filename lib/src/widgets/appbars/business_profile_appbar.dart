@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:muro_dentcloud/src/models/business_model.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
+import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
 import '../circle_button.dart';
 // import 'package:flutter/material.dart';
 
@@ -112,16 +113,15 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
   Widget section1(Size screensize, context) {
     return Padding(
       padding: EdgeInsets.only(
-        top: screensize.height * 0.089,
-        left:screensize.width * 0.04 ,
-        right: screensize.width * 0.04,
-        bottom: 10
-          ),
+          top: screensize.height * 0.050,
+          left: screensize.width * 0.04,
+          right: screensize.width * 0.04,
+          bottom: 10),
       child: Center(
         child: Column(
           children: [
             businessData(screensize, context),
-          profileButton(),
+            profileButton(),
 
             // widget.userinfo.tipoUsuario == 'D' ? profileButton() : Container()
           ],
@@ -158,39 +158,6 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
       ),
     );
   }
-
-  // Widget section2(Size screensize, context) {
-  //   return Padding(
-  //       padding: EdgeInsets.symmetric(vertical: 50, horizontal: 25),
-  //       child: Container(
-  //         decoration: BoxDecoration(
-  //           borderRadius: BorderRadius.circular(40.0),
-  //           color: Colors.white,
-  //           border: Border.all(
-  //               width: screensize.width * 0.01,
-  //               color: Colors.blueGrey.shade100),
-  //         ),
-  //         child: GestureDetector(
-  //           child: Column(
-  //             children: [
-  //               tilelist(),
-  //               Divider(
-  //                 height: 3,
-  //                 color: Colors.grey,
-  //                 thickness: 10,
-  //               ),
-  //               listContent(screensize),
-  //             ],
-  //           ),
-  //           onTap: () {
-  //            cargarDatos();
-  //             Navigator.pushNamed(context, 'serviciosNegocios',
-  //                 arguments: normal);
-  //           },
-  //         ),
-  //       ));
-  // }
-
   Widget profileButton() {
     return current
         ? editarPerfil()
@@ -236,12 +203,14 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
   }
 
   Widget editarPerfil() {
+    final prefs = new PreferenciasUsuario();
     return ShaderMask(
       shaderCallback: (rect) => LinearGradient(
               colors: [Color(0xFF81D4FA), Color(0xFF29B6F6), Color(0xFF039BE5)])
           .createShader(rect),
       child: RaisedButton(
         onPressed: () {
+          Navigator.pushNamed(context, 'settings',arguments: prefs.profileID);
           setState(() {});
         },
         child: Text('Editar Consultorio'),
@@ -341,7 +310,7 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
         child: Container(
           // height: screensize.height*0.15,
-          width: screensize.width * 0.38,
+          // width: screensize.width * 0.38,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(

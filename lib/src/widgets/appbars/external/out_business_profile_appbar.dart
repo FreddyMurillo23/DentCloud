@@ -1,9 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:muro_dentcloud/src/models/business_model.dart';
-import 'package:muro_dentcloud/src/models/current_user_model.dart';
-import '../../circle_button.dart';
 // import 'package:flutter/material.dart';
 
 class OutBusinessAppBar extends StatefulWidget {
@@ -101,7 +98,7 @@ class _OutBusinessAppBarState extends State<OutBusinessAppBar> {
   Widget section1(Size screensize, context) {
     return Padding(
       padding: EdgeInsets.only(
-        top: screensize.height * 0.089,
+        top: screensize.height * 0.078,
         left:screensize.width * 0.04 ,
         right: screensize.width * 0.04,
           ),
@@ -259,78 +256,4 @@ class _OutBusinessAppBarState extends State<OutBusinessAppBar> {
           fontWeight: FontWeight.bold, color: Colors.lightBlue, fontSize: 18),
     );
   }
-
-  // Widget listContent(Size screensize) {
-  //   return Expanded(
-  //     child: Container(
-  //       alignment: Alignment.topCenter,
-  //       // height: screensize.height * 0.30,
-  //       width: screensize.width * 0.36,
-  //       color: Colors.transparent,
-  //       child: ListView.builder(
-  //           padding: const EdgeInsets.symmetric(
-  //             horizontal: 5,
-  //           ),
-  //           itemCount: widget.userinfo.openServicios.length,
-  //           itemBuilder: (BuildContext context, int index) {
-  //             if (widget.userinfo.openServicios.length == 0) {
-  //               return Container(
-  //                 child: Column(
-  //                   children: [
-  //                     Container(
-  //                       // height: screensize.height * 0.14,
-  //                       decoration: BoxDecoration(
-  //                         borderRadius: BorderRadius.circular(40.0),
-  //                         color: Colors.white,
-  //                         border: Border.all(
-  //                             width: screensize.width * 0.01,
-  //                             color: Colors.blueGrey.shade100),
-  //                       ),
-  //                       child: ClipRRect(
-  //                         child: FadeInImage(
-  //                           image: AssetImage('assets/logo.png'),
-  //                           placeholder: AssetImage('assets/loading.gif'),
-  //                           fit: BoxFit.cover,
-  //                         ),
-  //                         borderRadius: BorderRadius.circular(40.0),
-  //                       ),
-  //                     ),
-  //                     Text('No hay recientes')
-  //                   ],
-  //                 ),
-  //               );
-  //             } else {
-  //               print(widget.userinfo.openServicios[index].servicio);
-
-  //               return Container(
-  //                 child: Column(
-  //                   children: [
-  //                     Container(
-  //                       height: screensize.height * 0.14,
-  //                       decoration: BoxDecoration(
-  //                         borderRadius: BorderRadius.circular(40.0),
-  //                         color: Colors.white,
-  //                         border: Border.all(
-  //                             width: screensize.width * 0.01,
-  //                             color: Colors.blueGrey.shade100),
-  //                       ),
-  //                       child: ClipRRect(
-  //                         child: FadeInImage(
-  //                           image: NetworkImage(widget
-  //                               .userinfo.openServicios[index].imagenServicio),
-  //                           placeholder: AssetImage('assets/loading.gif'),
-  //                           fit: BoxFit.cover,
-  //                         ),
-  //                         borderRadius: BorderRadius.circular(40.0),
-  //                       ),
-  //                     ),
-  //                     Text('${widget.userinfo.openServicios[index].servicio}')
-  //                   ],
-  //                 ),
-  //               );
-  //             }
-  //           }),
-  //     ),
-  //   );
-  // }
 }

@@ -59,6 +59,7 @@ dependencies:
   flutter_google_places: ^0.2.6
   firebase_messaging: ^7.0.3
   ars_progress_dialog: ^0.1.2
+  scroll_to_index: ^1.0.6
   
 dev_dependencies:
   flutter_test:
