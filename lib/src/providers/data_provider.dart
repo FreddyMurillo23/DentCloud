@@ -5,6 +5,7 @@ import 'package:muro_dentcloud/src/models/apointments_model.dart';
 import 'package:muro_dentcloud/src/models/business_model.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/drougs_model.dart';
+import 'package:muro_dentcloud/src/models/follow_response.dart';
 import 'package:muro_dentcloud/src/models/follows_model.dart';
 import 'package:muro_dentcloud/src/models/list_message_model.dart';
 import 'package:muro_dentcloud/src/models/publications_model.dart';
@@ -135,6 +136,44 @@ class DataProvider {
     print(decodedData['negocio_datos']);
     // print(decodedData['usuario']);
     return data.items;
+  }
+
+  Future<bool> isFollowing(String userEmail, String otro) async {
+    Uri uri = Uri.parse(
+        'http://54.197.83.249/PHP_REST_API/api/put/put_followed_user.php?');
+    Map<String, dynamic> _queryParams = {};
+    _queryParams['user_email'] = userEmail;
+    _queryParams['user_email_people'] = otro;
+    _queryParams['followers_date'] = DateTime.now().toString();
+    uri = uri.replace(queryParameters: _queryParams);
+    print(uri);
+    final resp2 = await http.get(uri);
+    final decodedData = json.decode(resp2.body);
+    // decodedData.map((data)=>data as List);
+    final data =
+        FollowStateList.fromJsonList(decodedData['respuesta_obtenida']);
+    // print(decodedData['usuario']);
+    print(data.items[0].status);
+    return data.items[0].status;
+  }
+
+  Future<bool> isFollowingBusiness(String userEmail, String otro) async {
+    Uri uri = Uri.parse(
+        'http://54.197.83.249/PHP_REST_API/api/put/put_followed_user.php?');
+    Map<String, dynamic> _queryParams = {};
+    _queryParams['user_email'] = userEmail;
+    _queryParams['user_email_people'] = otro;
+    _queryParams['followers_date'] = DateTime.now().toString();
+    uri = uri.replace(queryParameters: _queryParams);
+    print(uri);
+    final resp2 = await http.get(uri);
+    final decodedData = json.decode(resp2.body);
+    // decodedData.map((data)=>data as List);
+    final data =
+        FollowStateList.fromJsonList(decodedData['respuesta_obtenida']);
+    // print(decodedData['usuario']);
+    print(data.items[0].status);
+    return data.items[0].status;
   }
 
   Future<bool> registrarEventos(String ruc, String email, String user,

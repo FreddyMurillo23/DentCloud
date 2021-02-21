@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:muro_dentcloud/src/models/business_model.dart';
+import 'package:muro_dentcloud/src/providers/data_provider.dart';
+import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
 // import 'package:flutter/material.dart';
 
 class OutBusinessAppBar extends StatefulWidget {
@@ -12,6 +14,8 @@ class OutBusinessAppBar extends StatefulWidget {
 }
 
 class _OutBusinessAppBarState extends State<OutBusinessAppBar> {
+  final p = DataProvider();
+  final prefs = PreferenciasUsuario();
   bool current = true;
   //*true = currentLoginProfile
   //!false = OutProfile
@@ -192,14 +196,23 @@ class _OutBusinessAppBarState extends State<OutBusinessAppBar> {
   }
 
   Widget profileButton() {
-    return current
-        ? editarPerfil()
-        : AnimatedSwitcher(
-            duration: const Duration(seconds: 1),
-            switchOutCurve: Curves.easeOutExpo,
-            switchInCurve: Curves.easeInExpo,
-            child: follow ? seguir() : seguido(),
-          );
+    return  
+      FutureBuilder(
+          future: p.isFollowingBusiness(prefs.currentCorreo, widget.userinfo.ruc),
+          builder: (context, AsyncSnapshot<bool> snapshot) {
+            if (snapshot.hasData) {
+              follow = snapshot.data;
+              return AnimatedSwitcher(
+                duration: const Duration(seconds: 1),
+                switchOutCurve: Curves.easeOutExpo,
+                switchInCurve: Curves.easeInExpo,
+                child: follow ? seguido() : seguir(),
+              );
+            } else {
+              return CircularProgressIndicator();
+            }
+          }
+        );
     // return editarPerfil();
   }
 

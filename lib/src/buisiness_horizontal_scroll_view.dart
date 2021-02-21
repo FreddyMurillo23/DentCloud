@@ -144,7 +144,7 @@ class _CreateRoomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return OutlineButton(
       onPressed: () {
-        Navigator.pushNamed(context, 'registerEmploye',
+        Navigator.pushNamed(context, 'businessDoctorServices',
                           arguments:business);
       }, //! aqui va un Navigator
       shape: RoundedRectangleBorder(
@@ -165,14 +165,14 @@ class _CreateRoomButton extends StatelessWidget {
               Color(0xFF1777F2)
             ]).createShader(rect),
             child: Icon(
-              Icons.add_box,
+              Icons.person_search,
               size: 35.0,
               color: Colors.white,
             ),
           ),
           const SizedBox(width: 4.0),
           Text(
-            'Agregar\npersonal',
+            'Ver\ntodos',
             textAlign: TextAlign.center,
           ), //! Aqui va un dato
         ],
