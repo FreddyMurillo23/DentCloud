@@ -130,7 +130,7 @@ class _RecipeTestState extends State<RecipeTest> {
 
     String fullPath = "$documentPath/$ruta.pdf";
     rutaFuture = fullPath;
-
+    path = rutaFuture;
     return rutaFuture;
     
   }
@@ -277,8 +277,12 @@ class _RecipeTestState extends State<RecipeTest> {
   }
 
   Widget build(BuildContext context) {
-
-    
+    nombreArchivo = 'recipe';
+    archivo = widget.eventosModeloGlobal.nombrePaciente;
+    ruta = nombreArchivo+''+archivo;
+    controladorRuta.text = ruta;
+    fechaDocumento.text = fechaPDF();
+    rutaPDF(ruta);
 
     return GestureDetector(
         onTap: (){
@@ -349,9 +353,10 @@ class _RecipeTestState extends State<RecipeTest> {
             onPressed: (){
               procesoChungo();
             }, 
-            currentUsuario: widget.currentuser,
-            eventosModeloGlobal: widget.eventosModeloGlobal,
             path: path,
+            currentUsuario: widget.currentuser,
+            eventosModeloGlobal: widget.eventosModeloGlobal,    
+            contextHered: context,
           ),
 
       ),

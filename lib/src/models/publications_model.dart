@@ -62,7 +62,8 @@ class Publicacion {
   //? /1 Para connvertir a double y .cast<int>() para lista de items
   //? fromJsonMap extrae los datos del json y los envia a las variables de la clase y los convierte en un mapa de datos.
   Publicacion.fromJsonMap(Map<String, dynamic> json) {
-    usuario = json['usuario'];
+    try{
+      usuario = json['usuario'];
     descripcion = json['descripcion'];
     archivo = json['archivo'];
     fecha = DateTime.parse(json['fecha'].toString());
@@ -86,6 +87,10 @@ class Publicacion {
         comentarios.add(com);
       }
     }
+    }catch(e){
+      print(e);
+    }
+    
     // print(fecha);
   }
 

@@ -11,6 +11,8 @@ import 'package:muro_dentcloud/src/widgets/horizontal_scroll_view.dart';
 import 'package:muro_dentcloud/src/widgets/horizontal_scroll_viewbusiness.dart';
 import 'package:muro_dentcloud/src/widgets/appbars/profile_appbar.dart';
 
+import '../../buisiness_horizontal_scroll_view.dart';
+
 class OutBusinessProfile extends StatefulWidget {
 
   const OutBusinessProfile({Key key,}) : super(key: key);
@@ -34,6 +36,7 @@ class _OutBusinessProfileState extends State<OutBusinessProfile> {
         builder: (BuildContext context, AsyncSnapshot<List> businessinfo) {
           if (businessinfo.hasData) {
             return Scaffold(
+              backgroundColor: Colors.white,
               // drawer: NavDrawer(currentuser: widget.currentuser),
               body: FutureBuilder(
                   future: publicacionesProvider.getPublicacionesByRuc(
@@ -50,7 +53,7 @@ class _OutBusinessProfileState extends State<OutBusinessProfile> {
                           padding:
                               const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 5.0),
                           sliver: SliverToBoxAdapter(
-                            child: BusinessRooms(
+                            child: OutBusinessRooms(
                               businessinfo: businessinfo.data[0],
                             ),
                           ),

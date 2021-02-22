@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
+import 'package:muro_dentcloud/src/providers/data_provider.dart';
+import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
 import '../../circle_button.dart';
 // import 'package:flutter/material.dart';
 
@@ -14,15 +16,17 @@ class OutProfileAppBar extends StatefulWidget {
 }
 
 class _OutProfileAppBarState extends State<OutProfileAppBar> {
+  final p = DataProvider();
+  final prefs = PreferenciasUsuario();
   bool current = true;
   //*true = currentLoginProfile
   //!false = OutProfile
-  
-  bool follow = true;
+
+  bool follow = false;
   //*true = U allready follow that profile
   //!false = u dont follow that profile
 
-  bool profileType = true;  
+  bool profileType = true;
   //*true = CORREO
   //!false = RUC
   @override
@@ -37,49 +41,49 @@ class _OutProfileAppBarState extends State<OutProfileAppBar> {
       pinned: true,
       centerTitle: true,
       title: Container(
-          decoration: BoxDecoration(
-              border: Border.all(width: 3, color: Colors.blueGrey.shade100,),
-              borderRadius: BorderRadius.circular(10.0),
-              color: Colors.white),
-          // width: _screenSize.width * 1,
-          height: _screenSize.height * 0.045,
-          // color: Colors.white,
-          child: ClipRRect(
-            borderRadius: 
-        BorderRadius.vertical(bottom: Radius.circular(80)),
-            child: Text(
-              widget.userinfo.tipoUsuario == 'D'
-                  ? widget.userinfo.sexo == 'F'
-                      ? '  Dra. ${widget.userinfo.nombres} ${widget.userinfo.apellidos}  '
-                      : '  Dr.  ${widget.userinfo.nombres} ${widget.userinfo.apellidos}  '
-                  : '  ${widget.userinfo.nombres} ${widget.userinfo.apellidos}  ',
-              style: TextStyle(
-                color: Colors.grey[600],
-                fontSize: 25.0,
-                fontWeight: FontWeight.bold,
-                letterSpacing: -1.2,
-              ),
-              overflow: TextOverflow.ellipsis,
+        decoration: BoxDecoration(
+            border: Border.all(
+              width: 3,
+              color: Colors.blueGrey.shade100,
             ),
+            borderRadius: BorderRadius.circular(10.0),
+            color: Colors.white),
+        // width: _screenSize.width * 1,
+        height: _screenSize.height * 0.045,
+        // color: Colors.white,
+        child: ClipRRect(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(80)),
+          child: Text(
+            widget.userinfo.tipoUsuario == 'D'
+                ? widget.userinfo.sexo == 'F'
+                    ? '  Dra. ${widget.userinfo.nombres} ${widget.userinfo.apellidos}  '
+                    : '  Dr.  ${widget.userinfo.nombres} ${widget.userinfo.apellidos}  '
+                : '  ${widget.userinfo.nombres} ${widget.userinfo.apellidos}  ',
+            style: TextStyle(
+              color: Colors.grey[600],
+              fontSize: 25.0,
+              fontWeight: FontWeight.bold,
+              letterSpacing: -1.2,
+            ),
+            overflow: TextOverflow.ellipsis,
           ),
         ),
+      ),
       flexibleSpace: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
           decoration: BoxDecoration(
-          borderRadius: BorderRadius.vertical(bottom: Radius.circular(80)),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-                // color: Colors.grey[500],
-                color: Colors.lightBlue,
-                blurRadius: 15.0,
-                spreadRadius: 1.0,
-                offset: Offset(0.0, 0.0))
-          ]
-        ),
+              borderRadius: BorderRadius.vertical(bottom: Radius.circular(80)),
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                    // color: Colors.grey[500],
+                    color: Colors.lightBlue,
+                    blurRadius: 15.0,
+                    spreadRadius: 1.0,
+                    offset: Offset(0.0, 0.0))
+              ]),
           child: ClipRRect(
-            borderRadius: 
-            BorderRadius.vertical(bottom: Radius.circular(80)),
+            borderRadius: BorderRadius.vertical(bottom: Radius.circular(80)),
             child: FlexibleSpaceBar(
               centerTitle: true,
               titlePadding: EdgeInsets.fromLTRB(10, 50, 100, 5),
@@ -104,24 +108,25 @@ class _OutProfileAppBarState extends State<OutProfileAppBar> {
         ),
       ),
       floating: false,
-      
     );
   }
 
-   Widget section1(Size screensize, context) {
+  Widget section1(Size screensize, context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
+      padding: EdgeInsets.only(
+          top: screensize.height * 0.069,
+          left: screensize.width * 0.04,
+          right: screensize.width * 0.04,
+          bottom: 10),
       child: Center(
         child: Column(
-          children: [
-            profileData(screensize, context),
-            profileButton()
-          ],
+          children: [profileData(screensize, context), profileButton()],
         ),
       ),
     );
   }
-     profileData(Size screensize, context) {
+
+  profileData(Size screensize, context) {
     return Card(
       elevation: 10,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
@@ -132,23 +137,26 @@ class _OutProfileAppBarState extends State<OutProfileAppBar> {
           child: Column(
             children: <Widget>[
               Container(
-              height: screensize.height * 0.2,
-              width: screensize.width * 0.4,
-              decoration: BoxDecoration(
-                border: Border.all(width: 5, color: Colors.lightBlue.shade300),
-                borderRadius: BorderRadius.circular(100.0),
-                color: Colors.white,
-              ),
-              child: ClipRRect(
-                child: FadeInImage(
-                  image: NetworkImage(widget.userinfo.fotoPerfil),
-                  placeholder: AssetImage('assets/loading.gif'),
-                  fit: BoxFit.cover,
+                height: screensize.height * 0.2,
+                width: screensize.width * 0.4,
+                decoration: BoxDecoration(
+                  border:
+                      Border.all(width: 5, color: Colors.lightBlue.shade300),
+                  borderRadius: BorderRadius.circular(100.0),
+                  color: Colors.white,
                 ),
-                borderRadius: BorderRadius.circular(100.0),
+                child: ClipRRect(
+                  child: FadeInImage(
+                    image: NetworkImage(widget.userinfo.fotoPerfil),
+                    placeholder: AssetImage('assets/loading.gif'),
+                    fit: BoxFit.cover,
+                  ),
+                  borderRadius: BorderRadius.circular(100.0),
+                ),
               ),
-            ),
-            SizedBox(height: screensize.height*0.015,),
+              SizedBox(
+                height: screensize.height * 0.015,
+              ),
               Text(
                 widget.userinfo.tipoUsuario == 'D'
                     ? '${widget.userinfo.profesion}\n\n${widget.userinfo.correo}\n${widget.userinfo.ciudadResidencia}\n${widget.userinfo.celular}'
@@ -163,19 +171,28 @@ class _OutProfileAppBarState extends State<OutProfileAppBar> {
   }
 
   Widget profileButton() {
-    return 
-    // current
-    //     ? editarPerfil()
-        // : 
+    return
+        // current
+        //     ? editarPerfil()
+        // :
         Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: AnimatedSwitcher(
-              duration: const Duration(seconds: 1),
-              switchOutCurve: Curves.easeOutExpo,
-              switchInCurve: Curves.easeInExpo,
-              child: follow ? seguir() : seguido(),
-            ),
-        );
+      padding: const EdgeInsets.all(8.0),
+      child: FutureBuilder(
+          future:
+              p.validateIsFollow(prefs.currentCorreo, widget.userinfo.correo),
+          builder: (context, AsyncSnapshot<bool> snapshot) {
+            if (snapshot.hasData) {
+              return AnimatedSwitcher(
+                duration: const Duration(seconds: 1),
+                switchOutCurve: Curves.easeOutExpo,
+                switchInCurve: Curves.easeInExpo,
+                child: snapshot.data ? seguido() : seguir(),
+              );
+            } else {
+              return CircularProgressIndicator();
+            }
+          }),
+    );
     // return editarPerfil();
   }
 
@@ -185,10 +202,9 @@ class _OutProfileAppBarState extends State<OutProfileAppBar> {
               colors: [Color(0xFF81D4FA), Color(0xFF29B6F6), Color(0xFF039BE5)])
           .createShader(rect),
       child: RaisedButton(
-        onPressed: () {
-          setState(() {
-            follow = !follow;
-          });
+        onPressed: ()async  {
+          await p.isFollowing(prefs.currentCorreo, widget.userinfo.correo);
+          setState(() {});
         },
         child: Text('Seguir'),
       ),
@@ -201,10 +217,10 @@ class _OutProfileAppBarState extends State<OutProfileAppBar> {
               colors: [Color(0xFF81D4FA), Color(0xFF29B6F6), Color(0xFF039BE5)])
           .createShader(rect),
       child: RaisedButton(
-        onPressed: () {
-          setState(() {
-            follow = !follow;
-          });
+        onPressed: () async {
+          await p.isFollowing(prefs.currentCorreo, widget.userinfo.correo);
+
+          setState(() {});
         },
         child: Text('Seguido'),
       ),
@@ -225,7 +241,7 @@ class _OutProfileAppBarState extends State<OutProfileAppBar> {
     );
   }
 
- Widget tilelist() {
+  Widget tilelist() {
     return profileType
         ? Text(
             'Recientes',

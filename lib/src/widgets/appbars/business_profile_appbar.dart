@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:muro_dentcloud/src/models/business_model.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
+import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
 import '../circle_button.dart';
 // import 'package:flutter/material.dart';
 
@@ -40,7 +41,7 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
     final _screenSize = MediaQuery.of(context).size;
     return SliverAppBar(
       // elevation: 2.0,
-      expandedHeight: _screenSize.height * 0.50,
+      expandedHeight: _screenSize.height * 0.55,
       brightness: Brightness.dark,
       backgroundColor: Colors.white,
       centerTitle: true,
@@ -71,35 +72,38 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
           ),
         ),
       ),
-      flexibleSpace: Container(
-        decoration: BoxDecoration(
+      flexibleSpace: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.vertical(bottom: Radius.circular(80)),
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                    // color: Colors.grey[500],
+                    color: Colors.lightBlue,
+                    blurRadius: 15.0,
+                    spreadRadius: 1.0,
+                    offset: Offset(0.0, 0.0))
+              ]),
+          child: ClipRRect(
             borderRadius: BorderRadius.vertical(bottom: Radius.circular(80)),
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                  // color: Colors.grey[500],
-                  color: Colors.lightBlue,
-                  blurRadius: 15.0,
-                  spreadRadius: 1.0,
-                  offset: Offset(0.0, 0.0))
-            ]),
-        child: ClipRRect(
-          borderRadius: BorderRadius.vertical(bottom: Radius.circular(80)),
-          child: FlexibleSpaceBar(
-            centerTitle: true,
-            titlePadding: EdgeInsets.fromLTRB(10, 50, 100, 5),
-            background: Container(
-                child: Stack(
-              fit: StackFit.expand,
-              children: [
-                Image(
-                  image: AssetImage('assets/fondo.jpg'),
-                  fit: BoxFit.cover,
-                ),
-                section1(_screenSize, context)
-              ],
-            )
-                //
-                ),
+            child: FlexibleSpaceBar(
+              centerTitle: true,
+              titlePadding: EdgeInsets.fromLTRB(10, 50, 100, 5),
+              background: Container(
+                  child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  Image(
+                    image: AssetImage('assets/fondo.jpg'),
+                    fit: BoxFit.cover,
+                  ),
+                  section1(_screenSize, context)
+                ],
+              )
+                  //
+                  ),
+            ),
           ),
         ),
       ),
@@ -108,11 +112,17 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
 
   Widget section1(Size screensize, context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
+      padding: EdgeInsets.only(
+          top: screensize.height * 0.050,
+          left: screensize.width * 0.04,
+          right: screensize.width * 0.04,
+          bottom: 10),
       child: Center(
         child: Column(
           children: [
             businessData(screensize, context),
+            profileButton(),
+
             // widget.userinfo.tipoUsuario == 'D' ? profileButton() : Container()
           ],
         ),
@@ -143,98 +153,67 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
             ),
           ),
           businessData(screensize, context),
-          // profileButton(),
+          profileButton(),
         ],
       ),
     );
   }
+  Widget profileButton() {
+    return current
+        ? editarPerfil()
+        : AnimatedSwitcher(
+            duration: const Duration(seconds: 1),
+            switchOutCurve: Curves.easeOutExpo,
+            switchInCurve: Curves.easeInExpo,
+            child: follow ? seguir() : seguido(),
+          );
+    // return editarPerfil();
+  }
 
-  // Widget section2(Size screensize, context) {
-  //   return Padding(
-  //       padding: EdgeInsets.symmetric(vertical: 50, horizontal: 25),
-  //       child: Container(
-  //         decoration: BoxDecoration(
-  //           borderRadius: BorderRadius.circular(40.0),
-  //           color: Colors.white,
-  //           border: Border.all(
-  //               width: screensize.width * 0.01,
-  //               color: Colors.blueGrey.shade100),
-  //         ),
-  //         child: GestureDetector(
-  //           child: Column(
-  //             children: [
-  //               tilelist(),
-  //               Divider(
-  //                 height: 3,
-  //                 color: Colors.grey,
-  //                 thickness: 10,
-  //               ),
-  //               listContent(screensize),
-  //             ],
-  //           ),
-  //           onTap: () {
-  //            cargarDatos();
-  //             Navigator.pushNamed(context, 'serviciosNegocios',
-  //                 arguments: normal);
-  //           },
-  //         ),
-  //       ));
-  // }
-
-  // Widget profileButton() {
-  //   return current
-  //       ? editarPerfil()
-  //       : AnimatedSwitcher(
-  //           duration: const Duration(seconds: 1),
-  //           switchOutCurve: Curves.easeOutExpo,
-  //           switchInCurve: Curves.easeInExpo,
-  //           child: follow ? seguir() : seguido(),
-  //         );
-  //   // return editarPerfil();
-  // }
-
-  // Widget seguir() {
-  //   return ShaderMask(
-  //     shaderCallback: (rect) => LinearGradient(
-  //             colors: [Color(0xFF81D4FA), Color(0xFF29B6F6), Color(0xFF039BE5)])
-  //         .createShader(rect),
-  //     child: RaisedButton(
-  //       onPressed: () {
-  //         setState(() {
-  //           follow = !follow;
-  //         });
-  //       },
-  //       child: Text('Seguir'),
-  //     ),
-  //   );
-  // }
-
-  // Widget seguido() {
-  //   return ShaderMask(
-  //     shaderCallback: (rect) => LinearGradient(
-  //             colors: [Color(0xFF81D4FA), Color(0xFF29B6F6), Color(0xFF039BE5)])
-  //         .createShader(rect),
-  //     child: RaisedButton(
-  //       onPressed: () {
-  //         setState(() {
-  //           follow = !follow;
-  //         });
-  //       },
-  //       child: Text('Seguido'),
-  //     ),
-  //   );
-  // }
-
-  Widget editarPerfil() {
+  Widget seguir() {
     return ShaderMask(
       shaderCallback: (rect) => LinearGradient(
               colors: [Color(0xFF81D4FA), Color(0xFF29B6F6), Color(0xFF039BE5)])
           .createShader(rect),
       child: RaisedButton(
         onPressed: () {
+          setState(() {
+            follow = !follow;
+          });
+        },
+        child: Text('Seguir'),
+      ),
+    );
+  }
+
+  Widget seguido() {
+    return ShaderMask(
+      shaderCallback: (rect) => LinearGradient(
+              colors: [Color(0xFF81D4FA), Color(0xFF29B6F6), Color(0xFF039BE5)])
+          .createShader(rect),
+      child: RaisedButton(
+        onPressed: () {
+          setState(() {
+            follow = !follow;
+          });
+        },
+        child: Text('Seguido'),
+      ),
+    );
+  }
+
+  Widget editarPerfil() {
+    final prefs = new PreferenciasUsuario();
+    return ShaderMask(
+      shaderCallback: (rect) => LinearGradient(
+              colors: [Color(0xFF81D4FA), Color(0xFF29B6F6), Color(0xFF039BE5)])
+          .createShader(rect),
+      child: RaisedButton(
+        onPressed: () {
+          Navigator.pushNamed(context, 'settings',arguments: prefs.profileID);
           setState(() {});
         },
-        child: Text('Editar Perfil'),
+        child: Text('Editar Consultorio'),
       ),
     );
   }
@@ -331,7 +310,7 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
         child: Container(
           // height: screensize.height*0.15,
-          width: screensize.width * 0.38,
+          // width: screensize.width * 0.38,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(

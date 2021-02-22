@@ -103,7 +103,12 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
 
   Widget section1(Size screensize, context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
+     padding: EdgeInsets.only(
+        top: screensize.height * 0.068,
+        left:screensize.width * 0.04 ,
+        right: screensize.width * 0.04,
+        bottom: 10
+          ),
       child: Center(
         child: Column(
           children: [
@@ -171,7 +176,7 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
       elevation: 10,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
       child: Container(
-        width: screensize.width * 0.40,
+        // width: screensize.width * 0.40,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
