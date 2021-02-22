@@ -37,6 +37,22 @@ class DataProvider {
     return publicaciones.items;
   }
 
+  Future<List<Publicacion>> getPublicacionesUsuario(String correo) async {
+    final url =
+        'http://54.197.83.249/PHP_REST_API/api/get/get_publications_by_user.php?user_email=$correo';
+    //? Solicitud http.get + url
+    print(url);
+    final resp = await http.get(url);
+    //? decodificacion de la data json.decode
+    final decodedData = json.decode(resp.body);
+    // print(decodedData);
+    final publicaciones =
+        new Publicaciones.fromJsonList(decodedData['publicaciones_usuario']);
+    // print(publicaciones.items[0].usuario);
+    // print(publicaciones.items);
+    return publicaciones.items;
+  }
+
   Future<List<Publicacion>> getPublicacionesByUser(
       List<UserPublicacion> id) async {
     List<Publicacion> public = new List();
@@ -164,6 +180,45 @@ class DataProvider {
     _queryParams['business_ruc'] = otro;
     _queryParams['user_email_people'] = userEmail;
     _queryParams['followers_date'] = DateTime.now().toString();
+    uri = uri.replace(queryParameters: _queryParams);
+    print(uri);
+    final resp2 = await http.get(uri);
+    final decodedData = json.decode(resp2.body);
+    // decodedData.map((data)=>data as List);
+    final data =
+        FollowStateList.fromJsonList(decodedData['respuesta_obtenida']);
+    // print(decodedData['usuario']);
+    print(data.items[0].status);
+    return data.items[0].status;
+  }
+
+  Future<bool> validateIsFollow(String userEmail, String otro) async {
+    Uri uri = Uri.parse(
+        'http://54.197.83.249/PHP_REST_API/api/put/validate_if_followed.php?');
+    Map<String, dynamic> _queryParams = {};
+    _queryParams['user_email'] = userEmail;
+    _queryParams['user_email_people'] = otro;
+    // _queryParams['followers_date'] = DateTime.now().toString();
+    uri = uri.replace(queryParameters: _queryParams);
+    print(uri);
+    final resp2 = await http.get(uri);
+    final decodedData = json.decode(resp2.body);
+    // decodedData.map((data)=>data as List);
+    final data =
+        FollowStateList.fromJsonList(decodedData['respuesta_obtenida']);
+    // print(decodedData['usuario']);
+    print(data.items[0].status);
+    return data.items[0].status;
+  }
+
+  Future<bool> validateIsFollowingBusiness(
+      String userEmail, String otro) async {
+    Uri uri = Uri.parse(
+        'http://54.197.83.249/PHP_REST_API/api/put/validate_if_business_followed.php?');
+    Map<String, dynamic> _queryParams = {};
+    _queryParams['business_ruc'] = otro;
+    _queryParams['user_email_people'] = userEmail;
+    // _queryParams['followers_date'] = DateTime.now().toString();
     uri = uri.replace(queryParameters: _queryParams);
     print(uri);
     final resp2 = await http.get(uri);

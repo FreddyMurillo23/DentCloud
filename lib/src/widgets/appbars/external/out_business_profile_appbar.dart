@@ -103,9 +103,9 @@ class _OutBusinessAppBarState extends State<OutBusinessAppBar> {
     return Padding(
       padding: EdgeInsets.only(
         top: screensize.height * 0.078,
-        left:screensize.width * 0.04 ,
+        left: screensize.width * 0.04,
         right: screensize.width * 0.04,
-          ),
+      ),
       child: Column(
         children: [
           businessData(screensize, context),
@@ -196,23 +196,22 @@ class _OutBusinessAppBarState extends State<OutBusinessAppBar> {
   }
 
   Widget profileButton() {
-    return  
-      FutureBuilder(
-          future: p.isFollowingBusiness(prefs.currentCorreo, widget.userinfo.ruc),
-          builder: (context, AsyncSnapshot<bool> snapshot) {
-            if (snapshot.hasData) {
-              follow = snapshot.data;
-              return AnimatedSwitcher(
-                duration: const Duration(seconds: 1),
-                switchOutCurve: Curves.easeOutExpo,
-                switchInCurve: Curves.easeInExpo,
-                child: follow ? seguido() : seguir(),
-              );
-            } else {
-              return CircularProgressIndicator();
-            }
+    return FutureBuilder(
+        future: p.validateIsFollowingBusiness(
+            prefs.currentCorreo, widget.userinfo.ruc),
+        builder: (context, AsyncSnapshot<bool> snapshot) {
+          if (snapshot.hasData) {
+            follow = snapshot.data;
+            return AnimatedSwitcher(
+              duration: const Duration(seconds: 1),
+              switchOutCurve: Curves.easeOutExpo,
+              switchInCurve: Curves.easeInExpo,
+              child: follow ? seguido() : seguir(),
+            );
+          } else {
+            return CircularProgressIndicator();
           }
-        );
+        });
     // return editarPerfil();
   }
 
@@ -222,10 +221,9 @@ class _OutBusinessAppBarState extends State<OutBusinessAppBar> {
               colors: [Color(0xFF81D4FA), Color(0xFF29B6F6), Color(0xFF039BE5)])
           .createShader(rect),
       child: RaisedButton(
-        onPressed: () {
-          setState(() {
-            follow = !follow;
-          });
+        onPressed: () async {
+          follow = await p.isFollowingBusiness(prefs.currentCorreo, widget.userinfo.ruc);
+          setState(() {});
         },
         child: Text('Seguir'),
       ),
@@ -238,10 +236,9 @@ class _OutBusinessAppBarState extends State<OutBusinessAppBar> {
               colors: [Color(0xFF81D4FA), Color(0xFF29B6F6), Color(0xFF039BE5)])
           .createShader(rect),
       child: RaisedButton(
-        onPressed: () {
-          setState(() {
-            follow = !follow;
-          });
+        onPressed: () async {
+          follow = await p.isFollowingBusiness(prefs.currentCorreo, widget.userinfo.ruc);
+          setState(() {});
         },
         child: Text('Seguido'),
       ),

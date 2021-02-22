@@ -11,7 +11,6 @@ class FollowStateList {
   }
 }
 
-
 class FollowState {
   bool status;
   FollowState({
@@ -20,8 +19,12 @@ class FollowState {
   FollowState.fromJsonMap(Map<String, dynamic> json) {
     try {
       if (json.containsKey('status')) {
-        if (json['status'] == 'A') {
-          status = true;
+        if (json['status'] != null) {
+          if (json['status'] == 'A') {
+            status = true;
+          } else {
+            status = false;
+          }
         } else {
           status = false;
         }

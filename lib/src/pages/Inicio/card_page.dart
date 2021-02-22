@@ -56,7 +56,7 @@ class _CardPageState extends State<CardPage> {
   Widget _cards(_screenSize) {
     //*Llama a el metodo get publicaciones que devuelve una lista donde se ecuentran todos los datos
     return FutureBuilder(
-      future: publicacionesProvider.getPublicaciones(),
+      future: publicacionesProvider.getPublicacionesUsuario(widget.currentuser.correo),
       builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
         if (snapshot.hasData) {
           return RefreshIndicator(

@@ -114,7 +114,7 @@ class _OutProfileAppBarState extends State<OutProfileAppBar> {
   Widget section1(Size screensize, context) {
     return Padding(
       padding: EdgeInsets.only(
-          top: screensize.height * 0.089,
+          top: screensize.height * 0.069,
           left: screensize.width * 0.04,
           right: screensize.width * 0.04,
           bottom: 10),
@@ -178,15 +178,15 @@ class _OutProfileAppBarState extends State<OutProfileAppBar> {
         Padding(
       padding: const EdgeInsets.all(8.0),
       child: FutureBuilder(
-          future: p.isFollowing(prefs.currentCorreo, widget.userinfo.correo),
+          future:
+              p.validateIsFollow(prefs.currentCorreo, widget.userinfo.correo),
           builder: (context, AsyncSnapshot<bool> snapshot) {
             if (snapshot.hasData) {
-              follow = snapshot.data;
               return AnimatedSwitcher(
                 duration: const Duration(seconds: 1),
                 switchOutCurve: Curves.easeOutExpo,
                 switchInCurve: Curves.easeInExpo,
-                child: follow ? seguido() : seguir(),
+                child: snapshot.data ? seguido() : seguir(),
               );
             } else {
               return CircularProgressIndicator();
@@ -202,9 +202,9 @@ class _OutProfileAppBarState extends State<OutProfileAppBar> {
               colors: [Color(0xFF81D4FA), Color(0xFF29B6F6), Color(0xFF039BE5)])
           .createShader(rect),
       child: RaisedButton(
-        onPressed: () {
-          setState(() {
-          });
+        onPressed: ()async  {
+          await p.isFollowing(prefs.currentCorreo, widget.userinfo.correo);
+          setState(() {});
         },
         child: Text('Seguir'),
       ),
@@ -217,9 +217,10 @@ class _OutProfileAppBarState extends State<OutProfileAppBar> {
               colors: [Color(0xFF81D4FA), Color(0xFF29B6F6), Color(0xFF039BE5)])
           .createShader(rect),
       child: RaisedButton(
-        onPressed: () {
-          setState(() {
-          });
+        onPressed: () async {
+          await p.isFollowing(prefs.currentCorreo, widget.userinfo.correo);
+
+          setState(() {});
         },
         child: Text('Seguido'),
       ),
