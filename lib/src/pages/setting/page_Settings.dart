@@ -1,5 +1,6 @@
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gradient_text/gradient_text.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -515,6 +516,7 @@ List<Address> addresses;
     );
   }
 
+  
   Widget textFieldLocation(Size sizescreen, List<NegocioData> datos) {
     if(verificarlocation==false)
     {
@@ -549,11 +551,11 @@ List<Address> addresses;
             LocationResult result=await showLocationPicker(
                       context,
                       'AIzaSyCDn9vfwQb0jtuzYp3ycFXgANvrTbmzwig',
-                      //initialCenter: LatLng(31.1975844, 29.9598339),
+                      initialCenter: LatLng(datos[0].latitud, datos[0].longitud),
 //                      automaticallyAnimateToCurrentLocation: true,
 //                      mapStylePath: 'assets/mapStyle.json',
-                      myLocationButtonEnabled: false,
-                      requiredGPS: true,
+                      //myLocationButtonEnabled: false,
+                      //requiredGPS: true,
                       resultCardConfirmIcon: Icon(Icons.check),
                       automaticallyAnimateToCurrentLocation: true,
                       layersButtonEnabled: false,
@@ -583,8 +585,6 @@ List<Address> addresses;
                          latitud=result.latLng.latitude;
                          longitud=result.latLng.longitude;
                        });
-
-                      
                     }
           },
           validator: (value) => value.isEmpty

@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
   final formkey = new GlobalKey<FormState>();
   final LatLng fromPoint = LatLng(-0.336994, -78.543437);
   CameraPosition _initialPosition =
-      CameraPosition(target: LatLng(-1.055747, -80.452173), zoom: 12);
+  CameraPosition(target: LatLng(-1.055747, -80.452173), zoom: 12);
 
 
   void getLocation() async {
@@ -55,6 +55,7 @@ class _HomePageState extends State<HomePage> {
               zoom: 18.00)));
     }
   }
+  
 
   // transformacion de json a string
   changeMapMode() {
@@ -186,7 +187,6 @@ class _HomePageState extends State<HomePage> {
                    }, 
                    colorBorde: Colors.white,
                     colorIcon: Colors.black45),
-
               ],
             )
           ))

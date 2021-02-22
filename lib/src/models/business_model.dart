@@ -32,6 +32,8 @@ class NegocioData {
   List<ServiciosNegocio> servicios = new List();
   List<Personal> personal = new List();
   List<PublicacionesNegocio> publicacionesNegocio = new List();
+  double latitud;
+  double longitud;
 
   NegocioData({
     this.inicialNegocio,
@@ -45,6 +47,8 @@ class NegocioData {
     this.servicios,
     this.personal,
     this.publicacionesNegocio,
+    this.latitud,
+    this.longitud,
   });
 
   NegocioData.fromJsonMap(Map<String, dynamic> json) {
@@ -56,6 +60,8 @@ class NegocioData {
       provincia = json['provincia'];
       canton = json['canton'];
       ubicacion = json['ubicacion'];
+      latitud=double.parse(json['latitud']);
+      longitud=double.parse(json['longitud']);
       foto = json['foto'];
       if (json['servicios'].length != 0) {
         for (var item in json['servicios']) {
