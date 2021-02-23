@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage> {
   Location tracker = Location();
   List<Address> addresses;
   bool marcador=false;
-  String title,urlimagen;
+  String title,urlimagen,ubicacion;
   LatLng lating;
 
   List<NegocioDataGps> negociogps;
@@ -111,6 +111,7 @@ class _HomePageState extends State<HomePage> {
           markers: Set.from(tmp),
           zoomGesturesEnabled: true,
           onMapCreated: _onMapCreated,
+          
         ),
         
         Form(
@@ -191,9 +192,7 @@ class _HomePageState extends State<HomePage> {
               ],
             )
           )),
-          Visibility(visible:marcador,child: MarkersInformation(title,lating,urlimagen),),
-        
-
+          Visibility(visible:marcador,child: MarkersInformation(title,lating,urlimagen,ubicacion),),
       ],
     );
   }
@@ -221,6 +220,7 @@ class _HomePageState extends State<HomePage> {
           title=resultado2[i].negocio;
           lating=LatLng(resultado2[i].latitud,resultado2[i].longitud);
           urlimagen=resultado2[i].foto;
+          ubicacion=resultado2[i].ubicacion;
         });
         }
          ),
@@ -249,9 +249,9 @@ class _HomePageState extends State<HomePage> {
     if (controlador != null) {
       controlador
           .animateCamera(CameraUpdate.newCameraPosition(new CameraPosition(
-              bearing: 100,
+              bearing: 90,
               target: LatLng(location.latitude, location.longitude),
-              //tilt: 0,
+              tilt: 45,
               zoom: 18.00)));
     }
    
@@ -283,15 +283,36 @@ class _HomePageState extends State<HomePage> {
 
   
   searchandNavigate() {
-    Geolocator().placemarkFromAddress(busqueda).then((value) {
+   int verificar=0;
+    for(int i=0;i<negociogps.length;i++)
+    {
+      if(busqueda==negociogps[i].negocio)
+      {
+          controlador.animateCamera(CameraUpdate.newCameraPosition(
+          new CameraPosition(
+              bearing: 90,
+              tilt: 45,
+              target: LatLng(
+                  negociogps[i].latitud, negociogps[i].longitud),
+              //tilt: 0,
+              zoom: 16.00)));
+          verificar=1;
+      }
+    }
+    if(verificar==0)
+    {
+       Geolocator().placemarkFromAddress(busqueda).then((value) {
       controlador.animateCamera(CameraUpdate.newCameraPosition(
           new CameraPosition(
-              bearing: 100,
+              bearing: 90,
+              tilt: 45,
               target: LatLng(
                   value[0].position.latitude, value[0].position.longitude),
               //tilt: 0,
               zoom: 16.00)));
     });
+    }
+   
   }
 }
 
