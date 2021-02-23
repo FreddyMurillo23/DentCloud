@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:muro_dentcloud/src/models/Services_models.dart';
+import 'package:muro_dentcloud/src/models/business_model_gps.dart';
 import 'package:muro_dentcloud/src/models/chat_model.dart';
 import 'package:muro_dentcloud/src/models/follows_model.dart';
 import 'package:muro_dentcloud/src/models/lista_chat_model.dart';
@@ -204,6 +205,19 @@ async {
     }
     }
     return true;
+
+  }
+
+  Future<List<NegocioDataGps>> negocioGps(String ciudad)
+  async {
+     String url ='http://54.197.83.249/PHP_REST_API/api/get/get_business_by_city.php?city=$ciudad';
+     final resp = await http.get(url);
+    List<dynamic> items = new List();
+    items.add(resp.body);
+    final decodedData = json.decode(resp.body);
+    final mensaje =
+        new BusinessDataGps.fromJsonList(decodedData['negocios']);
+    return mensaje.items;
 
   }
 

@@ -4,11 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:location/location.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:muro_dentcloud/src/models/business_model.dart';
+import 'package:muro_dentcloud/src/models/business_model_gps.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
+import 'package:muro_dentcloud/src/pages/Inicio/marker_information.dart';
 import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
 import 'package:muro_dentcloud/src/widgets/circle_button.dart';
 // import 'package:muro_dentcloud/src/providers/menu_providers.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:muro_dentcloud/src/providers/data_provide1.dart';
+import 'package:geocoder/model.dart';
+import 'package:geocoder/geocoder.dart';
 
 class HomePage extends StatefulWidget {
   final CurrentUsuario currentuser;
@@ -26,36 +32,22 @@ class _HomePageState extends State<HomePage> {
   TextEditingController texto = TextEditingController();
   // StreamSubscription _streamSubscription;
   Location tracker = Location();
+  List<Address> addresses;
+  bool marcador=true;
+
+  List<NegocioDataGps> negociogps;
+  var tmp=Set<Marker>();
   Marker marker;
+  String ciudad;
   Circle circle;
   GoogleMapController controlador;
   final formkey = new GlobalKey<FormState>();
   final LatLng fromPoint = LatLng(-0.336994, -78.543437);
   CameraPosition _initialPosition =
   CameraPosition(target: LatLng(-1.055747, -80.452173), zoom: 12);
+  DataProvider1 businessData1 = new DataProvider1();
 
 
-  void getLocation() async {
-    final location = await Geolocator().getCurrentPosition();
-    LatLng latlng = LatLng(location.latitude, location.longitude);
-    setState(() {
-      marker = Marker(
-      markerId: MarkerId('MyPosition'),
-      position: latlng,
-      infoWindow: InfoWindow(title: "My Location")
-    );
-    });
-     
-    if (controlador != null) {
-      controlador
-          .animateCamera(CameraUpdate.newCameraPosition(new CameraPosition(
-              bearing: 100,
-              target: LatLng(location.latitude, location.longitude),
-              //tilt: 0,
-              zoom: 18.00)));
-    }
-  }
-  
 
   // transformacion de json a string
   changeMapMode() {
@@ -67,6 +59,7 @@ class _HomePageState extends State<HomePage> {
       }
     });
   }
+  
 
   Future<String> getJsonFile(String path) async {
     return await rootBundle.loadString(path);
@@ -86,10 +79,14 @@ class _HomePageState extends State<HomePage> {
     await controlador.getVisibleRegion();
   }
 
+
+
+ 
   @override
   Widget build(BuildContext context) {
-    final sizecreen = MediaQuery.of(context).size;
+    
     final prefs = new PreferenciasUsuario();
+    
     // if(darkMode==false)
     // {
     // setState((){
@@ -97,18 +94,19 @@ class _HomePageState extends State<HomePage> {
     // });
     // }
     return Scaffold(
-      body: bodyMap(sizecreen),
+      body: bodyMap(),
       //Center(child: Image(image: AssetImage('assets/1200px-SITIO-EN-CONSTRUCCION.jpg'),)),
     );
   }
 
-  Widget bodyMap(Size sizecreen) {
+  Widget bodyMap() {
+    final sizecreen = MediaQuery.of(context).size;
     return Stack(
       //alignment: Alignment(8.0,8.0),
       children: [
         GoogleMap(
           initialCameraPosition: _initialPosition,
-          markers: Set.of((marker != null) ? [marker] : []),
+          markers: Set.from(tmp),
           zoomGesturesEnabled: true,
           onMapCreated: _onMapCreated,
         ),
@@ -158,6 +156,7 @@ class _HomePageState extends State<HomePage> {
         
         ),
             ),
+          //Visibility(visible:marcador, ),
         Positioned(
           bottom: 0,
           child: Container(
@@ -196,22 +195,66 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // Widget body(){
-  //   return GoogleMap(onMapCreated: _onMapCreated,
-  //   initialCameraPosition: _initialPosition,
-  //   //markers: createMarkers(),
 
-  //   );
-  // }
-  Set<Marker> createMarkers(){
-    var tmp=Set<Marker>();
 
-    tmp.add(Marker(
+  void obtenernegocio(String ciudad)
+  async{
+    Future<List<NegocioDataGps>> resultado=businessData1.negocioGps(ciudad);
+    List<NegocioDataGps> resultado2=await resultado;
+    negociogps=resultado2;
+
+        for(int i=0;i<resultado2.length;i++)
+        {
+          setState(() {
+             tmp.add(
+         Marker(
+        markerId: MarkerId(resultado2[i].negocio),
+        position: LatLng(resultado2[i].latitud,resultado2[i].longitud),
+        infoWindow: InfoWindow(title: resultado2[i].negocio),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet),
+        onTap: (){
+
+        }
+         ),
+        );
+          });
+         
+        }
+  }
+
+  void getLocation() async{
+    final location = await Geolocator().getCurrentPosition();
+    LatLng latlng = LatLng(location.latitude, location.longitude);
+    setState(() {
+      tmp.add(
+      Marker(
       markerId: MarkerId('MyPosition'),
-      position: fromPoint,
-      infoWindow: InfoWindow(title: "My Location")
-    ));
-    return tmp;
+      position: latlng,
+      infoWindow: InfoWindow(title: "My Location"),
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueMagenta)
+    )
+      );
+       createMarkers(location);
+
+    });
+     
+    if (controlador != null) {
+      controlador
+          .animateCamera(CameraUpdate.newCameraPosition(new CameraPosition(
+              bearing: 100,
+              target: LatLng(location.latitude, location.longitude),
+              //tilt: 0,
+              zoom: 18.00)));
+    }
+   
+  }
+
+  void createMarkers(Position local) async {  
+    final coordinates = new Coordinates(local.latitude, local.longitude);
+    addresses=await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    var first = addresses.first;
+    ciudad=first.locality;
+    obtenernegocio(ciudad);
   }
 
   bool validartextbusqueda() {
