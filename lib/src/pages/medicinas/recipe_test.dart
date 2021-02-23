@@ -152,6 +152,12 @@ class _RecipeTestState extends State<RecipeTest> {
       ));
   }
 
+  void obtenerDireccion() async{
+    rutaPDF(ruta).then((value) {
+      path = value;
+    });
+  }
+
 
   writeOnPdf(){
     pdf.addPage(
@@ -351,6 +357,7 @@ class _RecipeTestState extends State<RecipeTest> {
 
           floatingActionButton: FancyFab(
             onPressed: (){
+              obtenerDireccion();
               procesoChungo();
             }, 
             path: path,
