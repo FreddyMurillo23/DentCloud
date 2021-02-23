@@ -33,7 +33,9 @@ class _HomePageState extends State<HomePage> {
   // StreamSubscription _streamSubscription;
   Location tracker = Location();
   List<Address> addresses;
-  bool marcador=true;
+  bool marcador=false;
+  String title,urlimagen;
+  LatLng lating;
 
   List<NegocioDataGps> negociogps;
   var tmp=Set<Marker>();
@@ -155,8 +157,8 @@ class _HomePageState extends State<HomePage> {
           ),
         
         ),
-            ),
-          //Visibility(visible:marcador, ),
+        ),
+
         Positioned(
           bottom: 0,
           child: Container(
@@ -188,7 +190,8 @@ class _HomePageState extends State<HomePage> {
                     colorIcon: Colors.black45),
               ],
             )
-          ))
+          )),
+          Visibility(visible:marcador,child: MarkersInformation(title,lating,urlimagen),),
         
 
       ],
@@ -213,7 +216,12 @@ class _HomePageState extends State<HomePage> {
         infoWindow: InfoWindow(title: resultado2[i].negocio),
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet),
         onTap: (){
-
+        setState(() {
+          marcador=!marcador;
+          title=resultado2[i].negocio;
+          lating=LatLng(resultado2[i].latitud,resultado2[i].longitud);
+          urlimagen=resultado2[i].foto;
+        });
         }
          ),
         );

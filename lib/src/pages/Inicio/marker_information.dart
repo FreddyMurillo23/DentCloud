@@ -14,17 +14,18 @@ class _MarkersInformationState extends State<MarkersInformation> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(top: 100, left: 10),
       height: 70,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(50)),
-        color: Colors.white
+        color: Colors.black87 // cambiar el color 
       ),
       child: Row(
         children: [
           Container(
             margin: EdgeInsets.only(left: 10),
-            width: 50,
-            height: 50,
+            width: 60,
+            height: 60,
             child: ClipOval(
               child: FadeInImage.assetNetwork(image: widget.urlimagen, placeholder:'assets/placeholder.png' ,
                 fit: BoxFit.cover,
@@ -37,15 +38,15 @@ class _MarkersInformationState extends State<MarkersInformation> {
               children: [
                 Text(
                   widget.title,
-                  style: TextStyle(color: Colors.greenAccent),
+                  style: TextStyle(fontSize: 20,color: Colors.greenAccent),
                 ),
                 Text(
                   "Latitud: ${widget.latLng.latitude}",
-                  style: TextStyle(fontSize: 12, color: Colors.grey),
+                  style: TextStyle(fontSize: 15, color: Colors.grey),
                 ),
                 Text(
-                  "Longitud: ${widget.latLng.latitude}",
-                  style: TextStyle(fontSize: 12, color: Colors.grey),
+                  "Longitud: ${widget.latLng.longitude}",
+                  style: TextStyle(fontSize: 15, color: Colors.grey),
                 ),
               ],
             ),
