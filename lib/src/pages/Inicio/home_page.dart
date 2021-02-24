@@ -251,7 +251,7 @@ class _HomePageState extends State<HomePage> {
           .animateCamera(CameraUpdate.newCameraPosition(new CameraPosition(
               bearing: 90,
               target: LatLng(location.latitude, location.longitude),
-              tilt: 45,
+              tilt: 10,
               zoom: 18.00)));
     }
    
@@ -291,7 +291,7 @@ class _HomePageState extends State<HomePage> {
           controlador.animateCamera(CameraUpdate.newCameraPosition(
           new CameraPosition(
               bearing: 90,
-              tilt: 45,
+              tilt: 10,
               target: LatLng(
                   negociogps[i].latitud, negociogps[i].longitud),
               //tilt: 0,
@@ -305,7 +305,7 @@ class _HomePageState extends State<HomePage> {
       controlador.animateCamera(CameraUpdate.newCameraPosition(
           new CameraPosition(
               bearing: 90,
-              tilt: 45,
+              tilt: 10,
               target: LatLng(
                   value[0].position.latitude, value[0].position.longitude),
               //tilt: 0,
