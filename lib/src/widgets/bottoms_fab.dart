@@ -4,15 +4,28 @@ import 'package:http/http.dart' as http;
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/event_model.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'dart:io';
+import 'package:muro_dentcloud/src/models/current_user_model.dart';
+import 'package:muro_dentcloud/src/models/event_model.dart';
+import 'package:muro_dentcloud/src/models/receta_model.dart';
+import 'package:muro_dentcloud/src/widgets/bottoms_fab.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:http/http.dart' as http;
 
 class FancyFab extends StatefulWidget {
-  final Function() onPressed;
-  final String path;
+  final Function onPressed;
+  Function() onPressses2;
+  String path;
   final CurrentUsuario currentUsuario;
   final EventosModelo eventosModeloGlobal;
   BuildContext contextHered;
 
-  FancyFab({this.onPressed, this.path, this.currentUsuario, this.eventosModeloGlobal, this.contextHered});
+  FancyFab({this.onPressed, this.path, this.currentUsuario, this.eventosModeloGlobal, this.contextHered, this.onPressses2});
 
   @override
   _FancyFabState createState() => _FancyFabState();
@@ -27,6 +40,10 @@ class _FancyFabState extends State<FancyFab>
   Animation<double> _translateButton;
   Curve _curve = Curves.easeOut;
   double _fabHeight = 56.0;
+  String ruta = '';
+  String archivo = '';
+  String nombreArchivo = '';
+  String path = '';
 
   //Dialog
   Future<void> cupertinoDialog(BuildContext context, CurrentUsuario currentUsuario, EventosModelo eventosModeloGlobal) async {
@@ -57,6 +74,7 @@ class _FancyFabState extends State<FancyFab>
       )) {
         case 'Aceptar':
           print('Aceptar');
+          
           uploadFile(currentUsuario, eventosModeloGlobal);  
           break;
         case 'Cancelar':
@@ -71,14 +89,12 @@ class _FancyFabState extends State<FancyFab>
       String tipo = "pdf";
       DateTime fecha = DateTime.now();
       String correo = currentUsuario.correo;
-      String path = await widget.path;
-      print(widget.path);
 
       final uri =
-          Uri.parse("http://54.197.83.249/PHP_REST_API/api/post/post_documents.php?appointment_id=$idcita&document_description=$descripcion&document_type=$tipo&document_date=$fecha&user_email_doctor=$correo");
+          Uri.parse("http://54.197.83.249/PHP_REST_API/api/post/post_documents.php?&appointment_id=$idcita&document_description=$descripcion&document_type=$tipo&document_date=$fecha&user_email_doctor=$correo");
       var request = http.MultipartRequest('POST', uri);
       request.fields['usuario'] = currentUsuario.correo;
-      var pic = await http.MultipartFile.fromPath("archivo", widget.path);
+      var pic = await http.MultipartFile.fromPath("archivo", path);
       request.files.add(pic);
       var response = await request.send();
       print("");
@@ -119,6 +135,9 @@ class _FancyFabState extends State<FancyFab>
 
   @override
   initState() {
+    nombreArchivo = 'recipe';
+    archivo = widget.eventosModeloGlobal.nombrePaciente;
+    ruta = nombreArchivo+''+archivo;
     _animationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 500))
           ..addListener(() {
@@ -149,6 +168,21 @@ class _FancyFabState extends State<FancyFab>
       ),
     ));
     super.initState();
+  }
+
+  Future<String> rutaPDF(String ruta) async{
+    String rutaFuture = '';
+
+    Directory documentDirectory = await getApplicationDocumentsDirectory();
+
+    String documentPath = documentDirectory.path;
+
+    String fullPath = "$documentPath/$ruta.pdf";
+    setState(() {
+      rutaFuture = fullPath;
+      path = rutaFuture;
+    });
+    return path;
   }
 
   @override
@@ -184,7 +218,12 @@ class _FancyFabState extends State<FancyFab>
       child: FloatingActionButton(
         heroTag: null,
         onPressed: (){
-          cupertinoDialog(context, currentUsuario, eventosModeloGlobal);
+          rutaPDF(ruta).then((value) {
+
+          }).whenComplete(() {
+            cupertinoDialog(context, currentUsuario, eventosModeloGlobal);
+          });
+          //cupertinoDialog(context, currentUsuario, eventosModeloGlobal);
         },
         tooltip: 'Subir Archivo',
         child: Icon(Icons.upload_file),

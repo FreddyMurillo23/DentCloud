@@ -39,16 +39,15 @@ class _RepositorioState extends State<Repositorio> {
   }
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final prefs = new PreferenciasUsuario();
     pdfProvider = Provider.of<PDFProviderPatients>(context);
     pdfProvider.listarRecetasPacientes(prefs.currentCorreo);
+    if(pdfProvider.pdf.isNotEmpty){
+      setState(() {
+        funcionPrueba(context);
+      });
+    }
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,

@@ -809,33 +809,29 @@ class _RecetaMedicaState extends State<RecetaMedica> {
                                       );
                                     } else {
 
-                                      showDialog(
-                                        context: context,
-                                        barrierDismissible: false,
-                                        builder: (BuildContext context) {
-                                          return Dialog(
-                                            child: new Container(
-                                              height: 100,
-                                              child: new Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  new CircularProgressIndicator(),
-                                                  new SizedBox(width: 10,),
-                                                  new Text(" Generando Documento"),
-                                                ],
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      );
+                                      // showDialog(
+                                      //   context: context,
+                                      //   barrierDismissible: false,
+                                      //   builder: (BuildContext context) {
+                                      //     return Dialog(
+                                      //       child: new Container(
+                                      //         height: 100,
+                                      //         child: new Row(
+                                      //           mainAxisSize: MainAxisSize.min,
+                                      //           children: [
+                                      //             new CircularProgressIndicator(),
+                                      //             new SizedBox(width: 10,),
+                                      //             new Text(" Generando Documento"),
+                                      //           ],
+                                      //         ),
+                                      //       ),
+                                      //     );
+                                      //   },
+                                      // );
 
-                                      new Future.delayed(new Duration(milliseconds: 1500), () {
-                                        Navigator.of(context).pop();
                                         Navigator.push(context, MaterialPageRoute(
                                         builder: (context) => RecipeTest(currentuser: widget.currentuser, eventosModeloGlobal: widget.eventosModeloGlobal, receta: recetaLista,)
                                         ));
-                                      
-                                      });
 
                                     }
                                   },

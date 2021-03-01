@@ -107,32 +107,29 @@ class _RecipeTestState extends State<RecipeTest> {
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
     nombreArchivo = 'recipe';
     archivo = widget.eventosModeloGlobal.nombrePaciente;
     ruta = nombreArchivo+''+archivo;
     controladorRuta.text = ruta;
     fechaDocumento.text = fechaPDF();
-    rutaPDF(ruta).then((value) => path=value);
+    rutaPDF(ruta);
+    super.initState();
   }
   
   final pdf = pw.Document();
 
-  Future<String> rutaPDF (String ruta) async{
+  void rutaPDF(String ruta) async{
     String rutaFuture = '';
-    
-    writeOnPdf();
-    await savePdf();
 
     Directory documentDirectory = await getApplicationDocumentsDirectory();
 
     String documentPath = documentDirectory.path;
 
     String fullPath = "$documentPath/$ruta.pdf";
-    rutaFuture = fullPath;
-    path = rutaFuture;
-    return rutaFuture;
-    
+    setState(() {
+      rutaFuture = fullPath;
+      path = rutaFuture;
+    });
   }
 
 
@@ -147,15 +144,10 @@ class _RecipeTestState extends State<RecipeTest> {
       String fullPath = "$documentPath/$ruta.pdf";
       print(fullPath);
 
+      path = fullPath;
       Navigator.push(context, MaterialPageRoute(
         builder: (context) => PdfPreviewScreen(path: fullPath, currentUsuario: widget.currentuser, eventosModeloGlobal: widget.eventosModeloGlobal,)
       ));
-  }
-
-  void obtenerDireccion() async{
-    rutaPDF(ruta).then((value) {
-      path = value;
-    });
   }
 
 
@@ -288,7 +280,6 @@ class _RecipeTestState extends State<RecipeTest> {
     ruta = nombreArchivo+''+archivo;
     controladorRuta.text = ruta;
     fechaDocumento.text = fechaPDF();
-    rutaPDF(ruta);
 
     return GestureDetector(
         onTap: (){
@@ -356,10 +347,7 @@ class _RecipeTestState extends State<RecipeTest> {
           ),
 
           floatingActionButton: FancyFab(
-            onPressed: (){
-              obtenerDireccion();
-              procesoChungo();
-            }, 
+            onPressed: procesoChungo, 
             path: path,
             currentUsuario: widget.currentuser,
             eventosModeloGlobal: widget.eventosModeloGlobal,    
