@@ -6,7 +6,8 @@ class MarkersInformation extends StatefulWidget {
   LatLng latLng;
   String urlimagen;
   String ubicacion;
-  MarkersInformation(this.title,this.latLng,this.urlimagen,this.ubicacion);
+  String telefono;
+  MarkersInformation(this.title,this.latLng,this.urlimagen,this.ubicacion,this.telefono);
   @override
   _MarkersInformationState createState() => _MarkersInformationState();
 }
@@ -24,7 +25,7 @@ class _MarkersInformationState extends State<MarkersInformation> {
       child: Row(
         children: [
           Container(
-            margin: EdgeInsets.only(left: 10),
+            margin: EdgeInsets.only(left: 5),
             width: 60,
             height: 60,
             child: ClipOval(
@@ -34,7 +35,7 @@ class _MarkersInformationState extends State<MarkersInformation> {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(left: 20),
+            margin: EdgeInsets.only(left: 5),
             child: Column(
               children: [
                 Text(
@@ -46,10 +47,10 @@ class _MarkersInformationState extends State<MarkersInformation> {
                   "Direccion: ${widget.ubicacion}",
                   style: TextStyle(fontSize: 12,color: Colors.greenAccent),
                 ),
-                // Text(
-                //   "Latitud: ${widget.latLng.latitude}",
-                //   style: TextStyle(fontSize: 13, color: Colors.grey),
-                // ),
+                Text(
+                  "Telefono: ${widget.telefono}",
+                  style: TextStyle(fontSize: 13, color: Colors.grey),
+                ),
                 // Text(
                 //   "Longitud: ${widget.latLng.longitude}",
                 //   style: TextStyle(fontSize: 13, color: Colors.grey),

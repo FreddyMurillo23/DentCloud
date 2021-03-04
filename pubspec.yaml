@@ -63,6 +63,7 @@ dependencies:
   
   ars_progress_dialog: ^0.1.2
   scroll_to_index: ^1.0.6
+  google_map_polyline:
   
 dev_dependencies:
   flutter_test:
