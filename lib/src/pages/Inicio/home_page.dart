@@ -254,7 +254,6 @@ _coffeeShopList(index)
   child:  InkWell(
     onTap: (){
       moverCamara();
-    
     },
     child: Stack(
       children: [
@@ -299,37 +298,39 @@ _coffeeShopList(index)
                   ),
                 ),
                 SizedBox(width: 5.0,),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      resultadoNegocio2[index].negocio,
-                      style: TextStyle(
-                        color:Colors.deepOrange,
-                        fontSize: 13, 
-                        fontWeight: FontWeight.bold
-                      ),
-                    ),
-                    Container(
-                      width: 100,
-                      child: Text(
-                         resultadoNegocio2[index].ubicacion,
-                         style: TextStyle(
-                           color: Colors.greenAccent,
-                          fontSize: 11.0,
-                          fontWeight: FontWeight.w600
+                SingleChildScrollView(
+                                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        resultadoNegocio2[index].negocio,
+                        style: TextStyle(
+                          color:Colors.deepOrange,
+                          fontSize: 13, 
+                          fontWeight: FontWeight.bold
                         ),
                       ),
-                    ),
-                    Text(
-                       "Telefono:${resultadoNegocio2[index].telefono}",
-                       style: TextStyle(
-                        fontSize: 11.5,
-                        fontWeight: FontWeight.w600
+                      Container(
+                        width: 100,
+                        child: Text(
+                           resultadoNegocio2[index].ubicacion,
+                           style: TextStyle(
+                             color: Colors.greenAccent,
+                            fontSize: 11.0,
+                            fontWeight: FontWeight.w600
+                          ),
+                        ),
                       ),
-                    ),                    
-                  ],
+                      Text(
+                         "Telefono:${resultadoNegocio2[index].telefono}",
+                         style: TextStyle(
+                          fontSize: 11.5,
+                          fontWeight: FontWeight.w600
+                        ),
+                      ),                    
+                    ],
+                  ),
                 )
                 ],
               ),
