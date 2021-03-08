@@ -521,6 +521,8 @@ List<Address> addresses;
     if(verificarlocation==false)
     {
       controladorlocation.text=datos[0].ubicacion;
+      latitud=datos[0].latitud;
+      longitud=datos[0].longitud;
     }
    
     return Container(
