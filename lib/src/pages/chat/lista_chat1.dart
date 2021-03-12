@@ -28,10 +28,15 @@ class _GetBodyChat1State extends State<GetBodyChat1> {
      verificar=widget.verificacion;
     if(verificar==0)
     {
+      if(scrollController.positions.isEmpty)
+      {
       Timer(
-    Duration(seconds: 1),
+    Duration(seconds: 3),
     () =>scrollController.jumpTo(scrollController.position.maxScrollExtent),
     );
+
+      }
+      
     }
    
     if(widget.sala==null)
@@ -51,10 +56,12 @@ class _GetBodyChat1State extends State<GetBodyChat1> {
       body: Selector<ChatObtenidoProvider,List<ChatSeleccionado>>(
         selector: (context,model ) => model.chatSelecionado,
         builder: (context, value, child) => 
-        Column(
-          children: [
-             listaChat(screenSize,scrollController,value),
-          ],
+        SingleChildScrollView(
+                  child: Column(
+            children: [
+               listaChat(screenSize,scrollController,value),
+            ],
+          ),
         ),
       ),
     );
