@@ -351,10 +351,15 @@ _coffeeShopList(index)
     List<NegocioDataGps> resultado2=await resultado;
     resultadoNegocio2=resultado2;
     negociogps=resultado2;
+    if(resultado2.isEmpty)
+    {
+    marcadorContainer=false;
+    }
 
         for(int i=0;i<resultado2.length;i++)
         {
           setState(() {
+
              tmp.add(
          Marker(
         markerId: MarkerId(resultado2[i].negocio),

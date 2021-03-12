@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:muro_dentcloud/src/pages/chat/lista_chat.dart';
 import 'package:muro_dentcloud/src/pages/chat/lista_chat1.dart';
 import 'package:muro_dentcloud/src/providers/data_provide1.dart';
+import 'package:path_provider/path_provider.dart';
+//import 'package:file_picker/file_picker.dart';
 
 import 'colors/colors.dart';
 class ChatPage extends StatefulWidget {
@@ -38,6 +42,7 @@ class _ChatPageState extends State<ChatPage> {
         
         if(datos.ingresarMensajes(widget.loguiado,widget.correotro,mensaje, fotopath) != true)
         {
+
            print('Guardar datos ');
            _envioMensajeController.clear();
            fotopath=null;
@@ -126,6 +131,7 @@ class _ChatPageState extends State<ChatPage> {
    Widget getBottomSheet(BuildContext context) {
     return SingleChildScrollView(
           child: Container(
+            
         padding: EdgeInsets.symmetric(horizontal: 8),
         height: 70,
         color: Colors.white,
@@ -145,6 +151,7 @@ class _ChatPageState extends State<ChatPage> {
               iconSize: 25,
               color: primary,
               onPressed: () {
+                localPath();
               },
             ),
             Expanded(
@@ -261,4 +268,16 @@ class _ChatPageState extends State<ChatPage> {
     }
     
   }
+
+  Future<String>  localPath() async {
+
+//   FilePickerResult result = await FilePicker.platform.pickFiles(allowMultiple: true);
+
+// if(result != null) {
+//    List<File> files = result.paths.map((path) => File(path)).toList();
+//    print(files);
+// } else {
+//    // User canceled the picker
+// }
+}
 }
