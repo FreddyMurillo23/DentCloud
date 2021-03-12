@@ -334,7 +334,8 @@ class _DoctorEventsPendientsState extends State<DoctorEventsPendients> {
                               borderRadius: BorderRadius.circular(4.0)),
                           onPressed: () {
                             EventosCtrl.actualizarEventosApproved(
-                                    eventos.idcita)
+                                    eventos.idcita,
+                                    DateTime.now())
                                 .then((value) {
                               if (value) {
                                 Scaffold.of(context).showSnackBar(SnackBar(
