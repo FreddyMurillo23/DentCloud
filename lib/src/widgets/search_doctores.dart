@@ -99,7 +99,7 @@ class DoctorSearchDelegate extends SearchDelegate<DoctoresNegocio>{
                           ),
                           title: Text(doctor.nombredoctor),
                           onTap: (){
-                            serviciosNuevo.listarServiciosNuevo(ruc, doctor.correodoctor);
+                            serviciosNuevo.listarServiciosNuevo(doctor.correodoctor, ruc);
                             
                             this.close(context, doctor);
                             //print(doctorInfo.ceduladoctor);
