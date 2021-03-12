@@ -27,10 +27,9 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
   //!false = RUC
   @override
   Widget build(BuildContext context) {
-    final CurrentUsuario userinfo = ModalRoute.of(context).settings.arguments;
     final _screenSize = MediaQuery.of(context).size;
     return SliverAppBar(
-      expandedHeight: _screenSize.height * 0.50,
+      // expandedHeight: _screenSize.height * 0.50,
       brightness: Brightness.dark,
       backgroundColor: Colors.white,
       pinned: true,
@@ -41,7 +40,7 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
               borderRadius: BorderRadius.circular(10.0),
               color: Colors.white),
           // width: _screenSize.width * 1,
-          height: _screenSize.height * 0.045,
+          // height: _screenSize.height * 0.045,
           // color: Colors.white,
           child: ClipRRect(
             borderRadius: 
