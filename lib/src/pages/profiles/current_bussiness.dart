@@ -29,7 +29,7 @@ class _CurrentBusinessProfileState extends State<CurrentBusinessProfile> {
     final login = new DataProvider();
     return FutureBuilder(
         future: login.businessData(widget.currentBusiness),
-        builder: (BuildContext context, AsyncSnapshot<List> businessinfo) {
+        builder: (BuildContext context, AsyncSnapshot<List<NegocioData>> businessinfo) {
           if (businessinfo.hasData) {
             return Scaffold(
               backgroundColor: Colors.white,
