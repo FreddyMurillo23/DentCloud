@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:muro_dentcloud/src/models/business_Services_models.dart';
 import 'package:muro_dentcloud/src/models/business_model.dart';
 import 'package:muro_dentcloud/src/services/bServices_service.dart';
 import 'package:muro_dentcloud/src/services/serviceData_service.dart';
 import 'package:muro_dentcloud/src/widgets/ServiceWg.dart';
-import 'package:muro_dentcloud/src/widgets/business_ServicesWg.dart';
 import 'package:muro_dentcloud/src/widgets/circle_button.dart';
 
 class DoctorServicePage extends StatelessWidget {
