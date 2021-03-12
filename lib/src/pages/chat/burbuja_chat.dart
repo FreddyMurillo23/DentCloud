@@ -20,7 +20,8 @@ class BurbujaChat extends StatelessWidget {
   }
 
   Widget usuarionoLogeado(Size screenSize){
-    if( mensajitos[id].messageContent!=null)
+
+    if( mensajitos[id].messageMessageType=="M")
     {
       return Container( 
        child: Column(
@@ -42,7 +43,7 @@ class BurbujaChat extends StatelessWidget {
        ),
       );
     }
-    else
+    else if(mensajitos[id].messageMessageType=="I")
     {
       return Container( 
        child: Column(
@@ -51,7 +52,7 @@ class BurbujaChat extends StatelessWidget {
            Text(mensajitos[id].timeHour),
             SizedBox(height: 5.0,),
 
-            FadeInImage(placeholder: AssetImage('assets/loading.gif'), image:NetworkImage(mensajitos[id].messageUrlContent)),
+            FadeInImage(placeholder: AssetImage('assets/loading.gif'), image:NetworkImage(mensajitos[id].messageUrlContent),height: 150),
          ],
        ),
        padding: EdgeInsets.symmetric(horizontal: 25.0,vertical: 15),
@@ -71,9 +72,10 @@ class BurbujaChat extends StatelessWidget {
   
   Widget usuarioLogeado(Size screenSize)
   {
-    if( mensajitos[id].messageContent!=null)
+
+    if(mensajitos[id].messageMessageType=="M")
     {
-     return Container( 
+      return Container( 
        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
          children: [
@@ -94,7 +96,7 @@ class BurbujaChat extends StatelessWidget {
        ),
       );
     }
-    else
+    else if(mensajitos[id].messageMessageType=="I")
     {
       return Container( 
        child: Column(
@@ -103,19 +105,21 @@ class BurbujaChat extends StatelessWidget {
            Text(mensajitos[id].timeHour),
             SizedBox(height: 5.0,),
 
-            FadeInImage(placeholder: AssetImage('assets/loading.gif'), image:NetworkImage(mensajitos[id].messageUrlContent)),
+            FadeInImage(placeholder: AssetImage('assets/loading.gif'), 
+            image:NetworkImage(mensajitos[id].messageUrlContent),height: 150,),
          ],
        ),
        padding: EdgeInsets.symmetric(horizontal: 25.0,vertical: 15),
        margin: EdgeInsets.only(top: 8.0,bottom: 8.0,left:  80),
        decoration: BoxDecoration(
-         color: grey,
+         color: Colors.blue[100],
          borderRadius: BorderRadius.only(
            topLeft: Radius.circular(15),
            bottomRight: Radius.circular(15)
          ),
        ),
       );
+
     }
     
   

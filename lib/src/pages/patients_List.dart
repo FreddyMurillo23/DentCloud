@@ -74,9 +74,9 @@ class _ListPatientsBuildState extends State<ListPatientsBuild> {
                           ),
                           color: Colors.deepPurpleAccent[200],
                         ),
-                        onTap: () {
-                          mostrar(snapshot.data[index].correoPaciente);
-                        },
+                        // onTap: () {
+                        //   mostrar(snapshot.data[index].correoPaciente);
+                        // },
                       ),
                       Divider()
                     ],
