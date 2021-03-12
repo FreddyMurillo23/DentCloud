@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'dart:io';
+import 'package:advance_pdf_viewer/advance_pdf_viewer.dart';
 
 class PdfPreviewScreen extends StatefulWidget {
   final String path;
@@ -19,6 +20,24 @@ class PdfPreviewScreen extends StatefulWidget {
 }
 
 class _PdfPreviewScreenState extends State<PdfPreviewScreen> {
+  PDFDocument document;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loadDocument();
+  }
+
+  void loadDocument()async{
+    File file = File(widget.path);
+    document = await PDFDocument.fromFile(file).whenComplete((){
+      setState(() {
+        
+      });
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -47,10 +66,12 @@ class _PdfPreviewScreenState extends State<PdfPreviewScreen> {
       }
   }
   
-    return PDFViewerScaffold(
-      appBar: AppBar(
-      ),
-      path:widget.path,
+    return Scaffold(
+      appBar: AppBar(),
+      body: document != null
+      ? PDFViewer(document: document)
+      : Center(child: CircularProgressIndicator()),
+
       
     );
   }
