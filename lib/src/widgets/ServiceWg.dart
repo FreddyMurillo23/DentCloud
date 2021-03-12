@@ -18,9 +18,10 @@ class _ServiceDataWgState extends State<ServiceDataWg> {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     return Container(
-      height: screenSize.height * 0.58,
+      // height: screenSize.height * 0.58,
       child: ListView.builder(
           itemCount: 1,
+          shrinkWrap: true,
           itemBuilder: (BuildContext context, int index) {
             datita = widget.businessServices.preguntas;
 
