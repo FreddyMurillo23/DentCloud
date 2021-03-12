@@ -69,7 +69,7 @@ class _PdfPreviewScreenState extends State<PdfPreviewScreen> {
     return Scaffold(
       appBar: AppBar(),
       body: document != null
-      ? PDFViewer(document: document)
+      ? PDFViewer(document: document, zoomSteps: 1,)
       : Center(child: CircularProgressIndicator()),
 
       
