@@ -2,9 +2,9 @@ import 'dart:async';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_map_polyline/google_map_polyline.dart';
 import 'package:location/location.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:muro_dentcloud/src/models/business_model.dart';
 import 'package:muro_dentcloud/src/models/business_model_gps.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/pages/Inicio/marker_information.dart';
@@ -29,14 +29,16 @@ class _HomePageState extends State<HomePage> {
   bool darkMode = false;
   bool swichValue = false;
   String busqueda;
+  Position locationactual;
   TextEditingController texto = TextEditingController();
   // StreamSubscription _streamSubscription;
   Location tracker = Location();
   List<Address> addresses;
   bool marcador=false;
-  String title,urlimagen,ubicacion;
+  String title,urlimagen,ubicacion,telefono;
   LatLng lating;
-
+  bool busquedanegocio=false,markersbusqueda=false;
+  NegocioDataGps busquedaneg;
   List<NegocioDataGps> negociogps;
   var tmp=Set<Marker>();
   Marker marker;
@@ -48,8 +50,13 @@ class _HomePageState extends State<HomePage> {
   CameraPosition _initialPosition =
   CameraPosition(target: LatLng(-1.055747, -80.452173), zoom: 12);
   DataProvider1 businessData1 = new DataProvider1();
-
-
+  final Set<Polyline> polyline={};
+  List<NegocioDataGps> resultadoNegocio2;
+  PageController _pageController;
+  bool marcadorContainer=false;
+  List<LatLng> routerCoords;
+  GoogleMapPolyline googleMapPolyline = new GoogleMapPolyline(apiKey: 'AIzaSyCDn9vfwQb0jtuzYp3ycFXgANvrTbmzwig');
+ 
 
   // transformacion de json a string
   changeMapMode() {
@@ -74,6 +81,9 @@ class _HomePageState extends State<HomePage> {
   void _onMapCreated(GoogleMapController controller) {
     //_controller.complete(controller);
     controlador = controller;
+    _pageController=PageController(initialPage: 1,viewportFraction: 0.8);
+    
+    
     //centerView();
   }
 
@@ -81,20 +91,11 @@ class _HomePageState extends State<HomePage> {
     await controlador.getVisibleRegion();
   }
 
-
-
  
   @override
   Widget build(BuildContext context) {
     
     final prefs = new PreferenciasUsuario();
-    
-    // if(darkMode==false)
-    // {
-    // setState((){
-    //   changeMapMode();
-    // });
-    // }
     return Scaffold(
       body: bodyMap(),
       //Center(child: Image(image: AssetImage('assets/1200px-SITIO-EN-CONSTRUCCION.jpg'),)),
@@ -109,11 +110,11 @@ class _HomePageState extends State<HomePage> {
         GoogleMap(
           initialCameraPosition: _initialPosition,
           markers: Set.from(tmp),
+          polylines: Set.of((polyline.isNotEmpty)?polyline:[]),
           zoomGesturesEnabled: true,
           onMapCreated: _onMapCreated,
           
         ),
-        
         Form(
         key: formkey,
         child: Container(
@@ -159,14 +160,14 @@ class _HomePageState extends State<HomePage> {
         
         ),
         ),
-
+     
         Positioned(
           bottom: 0,
           child: Container(
             margin: EdgeInsets.only(bottom: 0,left: 0),
             alignment: Alignment.centerLeft,
             color: Color(0xFF808080).withOpacity(0.0),
-            height: 150,
+            height: 110,
             width: 70,
             child: Column(
               children: [
@@ -186,23 +187,169 @@ class _HomePageState extends State<HomePage> {
                    iconsize: 30, 
                    onPressed: (){
                      getLocation();
+                     marcadorContainer=true;
                    }, 
                    colorBorde: Colors.white,
                     colorIcon: Colors.black45),
+                    SizedBox(width: 5,),
+                //  CircleButton(
+                //    icon: MdiIcons.nearMe, 
+                //    iconsize: 30, 
+                //    onPressed: (){
+                //      getsomePoints();
+                //    }, 
+                //    colorBorde: Colors.white,
+                //     colorIcon: Colors.black45),
+
               ],
             )
           )),
-          Visibility(visible:marcador,child: MarkersInformation(title,lating,urlimagen,ubicacion),),
+         // Visibility(visible:marcador,child: MarkersInformation(title,lating,urlimagen,ubicacion,telefono),),
+           resultadoNegocio2 != null? 
+           Positioned(
+            top:90,
+            child: Visibility(visible: marcadorContainer,child:containerResultado(sizecreen)),
+          ):Container(),
       ],
     );
   }
 
 
+Widget containerResultado(Size sizecreen)
+{
+  return Container(
+   height: 150,
+   width: sizecreen.width,
+   child: PageView.builder(
+      controller: _pageController,
+      itemCount: resultadoNegocio2.length,
+      itemBuilder: (BuildContext context, int index){
+        return _coffeeShopList(index);
+      },
+    ),
+    
+  );
+}
 
-  void obtenernegocio(String ciudad)
-  async{
+_coffeeShopList(index)
+{
+  return AnimatedBuilder(animation: _pageController, 
+  builder: (BuildContext context,Widget widget)
+  {
+    double value=1;
+    if(_pageController.position.haveDimensions)
+    {
+      value=_pageController.page-index;
+      value=(1-(value.abs()*0.3)+0.06).clamp(0.0, 1.0);
+    }
+    return Center(
+      child: SizedBox(
+        height: Curves.easeInOut.transform(value)*125.0,
+        width: Curves.easeInOut.transform(value)*350,
+        child: widget,
+      ),
+    );
+    
+  },
+  child:  InkWell(
+    onTap: (){
+      moverCamara();
+    },
+    child: Stack(
+      children: [
+        Center(
+          child: Container(
+            margin: EdgeInsets.symmetric(
+              horizontal: 10.0,vertical: 20.0
+            ),
+            height: 130.0,
+            width: 300.0,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black,
+                  offset: Offset(0.0,4.0),
+                  blurRadius: 10.0
+                )
+              ]
+            ),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                color: Colors.white
+              ),
+              child: Row(
+                children: [
+                  Container(
+                  height: 80.0,
+                  width: 80.0,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(10.0),
+                      topLeft: Radius.circular(10.0)
+                    ),
+                    image: DecorationImage(
+                      image: NetworkImage(
+                        resultadoNegocio2[index].foto
+                      ),
+                      fit: BoxFit.cover
+                    )
+                  ),
+                ),
+                SizedBox(width: 5.0,),
+                SingleChildScrollView(
+                                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        resultadoNegocio2[index].negocio,
+                        style: TextStyle(
+                          color:Colors.deepOrange,
+                          fontSize: 13, 
+                          fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      Container(
+                        width: 100,
+                        child: Text(
+                           resultadoNegocio2[index].ubicacion,
+                           style: TextStyle(
+                             color: Colors.greenAccent,
+                            fontSize: 11.0,
+                            fontWeight: FontWeight.w600
+                          ),
+                        ),
+                      ),
+                      Text(
+                         "Telefono:${resultadoNegocio2[index].telefono}",
+                         style: TextStyle(
+                          fontSize: 11.5,
+                          fontWeight: FontWeight.w600
+                        ),
+                      ),                    
+                    ],
+                  ),
+                )
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    ),
+    ),
+  
+  );
+
+}
+
+  void obtenernegocio(String ciudad) async{
+    markersbusqueda=false;
     Future<List<NegocioDataGps>> resultado=businessData1.negocioGps(ciudad);
     List<NegocioDataGps> resultado2=await resultado;
+    resultadoNegocio2=resultado2;
     negociogps=resultado2;
 
         for(int i=0;i<resultado2.length;i++)
@@ -216,11 +363,14 @@ class _HomePageState extends State<HomePage> {
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet),
         onTap: (){
         setState(() {
-          marcador=!marcador;
-          title=resultado2[i].negocio;
-          lating=LatLng(resultado2[i].latitud,resultado2[i].longitud);
-          urlimagen=resultado2[i].foto;
-          ubicacion=resultado2[i].ubicacion;
+          // markersbusqueda=true;
+          // marcador=!marcador;
+          // title=resultado2[i].negocio;
+          // lating=LatLng(resultado2[i].latitud,resultado2[i].longitud);
+          // urlimagen=resultado2[i].foto;
+          // ubicacion=resultado2[i].ubicacion;
+          // telefono=resultado2[i].telefono;
+
         });
         }
          ),
@@ -230,8 +380,25 @@ class _HomePageState extends State<HomePage> {
         }
   }
 
+
+ moverCamara()
+ {
+   controlador.animateCamera(CameraUpdate.newCameraPosition(
+     CameraPosition(
+       target: LatLng(resultadoNegocio2[_pageController.page.toInt()].latitud, resultadoNegocio2[_pageController.page.toInt()].longitud),
+      zoom: 18,
+      bearing: 90,
+      tilt: 10,
+       
+       )
+   ));
+
+
+ }
   void getLocation() async{
+
     final location = await Geolocator().getCurrentPosition();
+    locationactual=location;
     LatLng latlng = LatLng(location.latitude, location.longitude);
     setState(() {
       tmp.add(
@@ -284,10 +451,12 @@ class _HomePageState extends State<HomePage> {
   
   searchandNavigate() {
    int verificar=0;
+   busquedanegocio=false;
     for(int i=0;i<negociogps.length;i++)
     {
-      if(busqueda==negociogps[i].negocio)
+      if(busqueda.toLowerCase()==negociogps[i].negocio.toLowerCase()||busqueda.toUpperCase()==negociogps[i].negocio.toUpperCase())
       {
+
           controlador.animateCamera(CameraUpdate.newCameraPosition(
           new CameraPosition(
               bearing: 90,
@@ -297,6 +466,9 @@ class _HomePageState extends State<HomePage> {
               //tilt: 0,
               zoom: 16.00)));
           verificar=1;
+          busquedanegocio=true;
+          busquedaneg=negociogps[i];
+          lating=LatLng(negociogps[i].latitud,negociogps[i].longitud);
       }
     }
     if(verificar==0)
@@ -314,5 +486,39 @@ class _HomePageState extends State<HomePage> {
     }
    
   }
+
+  getsomePoints() async {
+    LatLng origen,destino;
+
+    if(busquedanegocio==true|| markersbusqueda==true)
+    {
+     origen=LatLng(locationactual.latitude,locationactual.longitude);
+     destino=LatLng(lating.latitude,lating.longitude);
+      routerCoords=await googleMapPolyline.getCoordinatesWithLocation(
+        origin: LatLng(-1.0462,-80.4589), 
+        destination: LatLng(-1.0506, -80.4584), 
+        mode: RouteMode.walking
+        //mode: null
+        );
+    
+    if(routerCoords!=null)
+    {
+      polyline.add(Polyline(
+      polylineId: PolylineId("ruta 1"),
+      visible:true,
+      points: routerCoords,
+      width: 4,
+      color: Colors.blue,
+      startCap: Cap.roundCap,
+      endCap: Cap.buttCap
+    ));
+    }
+     busquedanegocio=false;
+     markersbusqueda=false;
+    }
+
+  }
 }
+
+
 
