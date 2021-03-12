@@ -20,7 +20,8 @@ class BurbujaChat extends StatelessWidget {
   }
 
   Widget usuarionoLogeado(Size screenSize){
-    if( mensajitos[id].messageContent!=null)
+
+    if( mensajitos[id].messageMessageType=="M")
     {
       return Container( 
        child: Column(
@@ -42,7 +43,7 @@ class BurbujaChat extends StatelessWidget {
        ),
       );
     }
-    else
+    else if(mensajitos[id].messageMessageType=="I")
     {
       return Container( 
        child: Column(
