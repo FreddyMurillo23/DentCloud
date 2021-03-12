@@ -63,7 +63,7 @@ dependencies:
   google_map_location_picker: ^3.3.4
   geocoder: ^0.2.1
   advance_pdf_viewer: ^1.2.2
-  file_picker: ^3.0.0
+ 
   
   ars_progress_dialog: ^0.1.2
   scroll_to_index: ^1.0.6

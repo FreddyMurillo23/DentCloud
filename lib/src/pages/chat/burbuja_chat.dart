@@ -52,7 +52,7 @@ class BurbujaChat extends StatelessWidget {
            Text(mensajitos[id].timeHour),
             SizedBox(height: 5.0,),
 
-            FadeInImage(placeholder: AssetImage('assets/loading.gif'), image:NetworkImage(mensajitos[id].messageUrlContent)),
+            FadeInImage(placeholder: AssetImage('assets/loading.gif'), image:NetworkImage(mensajitos[id].messageUrlContent),height: 150),
          ],
        ),
        padding: EdgeInsets.symmetric(horizontal: 25.0,vertical: 15),
@@ -106,7 +106,7 @@ class BurbujaChat extends StatelessWidget {
             SizedBox(height: 5.0,),
 
             FadeInImage(placeholder: AssetImage('assets/loading.gif'), 
-            image:NetworkImage(mensajitos[id].messageUrlContent),height: 100,),
+            image:NetworkImage(mensajitos[id].messageUrlContent),height: 150,),
          ],
        ),
        padding: EdgeInsets.symmetric(horizontal: 25.0,vertical: 15),
