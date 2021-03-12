@@ -54,82 +54,87 @@ class _BusinessDoctorServicesState extends State<BusinessDoctorServices> {
   Widget _swiperServ(List<Personal> personal, Size _screeSize) {
     print(personal.length);
     print('Helllooooo');
-    return Swiper(
-      itemWidth: _screeSize.width,
-      itemHeight: _screeSize.height * 0.90,
-      itemCount: personal.length,
-      viewportFraction: 0.85,
-      scale: 0.9,
-      itemBuilder: (BuildContext context, int index) {
-        print(_screeSize.height);
-        return Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Container(
-              height: _screeSize.height * 0.80,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  decoration: BoxDecoration(
+    if (personal.length > 0) {
+      return Swiper(
+        itemWidth: _screeSize.width,
+        itemHeight: _screeSize.height * 0.90,
+        itemCount: personal.length,
+        viewportFraction: 0.85,
+        scale: 0.9,
+        itemBuilder: (BuildContext context, int index) {
+          print(_screeSize.height);
+          return Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Container(
+                height: _screeSize.height * 0.80,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.vertical(
+                            bottom: Radius.circular(40),
+                            top: Radius.circular(40)),
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                              // color: Colors.grey[500],
+                              color: Colors.lightBlue,
+                              blurRadius: 10.0,
+                              spreadRadius: 1.0,
+                              offset: Offset(0.0, 0.0))
+                        ]),
+                    child: ClipRRect(
                       borderRadius: BorderRadius.vertical(
                           bottom: Radius.circular(40),
                           top: Radius.circular(40)),
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                            // color: Colors.grey[500],
-                            color: Colors.lightBlue,
-                            blurRadius: 10.0,
-                            spreadRadius: 1.0,
-                            offset: Offset(0.0, 0.0))
-                      ]),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.vertical(
-                        bottom: Radius.circular(40), top: Radius.circular(40)),
-                    child: Center(
-                      child: Padding(
-                        // centerTitle: true,
-                        padding: EdgeInsets.fromLTRB(10, 10, 10, 5),
-                        child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.vertical(
-                                  bottom: Radius.circular(80),
-                                  top: Radius.circular(80)),
-                            ),
-                            child: Stack(
-                              fit: StackFit.expand,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.vertical(
-                                      bottom: Radius.circular(40),
-                                      top: Radius.circular(40)),
-                                  child: Image(
-                                    image: AssetImage('assets/fondo.jpg'),
-                                    fit: BoxFit.cover,
+                      child: Center(
+                        child: Padding(
+                          // centerTitle: true,
+                          padding: EdgeInsets.fromLTRB(10, 10, 10, 5),
+                          child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.vertical(
+                                    bottom: Radius.circular(80),
+                                    top: Radius.circular(80)),
+                              ),
+                              child: Stack(
+                                fit: StackFit.expand,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.vertical(
+                                        bottom: Radius.circular(40),
+                                        top: Radius.circular(40)),
+                                    child: Image(
+                                      image: AssetImage('assets/fondo.jpg'),
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: section1(
-                                      _screeSize, context, personal[index]),
-                                )
-                              ],
-                            )
-                            //
-                            ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: section1(
+                                        _screeSize, context, personal[index]),
+                                  )
+                                ],
+                              )
+                              //
+                              ),
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
-            // Container(child: ServiceDataWg(services[index])),
-          ],
-        );
-      },
-      //pagination: new SwiperPagination(),
-      control: new SwiperControl(),
-      //layout: SwiperLayout.CUSTOM,
-    );
+              // Container(child: ServiceDataWg(services[index])),
+            ],
+          );
+        },
+        //pagination: new SwiperPagination(),
+        control: new SwiperControl(),
+        //layout: SwiperLayout.CUSTOM,
+      );
+    } else {
+      return Center(child: Text('No hay medicos registrados',style: TextStyle(fontSize: 20),));
+    }
   }
 
   Widget section1(Size screensize, context, Personal personal) {
@@ -177,14 +182,18 @@ class _BusinessDoctorServicesState extends State<BusinessDoctorServices> {
               SizedBox(
                 height: screensize.height * 0.015,
               ),
-              Text('${personal.nombreDoctor}',style: TextStyle(fontSize: 18),textAlign: TextAlign.center),
-
+              Text('${personal.nombreDoctor}',
+                  style: TextStyle(fontSize: 18), textAlign: TextAlign.center),
               Text(
                 '\nProfesion: \n${personal.profesionDoctor}',
                 textAlign: TextAlign.center,
               ),
-              Text('\nCorreo: \n${personal.correoDoctor}',textAlign: TextAlign.center,),
-              Text('\nTelefono: \n${personal.celularDoctor}\n',textAlign: TextAlign.center),
+              Text(
+                '\nCorreo: \n${personal.correoDoctor}',
+                textAlign: TextAlign.center,
+              ),
+              Text('\nTelefono: \n${personal.celularDoctor}\n',
+                  textAlign: TextAlign.center),
             ],
           ),
         ),

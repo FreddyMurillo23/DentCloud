@@ -221,16 +221,17 @@ class _NavDrawerState extends State<NavDrawer> {
     return SliverToBoxAdapter(
       child: Column(
         children: [
-        widget.currentuser.tipoUsuario == 'D'
-          ? ListTile(
-            leading: Icon(Icons.settings),
-            title: Text('Repositorio'),
-            onTap: () => {
-              pdfProvider.listarRecetasPacientes(prefs.currentCorreo),
-              PDFCitaCtrl.listarPDFPatients(prefs.currentCorreo),
-              Navigator.of(context).pushNamed('repositorio')
-            },
-          ) : Container(),
+          widget.currentuser.tipoUsuario == 'D'
+              ? ListTile(
+                  leading: Icon(Icons.settings),
+                  title: Text('Repositorio'),
+                  onTap: () => {
+                    pdfProvider.listarRecetasPacientes(prefs.currentCorreo),
+                    PDFCitaCtrl.listarPDFPatients(prefs.currentCorreo),
+                    Navigator.of(context).pushNamed('repositorio')
+                  },
+                )
+              : Container(),
           ListTile(
             leading: Icon(Icons.border_color),
             title: Text('Configuración del Perfil'),
@@ -251,10 +252,11 @@ class _NavDrawerState extends State<NavDrawer> {
             leading: Icon(Icons.exit_to_app),
             title: Text('Cerrar Sesión'),
             onTap: () {
-              currentUserData.resetCurrentUserData;
-              CurrentUsuarios.clearItems();
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                  '/', (Route<dynamic> route) => false);
+              currentUserData.resetCurrentUserData().then((value) {
+                CurrentUsuarios.clearItems();
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                    '/', (Route<dynamic> route) => false);
+              });
             },
           ),
         ],

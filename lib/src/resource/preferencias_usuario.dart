@@ -35,7 +35,7 @@ class PreferenciasUsuario {
   }
 
 //! Borra los datos del usuario de la app para volver a cargar en login
-  get resetCurrentUserData async {
+  Future<void> resetCurrentUserData() async {
     _prefs.remove('currentCorreo').then((value) {
       _prefs.remove('currentPassword').then((value2) {
         print(value);
