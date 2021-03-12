@@ -56,22 +56,24 @@ class _BusinessDoctorServicesState extends State<BusinessDoctorServices> {
     print('Helllooooo');
     return Swiper(
       itemWidth: _screeSize.width,
-      itemHeight: _screeSize.height * 0.99,
+      itemHeight: _screeSize.height * 0.90,
       itemCount: personal.length,
       viewportFraction: 0.85,
       scale: 0.9,
       itemBuilder: (BuildContext context, int index) {
+        print(_screeSize.height);
         return Column(
           mainAxisSize: MainAxisSize.max,
           children: [
             Container(
-              height: _screeSize.height * 0.9,
+              height: _screeSize.height * 0.80,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
                   decoration: BoxDecoration(
-                      borderRadius:
-                          BorderRadius.vertical(bottom: Radius.circular(40),top: Radius.circular(40)),
+                      borderRadius: BorderRadius.vertical(
+                          bottom: Radius.circular(40),
+                          top: Radius.circular(40)),
                       boxShadow: <BoxShadow>[
                         BoxShadow(
                             // color: Colors.grey[500],
@@ -81,33 +83,37 @@ class _BusinessDoctorServicesState extends State<BusinessDoctorServices> {
                             offset: Offset(0.0, 0.0))
                       ]),
                   child: ClipRRect(
-                    borderRadius:
-                        BorderRadius.vertical(bottom: Radius.circular(40),top: Radius.circular(40)),
+                    borderRadius: BorderRadius.vertical(
+                        bottom: Radius.circular(40), top: Radius.circular(40)),
                     child: Center(
                       child: Padding(
                         // centerTitle: true,
                         padding: EdgeInsets.fromLTRB(10, 10, 10, 5),
                         child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.vertical(bottom: Radius.circular(80),top: Radius.circular(80)),
-                          ),
-                            child: Stack(
-                          fit: StackFit.expand,
-                          children: [
-                            ClipRRect(
-                            borderRadius: BorderRadius.vertical(bottom: Radius.circular(40),top: Radius.circular(40)),
-                        
-                              child: Image(
-                                image: AssetImage('assets/fondo.jpg'),
-                                fit: BoxFit.cover,
-                              ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.vertical(
+                                  bottom: Radius.circular(80),
+                                  top: Radius.circular(80)),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: section1(_screeSize, context,personal[index]),
+                            child: Stack(
+                              fit: StackFit.expand,
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.vertical(
+                                      bottom: Radius.circular(40),
+                                      top: Radius.circular(40)),
+                                  child: Image(
+                                    image: AssetImage('assets/fondo.jpg'),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: section1(
+                                      _screeSize, context, personal[index]),
+                                )
+                              ],
                             )
-                          ],
-                        )
                             //
                             ),
                       ),
@@ -125,33 +131,34 @@ class _BusinessDoctorServicesState extends State<BusinessDoctorServices> {
       //layout: SwiperLayout.CUSTOM,
     );
   }
+
   Widget section1(Size screensize, context, Personal personal) {
     return Padding(
       padding: EdgeInsets.only(
-          top: screensize.height * 0.069,
+          top: screensize.height * 0.020,
           left: screensize.width * 0.04,
           right: screensize.width * 0.04,
           bottom: 10),
       child: Center(
         child: Column(
-          children: [profileData(screensize, context,personal)],
+          children: [profileData(screensize, context, personal)],
         ),
       ),
     );
   }
+
   profileData(Size screensize, context, Personal personal) {
     return Card(
       elevation: 10,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
       child: Container(
-        width: screensize.width * 0.40,
+        width: screensize.width * 0.6,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: <Widget>[
               Container(
-                height: screensize.height * 0.2,
-                width: screensize.width * 0.4,
+                height: screensize.height * 0.35,
                 decoration: BoxDecoration(
                   border:
                       Border.all(width: 5, color: Colors.lightBlue.shade300),
@@ -170,12 +177,14 @@ class _BusinessDoctorServicesState extends State<BusinessDoctorServices> {
               SizedBox(
                 height: screensize.height * 0.015,
               ),
+              Text('${personal.nombreDoctor}',style: TextStyle(fontSize: 18),textAlign: TextAlign.center),
+
               Text(
-                // personal. == 'D'
-                '${personal.profesionDoctor}\n\n${personal.correoDoctor}\n${personal.rolDoctor}\n${personal.celularDoctor}',
-                    // : '${widget.userinfo.correo}\n${widget.userinfo.ciudadResidencia}\n${widget.userinfo.celular}',
+                '\nProfesion: \n${personal.profesionDoctor}',
                 textAlign: TextAlign.center,
-              )
+              ),
+              Text('\nCorreo: \n${personal.correoDoctor}',textAlign: TextAlign.center,),
+              Text('\nTelefono: \n${personal.celularDoctor}\n',textAlign: TextAlign.center),
             ],
           ),
         ),

@@ -1,3 +1,6 @@
+import 'package:device_preview/device_preview.dart';
+import 'package:device_preview/plugins.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:muro_dentcloud/palette.dart';
 import 'package:muro_dentcloud/src/pages/sesion/signin.dart';
@@ -17,6 +20,27 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
     final prefs = new PreferenciasUsuario();
     await prefs.initPrefs();
+  //   runApp(Row(
+  //   textDirection: TextDirection.ltr,
+  //   crossAxisAlignment: CrossAxisAlignment.stretch,
+  //   children: [
+  //     /*Expanded(
+  //       child: Container(color: Colors.red),
+  //     ),*/
+  //     Expanded(
+  //       child: DevicePreview(
+  //         enabled: true,
+  //         plugins: [
+  //           const ScreenshotPlugin(),
+  //           const FileExplorerPlugin(),
+  //           const SharedPreferencesExplorerPlugin(),
+  //         ],
+  //         // availableLocales: GalleryLocalizations.supportedLocales,
+  //         builder: (context) => MyApp(),
+  //       ),
+  //     ),
+  //   ],
+  // ));
   initializeDateFormatting().then((_) => runApp(MyApp()));
 } 
 
@@ -57,6 +81,7 @@ class MyApp extends StatelessWidget {
 
       ],
       child: MaterialApp(
+        // builder: DevicePreview.appBuilder,
         debugShowCheckedModeBanner: false,
         title: 'DentCloud_APP',
         theme: ThemeData(
