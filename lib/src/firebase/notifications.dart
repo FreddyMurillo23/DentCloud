@@ -9,8 +9,13 @@ class PushNotificationsProvider{
   FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   final _mensajesStreamController = StreamController<String>.broadcast();
   Stream<String> get mensajes => _mensajesStreamController.stream;
+  String deviceToken;
 
   Future<bool> notificationTest() async {
+    _firebaseMessaging.getToken().then((value) {
+      print(value);
+      deviceToken = value;
+    });
     http.Response response = await http.post(
       "https://fcm.googleapis.com/fcm/send",
       headers: <String, String>{
@@ -18,7 +23,7 @@ class PushNotificationsProvider{
         'Authorization': 'key=AAAAF3o7hC0:APA91bG9epBrVZLExUuxVV0eIb-C2rRE8HU2-MFuamrjxIgKJrG0sMteUSS1LWNPaTxeNdKriHlgfhTDtKugRSRUaPGNIYbXvY6R3d6mA3BX5mpqAwix7BYmF-3UDZJUTGF6V3b4ahAk',
       },
       body: jsonEncode(<String, dynamic>{
-        'to': "cbHnSk--Qw6K4vfGtfXSkV:APA91bE5TU0Z-UXKFK8lzh00TdkTZcGDMLd7ThplWfNCe6H7Zzr9SdBXkyyMX_FXPw0D4BF_FBkQ0_aaPnz8GVJJKOl_64l34hgthqbh_w9onlrIj-BcMUBqs1eVzhR5KjU6sbtmK1QC",
+        'to': deviceToken,
         'notification': {
           'title': 'Testing',
           'body': 'Prueba'     

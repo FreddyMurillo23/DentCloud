@@ -221,7 +221,8 @@ class _NavDrawerState extends State<NavDrawer> {
     return SliverToBoxAdapter(
       child: Column(
         children: [
-          ListTile(
+        widget.currentuser.tipoUsuario == 'D'
+          ? ListTile(
             leading: Icon(Icons.settings),
             title: Text('Repositorio'),
             onTap: () => {
@@ -229,7 +230,7 @@ class _NavDrawerState extends State<NavDrawer> {
               PDFCitaCtrl.listarPDFPatients(prefs.currentCorreo),
               Navigator.of(context).pushNamed('repositorio')
             },
-          ),
+          ) : Container(),
           ListTile(
             leading: Icon(Icons.border_color),
             title: Text('Configuración del Perfil'),

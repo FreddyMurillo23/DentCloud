@@ -41,8 +41,8 @@ class EventosCtrl{
     }
   }
 
-  static Future<bool> actualizarEventosApproved(String id) async{
-    final response = await http.post("http://54.197.83.249/PHP_REST_API/api/put/put_appointment_state.php?id_appointment=$id&state=approved");
+  static Future<bool> actualizarEventosApproved(String id, DateTime fecha) async{
+    final response = await http.post("http://54.197.83.249/PHP_REST_API/api/put/put_appointment_state.php?id_appointment=$id&state=approved&date_time=$fecha");
     if (response.statusCode == 200) {
       print(response.statusCode);
       print("Si");

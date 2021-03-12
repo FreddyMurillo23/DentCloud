@@ -56,6 +56,16 @@ class _RepositorioState extends State<Repositorio> {
     );
   }
 
+  Widget listPDF(List<PDFModelApointment> value, List<Widget> widgets){
+    if(value.isNotEmpty){
+      return ListView(
+        children: widgets,
+      );
+    } else{
+      return Center(child: CircularProgressIndicator());
+    }
+  }
+
   String fecha(DateTime fecha){
     return fecha.year.toString()+'/'+fecha.month.toString()+'/'+fecha.day.toString();
   }
@@ -95,9 +105,7 @@ class _RepositorioState extends State<Repositorio> {
                   ),
                 )));
           });
-          return ListView(
-            children: pdfWidget,
-          );
+          return listPDF(value, pdfWidget);
         });
   }
 }
