@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:muro_dentcloud/src/models/route_argument.dart';
 import 'package:muro_dentcloud/src/pages/Inicio/prueba.dart';
 import 'package:muro_dentcloud/src/pages/agenda/add_event.dart';
 import 'package:muro_dentcloud/src/pages/agenda/agendaUser.dart';
@@ -42,7 +43,9 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'signup': (BuildContext context) => Signup(),
     'startuppage': (BuildContext context) => StartUpPage(),
     'gps': (BuildContext context) => ListaPage(),
-    'home': (BuildContext context) => HomePage(currentuser: null,),
+    'home': (BuildContext context) => HomePage(
+          currentuser: null,
+        ),
     'agenda': (BuildContext context) => AddEvent(),
     'currentPerfil': (BuildContext context) => CurrentUserProfile(),
     'currentBusiness': (BuildContext context) => CurrentBusinessProfile(),
@@ -68,11 +71,12 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'eventDoctor': (BuildContext context) => ViewEvent(),
     'comentario': (BuildContext context) => CommentPage(),
     'repositorio': (BuildContext context) => Repositorio(),
-    'servicesPages':(BuildContext context) =>ServicesPages(),
-    'businessDoctorServices':(BuildContext context) =>BusinessDoctorServices(),
-    'editEvent':(BuildContext context) =>EditEvent(),
-    'registerEmploye':(BuildContext context) =>RegisterEmployee(),
-    
+    'servicesPages': (BuildContext context) => ServicesPages(),
+    'businessDoctorServices': (BuildContext context) => BusinessDoctorServices(
+        routeArgument: ModalRoute.of(context).settings.arguments),
+    'editEvent': (BuildContext context) => EditEvent(),
+    'registerEmploye': (BuildContext context) => RegisterEmployee(),
+
     // 'postPublicacion': (BuildContext context) => PostPublicacionPage(),
   };
 }

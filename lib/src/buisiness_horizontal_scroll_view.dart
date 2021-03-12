@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:muro_dentcloud/src/models/business_model.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
+import 'package:muro_dentcloud/src/models/route_argument.dart';
 import 'package:muro_dentcloud/src/providers/data_provider.dart';
 // import 'package:flutter_facebook_responsive_ui/config/palette.dart';
 // import 'package:flutter_facebook_responsive_ui/models/models.dart';
@@ -69,7 +70,7 @@ class OutBusinessRooms extends StatelessWidget {
                 if (index == 0) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                    child: _CreateRoomButton(business:businessinfo),
+                    child: _CreateRoomButton(business: businessinfo),
                   );
                 }
                 // final User user = onlineUsers[index - 1];
@@ -102,7 +103,9 @@ class OutBusinessRooms extends StatelessWidget {
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 4),
-                            child: businessinfo.personal[index - 1].sexoDoctor == 'F'
+                            child: businessinfo
+                                        .personal[index - 1].sexoDoctor ==
+                                    'F'
                                 ? Text(
                                     'Dra. ${businessinfo.personal[index - 1].nombreDoctor}',
                                     overflow: TextOverflow.ellipsis)
@@ -145,7 +148,7 @@ class _CreateRoomButton extends StatelessWidget {
     return OutlineButton(
       onPressed: () {
         Navigator.pushNamed(context, 'businessDoctorServices',
-                          arguments:business);
+            arguments: RouteArgument(list:  business.personal));
       }, //! aqui va un Navigator
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30.0),
