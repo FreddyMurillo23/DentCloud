@@ -128,7 +128,6 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(80),
         child: RaisedButton(
-          
           onPressed: () {
              Navigator.pushNamed(context, 'registerbusiness',
                     arguments: widget.userinfo);

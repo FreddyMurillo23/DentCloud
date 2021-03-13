@@ -6,7 +6,7 @@ import 'package:muro_dentcloud/src/providers/data_provider.dart';
 import 'package:muro_dentcloud/src/widgets/cards.dart';
 
 class CardPage extends StatefulWidget {
-final CurrentUsuario currentuser;
+  final CurrentUsuario currentuser;
   const CardPage({Key key, @required this.currentuser}) : super(key: key);
   @override
   _CardPageState createState() => _CardPageState();
@@ -25,7 +25,7 @@ class _CardPageState extends State<CardPage> {
 //? Metodo oyente, que toma los datos del Scroll controler para saber si llego al final de la pagina.
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
+          _scrollController.position.maxScrollExtent - 100) {
         // _agregar10();
         fetchData();
       }
@@ -42,37 +42,44 @@ class _CardPageState extends State<CardPage> {
   Widget build(BuildContext context) {
     final _screenSize = MediaQuery.of(context).size;
     return Scaffold(
-      
-      body:
-      Stack(
-            children: <Widget>[
-              _cards(_screenSize),
-              _crearLoading()],
-            )
-    );
+        body: Stack(
+      children: <Widget>[_cards(_screenSize), _crearLoading()],
+    ));
   }
 
   //? Llama a dibujar las cartas y recibe los datos desde el provider
   Widget _cards(_screenSize) {
     //*Llama a el metodo get publicaciones que devuelve una lista donde se ecuentran todos los datos
     return FutureBuilder(
-      future: publicacionesProvider.getPublicacionesUsuario(widget.currentuser.correo),
+      future: publicacionesProvider
+          .getPublicacionesUsuario(widget.currentuser.correo),
       builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
         if (snapshot.hasData) {
           return RefreshIndicator(
-            onRefresh: obtenerPagina1,
-            child: ListView.builder(
-              controller: _scrollController,
-              itemCount: snapshot.data.length,
-              itemBuilder: (BuildContext context, int index) {
-                // print(publicacionesProvider.getPublicaciones());
-                // print(snapshot.data.length);
-                return CardWidgetPublicaciones(
-                    publicaciones: snapshot.data, id: index,userinfo: widget.currentuser,space: true,
-                );
-              },
-            ),
-          );
+              onRefresh: obtenerPagina1,
+              child: SingleChildScrollView(
+                controller: _scrollController,
+                child: Column(
+                  children:
+                      List.generate(snapshot.data.length, (index) {
+                        return CardWidgetPublicaciones(
+                      publicaciones: snapshot.data, id: index,userinfo: widget.currentuser,space: true,
+                  );
+                      }),
+                ),
+              )
+              // ListView.builder(
+              //   controller: _scrollController,
+              //   itemCount: snapshot.data.length,
+              //   itemBuilder: (BuildContext context, int index) {
+              //     // print(publicacionesProvider.getPublicaciones());
+              //     // print(snapshot.data.length);
+              //     return CardWidgetPublicaciones(
+              //         publicaciones: snapshot.data, id: index,userinfo: widget.currentuser,space: true,
+              //     );
+              //   },
+              // ),
+              );
         } else {
           return Container(
             height: _screenSize.height * 4,
