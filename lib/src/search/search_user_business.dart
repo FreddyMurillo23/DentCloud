@@ -45,11 +45,17 @@ class UserBusinessSearch extends SearchDelegate {
     );
   }
 
+
+  
+  
+  
   @override
   Widget buildSuggestions(BuildContext context) {
     final sizescreen = MediaQuery.of(context).size;
     if (activar == true) {
-      return FutureBuilder(
+     return StatefulBuilder(
+        builder:(BuildContext context, StateSetter setState){
+          return FutureBuilder(
         future: businessProvider.userSearch(query),
         builder:
             (BuildContext context, AsyncSnapshot<List<UserData>> snapshot) {
@@ -74,7 +80,10 @@ class UserBusinessSearch extends SearchDelegate {
                        color: activado,
                          child: Text('Usuario'),
                          onPressed: (){
-                           activar=true;
+                         setState((){
+                          activar=true;
+                         });
+                           
                          },
                          shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10))
@@ -91,7 +100,10 @@ class UserBusinessSearch extends SearchDelegate {
                 color: Colors.transparent,
              child: Text('Negocio'),
              onPressed: (){
-               activar=false;
+                setState((){
+                          activar=false;
+                          buildSuggestions(context);
+                         });
              },
              shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10))
@@ -170,7 +182,9 @@ class UserBusinessSearch extends SearchDelegate {
             color: activado,
                          child: Text('Usuario'),
                          onPressed: (){
-                           activar=true;
+                           setState((){
+                          activar=true;
+                         });
                          },
                          shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10))
@@ -187,7 +201,9 @@ class UserBusinessSearch extends SearchDelegate {
                 color: Colors.transparent,
              child: Text('Negocio'),
              onPressed: (){
-               activar=false;
+               setState((){
+                          activar=false;
+                         });
              },
              shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10))
@@ -223,9 +239,13 @@ class UserBusinessSearch extends SearchDelegate {
           }
         },
       );
+        });
+    
     } else 
     {
-      return FutureBuilder(
+     return StatefulBuilder(
+        builder:(BuildContext context, StateSetter setState){
+          return FutureBuilder(
         future: businessProvider.businesSearch(query),
         builder:
             (BuildContext context, AsyncSnapshot<List<Negocio>> snapshot) {
@@ -250,7 +270,9 @@ class UserBusinessSearch extends SearchDelegate {
             color: Colors.transparent,
                          child: Text('Usuario'),
                          onPressed: (){
-                           activar=true;
+                            setState((){
+                          activar=true;
+                         });
                          },
                          shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10))
@@ -267,7 +289,9 @@ class UserBusinessSearch extends SearchDelegate {
                 color: activado,
              child: Text('Negocio'),
              onPressed: (){
-               activar=false;
+                setState((){
+                          activar=false;
+                         });
              },
              shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10))
@@ -347,7 +371,9 @@ class UserBusinessSearch extends SearchDelegate {
             color: Colors.transparent,
                          child: Text('Usuario'),
                          onPressed: (){
-                           activar=true;
+                            setState((){
+                          activar=true;
+                         });
                          },
                          shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10))
@@ -364,7 +390,10 @@ class UserBusinessSearch extends SearchDelegate {
                 color: activado,
              child: Text('Negocio'),
              onPressed: (){
-               activar=false;
+                setState((){
+                          activar=false;
+                        
+                         });
              },
              shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10))
@@ -400,7 +429,8 @@ class UserBusinessSearch extends SearchDelegate {
           }
         },
       );
-      
+    });
+
     }
   }
 }
