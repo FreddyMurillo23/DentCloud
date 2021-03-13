@@ -11,15 +11,15 @@ class BurbujaChat extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     if (correoLoggeado != mensajitos[id].emisor) {
-       return usuarionoLogeado(screenSize);
+       return usuarionoLogeado(screenSize, context);
     }
     else
     {
-        return usuarioLogeado(screenSize);
+        return usuarioLogeado(screenSize,context);
     }
   }
 
-  Widget usuarionoLogeado(Size screenSize){
+  Widget usuarionoLogeado(Size screenSize, BuildContext context){
 
     if( mensajitos[id].messageMessageType=="M")
     {
@@ -45,32 +45,37 @@ class BurbujaChat extends StatelessWidget {
     }
     else if(mensajitos[id].messageMessageType=="I")
     {
-      return Container( 
-       child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-         children: [
-           Text(mensajitos[id].timeHour),
-            SizedBox(height: 5.0,),
+      return GestureDetector(
+        onTap: (){
+        mostrarImagen(mensajitos[id].messageUrlContent,context);
+        },
+         child: Container( 
+         child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+           children: [
+             Text(mensajitos[id].timeHour),
+              SizedBox(height: 5.0,),
 
-            FadeInImage(placeholder: AssetImage('assets/loading.gif'), image:NetworkImage(mensajitos[id].messageUrlContent),height: 150),
-         ],
-       ),
-       padding: EdgeInsets.symmetric(horizontal: 25.0,vertical: 15),
-       margin: EdgeInsets.only(top: 8.0,bottom: 8.0,right: 80),
-       decoration: BoxDecoration(
-         color: grey,
-         borderRadius: BorderRadius.only(
-           topLeft: Radius.circular(15),
-           bottomRight: Radius.circular(15)
+              FadeInImage(placeholder: AssetImage('assets/loading.gif'), image:NetworkImage(mensajitos[id].messageUrlContent),height: 150),
+           ],
          ),
-       ),
+         padding: EdgeInsets.symmetric(horizontal: 25.0,vertical: 15),
+         margin: EdgeInsets.only(top: 8.0,bottom: 8.0,right: 80),
+         decoration: BoxDecoration(
+           color: grey,
+           borderRadius: BorderRadius.only(
+             topLeft: Radius.circular(15),
+             bottomRight: Radius.circular(15)
+           ),
+         ),
+        ),
       );
 
     }
     
   }
   
-  Widget usuarioLogeado(Size screenSize)
+  Widget usuarioLogeado(Size screenSize, BuildContext context)
   {
 
     if(mensajitos[id].messageMessageType=="M")
@@ -98,31 +103,67 @@ class BurbujaChat extends StatelessWidget {
     }
     else if(mensajitos[id].messageMessageType=="I")
     {
-      return Container( 
-       child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-         children: [
-           Text(mensajitos[id].timeHour),
-            SizedBox(height: 5.0,),
+      return GestureDetector(
+        onTap: (){
+        mostrarImagen(mensajitos[id].messageUrlContent,context);
+        },
+              child: Container( 
+         child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+           children: [
+             Text(mensajitos[id].timeHour),
+              SizedBox(height: 5.0,),
 
-            FadeInImage(placeholder: AssetImage('assets/loading.gif'), 
-            image:NetworkImage(mensajitos[id].messageUrlContent),height: 150,),
-         ],
-       ),
-       padding: EdgeInsets.symmetric(horizontal: 25.0,vertical: 15),
-       margin: EdgeInsets.only(top: 8.0,bottom: 8.0,left:  80),
-       decoration: BoxDecoration(
-         color: Colors.blue[100],
-         borderRadius: BorderRadius.only(
-           topLeft: Radius.circular(15),
-           bottomRight: Radius.circular(15)
+              FadeInImage(placeholder: AssetImage('assets/loading.gif'), 
+              image:NetworkImage(mensajitos[id].messageUrlContent),height: 150,),
+           ],
          ),
-       ),
+         padding: EdgeInsets.symmetric(horizontal: 25.0,vertical: 15),
+         margin: EdgeInsets.only(top: 8.0,bottom: 8.0,left:  80),
+         decoration: BoxDecoration(
+           color: Colors.blue[100],
+           borderRadius: BorderRadius.only(
+             topLeft: Radius.circular(15),
+             bottomRight: Radius.circular(15)
+           ),
+         ),
+        ),
       );
 
     }
     
   
+  }
+  
+  Future mostrarImagen(String url,BuildContext context){
+    return showDialog(
+               context: context,
+               builder: (_)=>
+                  AlertDialog(
+                  content: Builder(
+                    builder: (context){
+                      var height = MediaQuery.of(context).size.height;
+                      var width = MediaQuery.of(context).size.width;
+                      return Container(
+                            height: height*0.4,
+                            width: width*0.7,
+                            child: FadeInImage(placeholder: AssetImage('assets/loading.gif'), 
+              image:NetworkImage(mensajitos[id].messageUrlContent),height: height*0.6,width: width*0.8,),
+                            //color: Colors.green,
+                      );
+                    },
+                  ),
+                  title: Text("Imagen Abierta"),
+                  actions: [
+                    TextButton(
+                      child: Text('Regresar'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                ),
+        );
   }
   
   

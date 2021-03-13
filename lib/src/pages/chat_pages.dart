@@ -6,7 +6,7 @@ import 'package:muro_dentcloud/src/pages/chat/lista_chat.dart';
 import 'package:muro_dentcloud/src/pages/chat/lista_chat1.dart';
 import 'package:muro_dentcloud/src/providers/data_provide1.dart';
 import 'package:path_provider/path_provider.dart';
-//import 'package:file_picker/file_picker.dart';
+// import 'package:file_picker/file_picker.dart';
 
 import 'colors/colors.dart';
 class ChatPage extends StatefulWidget {
@@ -267,7 +267,8 @@ class _ChatPageState extends State<ChatPage> {
         );
     }
     
-  }
+}
+
 
   Future<String>  localPath() async {
 
@@ -279,5 +280,5 @@ class _ChatPageState extends State<ChatPage> {
 // } else {
 //    // User canceled the picker
 // }
-}
+ }
 }

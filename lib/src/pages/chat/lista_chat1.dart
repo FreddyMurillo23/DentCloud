@@ -31,7 +31,7 @@ class _GetBodyChat1State extends State<GetBodyChat1> {
       if(scrollController.positions.isEmpty)
       {
       Timer(
-    Duration(seconds: 3),
+    Duration(seconds: 2),
     () =>scrollController.jumpTo(scrollController.position.maxScrollExtent),
     );
 
