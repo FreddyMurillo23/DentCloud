@@ -50,6 +50,7 @@ class _CurrentBusinessProfileState extends State<CurrentBusinessProfile> {
                             sliver: SliverToBoxAdapter(
                               child: BusinessRooms(
                                 businessinfo: businessinfo.data[0],
+                                userinfo: widget.currentuser,
                               ),
                             ),
                           ),
