@@ -260,6 +260,17 @@ class _ViewEventState extends State<ViewEvent> {
                         ],
                       ),
                       SizedBox(height: 15,),
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: Center(child: new Text(widget.eventosModeloGlobal.nombrenegocio))
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 15,),
                       //Descripcion
                       Row(
                         mainAxisSize: MainAxisSize.max,

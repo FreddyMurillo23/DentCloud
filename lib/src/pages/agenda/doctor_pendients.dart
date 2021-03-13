@@ -363,7 +363,7 @@ class _DoctorEventsPendientsState extends State<DoctorEventsPendients> {
                                     const EdgeInsets.symmetric(vertical: 2.0),
                               ),
                               Text(
-                                'Approved',
+                                'Aprobar',
                                 style: TextStyle(color: Colors.green),
                               ),
                             ],
@@ -384,7 +384,7 @@ class _DoctorEventsPendientsState extends State<DoctorEventsPendients> {
                                     const EdgeInsets.symmetric(vertical: 2.0),
                               ),
                               Text(
-                                'Denied',
+                                'Denegar',
                                 style: TextStyle(color: Colors.red),
                               ),
                             ],
@@ -417,7 +417,7 @@ class _DoctorEventsPendientsState extends State<DoctorEventsPendients> {
                                     const EdgeInsets.symmetric(vertical: 2.0),
                               ),
                               Text(
-                                'Edit',
+                                'Editar',
                                 style: TextStyle(color: Colors.black),
                               ),
                             ],

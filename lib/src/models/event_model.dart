@@ -10,8 +10,9 @@ class EventosModelo{
   String idservicio;
   String correo;
   String foto;
+  String nombrenegocio;
 
-  EventosModelo({this.paciente,this.fecha,this.servicio,this.descripcion, this.idcita, this.correo, this.foto, this.idservicio, this.apellidoPaciente, this.fechaNacimiento, this.nombrePaciente});
+  EventosModelo({this.nombrenegocio, this.paciente,this.fecha,this.servicio,this.descripcion, this.idcita, this.correo, this.foto, this.idservicio, this.apellidoPaciente, this.fechaNacimiento, this.nombrePaciente});
 
   factory EventosModelo.fromJson(Map<String, dynamic> json) {
     return EventosModelo(
@@ -26,6 +27,7 @@ class EventosModelo{
       correo: json['correo_paciente'],
       foto: json['foto_paciente'],
       idservicio: json['id_servicio'],
+      nombrenegocio: json['nombre_negocio'] != null ? json['nombre_negocio'] : ""
     );
   }
 }
@@ -40,8 +42,9 @@ class EventosModeloUsuario{
   String idcita;
   String foto;
   String idServicio;
+  String nombrenegocio;
 
-  EventosModeloUsuario({this.doctor,this.fecha,this.servicio,this.descripcion,this.idcita, this.foto, this.apellidoDoctor, this.nombreDoctor, this.idServicio});
+  EventosModeloUsuario({this.nombrenegocio ,this.doctor,this.fecha,this.servicio,this.descripcion,this.idcita, this.foto, this.apellidoDoctor, this.nombreDoctor, this.idServicio});
 
   factory EventosModeloUsuario.fromJson(Map<String, dynamic> json) {
     return EventosModeloUsuario(
@@ -53,7 +56,8 @@ class EventosModeloUsuario{
       descripcion: json['descripcion'],
       idcita: json['id_cita'],
       foto:  json['foto_doctor'],
-      idServicio: json['id_servicio']
+      idServicio: json['id_servicio'],
+      nombrenegocio: json['nombre_negocio'] != null ? json['nombre_negocio'] : ""
     );
   }
 }
