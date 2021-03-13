@@ -24,7 +24,6 @@ class _CurrentUserProfileState extends State<CurrentUserProfile> {
     CurrentUsuario userinfo = ModalRoute.of(context).settings.arguments;
     // print(userinfo.publicaciones);
     return Scaffold(
-
       body: Container(
         color: Colors.white,
         child: FutureBuilder(
@@ -62,12 +61,16 @@ class _CurrentUserProfileState extends State<CurrentUserProfile> {
   Widget publicaciones(
       CurrentUsuario userinfo, Size _screenSize, AsyncSnapshot snapshot) {
     if (snapshot.hasData) {
-      return SliverList(
-          delegate:
-              SliverChildBuilderDelegate((BuildContext context, int index) {
-        // print(snapshot.data.length);
-        return CardWidgetPublicaciones(publicaciones: snapshot.data, id: index,space: true,);
-      }, childCount: snapshot.data.length));
+      return SliverToBoxAdapter(
+        child: Column(children: List.generate(snapshot.data.length, (index) {
+          return CardWidgetPublicaciones(
+          publicaciones: snapshot.data,
+          id: index,
+          space: true,
+        );
+        }),),
+      );
+
     } else {
       return SliverToBoxAdapter(
         child: Container(

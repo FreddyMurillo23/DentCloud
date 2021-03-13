@@ -59,14 +59,29 @@ class _CardPageState extends State<CardPage> {
               onRefresh: obtenerPagina1,
               child: SingleChildScrollView(
                 controller: _scrollController,
-                child: Column(
-                  children:
-                      List.generate(snapshot.data.length, (index) {
-                        return CardWidgetPublicaciones(
-                      publicaciones: snapshot.data, id: index,userinfo: widget.currentuser,space: true,
-                  );
-                      }),
-                ),
+                child: snapshot.data.length != 0
+                    ? Column(
+                        children: List.generate(snapshot.data.length, (index) {
+                          return CardWidgetPublicaciones(
+                            publicaciones: snapshot.data,
+                            id: index,
+                            userinfo: widget.currentuser,
+                            space: true,
+                          );
+                        }),
+                      )
+                    : Column(
+                        children: [
+                          Container(
+                            child: Image(
+                              fit: BoxFit.contain,
+                              image: AssetImage('assets/DentCloud.png'),
+                            ),
+                          ),
+                          SizedBox(height: MediaQuery.of(context).size.height*0.02,),
+                          Center(child: Text('No hay publaciones por mostrar\n Sigue a alguien o publica por primera vez',textAlign: TextAlign.center,style: TextStyle(fontSize: MediaQuery.of(context).size.width*0.04),))
+                        ],
+                      ),
               )
               // ListView.builder(
               //   controller: _scrollController,
@@ -124,8 +139,8 @@ class _CardPageState extends State<CardPage> {
 // ? Condiciona la respuesta http para que los datos que se traigan tengan animacion y luego agrega 10 mas
   void respuestaHTTP() {
     _isLoading = false;
-    _scrollController.animateTo(_scrollController.position.pixels + 100,
-        curve: Curves.fastOutSlowIn, duration: Duration(milliseconds: 250));
+    // _scrollController.animateTo(_scrollController.position.pixels + 100,
+    //     curve: Curves.fastOutSlowIn, duration: Duration(milliseconds: 250));
     _agregar10();
   }
 

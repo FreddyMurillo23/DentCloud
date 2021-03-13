@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:muro_dentcloud/src/models/apointments_model.dart';
 import 'package:muro_dentcloud/src/models/business_model.dart';
@@ -302,7 +303,8 @@ class DataProvider {
       String fotopath,
       double latitud,
       double longitud) async {
-    var url2='http://54.197.83.249/PHP_REST_API/api/post/post_business.php?business_ruc=$businessRuc&business_name=$businessName&business_phone=$businessPhone&province=$province&canton=$canton&business_location=$businessLocation&user_email=$usermail&length=$longitud&latitude=$latitud';    
+    var url2 =
+        'http://54.197.83.249/PHP_REST_API/api/post/post_business.php?business_ruc=$businessRuc&business_name=$businessName&business_phone=$businessPhone&province=$province&canton=$canton&business_location=$businessLocation&user_email=$usermail&length=$longitud&latitude=$latitud';
     var url = Uri.parse(
         'http://54.197.83.249/PHP_REST_API/api/post/post_business.php?business_ruc=$businessRuc&business_name=$businessName&business_phone=$businessPhone&province=$province&canton=$canton&business_location=$businessLocation&user_email=$usermail&length=$longitud&latitude=$latitud');
     var request = http.MultipartRequest('POST', url);
@@ -311,14 +313,11 @@ class DataProvider {
       request.files.add(pic);
     }
     final streamResponse = await request.send();
-      final resp = await http.Response.fromStream(streamResponse);
-    if(resp.statusCode==200)
-    {
+    final resp = await http.Response.fromStream(streamResponse);
+    if (resp.statusCode == 200) {
       return true;
-    }
-    else
-    {
-    return false;
+    } else {
+      return false;
     }
   }
 
@@ -420,6 +419,19 @@ class DataProvider {
 
     // print(public);
     return publicaciones.items;
+  }
+
+  Future<bool> getOwner({String email, String ruc}) async {
+    //
+    String url =
+        'http://54.197.83.249/PHP_REST_API/api/put/validate_if_business_owner.php?business_ruc=$ruc&doctor_email=$email';
+    final resp = await http.get(url);
+    //? decodificacion de la data json.decode
+    final decodedData = json.decode(resp.body);
+    List<dynamic> jsonList = decodedData['respuesta_obtenida'];
+    Map<String, dynamic> map = jsonList[0];
+    print(map['resultado']);
+    return map['resultado'];
   }
 
   Future<bool> setComentario(

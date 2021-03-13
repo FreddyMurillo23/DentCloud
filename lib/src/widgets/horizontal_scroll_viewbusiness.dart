@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:muro_dentcloud/src/models/business_model.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
+import 'package:muro_dentcloud/src/models/route_argument.dart';
 import 'package:muro_dentcloud/src/providers/data_provider.dart';
 // import 'package:flutter_facebook_responsive_ui/config/palette.dart';
 // import 'package:flutter_facebook_responsive_ui/models/models.dart';
@@ -69,7 +70,9 @@ class BusinessRooms extends StatelessWidget {
                 if (index == 0) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                    child: _CreateRoomButton(business:businessinfo),
+                    //!!
+
+                    child: _CreateRoomButton(business: businessinfo,ruc: businessinfo.ruc,email: userinfo.correo,),
                   );
                 }
                 // final User user = onlineUsers[index - 1];
@@ -102,7 +105,9 @@ class BusinessRooms extends StatelessWidget {
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 4),
-                            child: businessinfo.personal[index - 1].sexoDoctor == 'F'
+                            child: businessinfo
+                                        .personal[index - 1].sexoDoctor ==
+                                    'F'
                                 ? Text(
                                     'Dra. ${businessinfo.personal[index - 1].nombreDoctor}',
                                     overflow: TextOverflow.ellipsis)
@@ -138,14 +143,27 @@ class BusinessRooms extends StatelessWidget {
 
 class _CreateRoomButton extends StatelessWidget {
   final NegocioData business;
+  final String ruc;
+  final String email;
 
-  const _CreateRoomButton({Key key, this.business}) : super(key: key);
+  const _CreateRoomButton({
+    Key key,
+    this.business,
+    @required this.email,
+    @required this.ruc,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return OutlineButton(
+    final data = DataProvider();
+    return FutureBuilder(
+      future:
+          data.getOwner(ruc: ruc, email: email),
+      builder: (context, AsyncSnapshot<bool> snapshot) {
+        if (snapshot.hasData) {
+          if (snapshot.data) {
+            return OutlineButton(
       onPressed: () {
-        Navigator.pushNamed(context, 'registerEmploye',
-                          arguments:business);
+        Navigator.pushNamed(context, 'registerEmploye', arguments: business);
       }, //! aqui va un Navigator
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30.0),
@@ -178,5 +196,51 @@ class _CreateRoomButton extends StatelessWidget {
         ],
       ),
     );
+          } else {
+            return OutlineButton(
+      onPressed: () {
+        Navigator.pushNamed(context, 'businessDoctorServices',
+            arguments: RouteArgument(list: business.personal));
+      }, //! aqui va un Navigator
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30.0),
+      ),
+      color: Colors.white,
+      borderSide: BorderSide(
+        width: 3.0,
+        color: Colors.blueAccent[100],
+      ),
+      textColor: Palette.textColor,
+      child: Row(
+        children: [
+          ShaderMask(
+            shaderCallback: (rect) => LinearGradient(colors: [
+              Color(0xFFCDDC39),
+              Color(0xFF4BCB1F),
+              Color(0xFF1777F2)
+            ]).createShader(rect),
+            child: Icon(
+              Icons.person_search,
+              size: 35.0,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(width: 4.0),
+          Text(
+            'Ver\ntodos',
+            textAlign: TextAlign.center,
+          ), //! Aqui va un dato
+        ],
+      ),
+    );
+          }
+        } else {
+          return Container();
+        }
+      },
+    );
+    
+
+    
   }
 }
