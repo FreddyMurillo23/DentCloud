@@ -146,27 +146,29 @@ class _ChatPageState extends State<ChatPage> {
               },
             
             ),
-            IconButton(
-              icon: Icon(Icons.note_add_rounded),
-              iconSize: 25,
-              color: primary,
-              onPressed: () {
-                localPath();
-              },
-            ),
+            // IconButton(
+            //   icon: Icon(Icons.note_add_rounded),
+            //   iconSize: 25,
+            //   color: primary,
+            //   onPressed: () {
+            //     localPath();
+            //   },
+            // ),
             Expanded(
               child: Form(
                 key: _formKey,
-                child: TextFormField(
-                  validator: (value)=> value.isEmpty?
-                  null : !validarMensaje(value)
-                    ? null
-                    : null,
-                  onSaved: (value) => this.mensaje = value,
-                  controller: _envioMensajeController,
-                  decoration:
-                      InputDecoration.collapsed(hintText: 'Enviar mensaje..'),
-                  textCapitalization: TextCapitalization.sentences,
+                child: Center(
+                  child: TextFormField(
+                    validator: (value)=> value.isEmpty?
+                    null : !validarMensaje(value)
+                      ? null
+                      : null,
+                    onSaved: (value) => this.mensaje = value,
+                    controller: _envioMensajeController,
+                    decoration:
+                        InputDecoration.collapsed(hintText: 'Enviar mensaje..'),
+                    textCapitalization: TextCapitalization.sentences,
+                  ),
                 ),
               ),
             ),

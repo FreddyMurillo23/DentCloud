@@ -1,8 +1,11 @@
+import 'dart:isolate';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:muro_dentcloud/src/models/business_model.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
+import 'package:muro_dentcloud/src/providers/data_provider.dart';
 import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
 import '../circle_button.dart';
 // import 'package:flutter/material.dart';
@@ -20,6 +23,8 @@ class BusinessAppBar extends StatefulWidget {
 class _BusinessAppBarState extends State<BusinessAppBar> {
   List normal = new List();
   bool current = true;
+  final data = DataProvider();
+  bool isOwner;
   //*true = currentLoginProfile
   //!false = OutProfile
 
@@ -37,6 +42,11 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
   //!false = RUC
   @override
   Widget build(BuildContext context) {
+    @override
+    void initState() {
+      super.initState();
+    }
+
     // final NegocioData userinfo = ModalRoute.of(context).settings.arguments;
     final _screenSize = MediaQuery.of(context).size;
     return SliverAppBar(
@@ -158,9 +168,25 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
       ),
     );
   }
+
   Widget profileButton() {
     return current
-        ? editarPerfil()
+        ? FutureBuilder(
+            future: data.getOwner(ruc: widget.userinfo.ruc,email: widget.usuario.correo),
+            builder: (context, AsyncSnapshot <bool> snapshot) {
+              if (snapshot.hasData) {
+                if(snapshot.data){
+                  return editarPerfil();
+                  
+                }else{
+                return Container();
+
+                }
+              } else {
+                return Container();
+              }
+            },
+          )
         : AnimatedSwitcher(
             duration: const Duration(seconds: 1),
             switchOutCurve: Curves.easeOutExpo,
@@ -210,7 +236,7 @@ class _BusinessAppBarState extends State<BusinessAppBar> {
           .createShader(rect),
       child: RaisedButton(
         onPressed: () {
-          Navigator.pushNamed(context, 'settings',arguments: prefs.profileID);
+          Navigator.pushNamed(context, 'settings', arguments: prefs.profileID);
           setState(() {});
         },
         child: Text('Editar Consultorio'),

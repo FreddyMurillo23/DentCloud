@@ -31,6 +31,10 @@ class AwaitPage extends StatelessWidget {
                   arguments: value[0]);
             } else {
               print("Error");
+              final duration = new Duration(seconds: 2);
+        new Timer(duration, () {
+          Navigator.pushReplacementNamed(context, 'signin');
+        });
             }
           });
         });

@@ -157,9 +157,11 @@ class _CommentPageState extends State<CommentPage> {
     );
   }
 
-  Widget userAvatarComentario(Size screenSize, AsyncSnapshot snapshot, int i) {
-    final data = snapshot.data[0];
+  Widget userAvatarComentario(Size screenSize, AsyncSnapshot<List<Publicacion>> snapshot, int i) {
+    Publicacion data = snapshot.data[0];
     // print(data.comentarios[i].comentaryId);
+    final prefs = new PreferenciasUsuario();
+    final useremail = prefs.currentCorreo;
     return Card(
       elevation: 5,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
@@ -202,12 +204,13 @@ class _CommentPageState extends State<CommentPage> {
                   ],
                 ),
               ),
+              data.comentarios[i].userEmail == useremail||data.correoUsuario == useremail?
               GestureDetector(
                 child: PopupOptionMenu(data, i),
                 onTap: () {
                   setState(() {});
                 },
-              ),
+              ):Container(),
             ],
           ),
           Padding(
