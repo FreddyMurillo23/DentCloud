@@ -78,16 +78,25 @@ class _CurrentBusinessProfileState extends State<CurrentBusinessProfile> {
 
   Widget publicaciones(Size _screenSize, AsyncSnapshot snapshot) {
     if (snapshot.hasData) {
-      return SliverList(
-          delegate:
-              SliverChildBuilderDelegate((BuildContext context, int index) {
-        // print(snapshot.data.length);
-        return CardWidgetPublicaciones(
+      return SliverToBoxAdapter(
+        child: Column(children: List.generate(snapshot.data.length, (index) {
+          return CardWidgetPublicaciones(
           publicaciones: snapshot.data,
           id: index,
           space: true,
         );
-      }, childCount: snapshot.data.length));
+        }),),
+      );
+      // return SliverList(
+      //     delegate:
+      //         SliverChildBuilderDelegate((BuildContext context, int index) {
+      //   // print(snapshot.data.length);
+      //   return CardWidgetPublicaciones(
+      //     publicaciones: snapshot.data,
+      //     id: index,
+      //     space: true,
+      //   );
+      // }, childCount: snapshot.data.length));
     } else {
       return SliverToBoxAdapter(
         child: Container(

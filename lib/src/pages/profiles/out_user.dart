@@ -85,16 +85,17 @@ class _OutUserProfileState extends State<OutUserProfile> {
   Widget publicaciones(
       CurrentUsuario userinfo, Size _screenSize, List<Publicacion> snapshot) {
     if (snapshot.length > 0) {
-      return SliverList(
-          delegate:
-              SliverChildBuilderDelegate((BuildContext context, int index) {
-        // print(snapshot.data.length);
-        return CardWidgetPublicaciones(
+
+      return SliverToBoxAdapter(
+        child: Column(children: List.generate(snapshot.length, (index) {
+          return CardWidgetPublicaciones(
           publicaciones: snapshot,
           id: index,
           space: true,
         );
-      }, childCount: snapshot.length));
+        }),),
+      );
+
     } else {
       return SliverToBoxAdapter(
         child: Container(
