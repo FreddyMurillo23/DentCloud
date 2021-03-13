@@ -25,6 +25,13 @@ class PostPublicaciones extends StatefulWidget {
 }
 
 class _PostPublicacionesState extends State<PostPublicaciones> {
+  bool _isButtonDisabled;
+  @override
+  void initState() {
+    super.initState();
+    _isButtonDisabled = true;
+  }
+
   TextEditingController controladorCorreoUser = TextEditingController();
   final formKey = GlobalKey<FormState>();
   final publicacion = new Publicacion();
@@ -56,6 +63,7 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
       },
     );
   }
+
   var correo = ' ';
   File foto;
   @override
@@ -82,7 +90,7 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
               SizedBox(
                 height: screenSize.height * 0.015,
               ),
-              _bottonEnviarForm(screenSize, widget.currentuser),
+              _bottonEnviarForm(screenSize, widget.currentuser,_isButtonDisabled),
               SizedBox(
                 height: 60,
               )
@@ -184,32 +192,35 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
     );
   }
 
-  Widget _bottonEnviarForm(Size screenSize, CurrentUsuario userinfo) {
+  Widget _bottonEnviarForm(Size screenSize, CurrentUsuario userinfo,bool _isButtonDisabled) {
     return RaisedButton.icon(
+      disabledColor: Colors.grey,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
       color: Colors.lightBlue,
       textColor: Colors.white,
       label: Text('Publicar'),
       icon: Icon(Icons.publish),
-      onPressed: () async {
-        formKey.currentState.save();
-        publicacion.usuario = '${userinfo.nombres} ${userinfo.apellidos}';
-        publicacion.correoUsuario = '${userinfo.correo}';
-        String id = await publicacionesProvider.subirImagenPublicacion(
-            foto, publicacion);
-        print(id);
-        if (etiquetas.length > 0) {
-          for (var i = 0; i < etiquetas.length; i++) {
-            etiquetas[i].publicacionId = id;
-            print(etiquetas[i].correoEtiquetado);
-            print(etiquetas[i].publicacionId);
-            print(etiquetas[i].nombreUsuarioEtiquetado);
-          }
-          await publicacionesProvider.insertarEtiquetas(etiquetas);
-        }
-        _showDialog();
-        // Navigator.pushNamed(context, 'prueba');
-      },
+      onPressed: _isButtonDisabled
+          ? null
+          : () async {
+              formKey.currentState.save();
+              publicacion.usuario = '${userinfo.nombres} ${userinfo.apellidos}';
+              publicacion.correoUsuario = '${userinfo.correo}';
+              String id = await publicacionesProvider.subirImagenPublicacion(
+                  foto, publicacion);
+              print(id);
+              if (etiquetas.length > 0) {
+                for (var i = 0; i < etiquetas.length; i++) {
+                  etiquetas[i].publicacionId = id;
+                  print(etiquetas[i].correoEtiquetado);
+                  print(etiquetas[i].publicacionId);
+                  print(etiquetas[i].nombreUsuarioEtiquetado);
+                }
+                await publicacionesProvider.insertarEtiquetas(etiquetas);
+              }
+              _showDialog();
+              // Navigator.pushNamed(context, 'prueba');
+            },
     );
   }
 
@@ -242,6 +253,7 @@ class _PostPublicacionesState extends State<PostPublicaciones> {
                 if (negocio != null) {
                   publicacion.negocio = negocio.negocio;
                   publicacion.negocioRuc = negocio.negocioRuc;
+                  _isButtonDisabled = false;
                 }
               });
             }));
