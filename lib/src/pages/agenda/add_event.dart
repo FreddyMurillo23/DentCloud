@@ -293,10 +293,10 @@ class _AddEventState extends State<AddEvent> {
                                   onTap: ()async{
                                   _selectedItem = null;
                                   historial = [];
-                                  final seleccionDoctor = await showSearch(context: context, delegate: EventSearchDelegate('Buscar Negocios', historial));
+                                  final seleccionDoctorNegocio = await showSearch(context: context, delegate: EventSearchDelegate('Buscar Negocios', historial));
                                   //servicioProvider.listarServiciosNuevo(seleccionDoctor.correo, '1316024427001');
                                   setState(() {
-                                    negocioSeleccionado = seleccionDoctor;
+                                    negocioSeleccionado = seleccionDoctorNegocio;
                                     controlador.text = negocioSeleccionado.nombrenegocio;
                                     // servicioProvider.listarServiciosNuevo(seleccionDoctor.correo, '1316024427001');
                                     //if(seleccionDoctor !=null) {this.historial.insert(0, seleccionDoctor);}                        
@@ -373,7 +373,7 @@ class _AddEventState extends State<AddEvent> {
                                 suffixIcon: GestureDetector(
                                   onTap: ()async{
                                   final seleccionDoctor = await showSearch(context: context, delegate: DoctorSearchDelegate('Buscar Doctores en el Negocio', historial, negocioSeleccionado.rucnegocio));
-                                  servicioProvider.listarServiciosNuevo(seleccionDoctor.correodoctor, '1316024427001');
+                                  //servicioProvider.listarServiciosNuevo(seleccionDoctor.correodoctor, '1316024427001');
                                   setState(() {
                                     doctorSeleccionadoNegocio = seleccionDoctor;
                                     controladorDoctor.text = doctorSeleccionadoNegocio.nombredoctor;                     

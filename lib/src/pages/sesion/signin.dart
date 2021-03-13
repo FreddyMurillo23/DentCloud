@@ -89,109 +89,111 @@ class _SignInState extends State<SignIn> {
               image: AssetImage("assets/fondo.jpg"), fit: BoxFit.cover),
         ),
         child: new Center(
-          child: new Container(
-            height: 450,
-            width: 350,
-            padding: EdgeInsets.symmetric(horizontal: 24),
-            decoration: BoxDecoration(
-                color: Colors.white30, borderRadius: BorderRadius.circular(70)),
-            child: new Form(
-              key: formkey,
-              child: new Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  SizedBox(
-                    height: 10,
-                  ),
+          child: SingleChildScrollView(
+            child: new Container(
+              height: 450,
+              width: 350,
+              padding: EdgeInsets.symmetric(horizontal: 24),
+              decoration: BoxDecoration(
+                  color: Colors.white30, borderRadius: BorderRadius.circular(70)),
+              child: new Form(
+                key: formkey,
+                child: new Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    SizedBox(
+                      height: 10,
+                    ),
 
-                  LogoContainer(),
+                    LogoContainer(),
 
-                  SizedBox(
-                    height: 20,
-                  ),
+                    SizedBox(
+                      height: 20,
+                    ),
 
-                  //TextField Email
-                  new TextFormField(
-                      autofocus: false,
-                      keyboardType: TextInputType.emailAddress,
+                    //TextField Email
+                    new TextFormField(
+                        autofocus: false,
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: InputDecoration(
+                          labelText: "Correo Electrónico",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                            borderSide: BorderSide(color: Colors.black),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(20)),
+                              borderSide: BorderSide(color: Colors.black)),
+                          prefixIcon: Icon(Icons.mail),
+                          filled: true,
+                          fillColor: Colors.white,
+                        ),
+                        validator: (value) => value.isEmpty
+                            ? 'El email no puede estar vacío'
+                            : null,
+                        onSaved: (value) => _email = value),
+
+                    SizedBox(
+                      height: 8,
+                    ),
+
+                    //TextField Password
+                    new TextFormField(
+                      obscureText: true,
+                      keyboardType: TextInputType.visiblePassword,
                       decoration: InputDecoration(
-                        labelText: "Correo Electrónico",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          borderSide: BorderSide(color: Colors.black),
-                        ),
-                        focusedBorder: OutlineInputBorder(
+                          labelText: "Contraseña",
+                          border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(20)),
-                            borderSide: BorderSide(color: Colors.black)),
-                        prefixIcon: Icon(Icons.mail),
-                        filled: true,
-                        fillColor: Colors.white,
-                      ),
+                            borderSide: BorderSide(color: Colors.black),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(20)),
+                              borderSide: BorderSide(color: Colors.black)),
+                          prefixIcon: Icon(Icons.vpn_key),
+                          filled: true,
+                          fillColor: Colors.white),
                       validator: (value) => value.isEmpty
-                          ? 'El email no puede estar vacío'
+                          ? 'La contraseña no puede estar vacía'
                           : null,
-                      onSaved: (value) => _email = value),
-
-                  SizedBox(
-                    height: 8,
-                  ),
-
-                  //TextField Password
-                  new TextFormField(
-                    obscureText: true,
-                    keyboardType: TextInputType.visiblePassword,
-                    decoration: InputDecoration(
-                        labelText: "Contraseña",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          borderSide: BorderSide(color: Colors.black),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                            borderSide: BorderSide(color: Colors.black)),
-                        prefixIcon: Icon(Icons.vpn_key),
-                        filled: true,
-                        fillColor: Colors.white),
-                    validator: (value) => value.isEmpty
-                        ? 'La contraseña no puede estar vacía'
-                        : null,
-                    onSaved: (value) => _password = value,
-                  ),
-
-                  SizedBox(
-                    height: 8,
-                  ),
-
-                  //SignIn Button
-                  new RaisedButton(
-                    child: Text("Iniciar Sesión"),
-                    onPressed: validaterField,
-                    color: Colors.lightBlue,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18),
+                      onSaved: (value) => _password = value,
                     ),
-                  ),
 
-                  SizedBox(
-                    height: 5,
-                  ),
-
-                  //SignUp Button
-                  new RaisedButton(
-                    child: Text("Registrarse"),
-                    onPressed: () => {
-                      Navigator.of(context).pushNamedAndRemoveUntil(
-                          'signup', (Route<dynamic> route) => false)
-                    },
-                    color: Colors.lightBlue,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18),
+                    SizedBox(
+                      height: 8,
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                ],
+
+                    //SignIn Button
+                    new RaisedButton(
+                      child: Text("Iniciar Sesión"),
+                      onPressed: validaterField,
+                      color: Colors.lightBlue,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                    ),
+
+                    SizedBox(
+                      height: 5,
+                    ),
+
+                    //SignUp Button
+                    new RaisedButton(
+                      child: Text("Registrarse"),
+                      onPressed: () => {
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                            'signup', (Route<dynamic> route) => false)
+                      },
+                      color: Colors.lightBlue,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
