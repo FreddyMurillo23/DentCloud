@@ -57,7 +57,7 @@ class _AddEventState extends State<AddEvent> {
         Navigator.pop(context);
       } else{
         _showDialog("No se pudo registrar su cita");
-        print("No se pudo burro");
+        print("No se pudo");
       }
     });
   } else{
