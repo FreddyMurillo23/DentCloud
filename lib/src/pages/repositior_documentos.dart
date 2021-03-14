@@ -90,8 +90,8 @@ class _RepositorioState extends State<Repositorio> {
                             width: 30,
                             child: Image.asset('assets/pdf.png'),
                           ),
-                          title: Text(fecha(item.fechaCarga)),
-                          subtitle: Text(item.url),
+                          title: Text("Fecha del Documento: "+ fecha(item.fechaCarga)),
+                          subtitle: Text("Fecha de la Cita: "+ fecha(item.fechaCita)),
                           onTap: (){
                             Navigator.push(
                             context,
