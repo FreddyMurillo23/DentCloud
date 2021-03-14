@@ -31,3 +31,18 @@ class PDFProviderPatients with ChangeNotifier{
     });
   }
 }
+
+class PDFProviderPatientsCita with ChangeNotifier{
+  List<PDFModelApointment> pdf = List<PDFModelApointment>();
+
+  void listarRecetasPacientesCita(String idCita){
+    PDFCitaCtrl.listarPDFPatientsCita(idCita).then((value){
+      if(value!=null){
+        this.pdf = value;
+      } else{
+        this.pdf = List<PDFModelApointment>();
+      }
+      notifyListeners();
+    });
+  }
+}
