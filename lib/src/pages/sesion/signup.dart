@@ -45,7 +45,7 @@ class _SignupState extends State<Signup> {
           print("De ley chamo");
           Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
         } else{
-          print("No se pudo burro");
+          print("No se pudo");
       }
       });
 
