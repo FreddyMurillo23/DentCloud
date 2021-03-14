@@ -266,7 +266,15 @@ class _ViewEventState extends State<ViewEvent> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Expanded(
-                            child: Center(child: new Text(widget.eventosModeloGlobal.nombrenegocio))
+                            child: Center(child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: 30,
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey),
+                                borderRadius: BorderRadius.circular(20)
+                              ),
+                              child: Center(child: new Text(widget.eventosModeloGlobal.nombrenegocio))
+                            ))
                           ),
                         ],
                       ),
