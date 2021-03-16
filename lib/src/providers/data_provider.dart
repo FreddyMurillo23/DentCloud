@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
 import 'package:muro_dentcloud/src/models/apointments_model.dart';
 import 'package:muro_dentcloud/src/models/business_model.dart';
@@ -113,8 +114,10 @@ class DataProvider {
   }
 
   Future<bool> loginUsuario(String email, String password) async {
+    FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+    final deviceToken = await _firebaseMessaging.getToken();
     String url =
-        'http://54.197.83.249/PHP_REST_API/api/get/get_select_by_login.php?user_email=$email&password=$password';
+        'http://54.197.83.249/PHP_REST_API/api/get/get_select_by_login.php?user_email=$email&password=$password&device_token=$deviceToken';
     final resp = await http.get(url);
     if (resp.statusCode == 200) {
       String url2 =
