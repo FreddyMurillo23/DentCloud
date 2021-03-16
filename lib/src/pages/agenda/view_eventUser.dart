@@ -6,6 +6,7 @@ import 'package:muro_dentcloud/src/controllers/apointment_ctrl.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
 import 'package:muro_dentcloud/src/models/doctors_model.dart';
 import 'package:muro_dentcloud/src/models/event_model.dart';
+import 'package:muro_dentcloud/src/pages/agenda/pdf_intermediario_user.dart';
 
 
 class ViewEventUser extends StatefulWidget {
@@ -173,20 +174,37 @@ class _ViewEventUserState extends State<ViewEventUser> {
                                 ),
                                 SizedBox(height: 15,),
                                 //Apellidos Usuario
-                                TextField(
-                                  controller: controladorApellidoUser,
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    fillColor: Colors.blueGrey[600],
-                                    labelText: "Apellidos",
-                                    labelStyle: TextStyle(
-                                      color: Colors.white,
+                                Row(
+                                  children: [
+                                    Flexible(
+                                      child: TextField(
+                                        controller: controladorApellidoUser,
+                                        decoration: InputDecoration(
+                                          filled: true,
+                                          fillColor: Colors.blueGrey[600],
+                                          labelText: "Apellidos",
+                                          labelStyle: TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                          enabled: false,
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                                          )
+                                        ),
+                                      ),
                                     ),
-                                    enabled: false,
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                                    )
-                                  ),
+                                    IconButton(
+                                        icon: Icon(Icons.preview, color: Colors.white,), 
+                                        onPressed: (){
+                                          Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  VistaPDFUser(idCita: widget.eventosModeloGlobal.idcita,)));
+                                          print('object');
+                                        }
+                                      )
+                                  ],
                                 ),
                               ],
                             ),

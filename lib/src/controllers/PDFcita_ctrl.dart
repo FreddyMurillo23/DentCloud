@@ -21,4 +21,13 @@ class PDFCitaCtrl{
     }
     return null;
   }
+
+  static Future<List<PDFModelApointment>> listarPDFPatientsCita(String id) async {
+    final response = await http.get("http://54.197.83.249/PHP_REST_API/api/get/get_documents_by_appointment_patient.php?appointment_id=i$id");
+    if (response.statusCode == 200) {
+      final parsed = json.decode(response.body).cast<String, dynamic>();
+      return parsed['documentos_cita'].map<PDFModelApointment>((json) => PDFModelApointment.fromJson(json)).toList();
+    }
+    return null;
+  }
 }
