@@ -17,6 +17,7 @@ import 'package:muro_dentcloud/src/models/statuslike.dart';
 import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
 import 'package:mime_type/mime_type.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class DataProvider {
   // String _apiKey = '';
@@ -113,8 +114,13 @@ class DataProvider {
   }
 
   Future<bool> loginUsuario(String email, String password) async {
+    String deviceToken='';
+    FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+    _firebaseMessaging.getToken().then((value) {
+      deviceToken = value;
+    });
     String url =
-        'http://54.197.83.249/PHP_REST_API/api/get/get_select_by_login.php?user_email=$email&password=$password';
+        'http://54.197.83.249/PHP_REST_API/api/get/get_select_by_login.php?user_email=$email&password=$password&device_token=$deviceToken';
     final resp = await http.get(url);
     if (resp.statusCode == 200) {
       String url2 =
