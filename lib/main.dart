@@ -80,6 +80,8 @@ class MyApp extends StatelessWidget {
             create: (context) => PDFProviderPatients()),
         ChangeNotifierProvider<PDFProviderPatientsCita>(
             create: (context) => PDFProviderPatientsCita()),
+            ChangeNotifierProvider<PDFProviderByUser>(
+            create: (context) => PDFProviderByUser()),
 
       ],
       child: MaterialApp(

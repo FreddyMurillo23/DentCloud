@@ -525,7 +525,7 @@ class _RecetaMedicaState extends State<RecetaMedica> {
                                           Expanded(
                                             child: Column(
                                               children: [
-                                                contenedor(30, widget.currentuser.nombres+' '+widget.currentuser.nombres),
+                                                contenedor(30, widget.currentuser.nombres+' '+widget.currentuser.apellidos),
                                                 SizedBox(height: 5,),
                                                 contenedor(30, widget.currentuser.profesion),
                                               ],
