@@ -23,7 +23,7 @@ class PDFCitaCtrl{
   }
 
   static Future<List<PDFModelApointmentUser>> listarPDFRepositoryPatients(String email) async {
-    final response = await http.get("http://54.197.83.249/PHP_REST_API/api/get/get_documents_by_patient.php?user_email_patient=$email");
+    final response = await http.get("http://54.197.83.249/PHP_REST_API/api/get/get_documents_all_by_patient.php?user_email_patient=$email");
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body).cast<String, dynamic>();
       return parsed['documentos_paciente'].map<PDFModelApointmentUser>((json) => PDFModelApointmentUser.fromJson(json)).toList();
