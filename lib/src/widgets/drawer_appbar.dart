@@ -41,6 +41,7 @@ class _NavDrawerState extends State<NavDrawer> {
     // EventosProvider eventProv = Provider.of<EventosProvider>(context);
     // EventosHoldProvider eventHoldProv = Provider.of<EventosHoldProvider>(context);
     PDFProviderPatients pdfProvider = Provider.of<PDFProviderPatients>(context);
+    PDFProviderByUser pdfProviderUser = Provider.of<PDFProviderByUser>(context);
     final currentUserData = new PreferenciasUsuario();
     // controller.scrollToIndex(index);
     return Drawer(
@@ -52,7 +53,7 @@ class _NavDrawerState extends State<NavDrawer> {
           _divider(),
           _labelPerfiles(),
           _drugs(),
-          _repository(pdfProvider, currentUserData),
+          _repository(pdfProvider, currentUserData, pdfProviderUser),
         ],
       ),
     );
@@ -217,7 +218,7 @@ class _NavDrawerState extends State<NavDrawer> {
   }
 
   _repository(
-      PDFProviderPatients pdfProvider, PreferenciasUsuario currentUserData) {
+      PDFProviderPatients pdfProvider, PreferenciasUsuario currentUserData, PDFProviderByUser pdfUser) {
     return SliverToBoxAdapter(
       child: Column(
         children: [
@@ -231,7 +232,15 @@ class _NavDrawerState extends State<NavDrawer> {
                     Navigator.of(context).pushNamed('repositorio')
                   },
                 )
-              : Container(),
+              : ListTile(
+                  leading: Icon(Icons.settings),
+                  title: Text('Repositorio'),
+                  onTap: () => {
+                    pdfUser.listarRecetasPacientes(prefs.currentCorreo),
+                    PDFCitaCtrl.listarPDFRepositoryPatients(prefs.currentCorreo),
+                    Navigator.of(context).pushNamed('repositorioUser')
+                  },
+                ),
           ListTile(
             leading: Icon(Icons.border_color),
             title: Text('Configuración del Perfil'),

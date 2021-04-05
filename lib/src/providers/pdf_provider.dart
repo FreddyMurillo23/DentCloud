@@ -20,12 +20,28 @@ class PDFProvider with ChangeNotifier{
 class PDFProviderPatients with ChangeNotifier{
   List<PDFModelApointment> pdf = List<PDFModelApointment>();
 
-  void listarRecetasPacientes(String idCita){
-    PDFCitaCtrl.listarPDFPatients(idCita).then((value){
+  void listarRecetasPacientes(String email){
+    PDFCitaCtrl.listarPDFPatients(email).then((value){
       if(value!=null){
         this.pdf = value;
       } else{
         this.pdf = List<PDFModelApointment>();
+      }
+      notifyListeners();
+    });
+  }
+}
+
+//PDF Provider para repositorio de Usuarios
+class PDFProviderByUser with ChangeNotifier{
+  List<PDFModelApointmentUser> pdf = List<PDFModelApointmentUser>();
+
+  void listarRecetasPacientes(String email){
+    PDFCitaCtrl.listarPDFRepositoryPatients(email).then((value){
+      if(value!=null){
+        this.pdf = value;
+      } else{
+        this.pdf = List<PDFModelApointmentUser>();
       }
       notifyListeners();
     });

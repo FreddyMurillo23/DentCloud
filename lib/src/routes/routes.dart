@@ -21,6 +21,7 @@ import 'package:muro_dentcloud/src/pages/medicinas/recipe_test.dart';
 import 'package:muro_dentcloud/src/pages/page_Services.dart';
 import 'package:muro_dentcloud/src/pages/personalEmpresa/register_employee.dart';
 import 'package:muro_dentcloud/src/pages/repositior_documentos.dart';
+import 'package:muro_dentcloud/src/pages/reposittorio_documentos_user.dart';
 import 'package:muro_dentcloud/src/pages/services/doctor_services_page.dart';
 import 'package:muro_dentcloud/src/pages/services/servicesDoctor.dart';
 import 'package:muro_dentcloud/src/pages/services/services_page.dart';
@@ -71,6 +72,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'eventDoctor': (BuildContext context) => ViewEvent(),
     'comentario': (BuildContext context) => CommentPage(),
     'repositorio': (BuildContext context) => Repositorio(),
+    'repositorioUser': (BuildContext context) => RepositorioUser(),
     'servicesPages': (BuildContext context) => ServicesPages(),
     'businessDoctorServices': (BuildContext context) => BusinessDoctorServices(
         routeArgument: ModalRoute.of(context).settings.arguments),
