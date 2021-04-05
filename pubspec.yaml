@@ -63,6 +63,7 @@ dependencies:
   google_map_location_picker: ^3.3.4
   geocoder: ^0.2.1
   advance_pdf_viewer: ^1.2.2
+  flutter_launcher_icons: ^0.7.4
   
   
   ars_progress_dialog: ^0.1.2
@@ -70,6 +71,12 @@ dependencies:
   google_map_polyline:
   # file_picker:
   
+flutter_icons:
+  android: 'launcher_icon'
+  ios: true
+  image_path: 'assets/logo.png'
+  adaptive_icon_background: 'assets/logo.png'
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

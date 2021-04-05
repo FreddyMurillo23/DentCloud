@@ -15,8 +15,8 @@
      
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="muro_dentcloud"
-        android:icon="@mipmap/ic_launcher">
+        android:label="DentCloud"
+        android:icon="@mipmap/launcher_icon">
         <!--API KEY del google map -->
         <meta-data android:name="com.google.android.geo.API_KEY"
         android:value="AIzaSyCDn9vfwQb0jtuzYp3ycFXgANvrTbmzwig"/>
