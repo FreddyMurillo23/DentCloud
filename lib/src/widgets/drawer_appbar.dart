@@ -3,6 +3,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:muro_dentcloud/src/controllers/PDFcita_ctrl.dart';
 
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
+import 'package:muro_dentcloud/src/providers/data_provider.dart';
 import 'package:muro_dentcloud/src/providers/pdf_provider.dart';
 // import 'package:muro_dentcloud/src/providers/doctores_provider.dart';
 // import 'package:muro_dentcloud/src/providers/event_provider.dart';
@@ -217,8 +218,9 @@ class _NavDrawerState extends State<NavDrawer> {
     );
   }
 
-  _repository(
-      PDFProviderPatients pdfProvider, PreferenciasUsuario currentUserData, PDFProviderByUser pdfUser) {
+  _repository(PDFProviderPatients pdfProvider,
+      PreferenciasUsuario currentUserData, PDFProviderByUser pdfUser) {
+    DataProvider dataProvider = DataProvider();
     return SliverToBoxAdapter(
       child: Column(
         children: [
@@ -237,7 +239,8 @@ class _NavDrawerState extends State<NavDrawer> {
                   title: Text('Repositorio'),
                   onTap: () => {
                     pdfUser.listarRecetasPacientes(prefs.currentCorreo),
-                    PDFCitaCtrl.listarPDFRepositoryPatients(prefs.currentCorreo),
+                    PDFCitaCtrl.listarPDFRepositoryPatients(
+                        prefs.currentCorreo),
                     Navigator.of(context).pushNamed('repositorioUser')
                   },
                 ),
@@ -250,15 +253,27 @@ class _NavDrawerState extends State<NavDrawer> {
                   arguments: prefs.profileID),
             },
           ),
-          ListTile(
-            leading: Icon(Icons.admin_panel_settings_outlined),
-            title: Text('Administrar Perfiles Medicos'),
-            onTap: () => {
-              // docProv.listarDoctores(),
-              Navigator.pushNamed(context, 'adminDocProfiles',
-                  arguments: prefs.profileID),
-            },
-          ),
+          FutureBuilder(
+              future: dataProvider.isSuperUser(prefs.currentCorreo),
+              builder: (context, AsyncSnapshot<bool> snapshot) {
+                if (snapshot.hasData) {
+                  if (snapshot.data) {
+                    return ListTile(
+                      leading: Icon(Icons.admin_panel_settings_outlined),
+                      title: Text('Administrar Perfiles Medicos'),
+                      onTap: () {
+                        // docProv.listarDoctores(),
+                        Navigator.pushNamed(context, 'adminDocProfiles',
+                            arguments: prefs.profileID);
+                      },
+                    );
+                  } else {
+                    return Container();
+                  }
+                } else {
+                  return Container();
+                }
+              }),
           widget.currentuser.tipoUsuario == 'D'
               ? ListTile(
                   leading: Icon(Icons.list),

@@ -21,6 +21,24 @@ import 'package:mime_type/mime_type.dart';
 import 'package:http_parser/http_parser.dart';
 
 class DataProvider {
+  Future<bool> isSuperUser(String email) async {
+    final url =
+        'http://54.197.83.249/PHP_REST_API/api/put/validate_if_super_user.php?user_email=$email';
+    final resp = await http.get(url);
+    if (resp.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  Future<String> passWordCreateUser() async {
+    final url =
+        'http://54.197.83.249/PHP_REST_API/api/get/get_password_doctor_create.php';
+    final resp = await http.get(url);
+    final decodedData = json.decode(resp.body);
+    return decodedData["password"][0]['password'].toString();
+  }
+
   Future<List<DoctoresDato>> getDoctorsStatusList(String email) async {
     final url =
         'http://54.197.83.249/PHP_REST_API/api/get/get_all_doctors_status.php?user_email=$email';
@@ -28,6 +46,21 @@ class DataProvider {
     final decodedData = json.decode(resp.body);
     final doctores = new AdminDocs.fromJsonList(decodedData['doctores_datos']);
     return doctores.items;
+  }
+
+  Future<bool> changeDoctorStatus(String email, String status) async {
+    final url =
+        'http://54.197.83.249/PHP_REST_API/api/put/put_user_login_status.php?user_status=$status&user_email=$email';
+    final resp = await http.get(url);
+    if (resp.statusCode == 200) {
+      if (status == 'A') {
+        return true;
+      }
+      if (status == 'D') {
+        return false;
+      }
+    }
+    return null;
   }
 
   // String _apiKey = '';

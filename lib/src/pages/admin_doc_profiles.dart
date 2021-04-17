@@ -70,19 +70,22 @@ class _AdminDocProfilesState extends State<AdminDocProfiles> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: _screenSize.width*2.5/100,vertical: _screenSize.width*2.5/100),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: _screenSize.width * 2.5 / 100,
+                                      vertical: _screenSize.width * 2.5 / 100),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(100),
                                     child: Container(
-
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(100)
-                                      ),
-                                      child: FadeInImage(image: NetworkImage(
-                                        '${list.data[index].fotoPerfil}',
-                                      ),
-                                      fit: BoxFit.cover,
-                                      placeholder: AssetImage('assets/jar-loading.gif'),
+                                          borderRadius:
+                                              BorderRadius.circular(100)),
+                                      child: FadeInImage(
+                                        image: NetworkImage(
+                                          '${list.data[index].fotoPerfil}',
+                                        ),
+                                        fit: BoxFit.cover,
+                                        placeholder: AssetImage(
+                                            'assets/jar-loading.gif'),
                                       ),
                                       height: _screenSize.height * 8 / 100,
                                       width: _screenSize.height * 8 / 100,
@@ -90,30 +93,62 @@ class _AdminDocProfilesState extends State<AdminDocProfiles> {
                                     ),
                                   ),
                                 ),
-                                Expanded(child: Column(
+                                Expanded(
+                                    child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text('${list.data[index].doctor}',style: TextStyle(color: Colors.blue),),
-                                    SizedBox(height: _screenSize.height*1/100,),
-                                    Text('${list.data[index].correo}',style: TextStyle(color: Colors.black),),
-                                    Text('${list.data[index].profesion}',style: TextStyle(color: Colors.black),),
+                                    Text(
+                                      '${list.data[index].doctor}',
+                                      style: TextStyle(color: Colors.blue),
+                                    ),
+                                    SizedBox(
+                                      height: _screenSize.height * 1 / 100,
+                                    ),
+                                    Text(
+                                      '${list.data[index].correo}',
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                    Text(
+                                      '${list.data[index].profesion}',
+                                      style: TextStyle(color: Colors.black),
+                                    ),
                                   ],
                                 )),
                                 Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: _screenSize.width*2.5/100),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal:
+                                          _screenSize.width * 2.5 / 100),
                                   child: InkWell(
-                                    onTap: () {},
+                                    onTap: () async {
+                                      await dataProvider.changeDoctorStatus(
+                                        list.data[index].correo,
+                                        list.data[index].status?'D':'A'
+                                      );
+                                      setState(() {
+                                        
+                                      });
+                                    },
                                     child: Container(
                                       decoration: BoxDecoration(
-                                      color:list.data[index].status?Colors.blue:Colors.red ,
-
-                                        borderRadius: BorderRadius.circular(30)
-                                      ),
-                                      padding: EdgeInsets.symmetric(horizontal: _screenSize.width*2.5/100),
+                                          color: list.data[index].status
+                                              ? Colors.blue
+                                              : Colors.red,
+                                          borderRadius:
+                                              BorderRadius.circular(30)),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal:
+                                              _screenSize.width * 2.5 / 100),
                                       height: _screenSize.height * 3 / 100,
                                       // width: _screenSize.width*5/100,
-                                      child: Center(child: Text(list.data[index].status?'Activado':'Desactivado',style: TextStyle(color: Colors.white),)),
+                                      child: Center(
+                                          child: Text(
+                                        list.data[index].status
+                                            ? 'Activado'
+                                            : 'Desactivado',
+                                        style: TextStyle(color: Colors.white),
+                                      )),
                                     ),
                                   ),
                                 )
