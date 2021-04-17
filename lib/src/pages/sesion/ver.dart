@@ -32,7 +32,7 @@ class _SignInState extends State<SignIn> {
     if (_email.isNotEmpty && _password.isNotEmpty) {
       final login = new DataProvider();
       login.loginUsuario(_email, _password).then((value) {
-        if (value) {
+        if (value == 200) {
           login.userData(_email).then((value) {
             if (value.isNotEmpty) {
               currentUserData.currentProfile = true;
@@ -44,7 +44,10 @@ class _SignInState extends State<SignIn> {
               print("Error");
             }
           });
-        } else {
+        } else if(value == 300){
+          print("Error");
+          _showDialog();
+        }else{
           print("Error");
           _showDialog();
         }

@@ -33,7 +33,7 @@ class _SignInState extends State<SignIn> {
     if (_email.isNotEmpty && _password.isNotEmpty) {
       final login = new DataProvider();
       login.loginUsuario(_email, _password).then((value) {
-        if (value) {
+        if (value == 200) {
           login.userData(_email).then((value) {
             if (value.isNotEmpty) {
               currentUserData.currentProfile = true;
@@ -46,25 +46,36 @@ class _SignInState extends State<SignIn> {
               print("Error");
             }
           });
-        } else {
+        } else if(value == 300){
           print("Error");
-          _showDialog();
+          _showDialog('Este usuario se encuentra Bloqueado','Comuniquese con el administrador de la APP');
+        }else{
+          print("Error");
+          _showDialog("Datos Erroneos",'Intentelo Nuevamente');
         }
       });
     }
   }
 
 //Alerta
-  void _showDialog() {
+  void _showDialog(String message , String subTitleMessage) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: new Text("Datos Erroneos"),
-            content: new Image(
-              image: AssetImage("assets/logo.png"),
-              width: 150,
-              height: 200,
+            title: new Text(message),
+            content: Container(
+              height: MediaQuery.of(context).size.height*30/100,
+              child: Column(
+                children: [
+                  Text(subTitleMessage),
+                  new Image(
+                    image: AssetImage("assets/logo.png"),
+                    width: 150,
+                    height: 200,
+                  ),
+                ],
+              ),
             ),
             actions: <Widget>[
               new FlatButton(

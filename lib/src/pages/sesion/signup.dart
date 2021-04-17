@@ -591,7 +591,7 @@ class _SignupState extends State<Signup> {
                               children: [
                                 Expanded(
                                   child: TextFormField(
-                                    keyboardType: TextInputType.number,
+                                    // keyboardType: TextInputType.text,
                                     textAlign: TextAlign.center,
                                     decoration: InputDecoration(
                                       hintText: 'Codigo',

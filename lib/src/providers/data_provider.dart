@@ -31,6 +31,7 @@ class DataProvider {
       return false;
     }
   }
+
   Future<String> passWordCreateUser() async {
     final url =
         'http://54.197.83.249/PHP_REST_API/api/get/get_password_doctor_create.php';
@@ -156,7 +157,7 @@ class DataProvider {
     return eventos.items;
   }
 
-  Future<bool> loginUsuario(String email, String password) async {
+  Future<int> loginUsuario(String email, String password) async {
     FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
     final deviceToken = await _firebaseMessaging.getToken();
     String url =
@@ -172,9 +173,9 @@ class DataProvider {
       final currentUserData = new PreferenciasUsuario();
       currentUserData.currentCorreo = email;
       currentUserData.currentPassword = password;
-      return true;
+      return resp.statusCode;
     } else {
-      return false;
+      return resp.statusCode;
     }
   }
 
