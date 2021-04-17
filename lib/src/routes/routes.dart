@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:muro_dentcloud/src/models/route_argument.dart';
 import 'package:muro_dentcloud/src/pages/Inicio/prueba.dart';
+import 'package:muro_dentcloud/src/pages/admin_doc_profiles.dart';
 import 'package:muro_dentcloud/src/pages/agenda/add_event.dart';
 import 'package:muro_dentcloud/src/pages/agenda/agendaUser.dart';
 import 'package:muro_dentcloud/src/pages/agenda/doctor_pendients.dart';
@@ -78,6 +79,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
         routeArgument: ModalRoute.of(context).settings.arguments),
     'editEvent': (BuildContext context) => EditEvent(),
     'registerEmploye': (BuildContext context) => RegisterEmployee(),
+    'adminDocProfiles': (BuildContext context) => AdminDocProfiles(),
 
     // 'postPublicacion': (BuildContext context) => PostPublicacionPage(),
   };

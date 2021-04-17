@@ -250,6 +250,15 @@ class _NavDrawerState extends State<NavDrawer> {
                   arguments: prefs.profileID),
             },
           ),
+          ListTile(
+            leading: Icon(Icons.admin_panel_settings_outlined),
+            title: Text('Administrar Perfiles Medicos'),
+            onTap: () => {
+              // docProv.listarDoctores(),
+              Navigator.pushNamed(context, 'adminDocProfiles',
+                  arguments: prefs.profileID),
+            },
+          ),
           widget.currentuser.tipoUsuario == 'D'
               ? ListTile(
                   leading: Icon(Icons.list),

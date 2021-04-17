@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
+import 'package:muro_dentcloud/src/models/admin_doc_profiles.dart';
 import 'package:muro_dentcloud/src/models/apointments_model.dart';
 import 'package:muro_dentcloud/src/models/business_model.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
@@ -20,6 +21,15 @@ import 'package:mime_type/mime_type.dart';
 import 'package:http_parser/http_parser.dart';
 
 class DataProvider {
+  Future<List<DoctoresDato>> getDoctorsStatusList(String email) async {
+    final url =
+        'http://54.197.83.249/PHP_REST_API/api/get/get_all_doctors_status.php?user_email=$email';
+    final resp = await http.get(url);
+    final decodedData = json.decode(resp.body);
+    final doctores = new AdminDocs.fromJsonList(decodedData['doctores_datos']);
+    return doctores.items;
+  }
+
   // String _apiKey = '';
   String _url = '54.197.83.249';
   // String _language = 'es-ES';
