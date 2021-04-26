@@ -263,17 +263,17 @@ class _EditEventState extends State<EditEvent> {
                                             print(hora.toString());
                                             EventosCtrl.actualizarEventosDatos(widget.eventosModeloGlobal.idcita, servicio, fecha).then((value) {
                                               if(value) {
-                                                Scaffold.of(context).showSnackBar(SnackBar(
-                                                  content: Text("Cita Actualizada con Éxito"),
-                                                  duration: Duration(seconds: 1),
-                                                  backgroundColor: Colors.green,
-                                                ));
+                                                // Scaffold.of(context).showSnackBar(SnackBar(
+                                                //   content: Text("Cita Actualizada con Éxito"),
+                                                //   duration: Duration(seconds: 1),
+                                                //   backgroundColor: Colors.green,
+                                                // ));
                                               } else {
-                                                Scaffold.of(context).showSnackBar(SnackBar(
-                                                  content: Text("Error al Actualizar la Cita"),
-                                                  duration: Duration(seconds: 1),
-                                                  backgroundColor: Colors.green,
-                                                ));
+                                                // Scaffold.of(context).showSnackBar(SnackBar(
+                                                //   content: Text("Error al Actualizar la Cita"),
+                                                //   duration: Duration(seconds: 1),
+                                                //   backgroundColor: Colors.green,
+                                                // ));
                                               }
                                             });
                                             Navigator.pop(context);

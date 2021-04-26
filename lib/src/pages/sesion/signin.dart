@@ -65,7 +65,7 @@ class _SignInState extends State<SignIn> {
           return AlertDialog(
             title: new Text(message),
             content: Container(
-              height: MediaQuery.of(context).size.height*30/100,
+              height: MediaQuery.of(context).size.height*40/100,
               child: Column(
                 children: [
                   Text(subTitleMessage),

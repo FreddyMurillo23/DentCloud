@@ -236,9 +236,9 @@ class _SignupState extends State<Signup> {
                             if (dateTime == null) {
                               return "Este campo no puede estar vacio";
                             }
-                            if ((DateTime.now().year - dateTime.year) < 15) {
-                              return "La edad mínima es de 15 años";
-                            }
+                            // if ((DateTime.now().year - dateTime.year) < 15) {
+                            //   return "La edad mínima es de 15 años";
+                            // }
                             return null;
                           },
                           onSaved: (DateTime dateTime) =>
@@ -539,9 +539,12 @@ class _SignupState extends State<Signup> {
                             filled: true,
                             fillColor: Colors.white,
                           ),
-                          validator: (value) => value.isEmpty
+                          validator: (value) => 
+                          estado?
+                          value.isEmpty
                               ? 'Este campo no puede estar vacío'
-                              : null,
+                              : null:null
+                              ,
                           onSaved: (value) => this._profesion = value,
                         ),
 
