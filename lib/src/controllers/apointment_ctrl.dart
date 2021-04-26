@@ -35,7 +35,7 @@ class EventosCtrl {
     final response = await http.get(
         "http://54.197.83.249/PHP_REST_API/api/get/get_on_hold_appointment_by_doctor.php?email_doctor=$emailDoctor");
     if (response.statusCode == 200) {
-      final parsed = json.decode(response.body).cast<String, dynamic>();
+      final parsed = await json.decode(response.body).cast<String, dynamic>();
       return parsed['cita_en_espera']
           .map<EventosModeloHold>((json) => EventosModeloHold.fromJson(json))
           .toList();

@@ -71,8 +71,9 @@ class EventosModeloHold{
   String idservicio;
   String ruc;
   String image;
+  String nombreNegocio;
 
-  EventosModeloHold({this.paciente,this.fecha,this.servicio,this.descripcion,this.idcita,this.idservicio,this.ruc,this.image});
+  EventosModeloHold({this.paciente,this.nombreNegocio,this.fecha,this.servicio,this.descripcion,this.idcita,this.idservicio,this.ruc,this.image});
 
   factory EventosModeloHold.fromJson(Map<String, dynamic> json) {
     return EventosModeloHold(
@@ -83,7 +84,8 @@ class EventosModeloHold{
       idcita: json['id_cita'],
       idservicio: json['id_servicio'],
       ruc: json['ruc_negocio'],
-      image: json['foto_paciente']
+      image: json['foto_paciente'],
+      nombreNegocio: json['nombre_negocio'],
     );
   }
 }

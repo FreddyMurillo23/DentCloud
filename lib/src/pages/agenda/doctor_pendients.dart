@@ -316,6 +316,16 @@ class _DoctorEventsPendientsState extends State<DoctorEventsPendients> {
                           horizontal: 16.0,
                           vertical: 8.0,
                         ),
+                        child: Text('Consultorio: ' + eventos.nombreNegocio),
+                      ),
+                      alignment: Alignment.centerLeft,
+                    ),
+                    Align(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0,
+                          vertical: 8.0,
+                        ),
                         child: Text(
                           'Descripcion: ' + eventos.descripcion,
                           textAlign: TextAlign.justify,
