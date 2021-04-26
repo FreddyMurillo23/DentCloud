@@ -55,7 +55,7 @@ class BusinessRooms extends StatelessWidget {
       builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
         if (snapshot.hasData) {
           return Container(
-            height: _screenSize.height * 0.15,
+            height: _screenSize.height * 0.16,
             color: Colors.white,
             child: ListView.builder(
               padding: const EdgeInsets.symmetric(

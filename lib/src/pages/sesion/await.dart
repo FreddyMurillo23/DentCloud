@@ -12,9 +12,8 @@ class AwaitPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final _screenSize = MediaQuery.of(context).size;
     final currentUserData = new PreferenciasUsuario();
-    
+
     currentUserData.currentPassword.then((password) {
-        
       if (currentUserData.currentCorreo == 'empty' && password == 'empty') {
         final duration = new Duration(seconds: 1);
         new Timer(duration, () {
@@ -24,17 +23,29 @@ class AwaitPage extends StatelessWidget {
         final duration = new Duration(seconds: 1);
         new Timer(duration, () {
           final login = new DataProvider();
-
-          login.userData(currentUserData.currentCorreo).then((value) {
-            if (value.isNotEmpty) {
-              Navigator.pushReplacementNamed(context, 'startuppage',
-                  arguments: value[0]);
+          login
+              .loginUsuario(currentUserData.currentCorreo, password)
+              .then((value) {
+            if (value == 200) {
+              login.userData(currentUserData.currentCorreo).then((value) {
+                if (value.isNotEmpty) {
+                  Navigator.pushReplacementNamed(context, 'startuppage',
+                      arguments: value[0]);
+                } else {
+                  print("Error");
+                  final duration = new Duration(seconds: 2);
+                  new Timer(duration, () {
+                    Navigator.pushReplacementNamed(context, 'signin');
+                  });
+                }
+              });
+            } else if (value == 300) {
+              currentUserData.resetCurrentUserData();
+              Navigator.pushReplacementNamed(context, 'signin');
             } else {
-              print("Error");
-              final duration = new Duration(seconds: 2);
-        new Timer(duration, () {
-          Navigator.pushReplacementNamed(context, 'signin');
-        });
+              currentUserData.resetCurrentUserData();
+
+              Navigator.pushReplacementNamed(context, 'signin');
             }
           });
         });

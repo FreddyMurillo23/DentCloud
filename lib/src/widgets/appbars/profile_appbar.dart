@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:muro_dentcloud/src/models/current_user_model.dart';
-import '../circle_button.dart';
+import 'package:muro_dentcloud/src/resource/preferencias_usuario.dart';
+
 // import 'package:flutter/material.dart';
 
 class ProfileAppBar extends StatefulWidget {
@@ -29,7 +29,7 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
   Widget build(BuildContext context) {
     final _screenSize = MediaQuery.of(context).size;
     return SliverAppBar(
-      expandedHeight: _screenSize.height * 0.55,
+      expandedHeight: _screenSize.height * 0.58,
       brightness: Brightness.dark,
       backgroundColor: Colors.white,
       pinned: true,
@@ -111,7 +111,8 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
         child: Column(
           children: [
             profileData(screensize, context),
-            widget.userinfo.tipoUsuario == 'D' ? profileButton() : Container()
+            widget.userinfo.tipoUsuario == 'D' ? profileButton() : Container(),
+            widget.userinfo.tipoUsuario == 'D' ?editarPerfil():Container()
           ],
         ),
       ),
@@ -155,13 +156,14 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
   }
 
   Widget editarPerfil() {
+  final prefs = new PreferenciasUsuario();
     return ShaderMask(
       shaderCallback: (rect) => LinearGradient(
               colors: [Color(0xFF81D4FA), Color(0xFF29B6F6), Color(0xFF039BE5)])
           .createShader(rect),
       child: RaisedButton(
         onPressed: () {
-          Navigator.pushNamed(context, 'servicesPages');
+          Navigator.pushNamed(context, 'servicesPages',arguments: widget.userinfo);
           setState(() {});
         },
         child: Text('Gestionar Servicios'),
