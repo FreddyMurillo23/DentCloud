@@ -191,7 +191,7 @@ class DataProvider {
     return data.items;
   }
 
-  Future<List<NegocioData>> businessData(String ruc) async {
+  Future <List<NegocioData>> businessData(String ruc) async {
     String url2 =
         'http://54.197.83.249/PHP_REST_API/api/get/get_business_data_by_ruc.php?business_ruc=$ruc';
     final resp2 = await http.get(url2);

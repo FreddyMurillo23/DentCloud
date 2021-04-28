@@ -240,12 +240,11 @@ class ServiciosNegocio {
   });
   ServiciosNegocio.fromJsonMap(Map<String, dynamic> json) {
     idServicio = json['id_servicio'];
-    servicio = json['descripcion'];
+    servicio = json['servicio'];
     duracion = json['duracion'];
     imagenServicio = json['imagen_servicio'];
     rucNegocio = json['ruc_negocio'];
     nombreNegocio = json['nombre_negocio'];
-    fotoNegocio = json['foto_negocio'];
     telefonoNegocio = json['telefono_negocio'];
     if(json.containsKey('preguntas_frecuentes')){
       if (json['preguntas_frecuentes'].length != 0) {
@@ -271,8 +270,8 @@ class PreguntasServicios {
   String respuesta;
 
   PreguntasServicios.fromJsonMap(Map<String, dynamic> json) {
-    preguntasFrecuenteId = json["frequent_questions_id"];
-    descripcion = json["frequent_questions_description"];
-    respuesta = json["frequent_questions_reply"];
+    preguntasFrecuenteId = json["id_pregunta_frecuente"];
+    descripcion = json["descripcion"];
+    respuesta = json["respuesta"];
   }
 }

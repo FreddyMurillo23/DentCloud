@@ -14,6 +14,7 @@ import 'package:muro_dentcloud/src/pages/comment_page.dart';
 //import 'package:muro_dentcloud/src/pages/business_Services.dart';
 import 'package:muro_dentcloud/src/pages/details_Patients.dart';
 import 'package:muro_dentcloud/src/pages/Inicio/home_page.dart';
+import 'package:muro_dentcloud/src/pages/services/edit_page_service.dart';
 import 'package:muro_dentcloud/src/pages/list_view_build_page.dart';
 import 'package:muro_dentcloud/src/pages/listview_page.dart';
 import 'package:muro_dentcloud/src/pages/medicinas/drougs_detail_page.dart';
@@ -60,7 +61,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'pruebaUser': (BuildContext context) => DetailPage(),
     'eventosPendientes': (BuildContext context) => DoctorEventsPendients(),
     'serviciosNegocios': (BuildContext context) => BusinessServicePage(),
-    'serviciosDoctor': (BuildContext context) => DoctorServicePage(),
+    'serviciosDoctor': (BuildContext context) => BusinessServicePage(),
     'settings': (BuildContext context) => SettingsPage(),
     'prueba': (BuildContext context) => Prueba(),
     'recetas': (BuildContext context) => RecetaMedica(),
@@ -80,6 +81,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'editEvent': (BuildContext context) => EditEvent(),
     'registerEmploye': (BuildContext context) => RegisterEmployee(),
     'adminDocProfiles': (BuildContext context) => AdminDocProfiles(),
+    'editPageService': (BuildContext context) =>EditPageService(),
 
     // 'postPublicacion': (BuildContext context) => PostPublicacionPage(),
   };

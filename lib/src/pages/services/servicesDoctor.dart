@@ -35,6 +35,7 @@ class DoctorServicePage extends StatelessWidget {
               colorBorde: Colors.lightBlue[50],
               onPressed: () {
                 if (activar == true) {
+                  
                 } else {
                   print('No hay datos ');
                 }

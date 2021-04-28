@@ -97,6 +97,7 @@ class _RoomsState extends State<Rooms> {
                       child: _CreateRoomButton(
                         userinfo: widget.userinfo,
                         services: snapshot.data,
+                        businesruc: businessRuc,
                       ),
                     );
                   }
@@ -206,12 +207,16 @@ class _RoomsState extends State<Rooms> {
 class _CreateRoomButton extends StatelessWidget {
   final CurrentUsuario userinfo;
   final List<ServiciosNegocio> services;
-  const _CreateRoomButton({Key key, this.userinfo,@required this.services}) : super(key: key);
+  final String businesruc;
+  const _CreateRoomButton({Key key, this.userinfo,@required this.services, this.businesruc}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    List<dynamic> objeto= new List();
     return OutlineButton(
       onPressed: () {
-        Navigator.pushNamed(context, 'serviciosDoctor', arguments: this.services);
+        objeto.add(services);
+        objeto.add(businesruc);
+        Navigator.pushNamed(context, 'serviciosDoctor', arguments: objeto);
       },
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30.0),
@@ -245,4 +250,6 @@ class _CreateRoomButton extends StatelessWidget {
       ),
     );
   }
+
+
 }
