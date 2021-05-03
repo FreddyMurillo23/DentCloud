@@ -16,18 +16,18 @@ class _EditPageServiceState extends State<EditPageService> {
   File foto;
   String fotopath;
   final formkey = new GlobalKey<FormState>();
-   final formkey1 = new GlobalKey<FormState>();
-    DataProvider1 servicesProvider = new DataProvider1();
+  final formkey1 = new GlobalKey<FormState>();
+  DataProvider1 servicesProvider = new DataProvider1();
   TextEditingController controllerRespuesta = TextEditingController();
   TextEditingController controllerPregunta = TextEditingController();
   GlobalKey<FormState> _formtext = new GlobalKey<FormState>();
   List<PreguntasServicios> datos = new List();
   String pregunta, respuesta;
   ServiciosNegocio negocio;
-   String descripcion, duracion;
+  String descripcion, duracion;
    String ruc;
    bool activar=true;
-
+  List<dynamic> objeto;
  bool validate(String value) {
     return true;
   }
@@ -41,15 +41,23 @@ class _EditPageServiceState extends State<EditPageService> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
      final screenSize = MediaQuery.of(context).size;
-     final List<dynamic> objeto = ModalRoute.of(context).settings.arguments;
+     final List<dynamic> objeto1 = ModalRoute.of(context).settings.arguments;
+     objeto=objeto1;
      loop(objeto[0]);
      ruc=objeto[1];
      negocio=objeto[0];
     return Scaffold(
       appBar: appMenu(screenSize),
-      body:Container(
+      body: body1()
+    );
+  }
+
+  Widget body1()
+  {
+  final screenSize = MediaQuery.of(context).size;
+    return  Container(
         padding: EdgeInsets.all(20),
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
@@ -86,9 +94,9 @@ class _EditPageServiceState extends State<EditPageService> {
             ),
           ),
         ),
-      )
+      );
 
-    );
+
   }
   Widget _mostrarImagen(Size screenSize, ServiciosNegocio businessSe) {
     if (foto != null) {
@@ -328,6 +336,7 @@ class _EditPageServiceState extends State<EditPageService> {
                     color: Colors.lightBlue[100],
                    child: Text("Guardar"),
                    onPressed:(){
+                     actualizarpregunta(index);
                     
                  })
                ],
@@ -337,6 +346,38 @@ class _EditPageServiceState extends State<EditPageService> {
 
        });
   }
+
+void actualizarpregunta(int index)
+{
+  final form = _formtext.currentState;
+
+  if(form.validate())
+  {
+    form.save();
+    datos[index].descripcion=controllerPregunta.text;
+    datos[index].respuesta=controllerRespuesta.text;
+    setState(() {
+      body1();
+      Navigator.of(context).pop();
+    });
+  }
+
+}
+
+void actualizarservicio()
+{
+
+   final form = formkey.currentState;
+   if(form.validate())
+   {
+     form.save();
+     var resultado=servicesProvider.actualizarServicios(negocio.idServicio,ruc, descripcion, duracion, fotopath, negocio.imagenServicio);
+     Navigator.of(context).pop(false);
+   }
+}
+
+
+
   Future mostrarPreguntas(int index) {
     return showDialog(
       context: context,
@@ -583,6 +624,7 @@ class _EditPageServiceState extends State<EditPageService> {
                 child: RaisedButton(
                   onPressed: () {
                     //ingresarservicio();
+                    actualizarservicio();
                   },
                   child: Text("Actualizar"),
                   //onPressed:validarregistrar,

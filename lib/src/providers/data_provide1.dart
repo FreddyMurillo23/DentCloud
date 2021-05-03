@@ -248,6 +248,56 @@ async {
 
   } 
 
+  
+  
+  
+  Future<bool> deleteServices(String ruc, String idServicio) async {
+    String url =
+        'http://54.197.83.249/PHP_REST_API/api/delete/delete_business_services.php?business_ruc=$ruc&service_id=$idServicio';
+    final resp = await http.get(url);
+    if (resp.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future <bool> actualizarServicios(String idServicio,String ruc, String descripcion, String duration,String fotopath, String urlImage)
+  async {
+    var url=Uri.parse('http://54.197.83.249/PHP_REST_API/api/put/put_business_services.php?service_id=$idServicio&service_description=$descripcion&service_duration=$duration&service_cost=10&service_business_ruc=$ruc&service_url_image=$urlImage');
+    var url2=Uri.parse('http://54.197.83.249/PHP_REST_API/api/put/put_business_services.php?service_id=$idServicio&service_description=$descripcion&service_duration=$duration&service_cost=10&service_business_ruc=$ruc');
+    if(fotopath!=null)
+    {
+      var request = http.MultipartRequest('POST', url2);
+      var pic = await http.MultipartFile.fromPath("archivo", fotopath);
+      request.files.add(pic);
+      final streamResponse = await request.send();
+      final resp = await http.Response.fromStream(streamResponse);
+      if(resp.statusCode==200)
+      {
+        return true;
+      }
+      else
+      {
+        return false;
+      }
+    }
+    else
+    {
+       var request = http.MultipartRequest('POST', url);
+       final streamResponse = await request.send();
+       final resp = await http.Response.fromStream(streamResponse);
+       if(resp.statusCode==200)
+       {
+         return true;
+
+       }
+       else
+       {
+         return false;
+       }
+    }
+  }
   Future <String> ingresarServicios(String ruc, String descripcion, String duration,String fotopath, String correo)
   async {
     var url=Uri.parse('http://54.197.83.249/PHP_REST_API/api/post/post_business_services.php?service_business_ruc=$ruc&service_description=$descripcion&service_duration=$duration&doctor_email=$correo');

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:muro_dentcloud/src/models/Services_models.dart';
 import 'package:muro_dentcloud/src/models/business_model.dart';
+import 'package:muro_dentcloud/src/providers/data_provide1.dart';
 import 'package:muro_dentcloud/src/utils/icono_string_util.dart';
 
 import 'circle_button.dart';
@@ -17,6 +18,7 @@ class ServiceDataWg1 extends StatefulWidget {
 
 class _ServiceDataWgState extends State<ServiceDataWg1> {
   List<PreguntasServicios> datita = [];
+  DataProvider1 servicioProvider= new DataProvider1();
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +59,8 @@ class _ServiceDataWgState extends State<ServiceDataWg1> {
              colorIcon: Colors.blue[600],
               colorBorde: Colors.lightBlue[50],
             onPressed: (){
+               _showDialog();
+
             }, 
           ),
           SizedBox(height: 10),
@@ -82,6 +86,32 @@ class _ServiceDataWgState extends State<ServiceDataWg1> {
     );
   }
 
+
+  void _showDialog() {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Eliminar Datos"),
+          content: new Text("Se Elimino correctamente el servicio"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Cerrar"),
+              onPressed: () {
+                 servicioProvider.deleteServices(widget.ruc, widget.businessServices.idServicio);
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                    '/', (Route<dynamic> route) => false);
+                //Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
   Widget cardQuestions(
       String headerData, String valueData, BuildContext context) {
     return Card(

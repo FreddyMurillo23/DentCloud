@@ -13,20 +13,32 @@ import 'package:muro_dentcloud/src/widgets/business_ServicesWg.dart';
 import 'package:muro_dentcloud/src/widgets/circle_button.dart';
 import 'package:provider/provider.dart';
 
-class BusinessServicePage extends StatelessWidget {
+class BusinessServicePage extends StatefulWidget {
+  BusinessServicePage({Key key}) : super(key: key);
+
   @override
-  int index1=0;
-  int tamanio=0;
-  bool activar;
+  _BusinessServicePageState createState() => _BusinessServicePageState();
+}
+
+class _BusinessServicePageState extends State<BusinessServicePage> {
+  @override
+
   ServiceDoctorProvider negocio;
   DataProvider provider= new DataProvider();
+
   Widget build(BuildContext context) {
-    final List<dynamic> objeto = ModalRoute.of(context).settings.arguments;
+   final List<dynamic> objeto = ModalRoute.of(context).settings.arguments;
     final HttpService httpService = HttpService();
     final screenSize = MediaQuery.of(context).size;
     negocio=Provider.of<ServiceDoctorProvider>(context);
     negocio.serviciosActual(objeto[1]);
-    final HttpServiceData httpService1 = HttpServiceData();
+    if(negocio.datosnegocio.isEmpty)
+    {
+      setState(() {
+        funcionPrueba(context, objeto);
+      });
+
+    }
     return Scaffold(
       appBar: AppBar(
         brightness: Brightness.light,
@@ -38,16 +50,8 @@ class BusinessServicePage extends StatelessWidget {
         ),
         centerTitle: false,
       ),
-      body: Selector<ServiceDoctorProvider,List<NegocioData>>(
-         selector: (context,model) =>model.datosnegocio,
-         builder: (context,value,child)=>
-         Container(
-            height: screenSize.height * 0.99,
-            child: _swiperServ(value[0], httpService1, screenSize,objeto[1]),
-         ),
-      ),
-      
-      
+      body: funcionPrueba(context, objeto),
+
       // Container(
         
       //   child: FutureBuilder(
@@ -68,6 +72,33 @@ class BusinessServicePage extends StatelessWidget {
       //   ),
       // ),
     );
+
+  }
+
+  funcionPrueba(BuildContext prueba,List<dynamic> objeto)
+  {
+    return  Selector<ServiceDoctorProvider,List<NegocioData>>(
+         selector: (context,model) =>model.datosnegocio,
+         builder: (context,value,child) {
+          return listaservicio(value, objeto);
+         });
+
+  }
+
+  Widget listaservicio(List<NegocioData> value,List<dynamic> objeto)
+  {
+    final screenSize = MediaQuery.of(context).size;
+    final HttpServiceData httpService1 = HttpServiceData();
+    if(value.isNotEmpty)
+    {
+       return Container(
+            height: screenSize.height * 0.99,
+            child: _swiperServ(value[0], httpService1, screenSize,objeto[1]),
+         );
+    }
+    else{
+      return Center(child: CircularProgressIndicator());
+    }
   }
   Widget _swiperServ(NegocioData businessSe,HttpServiceData httpService,Size _screeSize, String businessRuc){
   // List<dynamic> objeto= new List();
@@ -138,5 +169,4 @@ class BusinessServicePage extends StatelessWidget {
         //layout: SwiperLayout.CUSTOM,
   );
   }
-
 }
