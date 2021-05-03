@@ -79,14 +79,9 @@ class _ServiceDataWgState extends State<ServiceDataWg1> {
           ],
         ), 
         ),
-        
-
-         
       ],
     );
   }
-
-
   void _showDialog() {
     // flutter defined function
     showDialog(

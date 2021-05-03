@@ -51,26 +51,6 @@ class _BusinessServicePageState extends State<BusinessServicePage> {
         centerTitle: false,
       ),
       body: funcionPrueba(context, objeto),
-
-      // Container(
-        
-      //   child: FutureBuilder(
-      //     future: provider.businessData(objeto[1]),
-      //     builder: (BuildContext context, AsyncSnapshot snapshot) {
-      //       if (snapshot.hasData) {
-      //         activar=true;
-      //         if(snapshot.data[0].servicios.length==0)
-      //         {
-      //           activar=false;
-      //         }
-      //         return _swiperServ(snapshot.data[0], httpService1, screenSize,objeto[1]);
-      //       } else {
-      //         activar=false;
-      //         return Container();
-      //       }
-      //     },
-      //   ),
-      // ),
     );
 
   }

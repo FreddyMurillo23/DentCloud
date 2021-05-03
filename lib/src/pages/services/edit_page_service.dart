@@ -371,7 +371,13 @@ void actualizarservicio()
    if(form.validate())
    {
      form.save();
-     var resultado=servicesProvider.actualizarServicios(negocio.idServicio,ruc, descripcion, duracion, fotopath, negocio.imagenServicio);
+     servicesProvider.actualizarServicios(negocio.idServicio,ruc, descripcion, duracion, fotopath, negocio.imagenServicio);
+     
+     if(datos.length!=0)
+     {
+      servicesProvider.actualizarPreguntas(datos);
+
+     }
      Navigator.of(context).pop(false);
    }
 }
@@ -678,91 +684,6 @@ void actualizarservicio()
           // onPressed: () => Navigator.pushNamed(context, 'messenger', arguments: userinfo),
         )*/
       ],
-    );
-  }
-}
-
-
-class ShowdialogEdit extends StatefulWidget {
-  final int index;
-  final List<PreguntasServicios> datos;
-  final VoidCallback onChanged;
-  ShowdialogEdit({Key key, this.index, this.datos, this.onChanged,}) : super(key: key);
-  @override
-  _ShowdialogEditState createState() => _ShowdialogEditState();
-}
-
-class _ShowdialogEditState extends State<ShowdialogEdit> {
- GlobalKey<FormState> _formtext = new GlobalKey<FormState>();
-  TextEditingController controllerText = TextEditingController();
-  TextEditingController controllerRespuesta = TextEditingController();
- String pregunta, respuesta;
-  bool validate(String value) {
-    return true;
-  }
-  @override
-  Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-    return FlatButton(onPressed: (){
-     
-    }, child: null);
-  }
-
-  Widget textfielPreguntas(Size sizescreen) {
-    return TextFormField(
-      maxLines: 2,
-      controller: controllerRespuesta,
-      autofocus: false,
-      keyboardType: TextInputType.text,
-      textCapitalization: TextCapitalization.words,
-      decoration: InputDecoration(
-        labelText: "Pregunta",
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-          borderSide: BorderSide(color: Colors.black),
-        ),
-        focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(20)),
-            borderSide: BorderSide(color: Colors.black)),
-        prefixIcon: Icon(Icons.text_fields),
-        filled: true,
-        fillColor: Colors.white,
-      ),
-      validator: (value) => value.isEmpty
-          ? 'Este campo no puede estar vacío'
-          : !validate(value)
-              ? 'Ingrese un localizacion válido'
-              : null,
-      onSaved: (value) => this.pregunta = value,
-    );
-  }
-
-  Widget textfielRespuest(Size sizescreen) {
-    return TextFormField(
-      controller: controllerText,
-      autofocus: false,
-      keyboardType: TextInputType.text,
-      textCapitalization: TextCapitalization.words,
-      maxLines: 2,
-      decoration: InputDecoration(
-        labelText: "Respuesta",
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-          borderSide: BorderSide(color: Colors.black),
-        ),
-        focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(20)),
-            borderSide: BorderSide(color: Colors.black)),
-        prefixIcon: Icon(Icons.text_fields),
-        filled: true,
-        fillColor: Colors.white,
-      ),
-      validator: (value) => value.isEmpty
-          ? 'Este campo no puede estar vacío'
-          : !validate(value)
-              ? 'Ingrese un localizacion válido'
-              : null,
-      onSaved: (value) => this.respuesta = value,
     );
   }
 }

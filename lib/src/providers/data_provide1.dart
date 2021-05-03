@@ -11,6 +11,7 @@ import 'package:muro_dentcloud/src/models/search_model/business_data_search.dart
 import 'package:muro_dentcloud/src/models/search_model/contact_message.dart';
 import 'package:muro_dentcloud/src/models/search_model/user_data_doctor.dart';
 import 'package:muro_dentcloud/src/models/search_model/user_data_search.dart';
+import 'package:muro_dentcloud/src/models/business_model.dart';
 
 class DataProvider1{
 
@@ -207,6 +208,22 @@ async {
     return true;
 
   }
+  
+  Future<bool> actualizarPreguntas(List<PreguntasServicios> lista)
+  async {
+    for(var item in lista)
+    {
+       String url ="http://54.197.83.249/PHP_REST_API/api/put/put_frequent_questions.php?frequent_question_id=${item.preguntasFrecuenteId}&frequent_question_drescription=${item.descripcion}&frequent_question_reply=${item.respuesta}";
+      final resp = await http.get(url);
+     if(resp.statusCode==200)
+    {
+      return true;
+    }
+    }
+    return false;
+
+  }
+
 
   Future<List<NegocioDataGps>> negocioGps(String ciudad)
   async {
