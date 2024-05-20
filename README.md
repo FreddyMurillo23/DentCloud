@@ -7,27 +7,24 @@
 
 **Packages we are using:**
 
-  cupertino_icons: ^0.1.3
-  flutter_swiper: ^1.1.6
-  cached_network_image: ^2.2.0+1
-  material_design_icons_flutter: ^4.0.5345
-  flutter_svg: ^0.18.1
-  provider: ^4.3.2
-  datetime_picker_formfield: ^1.0.0
-  flutter_datetime_formfield: ^0.1.2
-  table_calendar: ^2.2.3
-  flutter_clean_calendar: ^1.0.2
-  http: ^0.12.2
-  intl: ^0.16.1
-  shared_preferences: ^0.5.10
-
+- material_design_icons_flutter: [link](https://pub.dev/packages/material_design_icons_flutter)
+- flutter_datetime_formfield: [link](https://pub.dev/packages/flutter_datetime_formfield)
+- datetime_picker_formfield: [link](https://pub.dev/packages/datetime_picker_formfield_new)
+- flutter_clean_calendar: [link](https://pub.dev/packages/flutter_clean_calendar)
+- cached_network_image:[link](https://pub.dev/packages/cached_network_image)
+- shared_preferences:[link](https://pub.dev/packages/shared_preferences)
+- cupertino_icons:[link](https://pub.dev/packages/cupertino_icons)
 - charts_flutter: [link](https://pub.dev/packages/community_charts_flutter)
+- flutter_swiper: [link](https://pub.dev/packages/flutter_swiper_view)
+- table_calendar: [link](https://pub.dev/packages/table_calendar)
 - google_fonts: [link](https://pub.dev/packages/google_fonts)
 - mvc_pattern: [link](https://pub.dev/packages/mvc_pattern)
 - flutter_svg: [link](https://pub.dev/packages/flutter_svg)
 - provider: [link](https://pub.dev/packages/provider)
 - fl_chart: [link](https://pub.dev/packages/fl_chart)
 - bloc: [link](https://pub.dev/packages/bloc)
+- http:[link](https://pub.dev/packages/http)
+- intl:[link](https://pub.dev/packages/intl)
 
 **Fonts**
 
