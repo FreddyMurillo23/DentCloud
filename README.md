@@ -44,25 +44,25 @@ DentCloud Dental Health Care app interfaces:
 
 |                               Main Feed                               |                                   Registration of Dental Care Centers                                  |
 |:------------------------------------------------------------------------------:|:------------------------------------------------------------------------------:|
-|  <img src="/imgFolio/publicaciones.jpeg" style="height: 15%; width:40%;"/>  |  <img src="/imgFolio/registroconsultor.jpeg" style="height: 50%; width:50%;"/>  |
+|  <img src="/imgFolio/publicaciones.jpeg" style="height: 15%; width:20%;"/>  |  <img src="/imgFolio/registroconsultor.jpeg" style="height: 50%; width:50%;"/>  |
 
 ### Patient interfaces.
 
 |                              Patient details                             |                               Medical Prescription                               |
 |:----------------------------------------------------------------------------:|:----------------------------------------------------------------------------:|
-| <img src="/imgFolio/perfilmedico.jpeg" style="height: 50%; width:90%;"/> | <img src="/imgFolio/recetamedica.jpeg" style="height: 90%; width:90%;"/> |
+| <img src="/imgFolio/perfilmedico.jpeg" style="height: 50%; width:90%;"/> | <img src="/imgFolio/recetamedica.jpeg" style="height: 20%; width:50%;"/> |
 
 ### Medical Appointment
 
 |                              Navigation Menu                             |                               Medical appointment calendar                               |
 |:----------------------------------------------------------------------------:|:----------------------------------------------------------------------------:|
-| <img src="/imgFolio/bannerlateral.jpeg" style="height: 50%; width:90%;"/> | <img src="/imgFolio/appointments.jpg" style="height: 50%; width:90%;"/> |
+| <img src="/imgFolio/bannerlateral.jpeg" style="height: 50%; width:50%;"/> | <img src="/imgFolio/appointments.jpg" style="height: 50%; width:50%;"/> |
 
 ### Some other Interfaces.
 
 |                                                            |                                                              |
 |:----------------------------------------------------------------------------:|:----------------------------------------------------------------------------:|
-| <img src="/imgFolio/mapadeconsultoriso.jpeg" style="height: 50%; width:90%;"/> |  <img src="/imgFolio/searchmedicamentos.jpg" style="height: 50%; width:90%;"/>  |
+| <img src="/imgFolio/mapadeconsultoriso.jpeg" style="height: 50%; width:50%;"/> |  <img src="/imgFolio/searchmedicamentos.jpg" style="height: 50%; width:50%;"/>  |
 
 
 <!-- ![](/ui.png) -->
