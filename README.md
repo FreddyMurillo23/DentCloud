@@ -79,6 +79,10 @@ Thanks goes to these wonderful people ✨
     <img src="https://avatars.githubusercontent.com/u/71103640?v=4" width="100px;" alt=""/>
     <br /><sub><b>Michael García</b></sub></a><br /><a href="https://github.com/mgarcia404" title="Bug reports">🐛</a>
     </td>
+    <td align="center"><a href="https://github.com/Seerendo">
+    <img src="https://avatars.githubusercontent.com/u/70487872?v=4" width="100px;" alt=""/>
+    <br /><sub><b>Rody Andrade</b></sub></a><br /><a href="https://github.com/Seerendo" title="Bug reports">🐛</a>
+    </td>
   </tr>
 </table>
 
