@@ -56,13 +56,13 @@ DentCloud Dental Health Care app interfaces:
 
 |                              Navigation Menu                             |                               Medical appointment calendar                               |
 |:----------------------------------------------------------------------------:|:----------------------------------------------------------------------------:|
-| <img src="/imgFolio/bannerlateral.jpeg" style="height: 50%; width:50%;"/> | <img src="/imgFolio/appointments.jpg" style="height: 50%; width:50%;"/> |
+| <img src="/imgFolio/bannerlateral.jpeg" style="height: 50%; width:25%;"/> | <img src="/imgFolio/appointments.jpg" style="height: 50%; width:25%;"/> |
 
 ### Some other Interfaces.
 
 |                                                            |                                                              |
 |:----------------------------------------------------------------------------:|:----------------------------------------------------------------------------:|
-| <img src="/imgFolio/mapadeconsultoriso.jpeg" style="height: 50%; width:50%;"/> |  <img src="/imgFolio/searchmedicamentos.jpg" style="height: 50%; width:50%;"/>  |
+| <img src="/imgFolio/mapadeconsultoriso.jpeg" style="height: 50%; width:25%;"/> |  <img src="/imgFolio/searchmedicamentos.jpg" style="height: 50%; width:25%;"/>  |
 
 
 <!-- ![](/ui.png) -->
