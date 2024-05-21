@@ -32,7 +32,7 @@
 
 <!-- ## [Watch it on YouTube](https://youtu.be/_uOgXpEHNbc) -->
 
-The Technical University of Manabí requires a management system for the health data of its work staff, in the same way, it requires a systematic means for their analysis, therefore, the institution together with its main authorities does not They cannot carry out continuous and exhaustive monitoring of the health status of their workers, nor can they take adequate measures in favor of the medical well-being of each particular health case, since, lacking a tool that provides them with exact data based on filters or predictive systems, it is difficult for them to carry out this control.
+This project aims to support the community of the College of Dentists of Manabí in revitalizing their economy. It facilitates orderly and prudent patient care through the registration of medical appointments and the efficient organization of schedules.
 
 ### Responsive Admin Panel or Dashboard Final UI
 
@@ -42,9 +42,9 @@ The main dashboard of the developed health system has six different sections
 
 ### Main.
 
-|                               Main Dashboard                               |                                   Average ICM                                  |
+|                               Main Feed                               |                                   Average ICM                                  |
 |:------------------------------------------------------------------------------:|:------------------------------------------------------------------------------:|
-|  <img src="/imgFolio/Graficos%20interfaz%20Principal.png" style="height: 50%; width:90%;"/>  |  <img src="/imgFolio/ICM%20Promedio%20de%20facultad.png" style="height: 50%; width:90%;"/>  |
+|  <img src="/imgFolio/publicaciones.jpeg" style="height: 50%; width:90%;"/>  |  <img src="/imgFolio/ICM%20Promedio%20de%20facultad.png" style="height: 50%; width:90%;"/>  |
 
 ### Patient interfaces.
 
@@ -83,10 +83,6 @@ Thanks goes to these wonderful people ✨
 <table>
   <tr>
     <td align="center"><a href="https://github.com/FreddyMurillo23"><img src="https://avatars.githubusercontent.com/u/71042478?v=4" width="100px;" alt=""/><br /><sub><b>Freddy Murillo</b></sub></a><br /><a href="https://github.com/FreddyMurillo23" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="https://github.com/simon1tan">
-    <img src="https://avatars.githubusercontent.com/u/64610867?v=4" width="100px;" alt=""/>
-    <br /><sub><b>Joel Garcia</b></sub></a><br /><a href="https://github.com/JoelGarcia99" title="Bug reports">🐛</a>
-    </td>
     <td align="center"><a href="https://github.com/mgarcia404">
     <img src="https://avatars.githubusercontent.com/u/71103640?v=4" width="100px;" alt=""/>
     <br /><sub><b>Michael García</b></sub></a><br /><a href="https://github.com/mgarcia404" title="Bug reports">🐛</a>
