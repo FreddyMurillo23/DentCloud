@@ -44,32 +44,26 @@ DentCloud Dental Health Care app interfaces:
 
 |                               Main Feed                               |                                   Registration of Dental Care Centers                                  |
 |:------------------------------------------------------------------------------:|:------------------------------------------------------------------------------:|
-|  <img src="/imgFolio/publicaciones.jpeg" style="height: 15%; width:50%;"/>  |  <img src="/imgFolio/registroconsultor.jpeg" style="height: 25%; width:50%;"/>  |
+|  <img src="/imgFolio/publicaciones.jpeg" style="height: 15%; width:40%;"/>  |  <img src="/imgFolio/registroconsultor.jpeg" style="height: 50%; width:50%;"/>  |
 
 ### Patient interfaces.
 
-|                              Patient details                             |                               Medical appointment history                               |
+|                              Patient details                             |                               Medical Prescription                               |
 |:----------------------------------------------------------------------------:|:----------------------------------------------------------------------------:|
-| <img src="/imgFolio/detalles de datos de usuario.png" style="height: 50%; width:90%;"/> | <img src="/imgFolio/Historial de consultas medicas general.png" style="height: 90%; width:90%;"/> |
+| <img src="/imgFolio/perfilmedico.jpeg" style="height: 50%; width:90%;"/> | <img src="/imgFolio/recetamedica.jpeg" style="height: 90%; width:90%;"/> |
 
 ### Medical Appointment
 
-|                              Medical appointment details                              |                               Medical appointment details                               |
+|                              Navigation Menu                             |                               Medical appointment calendar                               |
 |:----------------------------------------------------------------------------:|:----------------------------------------------------------------------------:|
-| <img src="/imgFolio/detalles e consulta.png" style="height: 50%; width:90%;"/> | <img src="/imgFolio/detalles de consultas a fondo.png" style="height: 50%; width:90%;"/> |
+| <img src="/imgFolio/bannerlateral.jpeg" style="height: 50%; width:90%;"/> | <img src="/imgFolio/appointments.jpg" style="height: 50%; width:90%;"/> |
 
 ### Some other Interfaces.
 
 |                                                            |                                                              |
 |:----------------------------------------------------------------------------:|:----------------------------------------------------------------------------:|
-| <img src="/imgFolio/Escuelas de facultad.png" style="height: 50%; width:90%;"/> |  <img src="/imgFolio/carreras de escuela.png" style="height: 50%; width:90%;"/>  |
+| <img src="/imgFolio/mapadeconsultoriso.jpeg" style="height: 50%; width:90%;"/> |  <img src="/imgFolio/searchmedicamentos.jpg" style="height: 50%; width:90%;"/>  |
 
-<!-- --- -->
-|                                                           |                                                              |
-|:----------------------------------------------------------------------------:|:----------------------------------------------------------------------------:|
-| <img src="/imgFolio/graficos de escuela.png" style="height: 50%; width:90%;"/> | <img src="/imgFolio/hipertension.png" style="height: 50%; width:90%;"/> |
-
----
 
 <!-- ![](/ui.png) -->
 
