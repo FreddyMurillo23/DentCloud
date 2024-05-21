@@ -50,7 +50,7 @@ DentCloud Dental Health Care app interfaces:
 
 |                              Patient details                             |                               Medical Prescription                               |
 |:----------------------------------------------------------------------------:|:----------------------------------------------------------------------------:|
-| <img src="/imgFolio/perfilmedico.jpeg" style="height: 50%; width:90%;"/> | <img src="/imgFolio/recetamedica.jpeg" style="height: 50%; width:25%;"/> |
+| <img src="/imgFolio/perfilmedico.jpeg" style="height: 50%; width:50%;"/> | <img src="/imgFolio/recetamedica.jpeg" style="height: 50%; width:25%;"/> |
 
 ### Medical Appointment
 
