@@ -34,11 +34,9 @@
 
 This project aims to support the community of the College of Dentists of Manabí in revitalizing their economy. It facilitates orderly and prudent patient care through the registration of medical appointments and the efficient organization of schedules.
 
-### Responsive Admin Panel or Dashboard Final UI
+### DentCloud Dental Health Care app interfaces: 
 
 <!-- ![Preview](/imgFolio/main.png) -->
-
-DentCloud Dental Health Care app interfaces:  
 
 ### Main.
 
