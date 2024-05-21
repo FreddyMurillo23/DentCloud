@@ -44,7 +44,7 @@ The main dashboard of the developed health system has six different sections
 
 |                               Main Feed                               |                                   Average ICM                                  |
 |:------------------------------------------------------------------------------:|:------------------------------------------------------------------------------:|
-|  <img src="/imgFolio/publicaciones.jpeg" style="height: 50%; width:90%;"/>  |  <img src="/imgFolio/ICM%20Promedio%20de%20facultad.png" style="height: 50%; width:90%;"/>  |
+|  <img src="/imgFolio/publicaciones.jpeg" style="height: 50%; width:50%;"/>  |  <img src="/imgFolio/ICM%20Promedio%20de%20facultad.png" style="height: 50%; width:90%;"/>  |
 
 ### Patient interfaces.
 
