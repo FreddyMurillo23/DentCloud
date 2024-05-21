@@ -42,7 +42,7 @@ DentCloud Dental Health Care app interfaces:
 
 ### Main.
 
-|                               Main Feed                               |                                   Registration of Dental Care Centers                                  |
+|                     Main Feed           |                                   Registration of Dental Care Centers                                  |
 |:------------------------------------------------------------------------------:|:------------------------------------------------------------------------------:|
 |  <img src="/imgFolio/publicaciones.jpeg" style="height: 15%; width:25%;"/>  |  <img src="/imgFolio/registroconsultor.jpeg" style="height: 50%; width:50%;"/>  |
 
