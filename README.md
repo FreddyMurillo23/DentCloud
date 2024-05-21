@@ -44,13 +44,13 @@ DentCloud Dental Health Care app interfaces:
 
 |                     Main Feed           |                                   Registration of Dental Care Centers                                  |
 |:------------------------------------------------------------------------------:|:------------------------------------------------------------------------------:|
-|  <img src="/imgFolio/publicaciones.jpeg" style="height: 15%; width:25%;"/>  |  <img src="/imgFolio/registroconsultor.jpeg" style="height: 50%; width:50%;"/>  |
+|  <img src="/imgFolio/publicaciones.jpeg" style="height: 50%; width:25%;"/>  |  <img src="/imgFolio/registroconsultor.jpeg" style="height: 50%; width:50%;"/>  |
 
 ### Patient interfaces.
 
 |                              Patient details                             |                               Medical Prescription                               |
 |:----------------------------------------------------------------------------:|:----------------------------------------------------------------------------:|
-| <img src="/imgFolio/perfilmedico.jpeg" style="height: 50%; width:90%;"/> | <img src="/imgFolio/recetamedica.jpeg" style="height: 20%; width:25%;"/> |
+| <img src="/imgFolio/perfilmedico.jpeg" style="height: 50%; width:90%;"/> | <img src="/imgFolio/recetamedica.jpeg" style="height: 50%; width:25%;"/> |
 
 ### Medical Appointment
 
