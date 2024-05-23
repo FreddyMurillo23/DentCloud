@@ -36,7 +36,7 @@ This project aims to support the community of the College of Dentists of Manabí
 
 ### DentCloud Dental Health Care app interfaces: 
 
-<!-- ![Preview](/imgFolio/main.png) -->
+![Preview](/imgFolio/dentcloud.png)
 
 ### Main.
 
