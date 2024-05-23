@@ -4,6 +4,7 @@
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 <!-- ## [Live Preview](https://abuanwar072.github.io/Flutter-Responsive-Admin-Panel-or-Dashboard/#/) -->
+![Preview](/imgFolio/dentcloud.png)
 
 **Packages we are using:**
 
@@ -36,7 +37,6 @@ This project aims to support the community of the College of Dentists of Manabí
 
 ### DentCloud Dental Health Care app interfaces: 
 
-![Preview](/imgFolio/dentcloud.png)
 
 ### Main.
 
